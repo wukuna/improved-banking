@@ -1,0 +1,73 @@
+package com.windowmarkers;
+
+import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import net.runelite.api.*;
+import net.runelite.api.events.*;
+import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.widgets.Widget;
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.eventbus.EventBus;
+import net.runelite.client.game.ItemManager;
+import net.runelite.client.util.ImageCapture;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+public class BankLayoutTest
+{
+    private Widget cell(int x,int y)
+    {
+        Widget widget=mock(Widget.class);AtomicInteger px=new AtomicInteger(x),py=new AtomicInteger(y);
+        when(widget.getOriginalX()).thenAnswer(i -> px.get());when(widget.getOriginalY()).thenAnswer(i -> py.get());
+        doAnswer(i -> {px.set(i.getArgument(0));return widget;}).when(widget).setOriginalX(anyInt());
+        doAnswer(i -> {py.set(i.getArgument(0));return widget;}).when(widget).setOriginalY(anyInt());
+        when(widget.getOriginalWidth()).thenReturn(36);when(widget.getWidth()).thenReturn(36);
+        when(widget.getOriginalHeight()).thenReturn(32);when(widget.getHeight()).thenReturn(32);return widget;
+    }
+    private BankLayoutController controller()
+    {
+        BankLayoutController c=new BankLayoutController();c.client=mock(Client.class);c.config=mock(WindowMarkersConfig.class);
+        c.clientThread=mock(ClientThread.class);c.eventBus=mock(EventBus.class);
+        when(c.config.bankLayoutEnabled()).thenReturn(true);c.startUp();return c;
+    }
+    @Test public void tabAlignmentDoesNotDriftAndRestoresOnClose()
+    {
+        BankLayoutController c=controller();Widget tabs=mock(Widget.class),a=cell(51,0),b=cell(91,0);
+        when(c.client.getWidget(InterfaceID.Bankmain.TABS)).thenReturn(tabs);when(tabs.getWidth()).thenReturn(600);
+        when(tabs.getDynamicChildren()).thenReturn(new Widget[]{a,b});when(c.config.tabAlignment()).thenReturn(WindowMarkersConfig.TabAlignment.RIGHT);
+        c.onClientTick(new ClientTick());int shifted=a.getOriginalX();assertTrue(shifted>51);
+        c.onClientTick(new ClientTick());assertEquals(shifted,a.getOriginalX());assertEquals(40,b.getOriginalX()-a.getOriginalX());
+        c.onWidgetClosed(new WidgetClosed(InterfaceID.BANKMAIN,0,true));assertEquals(51,a.getOriginalX());assertEquals(91,b.getOriginalX());
+    }
+    @Test public void reflowPreservesIconSizeAndIncludesTopPaddingInScrollHeight()
+    {
+        BankLayoutController c=controller();Widget items=mock(Widget.class);Widget[] cells=new Widget[10];
+        for(int i=0;i<10;i++) { cells[i]=cell(51+(i%8)*48,(i/8)*36); }
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);when(items.getDynamicChildren()).thenReturn(cells);
+        when(items.getWidth()).thenReturn(478);when(c.config.columns()).thenReturn(4);
+        int[] stack=new int[9];stack[0]=72;when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        assertEquals(4,cells[0].getOriginalY());assertEquals(76,cells[8].getOriginalY());assertEquals(112,stack[0]);
+        for(Widget w:cells) { verify(w,never()).setOriginalWidth(anyInt());verify(w,never()).setOriginalHeight(anyInt()); }
+    }
+    @Test public void captureIncludesOffscreenItemsWithoutChangingGameWidgets()
+    {
+        BankCapture c=new BankCapture();c.client=mock(Client.class);c.items=mock(ItemManager.class);c.capture=mock(ImageCapture.class);c.config=mock(WindowMarkersConfig.class);c.borders=new BorderRenderer();
+        Widget bank=mock(Widget.class),grid=mock(Widget.class),a=cell(50,0),b=cell(50,1000);
+        when(c.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(bank);when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(grid);
+        when(grid.getDynamicChildren()).thenReturn(new Widget[]{a,b});when(grid.getWidth()).thenReturn(478);
+        when(a.getItemId()).thenReturn(100);when(b.getItemId()).thenReturn(101);when(b.getRelativeY()).thenReturn(1000);
+        when(c.items.getItemComposition(anyInt())).thenReturn(mock(ItemComposition.class));
+        when(c.items.getImage(anyInt(),anyInt(),eq(true))).thenReturn(new net.runelite.client.util.AsyncBufferedImage(mock(ClientThread.class),36,32,BufferedImage.TYPE_INT_ARGB));
+        assertTrue(c.save(Collections.emptyList()));
+        ArgumentCaptor<BufferedImage> image=ArgumentCaptor.forClass(BufferedImage.class);
+        verify(c.capture).saveScreenshot(image.capture(),eq("bank"),eq("bank-markers"),eq(true),eq(false));assertTrue(image.getValue().getHeight()>1000);
+        verify(grid,never()).setScrollY(anyInt());verify(b,never()).setOriginalY(anyInt());
+    }
+    @Test public void oversizedCaptureIsRejectedBeforeAllocatingImage()
+    { assertFalse(BankCapture.reasonableSize(4096,30000));assertFalse(BankCapture.reasonableSize(0,200));assertTrue(BankCapture.reasonableSize(1000,6000)); }
+}
+

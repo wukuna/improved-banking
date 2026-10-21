@@ -1,0 +1,443 @@
+# Reviewed Wiki equipment-table membership, not an optimized loadout. See TAXONOMY-SOURCES.md.
+cox	Melee	torva full helm
+cox	Melee	oathplate helm
+cox	Melee	neitiznot faceguard
+cox	Melee	inquisitor's great helm
+cox	Melee	serpentine helm
+cox	Melee	blood moon helm
+cox	Melee	helm of neitiznot
+cox	Melee	eclipse moon helm
+cox	Melee	blue moon helm
+cox	Melee	amulet of rancour
+cox	Melee	amulet of torture
+cox	Melee	amulet of blood fury
+cox	Melee	amulet of fury
+cox	Melee	infernal cape
+cox	Melee	fire cape
+cox	Melee	torva platebody
+cox	Melee	oathplate chest
+cox	Melee	inquisitor's hauberk
+cox	Melee	bandos chestplate
+cox	Melee	blood moon chestplate
+cox	Melee	fighter torso
+cox	Melee	eclipse moon chestplate
+cox	Melee	blue moon chestplate
+cox	Melee	torva platelegs
+cox	Melee	oathplate legs
+cox	Melee	inquisitor's plateskirt
+cox	Melee	bandos tassets
+cox	Melee	blood moon tassets
+cox	Melee	eclipse moon tassets
+cox	Melee	blue moon tassets
+cox	Melee	scythe of vitur
+cox	Melee	dragon hunter lance
+cox	Melee	soulreaper axe
+cox	Melee	ghrazi rapier
+cox	Melee	blade of saeldor
+cox	Melee	dual macuahuitl
+cox	Melee	noxious halberd
+cox	Melee	abyssal tentacle
+cox	Melee	abyssal whip
+cox	Melee	zamorakian hasta
+cox	Melee	avernic defender
+cox	Melee	dragon defender
+cox	Melee	ferocious gloves
+cox	Melee	barrows gloves
+cox	Melee	avernic treads (max)
+cox	Melee	primordial boots
+cox	Melee	aranea boots
+cox	Melee	dragon boots
+cox	Melee	lightbearer
+cox	Melee	ultor ring
+cox	Melee	berserker ring (i)
+cox	Melee	brimstone ring
+cox	Special attacks (strategy dependent)	bandos godsword
+cox	Special attacks (strategy dependent)	elder maul
+cox	Special attacks (strategy dependent)	dragon warhammer
+cox	Special attacks (strategy dependent)	zamorak godsword
+cox	Special attacks (strategy dependent)	voidwaker
+cox	Special attacks (strategy dependent)	dragon claws
+cox	Special attacks (strategy dependent)	bone dagger
+cox	Special attacks (strategy dependent)	arclight
+cox	Ranged	masori mask (f)
+cox	Ranged	masori mask
+cox	Ranged	armadyl helmet
+cox	Ranged	crystal helm
+cox	Ranged	eclipse moon helm
+cox	Ranged	necklace of rupture
+cox	Ranged	necklace of anguish
+cox	Ranged	amulet of fury
+cox	Ranged	dizana's quiver
+cox	Ranged	ava's assembler
+cox	Ranged	ava's accumulator
+cox	Ranged	masori body (f)
+cox	Ranged	masori body
+cox	Ranged	armadyl chestplate
+cox	Ranged	crystal body
+cox	Ranged	blessed body
+cox	Ranged	eclipse moon chestplate
+cox	Ranged	black d'hide body
+cox	Ranged	masori chaps (f)
+cox	Ranged	masori chaps
+cox	Ranged	armadyl chainskirt
+cox	Ranged	crystal legs
+cox	Ranged	blessed chaps
+cox	Ranged	eclipse moon tassets
+cox	Ranged	black d'hide chaps
+cox	Ranged	twisted bow
+cox	Ranged	toxic blowpipe
+cox	Ranged	dragon hunter crossbow
+cox	Ranged	zaryte crossbow
+cox	Ranged	bow of faerdhinen
+cox	Ranged	armadyl crossbow
+cox	Ranged	dragon crossbow
+cox	Ranged	rune crossbow
+cox	Ranged	eclipse atlatl
+cox	Ranged	twisted buckler
+cox	Ranged	dragonfire ward
+cox	Ranged	odium ward
+cox	Ammunition and blessings (match weapon)	seeking dragon arrow
+cox	Ammunition and blessings (match weapon)	ruby dragon bolts (e)
+cox	Ammunition and blessings (match weapon)	dragon arrow
+cox	Ammunition and blessings (match weapon)	ruby bolts (e)
+cox	Ammunition and blessings (match weapon)	seeking amethyst arrow
+cox	Ammunition and blessings (match weapon)	amethyst arrow
+cox	Ammunition and blessings (match weapon)	atlatl dart
+cox	Ranged	zaryte vambraces
+cox	Ranged	barrows gloves
+cox	Ranged	avernic treads (max)
+cox	Ranged	pegasian boots
+cox	Ranged	venator ring
+cox	Special attacks (strategy dependent)	zaryte crossbow
+cox	Special attacks (strategy dependent)	tonalztics of ralos
+cox	Magic	ancestral hat
+cox	Magic	virtus mask
+cox	Magic	ahrim's hood
+cox	Magic	blue moon helm
+cox	Magic	bloodbark helm
+cox	Magic	dagon'hai hat
+cox	Magic	mystic hat
+cox	Magic	occult necklace
+cox	Magic	amulet of fury
+cox	Magic	god capes
+cox	Magic	ancestral robe top
+cox	Magic	virtus robe top
+cox	Magic	ahrim's robetop
+cox	Magic	blue moon chestplate
+cox	Magic	bloodbark body
+cox	Magic	dagon'hai robe top
+cox	Magic	mystic robe top
+cox	Magic	ancestral robe bottom
+cox	Magic	virtus robe bottom
+cox	Magic	ahrim's robeskirt
+cox	Magic	blue moon tassets
+cox	Magic	bloodbark legs
+cox	Magic	dagon'hai robe bottom
+cox	Magic	mystic robe bottom
+cox	Magic	tumeken's shadow
+cox	Magic	eye of ayak
+cox	Magic	sanguinesti staff
+cox	Magic	dragon hunter wand
+cox	Magic	trident of the swamp
+cox	Magic	trident of the seas
+cox	Magic	warped sceptre
+cox	Magic	elidinis' ward (f)
+cox	Magic	tome of earth
+cox	Magic	tome of fire
+cox	Magic	arcane spirit shield
+cox	Magic	elidinis' ward
+cox	Magic	ancient wyvern shield
+cox	Magic	mage's book
+cox	Magic	malediction ward
+cox	Magic	book of the dead
+cox	Magic	confliction gauntlets
+cox	Magic	tormented bracelet
+cox	Magic	barrows gloves
+cox	Magic	avernic treads (max)
+cox	Magic	eternal boots
+cox	Magic	magus ring
+cox	Guardians tools (room dependent)	crystal pickaxe
+cox	Guardians tools (room dependent)	dragon pickaxe
+cox	Guardians tools (room dependent)	rune pickaxe
+tob	Learner (elite Void)	void melee helm
+tob	Learner (elite Void)	amulet of rancour
+tob	Learner (elite Void)	amulet of torture
+tob	Learner (elite Void)	amulet of blood fury
+tob	Learner (elite Void)	amulet of fury
+tob	Learner (elite Void)	infernal cape
+tob	Learner (elite Void)	fire cape
+tob	Learner (elite Void)	elite void top
+tob	Learner (elite Void)	elite void robe
+tob	Learner (elite Void)	blade of saeldor
+tob	Learner (elite Void)	osmumten's fang
+tob	Learner (elite Void)	abyssal tentacle
+tob	Learner (elite Void)	abyssal whip
+tob	Learner (elite Void)	avernic defender
+tob	Learner (elite Void)	dragon defender
+tob	Ammunition and blessings (match weapon)	rada's blessing 4
+tob	Ammunition and blessings (match weapon)	god blessing
+tob	Ammunition and blessings (match weapon)	rada's blessing 3
+tob	Learner (elite Void)	void knight gloves
+tob	Learner (elite Void)	avernic treads (max)
+tob	Learner (elite Void)	primordial boots
+tob	Learner (elite Void)	aranea boots
+tob	Learner (elite Void)	dragon boots
+tob	Learner (elite Void)	ultor ring
+tob	Learner (elite Void)	bellator ring
+tob	Learner (elite Void)	berserker ring (i)
+tob	Special attacks (strategy dependent)	dragon claws
+tob	Special attacks (strategy dependent)	elder maul
+tob	Special attacks (strategy dependent)	bandos godsword
+tob	Special attacks (strategy dependent)	crystal halberd
+tob	Special attacks (strategy dependent)	dragon warhammer
+tob	Special attacks (strategy dependent)	voidwaker
+tob	Special attacks (strategy dependent)	burning claws
+tob	Melee	torva full helm
+tob	Melee	oathplate helm
+tob	Melee	neitiznot faceguard
+tob	Melee	serpentine helm
+tob	Melee	blood moon helm
+tob	Melee	helm of neitiznot
+tob	Melee	void melee helm
+tob	Melee	amulet of rancour
+tob	Melee	amulet of torture
+tob	Melee	amulet of blood fury
+tob	Melee	amulet of fury
+tob	Melee	infernal cape
+tob	Melee	fire cape
+tob	Melee	torva platebody
+tob	Melee	oathplate chest
+tob	Melee	bandos chestplate
+tob	Melee	blood moon chestplate
+tob	Melee	fighter torso
+tob	Melee	elite void top
+tob	Melee	torva platelegs
+tob	Melee	oathplate legs
+tob	Melee	bandos tassets
+tob	Melee	blood moon tassets
+tob	Melee	obsidian platelegs
+tob	Melee	elite void robe
+tob	Melee	scythe of vitur
+tob	Melee	soulreaper axe
+tob	Melee	blade of saeldor
+tob	Melee	osmumten's fang
+tob	Melee	abyssal tentacle
+tob	Melee	noxious halberd
+tob	Melee	abyssal whip
+tob	Melee	avernic defender
+tob	Melee	dragon defender
+tob	Ammunition and blessings (match weapon)	seeking dragon arrow
+tob	Ammunition and blessings (match weapon)	dragon arrow
+tob	Ammunition and blessings (match weapon)	seeking amethyst arrow
+tob	Ammunition and blessings (match weapon)	amethyst arrow
+tob	Melee	ferocious gloves
+tob	Melee	barrows gloves
+tob	Melee	void knight gloves
+tob	Melee	avernic treads (max)
+tob	Melee	primordial boots
+tob	Melee	aranea boots
+tob	Melee	dragon boots
+tob	Melee	ultor ring
+tob	Melee	bellator ring
+tob	Melee	berserker ring (i)
+tob	Magic	void mage helm
+tob	Magic	occult necklace
+tob	Magic	imbued god cape
+tob	Magic	ancestral robe top
+tob	Magic	virtus robe top
+tob	Magic	elite void top
+tob	Magic	ancestral robe bottom
+tob	Magic	virtus robe bottom
+tob	Magic	elite void robe
+tob	Magic	eye of ayak
+tob	Magic	kodai wand
+tob	Magic	nightmare staff
+tob	Magic	sanguinesti staff
+tob	Magic	toxic staff of the dead
+tob	Magic	trident of the swamp
+tob	Magic	ancient sceptre
+tob	Magic	dragon hunter wand
+tob	Magic	master wand
+tob	Magic	elidinis' ward (f)
+tob	Magic	elidinis' ward
+tob	Magic	book of darkness
+tob	Magic	confliction gauntlets
+tob	Magic	tormented bracelet
+tob	Magic	void knight gloves
+tob	Magic	avernic treads (max)
+tob	Special attacks (strategy dependent)	tonalztics of ralos
+tob	Ranged	void ranger helm
+tob	Ranged	necklace of rupture
+tob	Ranged	necklace of anguish
+tob	Ranged	dizana's quiver
+tob	Ranged	ava's assembler
+tob	Ranged	elite void top
+tob	Ranged	masori body (f)
+tob	Ranged	elite void robe
+tob	Ranged	masori chaps (f)
+tob	Ranged	twisted bow
+tob	Ranged	toxic blowpipe
+tob	Ranged	twisted buckler
+tob	Ranged	void knight gloves
+tob	Ranged	avernic treads (max)
+toa	Melee	torva full helm
+toa	Melee	neitiznot faceguard
+toa	Melee	oathplate helm
+toa	Melee	serpentine helm
+toa	Melee	blood moon helm
+toa	Melee	helm of neitiznot
+toa	Melee	eclipse moon helm
+toa	Melee	blue moon helm
+toa	Melee	amulet of rancour
+toa	Melee	amulet of torture
+toa	Melee	amulet of blood fury
+toa	Melee	amulet of fury
+toa	Melee	amulet of glory
+toa	Melee	infernal cape
+toa	Melee	fire cape
+toa	Melee	ardougne cloak
+toa	Melee	torva platebody
+toa	Melee	bandos chestplate
+toa	Melee	blood moon chestplate
+toa	Melee	fighter torso
+toa	Melee	oathplate chest
+toa	Melee	eclipse moon chestplate
+toa	Melee	mixed hide top
+toa	Melee	blue moon chestplate
+toa	Melee	obsidian platebody
+toa	Melee	torva platelegs
+toa	Melee	bandos tassets
+toa	Melee	blood moon tassets
+toa	Melee	oathplate legs
+toa	Melee	eclipse moon tassets
+toa	Melee	mixed hide legs
+toa	Melee	blue moon tassets
+toa	Melee	obsidian platelegs
+toa	Melee	osmumten's fang
+toa	Melee	keris partisan of amascut
+toa	Melee	keris partisan of breaching
+toa	Melee	ghrazi rapier
+toa	Melee	blade of saeldor
+toa	Melee	zamorakian hasta
+toa	Melee	voidwaker
+toa	Melee	abyssal dagger
+toa	Melee	belle's folly
+toa	Melee	dragon sword
+toa	Melee	arkan blade
+toa	Melee	avernic defender
+toa	Melee	dragon defender
+toa	Melee	ferocious gloves
+toa	Melee	barrows gloves
+toa	Melee	avernic treads (max)
+toa	Melee	primordial boots
+toa	Melee	dragon boots
+toa	Melee	aranea boots
+toa	Melee	spiked manacles
+toa	Melee	mixed hide boots
+toa	Melee	lightbearer
+toa	Melee	ultor ring
+toa	Melee	berserker ring (i)
+toa	Special attacks (strategy dependent)	voidwaker
+toa	Special attacks (strategy dependent)	bandos godsword
+toa	Special attacks (strategy dependent)	elder maul
+toa	Special attacks (strategy dependent)	burning claws
+toa	Special attacks (strategy dependent)	bone dagger
+toa	Special attacks (strategy dependent)	dragon warhammer
+toa	Special attacks (strategy dependent)	dragon dagger
+toa	Ranged	masori mask (f)
+toa	Ranged	masori mask
+toa	Ranged	crystal helm
+toa	Ranged	eclipse moon helm
+toa	Ranged	necklace of rupture
+toa	Ranged	necklace of anguish
+toa	Ranged	dizana's quiver
+toa	Ranged	ava's assembler
+toa	Ranged	ava's accumulator
+toa	Ranged	masori body (f)
+toa	Ranged	masori body
+toa	Ranged	crystal body
+toa	Ranged	eclipse moon chestplate
+toa	Ranged	mixed hide top
+toa	Ranged	blessed body
+toa	Ranged	karil's leathertop
+toa	Ranged	black d'hide body
+toa	Ranged	masori chaps (f)
+toa	Ranged	masori chaps
+toa	Ranged	crystal legs
+toa	Ranged	eclipse moon tassets
+toa	Ranged	mixed hide legs
+toa	Ranged	blessed chaps
+toa	Ranged	karil's leatherskirt
+toa	Ranged	black d'hide chaps
+toa	Ranged	twisted bow
+toa	Ranged	toxic blowpipe
+toa	Ranged	zaryte crossbow
+toa	Ranged	bow of faerdhinen
+toa	Ranged	armadyl crossbow
+toa	Ranged	dragon crossbow
+toa	Ranged	eclipse atlatl
+toa	Ranged	rune crossbow
+toa	Ranged	twisted buckler
+toa	Ranged	dragonfire ward
+toa	Ranged	odium ward
+toa	Ammunition and blessings (match weapon)	seeking dragon arrow
+toa	Ammunition and blessings (match weapon)	ruby dragon bolts (e)
+toa	Ammunition and blessings (match weapon)	rada's blessing 4
+toa	Ammunition and blessings (match weapon)	dragon arrow
+toa	Ammunition and blessings (match weapon)	seeking amethyst arrow
+toa	Ammunition and blessings (match weapon)	ruby bolts (e)
+toa	Ammunition and blessings (match weapon)	amethyst arrow
+toa	Ammunition and blessings (match weapon)	atlatl dart
+toa	Ranged	zaryte vambraces
+toa	Ranged	avernic treads (max)
+toa	Ranged	venator ring
+toa	Ranged	lightbearer
+toa	Special attacks (strategy dependent)	zaryte crossbow
+toa	Special attacks (strategy dependent)	armadyl crossbow
+toa	Special attacks (strategy dependent)	toxic blowpipe
+toa	Magic	ancestral hat
+toa	Magic	virtus mask
+toa	Magic	ahrim's hood
+toa	Magic	blue moon helm
+toa	Magic	occult necklace
+toa	Magic	god capes
+toa	Magic	ancestral robe top
+toa	Magic	virtus robe top
+toa	Magic	ahrim's robetop
+toa	Magic	blue moon chestplate
+toa	Magic	dagon'hai robe top
+toa	Magic	infinity top
+toa	Magic	bloodbark body
+toa	Magic	mystic robe top
+toa	Magic	ancestral robe bottom
+toa	Magic	virtus robe bottom
+toa	Magic	ahrim's robeskirt
+toa	Magic	blue moon tassets
+toa	Magic	dagon'hai robe bottom
+toa	Magic	infinity bottoms
+toa	Magic	bloodbark legs
+toa	Magic	mystic robe bottom
+toa	Magic	tumeken's shadow
+toa	Magic	eye of ayak
+toa	Magic	sanguinesti staff
+toa	Magic	trident of the swamp
+toa	Magic	trident of the seas
+toa	Magic	accursed sceptre
+toa	Magic	warped sceptre
+toa	Magic	elidinis' ward (f)
+toa	Magic	arcane spirit shield
+toa	Magic	elidinis' ward
+toa	Magic	malediction ward
+toa	Magic	ancient wyvern shield
+toa	Magic	mage's book
+toa	Magic	book of the dead
+toa	Magic	confliction gauntlets
+toa	Magic	tormented bracelet
+toa	Magic	barrows gloves
+toa	Magic	avernic treads (max)
+toa	Magic	eternal boots
+toa	Magic	magus ring
+toa	Magic	lightbearer
+toa	Magic	seers ring (i)
+toa	Special attacks (strategy dependent)	eye of ayak
+toa	Special attacks (strategy dependent)	seercull

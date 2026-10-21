@@ -1,0 +1,1 @@
+Bank layout adapted from https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa under BSD 2-Clause. See FLEXIBLE-BANK-LICENSE.txt. Changes: integrated lifecycle/configuration, tab alignment and header spacing. Bank capture is an independent rendering of the currently displayed item widgets, using RuneLite ImageCapture to save locally.

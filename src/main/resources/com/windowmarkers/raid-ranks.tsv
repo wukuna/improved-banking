@@ -1,0 +1,304 @@
+# Wiki recommended table order; CC BY-NC-SA 3.0; see TAXONOMY-SOURCES.md
+cox	Melee	Head	0	torva full helm
+cox	Melee	Head	0	oathplate helm
+cox	Melee	Head	100	neitiznot faceguard
+cox	Melee	Head	100	inquisitor's great helm
+cox	Melee	Head	200	serpentine helm
+cox	Melee	Head	300	blood moon helm
+cox	Melee	Head	400	helm of neitiznot
+cox	Melee	Head	400	eclipse moon helm
+cox	Melee	Head	400	blue moon helm
+cox	Melee	Neck	0	amulet of rancour
+cox	Melee	Neck	100	amulet of torture
+cox	Melee	Neck	200	amulet of blood fury
+cox	Melee	Neck	200	amulet of fury
+cox	Melee	Body	0	torva platebody
+cox	Melee	Body	0	oathplate chest
+cox	Melee	Body	100	inquisitor's hauberk
+cox	Melee	Body	100	bandos chestplate
+cox	Melee	Body	100	blood moon chestplate
+cox	Melee	Body	100	fighter torso
+cox	Melee	Body	200	eclipse moon chestplate
+cox	Melee	Body	300	blue moon chestplate
+cox	Melee	Legs	0	torva platelegs
+cox	Melee	Legs	0	oathplate legs
+cox	Melee	Legs	100	inquisitor's plateskirt
+cox	Melee	Legs	200	bandos tassets
+cox	Melee	Legs	200	blood moon tassets
+cox	Melee	Legs	300	eclipse moon tassets
+cox	Melee	Legs	300	blue moon tassets
+cox	Melee	One-handed weapon	0	scythe of vitur
+cox	Melee	One-handed weapon	100	dragon hunter lance
+cox	Melee	One-handed weapon	101	soulreaper axe
+cox	Melee	One-handed weapon	200	ghrazi rapier
+cox	Melee	One-handed weapon	200	blade of saeldor
+cox	Melee	One-handed weapon	200	dual macuahuitl
+cox	Melee	One-handed weapon	300	noxious halberd
+cox	Melee	One-handed weapon	300	abyssal tentacle
+cox	Melee	One-handed weapon	400	abyssal whip
+cox	Melee	One-handed weapon	400	zamorakian hasta
+cox	Melee	Shield	0	avernic defender
+cox	Melee	Shield	100	dragon defender
+cox	Melee	Ring	0	lightbearer
+cox	Melee	Ring	100	ultor ring
+cox	Melee	Ring	200	berserker ring (i)
+cox	Melee	Ring	300	brimstone ring
+cox	Ranged	Head	0	masori mask (f)
+cox	Ranged	Head	0	masori mask
+cox	Ranged	Head	100	armadyl helmet
+cox	Ranged	Head	200	crystal helm
+cox	Ranged	Head	300	eclipse moon helm
+cox	Ranged	Neck	0	necklace of rupture
+cox	Ranged	Neck	100	necklace of anguish
+cox	Ranged	Neck	200	amulet of fury
+cox	Ranged	Body	0	masori body (f)
+cox	Ranged	Body	0	masori body
+cox	Ranged	Body	100	armadyl chestplate
+cox	Ranged	Body	200	crystal body
+cox	Ranged	Body	200	blessed body
+cox	Ranged	Body	300	eclipse moon chestplate
+cox	Ranged	Body	400	black d'hide body
+cox	Ranged	Legs	0	masori chaps (f)
+cox	Ranged	Legs	0	masori chaps
+cox	Ranged	Legs	100	armadyl chainskirt
+cox	Ranged	Legs	200	crystal legs
+cox	Ranged	Legs	200	blessed chaps
+cox	Ranged	Legs	300	eclipse moon tassets
+cox	Ranged	Legs	400	black d'hide chaps
+cox	Ranged	One-handed weapon	0	twisted bow
+cox	Ranged	One-handed weapon	0	toxic blowpipe
+cox	Ranged	One-handed weapon	100	dragon hunter crossbow
+cox	Ranged	One-handed weapon	100	zaryte crossbow
+cox	Ranged	One-handed weapon	200	bow of faerdhinen
+cox	Ranged	One-handed weapon	300	armadyl crossbow
+cox	Ranged	One-handed weapon	300	dragon crossbow
+cox	Ranged	One-handed weapon	400	rune crossbow
+cox	Ranged	One-handed weapon	400	eclipse atlatl
+cox	Ranged	Shield	0	twisted buckler
+cox	Ranged	Shield	100	dragonfire ward
+cox	Ranged	Shield	200	odium ward
+cox	Ranged	Ring	0	venator ring
+cox	Magic	Head	0	ancestral hat
+cox	Magic	Head	100	virtus mask
+cox	Magic	Head	200	ahrim's hood
+cox	Magic	Head	200	blue moon helm
+cox	Magic	Head	200	bloodbark helm
+cox	Magic	Head	200	dagon'hai hat
+cox	Magic	Head	300	mystic hat
+cox	Magic	Neck	0	occult necklace
+cox	Magic	Neck	100	amulet of fury
+cox	Magic	Body	0	ancestral robe top
+cox	Magic	Body	100	virtus robe top
+cox	Magic	Body	200	ahrim's robetop
+cox	Magic	Body	200	blue moon chestplate
+cox	Magic	Body	200	bloodbark body
+cox	Magic	Body	200	dagon'hai robe top
+cox	Magic	Body	300	mystic robe top
+cox	Magic	Legs	0	ancestral robe bottom
+cox	Magic	Legs	100	virtus robe bottom
+cox	Magic	Legs	200	ahrim's robeskirt
+cox	Magic	Legs	200	blue moon tassets
+cox	Magic	Legs	200	bloodbark legs
+cox	Magic	Legs	200	dagon'hai robe bottom
+cox	Magic	Legs	300	mystic robe bottom
+cox	Magic	One-handed weapon	0	tumeken's shadow
+cox	Magic	One-handed weapon	100	eye of ayak
+cox	Magic	One-handed weapon	200	sanguinesti staff
+cox	Magic	One-handed weapon	200	dragon hunter wand
+cox	Magic	One-handed weapon	300	trident of the swamp
+cox	Magic	One-handed weapon	400	trident of the seas
+cox	Magic	One-handed weapon	401	warped sceptre
+cox	Magic	Shield	0	elidinis' ward (f)
+cox	Magic	Shield	0	tome of earth
+cox	Magic	Shield	0	tome of fire
+cox	Magic	Shield	100	arcane spirit shield
+cox	Magic	Shield	100	elidinis' ward
+cox	Magic	Shield	200	ancient wyvern shield
+cox	Magic	Shield	200	mage's book
+cox	Magic	Shield	200	malediction ward
+cox	Magic	Shield	300	book of the dead
+cox	Magic	Ring	0	magus ring
+tob	Melee	Head	0	torva full helm
+tob	Melee	Head	0	oathplate helm
+tob	Melee	Head	100	neitiznot faceguard
+tob	Melee	Head	100	serpentine helm
+tob	Melee	Head	200	blood moon helm
+tob	Melee	Head	200	helm of neitiznot
+tob	Melee	Head	300	void melee helm
+tob	Melee	Neck	0	amulet of rancour
+tob	Melee	Neck	100	amulet of torture
+tob	Melee	Neck	200	amulet of blood fury
+tob	Melee	Neck	300	amulet of fury
+tob	Melee	Body	0	torva platebody
+tob	Melee	Body	0	oathplate chest
+tob	Melee	Body	100	bandos chestplate
+tob	Melee	Body	100	blood moon chestplate
+tob	Melee	Body	200	fighter torso
+tob	Melee	Body	300	elite void top
+tob	Melee	Legs	0	torva platelegs
+tob	Melee	Legs	0	oathplate legs
+tob	Melee	Legs	100	bandos tassets
+tob	Melee	Legs	100	blood moon tassets
+tob	Melee	Legs	200	obsidian platelegs
+tob	Melee	Legs	300	elite void robe
+tob	Melee	One-handed weapon	0	scythe of vitur
+tob	Melee	One-handed weapon	100	soulreaper axe
+tob	Melee	One-handed weapon	100	blade of saeldor
+tob	Melee	One-handed weapon	100	osmumten's fang
+tob	Melee	One-handed weapon	200	abyssal tentacle
+tob	Melee	One-handed weapon	200	noxious halberd
+tob	Melee	One-handed weapon	300	abyssal whip
+tob	Melee	Shield	0	avernic defender
+tob	Melee	Shield	100	dragon defender
+tob	Melee	Ring	0	ultor ring
+tob	Melee	Ring	100	bellator ring
+tob	Melee	Ring	200	berserker ring (i)
+tob	Magic	Head	100	void mage helm
+tob	Magic	Neck	0	occult necklace
+tob	Magic	Body	0	ancestral robe top
+tob	Magic	Body	0	virtus robe top
+tob	Magic	Body	100	elite void top
+tob	Magic	Legs	0	ancestral robe bottom
+tob	Magic	Legs	0	virtus robe bottom
+tob	Magic	Legs	100	elite void robe
+tob	Magic	One-handed weapon	0	eye of ayak
+tob	Magic	One-handed weapon	0	kodai wand
+tob	Magic	One-handed weapon	0	nightmare staff
+tob	Magic	One-handed weapon	100	sanguinesti staff
+tob	Magic	One-handed weapon	100	toxic staff of the dead
+tob	Magic	One-handed weapon	200	trident of the swamp
+tob	Magic	One-handed weapon	200	ancient sceptre
+tob	Magic	One-handed weapon	200	dragon hunter wand
+tob	Magic	One-handed weapon	200	master wand
+tob	Magic	Shield	0	elidinis' ward (f)
+tob	Magic	Shield	100	elidinis' ward
+tob	Magic	Shield	200	book of darkness
+tob	Ranged	Head	0	void ranger helm
+tob	Ranged	Neck	0	necklace of rupture
+tob	Ranged	Neck	100	necklace of anguish
+tob	Ranged	Body	0	elite void top
+tob	Ranged	Body	100	masori body (f)
+tob	Ranged	Legs	0	elite void robe
+tob	Ranged	Legs	100	masori chaps (f)
+tob	Ranged	One-handed weapon	0	twisted bow
+tob	Ranged	One-handed weapon	0	toxic blowpipe
+tob	Ranged	Shield	0	twisted buckler
+toa	Melee	Head	0	torva full helm
+toa	Melee	Head	100	neitiznot faceguard
+toa	Melee	Head	100	oathplate helm
+toa	Melee	Head	200	serpentine helm
+toa	Melee	Head	300	blood moon helm
+toa	Melee	Head	400	helm of neitiznot
+toa	Melee	Head	400	eclipse moon helm
+toa	Melee	Head	400	blue moon helm
+toa	Melee	Neck	0	amulet of rancour
+toa	Melee	Neck	100	amulet of torture
+toa	Melee	Neck	200	amulet of blood fury
+toa	Melee	Neck	300	amulet of fury
+toa	Melee	Neck	400	amulet of glory
+toa	Melee	Body	0	torva platebody
+toa	Melee	Body	100	bandos chestplate
+toa	Melee	Body	100	blood moon chestplate
+toa	Melee	Body	100	fighter torso
+toa	Melee	Body	100	oathplate chest
+toa	Melee	Body	200	eclipse moon chestplate
+toa	Melee	Body	300	mixed hide top
+toa	Melee	Body	300	blue moon chestplate
+toa	Melee	Body	400	obsidian platebody
+toa	Melee	Legs	0	torva platelegs
+toa	Melee	Legs	100	bandos tassets
+toa	Melee	Legs	100	blood moon tassets
+toa	Melee	Legs	100	oathplate legs
+toa	Melee	Legs	200	eclipse moon tassets
+toa	Melee	Legs	300	mixed hide legs
+toa	Melee	Legs	300	blue moon tassets
+toa	Melee	Legs	400	obsidian platelegs
+toa	Melee	One-handed weapon	0	osmumten's fang
+toa	Melee	One-handed weapon	100	keris partisan of amascut
+toa	Melee	One-handed weapon	100	keris partisan of breaching
+toa	Melee	One-handed weapon	100	ghrazi rapier
+toa	Melee	One-handed weapon	200	blade of saeldor
+toa	Melee	One-handed weapon	200	zamorakian hasta
+toa	Melee	One-handed weapon	300	voidwaker
+toa	Melee	One-handed weapon	300	abyssal dagger
+toa	Melee	One-handed weapon	300	belle's folly
+toa	Melee	One-handed weapon	400	dragon sword
+toa	Melee	One-handed weapon	400	arkan blade
+toa	Melee	Shield	0	avernic defender
+toa	Melee	Shield	100	dragon defender
+toa	Melee	Ring	0	lightbearer
+toa	Melee	Ring	0	ultor ring
+toa	Melee	Ring	100	berserker ring (i)
+toa	Ranged	Head	0	masori mask (f)
+toa	Ranged	Head	0	masori mask
+toa	Ranged	Head	100	crystal helm
+toa	Ranged	Head	200	eclipse moon helm
+toa	Ranged	Neck	0	necklace of rupture
+toa	Ranged	Neck	100	necklace of anguish
+toa	Ranged	Body	0	masori body (f)
+toa	Ranged	Body	0	masori body
+toa	Ranged	Body	100	crystal body
+toa	Ranged	Body	200	eclipse moon chestplate
+toa	Ranged	Body	200	mixed hide top
+toa	Ranged	Body	300	blessed body
+toa	Ranged	Body	300	karil's leathertop
+toa	Ranged	Body	400	black d'hide body
+toa	Ranged	Legs	0	masori chaps (f)
+toa	Ranged	Legs	0	masori chaps
+toa	Ranged	Legs	100	crystal legs
+toa	Ranged	Legs	200	eclipse moon tassets
+toa	Ranged	Legs	200	mixed hide legs
+toa	Ranged	Legs	300	blessed chaps
+toa	Ranged	Legs	300	karil's leatherskirt
+toa	Ranged	Legs	400	black d'hide chaps
+toa	Ranged	One-handed weapon	0	twisted bow
+toa	Ranged	One-handed weapon	0	toxic blowpipe
+toa	Ranged	One-handed weapon	100	zaryte crossbow
+toa	Ranged	One-handed weapon	100	bow of faerdhinen
+toa	Ranged	One-handed weapon	200	armadyl crossbow
+toa	Ranged	One-handed weapon	200	dragon crossbow
+toa	Ranged	One-handed weapon	300	eclipse atlatl
+toa	Ranged	One-handed weapon	400	rune crossbow
+toa	Ranged	Shield	0	twisted buckler
+toa	Ranged	Shield	100	dragonfire ward
+toa	Ranged	Shield	200	odium ward
+toa	Ranged	Ring	0	venator ring
+toa	Ranged	Ring	0	lightbearer
+toa	Magic	Head	0	ancestral hat
+toa	Magic	Head	100	virtus mask
+toa	Magic	Head	200	ahrim's hood
+toa	Magic	Head	200	blue moon helm
+toa	Magic	Neck	0	occult necklace
+toa	Magic	Body	0	ancestral robe top
+toa	Magic	Body	100	virtus robe top
+toa	Magic	Body	200	ahrim's robetop
+toa	Magic	Body	200	blue moon chestplate
+toa	Magic	Body	300	dagon'hai robe top
+toa	Magic	Body	300	infinity top
+toa	Magic	Body	300	bloodbark body
+toa	Magic	Body	400	mystic robe top
+toa	Magic	Legs	0	ancestral robe bottom
+toa	Magic	Legs	100	virtus robe bottom
+toa	Magic	Legs	200	ahrim's robeskirt
+toa	Magic	Legs	200	blue moon tassets
+toa	Magic	Legs	300	dagon'hai robe bottom
+toa	Magic	Legs	300	infinity bottoms
+toa	Magic	Legs	300	bloodbark legs
+toa	Magic	Legs	400	mystic robe bottom
+toa	Magic	One-handed weapon	0	tumeken's shadow
+toa	Magic	One-handed weapon	100	eye of ayak
+toa	Magic	One-handed weapon	200	sanguinesti staff
+toa	Magic	One-handed weapon	200	trident of the swamp
+toa	Magic	One-handed weapon	300	trident of the seas
+toa	Magic	One-handed weapon	400	accursed sceptre
+toa	Magic	One-handed weapon	401	warped sceptre
+toa	Magic	Shield	0	elidinis' ward (f)
+toa	Magic	Shield	100	arcane spirit shield
+toa	Magic	Shield	100	elidinis' ward
+toa	Magic	Shield	200	malediction ward
+toa	Magic	Shield	200	ancient wyvern shield
+toa	Magic	Shield	200	mage's book
+toa	Magic	Shield	300	book of the dead
+toa	Magic	Ring	0	magus ring
+toa	Magic	Ring	0	lightbearer
+toa	Magic	Ring	100	seers ring (i)

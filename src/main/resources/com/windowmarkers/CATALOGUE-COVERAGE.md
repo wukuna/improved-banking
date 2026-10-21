@@ -1,0 +1,117 @@
+# Item catalogue coverage — 2026-10-20
+
+The category suite covers skilling outfits, tools, materials and boosts; general combat equipment and sets; food, potions and restricted supplies; travel and storage; quest/clue items; and cosmetic/utility equipment. The three raid presets retain their separate positive recommendation lists. General classification never establishes raid eligibility or a BIS loadout.
+
+## Measured coverage
+
+- 3,361 distinct source reference names examined.
+- 2,928 individual item pages verified against their item infoboxes.
+- 4,331 item-ID keys and 4,546 exact name keys (including variants/aliases; these are not separate unique-item counts).
+- 184 groups and 14,772 name/ID membership rows.
+- 331 names rely on the selected reference lists without a retrieved individual infobox.
+- 102 successfully retrieved non-item references excluded (for example, boat facilities and disambiguations).
+
+This completes the currently implemented category suite, not an exhaustive claim about every OSRS item. Unknown items remain unchecked for review. Further boss/activity recommendations, ammunition compatibility, per-encounter gear ranking and automatic set optimization are not implemented. A general classification can retain several source roles; each preset chooses one display group per item. Already-linked items are skipped unless their old marker is explicitly selected for replacement.
+
+## Outfit families
+
+Partial ownership is grouped for organization; it does not assert an active full-set bonus. Farmer shirt/jacket are alternatives. Warm gloves are not a Pyromancer set piece; Eye dyes are not outfit pieces. Smiths gloves (i) retain outfit membership. Alchemist clothing is not represented as a full-set bonus: the goggles supply utility.
+
+- **Graceful outfit**: graceful boots, graceful cape, graceful gloves, graceful hood, graceful legs, graceful top.
+- **Carpenter's outfit**: carpenter's boots, carpenter's helmet, carpenter's shirt, carpenter's trousers.
+- **Farmer's outfit**: farmer's boots, farmer's boro trousers, farmer's jacket, farmer's shirt, farmer's strawhat.
+- **Pyromancer outfit**: pyromancer boots, pyromancer garb, pyromancer hood, pyromancer robe.
+- **Angler's outfit**: angler boots, angler hat, angler top, angler waders.
+- **Spirit angler's outfit**: spirit angler boots, spirit angler headband, spirit angler top, spirit angler waders.
+- **Guild hunter outfit**: guild hunter boots, guild hunter headwear, guild hunter legs, guild hunter top.
+- **Prospector kit**: prospector boots, prospector helmet, prospector jacket, prospector legs.
+- **Golden prospector kit**: golden prospector boots, golden prospector helmet, golden prospector jacket, golden prospector legs.
+- **Zealot's robes**: zealot's boots, zealot's helm, zealot's robe bottom, zealot's robe top.
+- **Raiments of the Eye**: boots of the eye, hat of the eye, robe bottoms of the eye, robe top of the eye.
+- **Smiths' Uniform**: smiths boots, smiths gloves, smiths trousers, smiths tunic.
+- **Rogue equipment**: rogue boots, rogue gloves, rogue mask, rogue top, rogue trousers.
+- **Lumberjack outfit**: lumberjack boots, lumberjack hat, lumberjack legs, lumberjack top.
+- **Forestry outfit**: forestry boots, forestry hat, forestry legs, forestry top.
+- **Alchemist's outfit**: alchemist gloves, alchemist labcoat, alchemist pants, prescription goggles.
+
+## Optional Exclude worse items
+
+Unchecked by default. Filters new suggestions only, with all exclusions shown before confirmation. Compares ordinary bronze through dragon axes/pickaxes owned in the bank against actual Mining/Woodcutting levels. It preserves known clue/quest uses, black pickaxes for low-weight uses, and special tools such as crystal, infernal, felling, ornamented and gilded variants. Raid presets also compare the Wiki-ranked alternatives within the same combat role and equipment slot when wearing requirements are known and met. Set-dependent and specialist items, supplies, ties and unknown eligibility remain. Comparisons do not use prices or bonus totals. See RAID-FILTER-SOURCES.md for requirement-page revisions. It does not delete items or existing markers, and it does not use temporary boosts to infer eligibility.
+
+Tool references: [Mining](https://oldschool.runescape.wiki/w/Mining), [Axe](https://oldschool.runescape.wiki/w/Axe), [Abyss strategies](https://oldschool.runescape.wiki/w/Abyss/Strategies).
+
+## Reference snapshots
+
+Bundled data adapts OSRS Wiki contributors' lists under CC BY-NC-SA 3.0; see TAXONOMY-SOURCES.md. Table selection, item-page checks, rejected references and coverage counts are archived in outputs/full-item-taxonomy-2026-10-20 in the development workspace. Reproduction scripts: build_full_taxonomy.py, verify_catalogue_items.py, publish_full_taxonomy.py and document_full_catalogue.py under work/. Runtime does not request Wiki pages or transmit bank data.
+
+- [Alchemist's outfit](https://oldschool.runescape.wiki/w/Alchemist%27s_outfit?oldid=15318261) — revision 15318261
+- [Ammunition](https://oldschool.runescape.wiki/w/Ammunition?oldid=15374969) — revision 15374969
+- [Ammunition_slot_table](https://oldschool.runescape.wiki/w/Ammunition_slot_table?oldid=15160878) — revision 15160878
+- [Angler's outfit](https://oldschool.runescape.wiki/w/Angler%27s_outfit?oldid=15364993) — revision 15364993
+- [Armour/Melee armour](https://oldschool.runescape.wiki/w/Armour/Melee_armour?oldid=15354910) — revision 15354910
+- [Armour/Ranged armour](https://oldschool.runescape.wiki/w/Armour/Ranged_armour?oldid=15354976) — revision 15354976
+- [Bars](https://oldschool.runescape.wiki/w/Bars?oldid=15322841) — revision 15322841
+- [Body_slot_table](https://oldschool.runescape.wiki/w/Body_slot_table?oldid=15366051) — revision 15366051
+- [Dwarf_multicannon](https://oldschool.runescape.wiki/w/Dwarf_multicannon?oldid=15370078) — revision 15370078
+- [Cape_slot_table](https://oldschool.runescape.wiki/w/Cape_slot_table?oldid=15366274) — revision 15366274
+- [Carpenter's outfit](https://oldschool.runescape.wiki/w/Carpenter%27s_outfit?oldid=15290522) — revision 15290522
+- [Treasure_Trails/Full_guide/All](https://oldschool.runescape.wiki/w/Treasure_Trails/Full_guide/All?oldid=15308708) — revision 15308708
+- [Construction](https://oldschool.runescape.wiki/w/Construction?oldid=15350630) — revision 15350630
+- [Container_items](https://oldschool.runescape.wiki/w/Container_items?oldid=15357335) — revision 15357335
+- [Cooking](https://oldschool.runescape.wiki/w/Cooking?oldid=15359642) — revision 15359642
+- [Crafting](https://oldschool.runescape.wiki/w/Crafting?oldid=15360858) — revision 15360858
+- [Currency](https://oldschool.runescape.wiki/w/Currency?oldid=15310503) — revision 15310503
+- [Achievement_Diary/Rewards](https://oldschool.runescape.wiki/w/Achievement_Diary/Rewards?oldid=15360911) — revision 15360911
+- [Farmer's outfit](https://oldschool.runescape.wiki/w/Farmer%27s_outfit?oldid=15363013) — revision 15363013
+- [Farming](https://oldschool.runescape.wiki/w/Farming?oldid=15366981) — revision 15366981
+- [Feet_slot_table](https://oldschool.runescape.wiki/w/Feet_slot_table?oldid=15347488) — revision 15347488
+- [Firemaking](https://oldschool.runescape.wiki/w/Firemaking?oldid=15367339) — revision 15367339
+- [Fishing](https://oldschool.runescape.wiki/w/Fishing?oldid=15360471) — revision 15360471
+- [Fletching](https://oldschool.runescape.wiki/w/Fletching?oldid=15366280) — revision 15366280
+- [Food](https://oldschool.runescape.wiki/w/Food?oldid=15373716) — revision 15373716
+- [Forestry outfit](https://oldschool.runescape.wiki/w/Forestry_outfit?oldid=15015012) — revision 15015012
+- [Gems](https://oldschool.runescape.wiki/w/Gems?oldid=15355199) — revision 15355199
+- [Golden prospector kit](https://oldschool.runescape.wiki/w/Golden_prospector_kit?oldid=15255466) — revision 15255466
+- [Graceful outfit](https://oldschool.runescape.wiki/w/Graceful_outfit?oldid=15366923) — revision 15366923
+- [Guild hunter outfit](https://oldschool.runescape.wiki/w/Guild_hunter_outfit?oldid=15374898) — revision 15374898
+- [Hands_slot_table](https://oldschool.runescape.wiki/w/Hands_slot_table?oldid=15366496) — revision 15366496
+- [Head_slot_table](https://oldschool.runescape.wiki/w/Head_slot_table?oldid=15366495) — revision 15366495
+- [Herblore](https://oldschool.runescape.wiki/w/Herblore?oldid=15356766) — revision 15356766
+- [Herblore_secondaries](https://oldschool.runescape.wiki/w/Herblore_secondaries?oldid=15313267) — revision 15313267
+- [Herbs](https://oldschool.runescape.wiki/w/Herbs?oldid=15341861) — revision 15341861
+- [Hunter](https://oldschool.runescape.wiki/w/Hunter?oldid=15375251) — revision 15375251
+- [Jewellery](https://oldschool.runescape.wiki/w/Jewellery?oldid=15362918) — revision 15362918
+- [Legs_slot_table](https://oldschool.runescape.wiki/w/Legs_slot_table?oldid=15366150) — revision 15366150
+- [Lumberjack outfit](https://oldschool.runescape.wiki/w/Lumberjack_outfit?oldid=15364531) — revision 15364531
+- [Mining](https://oldschool.runescape.wiki/w/Mining?oldid=15374799) — revision 15374799
+- [Neck_slot_table](https://oldschool.runescape.wiki/w/Neck_slot_table?oldid=15366498) — revision 15366498
+- [One-handed_slot_table](https://oldschool.runescape.wiki/w/One-handed_slot_table?oldid=15374851) — revision 15374851
+- [Planks](https://oldschool.runescape.wiki/w/Planks?oldid=15358583) — revision 15358583
+- [Potions](https://oldschool.runescape.wiki/w/Potions?oldid=15351958) — revision 15351958
+- [Prayer](https://oldschool.runescape.wiki/w/Prayer?oldid=15377746) — revision 15377746
+- [Pay-to-play_Prayer_training](https://oldschool.runescape.wiki/w/Pay-to-play_Prayer_training?oldid=15373686) — revision 15373686
+- [Prayer_items](https://oldschool.runescape.wiki/w/Prayer_items?oldid=15313251) — revision 15313251
+- [Prospector kit](https://oldschool.runescape.wiki/w/Prospector_kit?oldid=15370923) — revision 15370923
+- [Pyromancer outfit](https://oldschool.runescape.wiki/w/Pyromancer_outfit?oldid=15361900) — revision 15361900
+- [Quest_items/Need_for_quest](https://oldschool.runescape.wiki/w/Quest_items/Need_for_quest?oldid=15345898) — revision 15345898
+- [Quest_items/Originating_quest](https://oldschool.runescape.wiki/w/Quest_items/Originating_quest?oldid=15345830) — revision 15345830
+- [Raiments of the Eye](https://oldschool.runescape.wiki/w/Raiments_of_the_Eye?oldid=15377451) — revision 15377451
+- [Ring_slot_table](https://oldschool.runescape.wiki/w/Ring_slot_table?oldid=15366499) — revision 15366499
+- [Rogue equipment](https://oldschool.runescape.wiki/w/Rogue_equipment?oldid=15361540) — revision 15361540
+- [Runecraft](https://oldschool.runescape.wiki/w/Runecraft?oldid=15372488) — revision 15372488
+- [Runes](https://oldschool.runescape.wiki/w/Runes?oldid=15374779) — revision 15374779
+- [Sailing](https://oldschool.runescape.wiki/w/Sailing?oldid=15366653) — revision 15366653
+- [Seeds](https://oldschool.runescape.wiki/w/Seeds?oldid=15240638) — revision 15240638
+- [Shield_slot_table](https://oldschool.runescape.wiki/w/Shield_slot_table?oldid=15366501) — revision 15366501
+- [Skilling equipment](https://oldschool.runescape.wiki/w/Skilling_equipment?oldid=15369770) — revision 15369770
+- [Slayer_equipment](https://oldschool.runescape.wiki/w/Slayer_equipment?oldid=15373573) — revision 15373573
+- [Smithing](https://oldschool.runescape.wiki/w/Smithing?oldid=15344392) — revision 15344392
+- [Smiths' Uniform](https://oldschool.runescape.wiki/w/Smiths%27_Uniform?oldid=15276149) — revision 15276149
+- [Spirit angler's outfit](https://oldschool.runescape.wiki/w/Spirit_angler%27s_outfit?oldid=15350493) — revision 15350493
+- [Teleportation](https://oldschool.runescape.wiki/w/Teleportation?oldid=15373665) — revision 15373665
+- [Tools](https://oldschool.runescape.wiki/w/Tools?oldid=15373711) — revision 15373711
+- [Two-handed_slot_table](https://oldschool.runescape.wiki/w/Two-handed_slot_table?oldid=15375131) — revision 15375131
+- [Weight-reducing clothing](https://oldschool.runescape.wiki/w/Weight-reducing_clothing?oldid=15355527) — revision 15355527
+- [Woodcutting](https://oldschool.runescape.wiki/w/Woodcutting?oldid=15352501) — revision 15352501
+- [Zealot's robes](https://oldschool.runescape.wiki/w/Zealot%27s_robes?oldid=15367907) — revision 15367907
+
