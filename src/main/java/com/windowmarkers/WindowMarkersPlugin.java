@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description="Beta bank markers, tab-aware legends and Wiki-based categories", enabledByDefault=false, conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description="Beta bank markers, tab-aware legends and Wiki-based categories", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
