@@ -8,7 +8,9 @@ Organize your bank with item-linked markers, a tab-aware group legend, flexible 
 
 The Wiki-based catalogue ships with the plugin; it does not fetch updates during gameplay or send your bank contents to the Wiki. New information arrives through plugin updates. General classifications are organizational groups, not a claim that every item is suitable for every activity or that a group forms a complete best-in-slot loadout.
 
-## What it includes
+[Features](#features) · [Getting started](#getting-started) · [Usage](#usage) · [Saved settings](#saved-settings) · [Compatibility](#compatibility) · [Related plugins and sources](#related-plugins-and-sources) · [Development](#development) · [Support](#support) · [License and attribution](#license-and-attribution)
+
+## Features
 
 - **Bank organization:** linked-item groups, scrolling area markers, labels, per-marker colors and OSRS-style borders.
 - **A readable legend:** only groups in the current tab or search, with optional hover highlighting and pinned selection.
@@ -28,7 +30,9 @@ Open your bank and the **Improved Banking** square-frame sidebar icon.
 
 The camera button immediately left of the bank's **X** saves the complete current tab or search results. **Tools → Save bank screenshot** offers the same capture. Select the main bank tab to capture the whole bank. Images are saved locally under RuneLite's `screenshots/<character>/bank-markers` folder, with native item icons, quantities, marker artwork and a separate legend. Nothing is uploaded or copied to the clipboard. This is a content export, not a reproduction of every third-party widget.
 
-## Markers and labels
+## Usage
+
+### Markers and labels
 
 Choose **Draw marker**, then drag inside the bank. Right-click or **Cancel drawing** cancels. Outside drawing mode, markers are click-through.
 
@@ -38,15 +42,7 @@ Select one marker to edit its label, color, font, font size, border, background 
 
 Mini-labels show short names once per group, only where they fit without covering item cells. Full names remain in the legend. Plugin settings offer **Bank labels: MINI / FULL / OFF**, **Subtle marker backgrounds** and **Highlight on hover**. Turning off hover highlighting retains click-to-pin and hover names. Saved labels and colors are not rewritten by these display options.
 
-## Accounts, profiles and layouts
-
-Markers are separate for each RuneScape character **and** RuneLite settings profile. Renaming a profile preserves its markers. Each combination supports up to 20 named layouts and 250 markers per layout. Switching characters or profiles cancels drawing and loads the matching layout.
-
-**New**, **Copy** and **Rename** manage layouts. **Undo / Redo** keeps up to 50 marker changes per layout during the current session; restarting clears history, not saved markers. Layout-management actions themselves are not undoable.
-
-Existing Window Markers beta settings and saved layouts are preserved under their original storage keys. Tools can copy earlier account-only or shared marker layouts into an empty current layout without changing the originals.
-
-## Auto-categorize
+### Auto-categorize
 
 Choose a broad classification, skilling, outfit, combat, supply, utility or raid preset. Review the proposed groups before applying them. Existing linked items are skipped unless their old markers are checked for replacement; area markers remain. A batch is one Undo step.
 
@@ -54,19 +50,45 @@ The bundled catalogue includes skilling outfits and tools, equipment sets, gener
 
 **Exclude worse items** conservatively compares supported alternatives using owned replacements, real skill levels and verified unlocks. It preserves separate roles, special attacks, set effects and useful alternatives. It does not claim a universal gear ranking. [Coverage details](src/main/resources/com/windowmarkers/CATALOGUE-COVERAGE.md), [Wiki attribution](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md) and [raid comparison sources](src/main/resources/com/windowmarkers/RAID-FILTER-SOURCES.md) describe the implemented scope.
 
-## Bank layout and compatibility
+### Bank layout
 
 **Tools → Bank size and tabs** controls bank width, height, columns, tab alignment, spacing below the tabs and deposit-button placement. Item icons retain their native size. Bank Tags custom layouts retain their designed grid. Linked markers follow reflow; area markers keep their saved coordinates.
+
+## Saved settings
+
+Markers are separate for each RuneScape character **and** RuneLite settings profile. Renaming a profile preserves its markers. Each combination supports up to 20 named layouts and 250 markers per layout. Switching characters or profiles cancels drawing and loads the matching layout.
+
+**New**, **Copy** and **Rename** manage layouts. **Undo / Redo** keeps up to 50 marker changes per layout during the current session; restarting clears history, not saved markers. Layout-management actions themselves are not undoable.
+
+Existing Window Markers beta settings and saved layouts are preserved under their original storage keys. Tools can copy earlier account-only or shared marker layouts into an empty current layout without changing the originals.
+
+## Compatibility
 
 Improved Banking replaces the separate **Flexible Bank** and **Bank Screenshot** plugins and declares those conflicts. Existing Flexible Bank size preferences are copied once when no corresponding Improved Banking preference exists. Original settings remain stored. Disable Improved Banking before re-enabling the separate plugins. The integrated bank-layout option can also be disabled in settings.
 
 The screenshot button can be disabled independently in **Screenshots** settings. Bank controls, menus and character actions remain under your control. This plugin does not automatically withdraw, equip, sort or move bank items.
 
-## Building
+## Related plugins and sources
+
+| Project | Relationship | Relevant features and limits |
+| --- | --- | --- |
+| [Flexible Bank](https://github.com/TheLeon0/flexible-bank) | Adapted source and overlapping alternative | Bank dimensions and layout. Improved Banking combines this with markers, a legend and screenshots; the plugins declare a conflict. |
+| Bank Screenshot | Overlapping alternative | Standalone bank captures. Improved Banking provides its own current-tab export with marker artwork and a legend; the plugins declare a conflict. |
+| Bank Tags | Companion | Tab organization and custom layouts. Improved Banking retains custom layouts' designed grid rather than replacing their organization. |
+| Resource Packs / Interface Styles | Companion | Active-theme marker borders can use already-loaded sprite overrides, with vanilla fallback. Pack artwork is not bundled. |
+| [Old School RuneScape Wiki](https://oldschool.runescape.wiki/) | Category and recommendation data source | The bundled catalogue uses attributed Wiki information. It does not fetch updates during gameplay or upload bank contents. |
+
+Feature overlap does not imply every option of another plugin is reproduced. Java code attribution and Wiki-data licensing are documented below.
+
+## Development
 
 Use Java 11 and run `./gradlew test jar` (Windows: `gradlew.bat test jar`). Published source uses the normal name and starts disabled by default. Local testing builds display **Improved Banking TEST** and retain the same feature-storage keys.
 
-## Licences and attribution
+## Support
+
+[Report an issue, correction or feature request](https://github.com/wukuna/improved-banking/issues). For category problems, include the item names, selected preset and whether Exclude worse items was enabled. For layout problems, include the current bank tab, RuneLite profile context, overlapping bank plugins and a screenshot with private details removed. All requests and information are considered and appreciated.
+
+## License and attribution
 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.
 
