@@ -8,6 +8,16 @@ Organize your bank with item-linked markers, a tab-aware group legend, flexible 
 
 The Wiki-based catalogue ships with the plugin; it does not fetch updates during gameplay or send your bank contents to the Wiki. New information arrives through plugin updates. General classifications are organizational groups, not a claim that every item is suitable for every activity or that a group forms a complete best-in-slot loadout.
 
+## What it includes
+
+- **Bank organization:** linked-item groups, scrolling area markers, labels, per-marker colors and OSRS-style borders.
+- **A readable legend:** only groups in the current tab or search, with optional hover highlighting and pinned selection.
+- **Category suggestions:** reviewable Wiki-derived skilling, combat, raid and utility groups with conservative alternative filtering.
+- **Bank presentation:** flexible dimensions, tab alignment and local full-tab screenshots.
+- **Saved layouts:** separate markers for each character and RuneLite profile, with multi-selection and Undo/Redo.
+
+**Availability:** [Plugin Hub submission #19100](https://github.com/runelite/plugin-hub/pull/19100) is pending. This README describes the submitted beta.
+
 ## Getting started
 
 Open your bank and the **Improved Banking** square-frame sidebar icon.
