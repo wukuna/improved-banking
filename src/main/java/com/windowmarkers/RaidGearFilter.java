@@ -10,6 +10,8 @@ final class RaidGearFilter
     static void filter(AutoCategories.Preset preset,Map<String,List<AutoCategories.Item>> groups,int[] levels,Map<Integer,String> exclusions)
     { filter(preset,groups,levels,false,exclusions); }
     static void filter(AutoCategories.Preset preset,Map<String,List<AutoCategories.Item>> groups,int[] levels,boolean ancientRingsUnlocked,Map<Integer,String> exclusions)
+    { filter(preset,groups,levels,ancientRingsUnlocked,false,exclusions); }
+    static void filter(AutoCategories.Preset preset,Map<String,List<AutoCategories.Item>> groups,int[] levels,boolean ancientRingsUnlocked,boolean allSkillsMaxed,Map<Integer,String> exclusions)
     {
         if(preset!=AutoCategories.Preset.CHAMBERS_OF_XERIC && preset!=AutoCategories.Preset.THEATRE_OF_BLOOD && preset!=AutoCategories.Preset.TOMBS_OF_AMASCUT) { return; }
         String raid=RaidRecommendations.raid(preset);
@@ -22,13 +24,13 @@ final class RaidGearFilter
                 if(protectedUse(item)) { return false; }
                 for(String[] lower:RANKS)
                 {
-                    if(!lower[0].equals(raid) || !lower[1].equals(style) || !ItemTaxonomy.matches(item.name,lower[4])) { continue; }
+                    if(!lower[0].equals(raid) || !lower[1].equals(style) || !CombatEquivalence.matches(item,lower[4])) { continue; }
                     for(String[] higher:RANKS)
                     {
                         if(!higher[0].equals(raid) || !higher[1].equals(style) || !higher[2].equals(lower[2]) || Integer.parseInt(higher[3])>=Integer.parseInt(lower[3])) { continue; }
                         for(AutoCategories.Item upgrade:candidates)
                         {
-                            if(upgrade.id==item.id || protectedUse(upgrade) || !ItemTaxonomy.matches(upgrade.name,higher[4]) || !sameRole(lower[2],item,upgrade) || !canWear(upgrade,levels,ancientRingsUnlocked)) { continue; }
+                            if(upgrade.id==item.id || protectedUse(upgrade) || !CombatEquivalence.matches(upgrade,higher[4]) || !sameRole(lower[2],item,upgrade) || !canWear(upgrade,levels,ancientRingsUnlocked,allSkillsMaxed)) { continue; }
                             String reason=group.getKey()+": "+item.name+" → "+upgrade.name+" (Wiki "+lower[2].toLowerCase(Locale.ROOT)+" ranking)";
                             exclusions.merge(item.id,reason,(a,b) -> a+"; "+b); return true;
                         }
@@ -39,12 +41,13 @@ final class RaidGearFilter
         }
         groups.values().removeIf(List::isEmpty);
     }
-    private static boolean canWear(AutoCategories.Item item,int[] levels,boolean ancientRingsUnlocked)
+    private static boolean canWear(AutoCategories.Item item,int[] levels,boolean ancientRingsUnlocked,boolean allSkillsMaxed)
     {
-        if(ItemTaxonomy.matchesAny(item.name,"ultor ring","magus ring","venator ring","bellator ring")) { return ancientRingsUnlocked; }
+        if(CombatEquivalence.requiresMaxedSkills(item) && !allSkillsMaxed) { return false; }
+        if(ItemTaxonomy.matchesAny(item,"ultor ring","magus ring","venator ring","bellator ring")) { return ancientRingsUnlocked; }
         for(String[] row:REQUIREMENTS)
         {
-            if(!ItemTaxonomy.matches(item.name,row[0])) { continue; }
+            if(!CombatEquivalence.matches(item,row[0])) { continue; }
             for(int i=0;i<7;i++) { if((i<levels.length ? levels[i] : 1)<Integer.parseInt(row[i+1])) { return false; } }
             return true;
         }
@@ -52,32 +55,32 @@ final class RaidGearFilter
     }
     private static boolean sameRole(String slot,AutoCategories.Item lower,AutoCategories.Item higher)
     {
-        String n=ItemTaxonomy.baseName(lower.name);
+        String n=ItemTaxonomy.baseName(CombatEquivalence.familyName(lower));
         if(slot.contains("weapon"))
         {
             // Explicit substitutions, not a blanket comparison of a row containing multiple loadout roles.
-            if(n.equals("abyssal whip")) { return ItemTaxonomy.matchesAny(higher.name,"abyssal tentacle","blade of saeldor"); }
-            if(n.equals("trident of the seas")) { return ItemTaxonomy.matchesAny(higher.name,"trident of the swamp","sanguinesti staff"); }
-            if(n.equals("warped sceptre")) { return ItemTaxonomy.matchesAny(higher.name,"trident of the seas","trident of the swamp","sanguinesti staff"); }
-            if(n.equals("rune crossbow")) { return ItemTaxonomy.matchesAny(higher.name,"dragon crossbow","armadyl crossbow","zaryte crossbow","dragon hunter crossbow"); }
+            if(n.equals("abyssal whip")) { return CombatEquivalence.matchesAny(higher,"abyssal tentacle","blade of saeldor"); }
+            if(n.equals("trident of the seas")) { return CombatEquivalence.matchesAny(higher,"trident of the swamp","sanguinesti staff"); }
+            if(n.equals("warped sceptre")) { return CombatEquivalence.matchesAny(higher,"trident of the seas","trident of the swamp","sanguinesti staff"); }
+            if(n.equals("rune crossbow")) { return CombatEquivalence.matchesAny(higher,"dragon crossbow","armadyl crossbow","zaryte crossbow","dragon hunter crossbow"); }
             return false;
         }
         if(slot.equals("Ring"))
         {
-            return (n.equals("berserker ring (i)") && ItemTaxonomy.matches(higher.name,"ultor ring"))
-                || (n.equals("seers ring (i)") && ItemTaxonomy.matches(higher.name,"magus ring"));
+            return (n.equals("berserker ring (i)") && CombatEquivalence.matches(higher,"ultor ring"))
+                || (n.equals("seers ring (i)") && CombatEquivalence.matches(higher,"magus ring"));
         }
         if(slot.equals("Shield"))
         {
-            return (n.equals("dragon defender") && ItemTaxonomy.matches(higher.name,"avernic defender"))
-                || (n.equals("elidinis' ward") && ItemTaxonomy.matches(higher.name,"elidinis' ward (f)"));
+            return (n.equals("dragon defender") && CombatEquivalence.matches(higher,"avernic defender"))
+                || (n.equals("elidinis' ward") && CombatEquivalence.matches(higher,"elidinis' ward (f)"));
         }
         return true;
     }
     private static boolean protectedUse(AutoCategories.Item item)
     {
-        String n=ItemTaxonomy.baseName(item.name);
-        return ItemTaxonomy.needsRepair(item.name) || ItemTaxonomy.needsCharge(item.name)
+        String n=ItemTaxonomy.baseName(CombatEquivalence.familyName(item));
+        return ItemVariantState.needsActivityReview(item)
             || ItemTaxonomy.equipmentSet(n)!=null || n.startsWith("virtus ") || n.startsWith("bloodbark ")
             || n.startsWith("oathplate ") || n.equals("serpentine helm") || n.contains("blood fury")
             || n.startsWith("mixed hide ");

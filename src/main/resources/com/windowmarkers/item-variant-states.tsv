@@ -1,0 +1,1601 @@
+# Wiki-derived identities; CC BY-NC-SA 3.0. See VARIANT-STATE-SOURCES.md.
+32	black candle	AVAILABLE	false	lit; check location-specific light-source hazards
+33	candle	AVAILABLE	false	lit; check location-specific light-source hazards
+36	candle	PREPARE	true	light before use as a light source
+38	black candle	PREPARE	true	light before use as a light source
+296	glarial's urn	AVAILABLE	false	ashes for Waterfall Quest
+297	glarial's urn	EMPTY	true	quest remnant; no current functional use
+409	empty oyster	EMPTY	true	opened oyster without a pearl; no current functional use
+424	pigeon cage	CHECK	true	quest-stage item; check current quest step
+425	pigeon cage	CHECK	true	quest-stage item; check current quest step
+456	scorpion cage	CHECK	true	quest-stage item; check current quest step
+457	scorpion cage	CHECK	true	quest-stage item; check current quest step
+458	scorpion cage	CHECK	true	quest-stage item; check current quest step
+459	scorpion cage	CHECK	true	quest-stage item; check current quest step
+460	scorpion cage	CHECK	true	quest-stage item; check current quest step
+461	scorpion cage	CHECK	true	quest-stage item; check current quest step
+462	scorpion cage	CHECK	true	quest-stage item; check current quest step
+463	scorpion cage	CHECK	true	quest-stage item; check current quest step
+468	broken pickaxe (bronze)	RESTRICTED	true	historical random-event item; existing tools were repaired
+470	broken pickaxe (iron)	RESTRICTED	true	historical random-event item; existing tools were repaired
+472	broken pickaxe (steel)	RESTRICTED	true	historical random-event item; existing tools were repaired
+474	broken pickaxe (mithril)	RESTRICTED	true	historical random-event item; existing tools were repaired
+476	broken pickaxe (adamant)	RESTRICTED	true	historical random-event item; existing tools were repaired
+478	broken pickaxe (rune)	RESTRICTED	true	historical random-event item; existing tools were repaired
+494	broken axe (bronze)	RESTRICTED	true	historical random-event item; existing tools were repaired
+496	broken axe (iron)	RESTRICTED	true	historical random-event item; existing tools were repaired
+498	broken axe (steel)	RESTRICTED	true	historical random-event item; existing tools were repaired
+500	broken axe (black)	RESTRICTED	true	historical random-event item; existing tools were repaired
+502	broken axe (mithril)	RESTRICTED	true	historical random-event item; existing tools were repaired
+504	broken axe (adamant)	RESTRICTED	true	historical random-event item; existing tools were repaired
+506	broken axe (rune)	RESTRICTED	true	historical random-event item; existing tools were repaired
+583	bailing bucket	AVAILABLE	false	
+585	bailing bucket	PREPARE	true	empty before bailing
+594	torch	AVAILABLE	false	lit; check location-specific light-source hazards
+596	torch	PREPARE	true	light before use as a light source
+598	bronze fire arrow	PREPARE	true	light before Underground Pass bridge use
+677	panning tray	CHECK	true	quest-stage item; check current quest step
+679	panning tray	CHECK	true	quest-stage item; check current quest step
+687	broken arrow	PREPARE	true	repair at a POH workshop for Crafting experience
+689	broken staff	PREPARE	true	repair at a POH workshop for Crafting experience
+697	damaged armour	PREPARE	true	workshop repair material; not wearable armour
+698	broken armour	PREPARE	true	repair at a POH workshop for Smithing experience
+744	heart crystal	CHECK	true	quest-stage item; check current quest step
+745	heart crystal	CHECK	true	quest-stage item; check current quest step
+763	broken shield	CHECK	true	quest-stage item; check current quest step
+765	broken shield	CHECK	true	quest-stage item; check current quest step
+942	bronze fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+1409	iban's staff	CHECK	true	check spell charges
+1410	iban's staff	REPAIR	true	repair required
+1469	broken glass	AVAILABLE	false	quest and favour uses; not repairable equipment
+1704	amulet of glory	REDUCED	false	combat stats retained; no teleports or gem-mining boost
+1706	amulet of glory	AVAILABLE	false	
+1708	amulet of glory	AVAILABLE	false	
+1710	amulet of glory	AVAILABLE	false	
+1712	amulet of glory	AVAILABLE	false	
+1823	waterskin	AVAILABLE	false	4 water charges; desert heat protection
+1825	waterskin	AVAILABLE	false	3 water charges; desert heat protection
+1827	waterskin	AVAILABLE	false	2 water charges; desert heat protection
+1829	waterskin	AVAILABLE	false	1 water charges; desert heat protection
+1831	waterskin	EMPTY	true	fill before desert heat protection
+1891	cake	AVAILABLE	false	three edible portions
+1893	cake	AVAILABLE	false	two edible portions remain
+1895	cake	AVAILABLE	false	one edible portion remains
+1897	chocolate cake	AVAILABLE	false	three edible portions
+1899	chocolate cake	AVAILABLE	false	two edible portions remain
+1901	chocolate cake	AVAILABLE	false	one edible portion remains
+1980	empty cup	AVAILABLE	false	ready to hold tea or Guthix rest
+2289	plain pizza	AVAILABLE	false	two edible portions
+2291	plain pizza	AVAILABLE	false	one edible portion remains
+2293	meat pizza	AVAILABLE	false	two edible portions
+2295	meat pizza	AVAILABLE	false	one edible portion remains
+2297	anchovy pizza	AVAILABLE	false	two edible portions
+2299	anchovy pizza	AVAILABLE	false	one edible portion remains
+2301	pineapple pizza	AVAILABLE	false	two edible portions
+2303	pineapple pizza	AVAILABLE	false	one edible portion remains
+2323	apple pie	AVAILABLE	false	two edible portions
+2325	redberry pie	AVAILABLE	false	two edible portions
+2327	meat pie	AVAILABLE	false	two edible portions
+2331	meat pie	AVAILABLE	false	one edible portion remains
+2333	redberry pie	AVAILABLE	false	one edible portion remains
+2335	apple pie	AVAILABLE	false	one edible portion remains
+2387	damaged dagger	AVAILABLE	false	can slash webs; cannot be wielded as a weapon
+2532	iron fire arrow	PREPARE	true	light before Underground Pass bridge use
+2533	iron fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+2534	steel fire arrow	PREPARE	true	light before Underground Pass bridge use
+2535	steel fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+2536	mithril fire arrow	PREPARE	true	light before Underground Pass bridge use
+2537	mithril fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+2538	adamant fire arrow	PREPARE	true	light before Underground Pass bridge use
+2539	adamant fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+2540	rune fire arrow	PREPARE	true	light before Underground Pass bridge use
+2541	rune fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+2550	ring of recoil	AVAILABLE	false	check remaining shared uses
+2552	ring of dueling	AVAILABLE	false	
+2554	ring of dueling	AVAILABLE	false	
+2556	ring of dueling	AVAILABLE	false	
+2558	ring of dueling	AVAILABLE	false	
+2560	ring of dueling	AVAILABLE	false	
+2562	ring of dueling	AVAILABLE	false	
+2564	ring of dueling	AVAILABLE	false	
+2566	ring of dueling	AVAILABLE	false	
+2572	ring of wealth	REDUCED	false	no teleports
+2871	ogre bellows	EMPTY	true	fill with swamp gas
+2872	ogre bellows	AVAILABLE	false	
+2873	ogre bellows	AVAILABLE	false	
+2874	ogre bellows	AVAILABLE	false	
+2888	a stone bowl	CHECK	true	quest-stage item; check current quest step
+2889	a stone bowl	CHECK	true	quest-stage item; check current quest step
+2957	druid pouch	EMPTY	true	fill before ghast protection
+2958	druid pouch	AVAILABLE	false	
+3157	karambwan vessel	EMPTY	true	bait with raw karambwanji
+3159	karambwan vessel	AVAILABLE	false	
+3335	broken bark snelm	AVAILABLE	false	usable snail protection; broken is part of its name
+3690	enchanted lyre	CHARGE	true	charge required
+3691	enchanted lyre	AVAILABLE	false	
+3696	hunters' talisman	CHECK	true	quest-stage item; check current quest step
+3697	hunters' talisman	CHECK	true	quest-stage item; check current quest step
+3727	empty bucket	CHECK	true	quest-stage item; check current quest step
+3732	empty jug	CHECK	true	quest-stage item; check current quest step
+3738	sealed vase	CHECK	true	quest-stage item; check current quest step
+3739	sealed vase	CHECK	true	quest-stage item; check current quest step
+3740	sealed vase	CHECK	true	quest-stage item; check current quest step
+3839	damaged book (saradomin)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+3841	damaged book (zamorak)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+3843	damaged book (guthix)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+3853	games necklace	AVAILABLE	false	
+3855	games necklace	AVAILABLE	false	
+3857	games necklace	AVAILABLE	false	
+3859	games necklace	AVAILABLE	false	
+3861	games necklace	AVAILABLE	false	
+3863	games necklace	AVAILABLE	false	
+3865	games necklace	AVAILABLE	false	
+3867	games necklace	AVAILABLE	false	
+4212	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4214	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4215	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4216	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4217	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4218	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4219	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4220	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4221	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4222	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4223	crystal bow (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4224	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4225	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4226	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4227	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4228	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4229	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4230	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4231	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4232	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4233	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4234	crystal shield (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+4251	ectophial	AVAILABLE	false	
+4252	ectophial	EMPTY	true	refill at Ectofuntus
+4429	broken vane part	CHECK	true	quest-stage item; check current quest step
+4431	broken vane part	CHECK	true	quest-stage item; check current quest step
+4433	broken vane part	CHECK	true	quest-stage item; check current quest step
+4496	broken pole	EMPTY	true	quest hint; cannot replace the usable pole
+4508	decorative sword (gold)	AVAILABLE	false	
+4509	decorative armour (gold platebody)	AVAILABLE	false	
+4510	decorative armour (gold platelegs)	AVAILABLE	false	
+4511	decorative helm (gold)	AVAILABLE	false	
+4512	decorative shield (gold)	AVAILABLE	false	
+4522	oil lamp	PREPARE	true	light before use as a light source
+4524	oil lamp	AVAILABLE	false	lit; check location-specific light-source hazards
+4525	empty oil lamp	PREPARE	true	add lamp oil; also an oil-lantern component
+4527	empty candle lantern	PREPARE	true	add a candle, then light
+4529	candle lantern	PREPARE	true	light before use as a light source
+4531	candle lantern	AVAILABLE	false	lit; check location-specific light-source hazards
+4532	candle lantern	PREPARE	true	light before use as a light source
+4534	candle lantern	AVAILABLE	false	lit; check location-specific light-source hazards
+4535	empty oil lantern	PREPARE	true	add lamp oil, then light
+4537	oil lantern	PREPARE	true	light before use as a light source
+4539	oil lantern	AVAILABLE	false	lit; check location-specific light-source hazards
+4546	bullseye lantern (empty)	PREPARE	true	add lamp oil, then light
+4548	bullseye lantern	PREPARE	true	light before use as a light source
+4550	bullseye lantern	AVAILABLE	false	lit; check location-specific light-source hazards
+4658	silver pot (desert treasure i)	CHECK	true	quest-stage item; check current quest step
+4659	blessed pot	CHECK	true	quest-stage item; check current quest step
+4660	silver pot (desert treasure i)	CHECK	true	quest-stage item; check current quest step
+4661	blessed pot	CHECK	true	quest-stage item; check current quest step
+4662	silver pot (desert treasure i)	CHECK	true	quest-stage item; check current quest step
+4663	blessed pot	CHECK	true	quest-stage item; check current quest step
+4664	silver pot (desert treasure i)	CHECK	true	quest-stage item; check current quest step
+4665	blessed pot	CHECK	true	quest-stage item; check current quest step
+4666	silver pot (desert treasure i)	CHECK	true	quest-stage item; check current quest step
+4667	blessed pot	CHECK	true	quest-stage item; check current quest step
+4700	sapphire lantern	EMPTY	true	add lamp oil and light
+4701	sapphire lantern	PREPARE	true	light before use
+4702	sapphire lantern	AVAILABLE	false	
+4708	ahrim's hood	AVAILABLE	false	
+4710	ahrim's staff	AVAILABLE	false	
+4712	ahrim's robetop	AVAILABLE	false	
+4714	ahrim's robeskirt	AVAILABLE	false	
+4716	dharok's helm	AVAILABLE	false	
+4718	dharok's greataxe	AVAILABLE	false	
+4720	dharok's platebody	AVAILABLE	false	
+4722	dharok's platelegs	AVAILABLE	false	
+4724	guthan's helm	AVAILABLE	false	
+4726	guthan's warspear	AVAILABLE	false	
+4728	guthan's platebody	AVAILABLE	false	
+4730	guthan's chainskirt	AVAILABLE	false	
+4732	karil's coif	AVAILABLE	false	
+4734	karil's crossbow	AVAILABLE	false	
+4736	karil's leathertop	AVAILABLE	false	
+4738	karil's leatherskirt	AVAILABLE	false	
+4745	torag's helm	AVAILABLE	false	
+4747	torag's hammers	AVAILABLE	false	
+4749	torag's platebody	AVAILABLE	false	
+4751	torag's platelegs	AVAILABLE	false	
+4753	verac's helm	AVAILABLE	false	
+4755	verac's flail	AVAILABLE	false	
+4757	verac's brassard	AVAILABLE	false	
+4759	verac's plateskirt	AVAILABLE	false	
+4856	ahrim's hood	AVAILABLE	false	
+4857	ahrim's hood	AVAILABLE	false	
+4858	ahrim's hood	AVAILABLE	false	
+4859	ahrim's hood	AVAILABLE	false	
+4860	ahrim's hood	REPAIR	true	repair required
+4862	ahrim's staff	AVAILABLE	false	
+4863	ahrim's staff	AVAILABLE	false	
+4864	ahrim's staff	AVAILABLE	false	
+4865	ahrim's staff	AVAILABLE	false	
+4866	ahrim's staff	REPAIR	true	repair required
+4868	ahrim's robetop	AVAILABLE	false	
+4869	ahrim's robetop	AVAILABLE	false	
+4870	ahrim's robetop	AVAILABLE	false	
+4871	ahrim's robetop	AVAILABLE	false	
+4872	ahrim's robetop	REPAIR	true	repair required
+4874	ahrim's robeskirt	AVAILABLE	false	
+4875	ahrim's robeskirt	AVAILABLE	false	
+4876	ahrim's robeskirt	AVAILABLE	false	
+4877	ahrim's robeskirt	AVAILABLE	false	
+4878	ahrim's robeskirt	REPAIR	true	repair required
+4880	dharok's helm	AVAILABLE	false	
+4881	dharok's helm	AVAILABLE	false	
+4882	dharok's helm	AVAILABLE	false	
+4883	dharok's helm	AVAILABLE	false	
+4884	dharok's helm	REPAIR	true	repair required
+4886	dharok's greataxe	AVAILABLE	false	
+4887	dharok's greataxe	AVAILABLE	false	
+4888	dharok's greataxe	AVAILABLE	false	
+4889	dharok's greataxe	AVAILABLE	false	
+4890	dharok's greataxe	REPAIR	true	repair required
+4892	dharok's platebody	AVAILABLE	false	
+4893	dharok's platebody	AVAILABLE	false	
+4894	dharok's platebody	AVAILABLE	false	
+4895	dharok's platebody	AVAILABLE	false	
+4896	dharok's platebody	REPAIR	true	repair required
+4898	dharok's platelegs	AVAILABLE	false	
+4899	dharok's platelegs	AVAILABLE	false	
+4900	dharok's platelegs	AVAILABLE	false	
+4901	dharok's platelegs	AVAILABLE	false	
+4902	dharok's platelegs	REPAIR	true	repair required
+4904	guthan's helm	AVAILABLE	false	
+4905	guthan's helm	AVAILABLE	false	
+4906	guthan's helm	AVAILABLE	false	
+4907	guthan's helm	AVAILABLE	false	
+4908	guthan's helm	REPAIR	true	repair required
+4910	guthan's warspear	AVAILABLE	false	
+4911	guthan's warspear	AVAILABLE	false	
+4912	guthan's warspear	AVAILABLE	false	
+4913	guthan's warspear	AVAILABLE	false	
+4914	guthan's warspear	REPAIR	true	repair required
+4916	guthan's platebody	AVAILABLE	false	
+4917	guthan's platebody	AVAILABLE	false	
+4918	guthan's platebody	AVAILABLE	false	
+4919	guthan's platebody	AVAILABLE	false	
+4920	guthan's platebody	REPAIR	true	repair required
+4922	guthan's chainskirt	AVAILABLE	false	
+4923	guthan's chainskirt	AVAILABLE	false	
+4924	guthan's chainskirt	AVAILABLE	false	
+4925	guthan's chainskirt	AVAILABLE	false	
+4926	guthan's chainskirt	REPAIR	true	repair required
+4928	karil's coif	AVAILABLE	false	
+4929	karil's coif	AVAILABLE	false	
+4930	karil's coif	AVAILABLE	false	
+4931	karil's coif	AVAILABLE	false	
+4932	karil's coif	REPAIR	true	repair required
+4934	karil's crossbow	AVAILABLE	false	
+4935	karil's crossbow	AVAILABLE	false	
+4936	karil's crossbow	AVAILABLE	false	
+4937	karil's crossbow	AVAILABLE	false	
+4938	karil's crossbow	REPAIR	true	repair required
+4940	karil's leathertop	AVAILABLE	false	
+4941	karil's leathertop	AVAILABLE	false	
+4942	karil's leathertop	AVAILABLE	false	
+4943	karil's leathertop	AVAILABLE	false	
+4944	karil's leathertop	REPAIR	true	repair required
+4946	karil's leatherskirt	AVAILABLE	false	
+4947	karil's leatherskirt	AVAILABLE	false	
+4948	karil's leatherskirt	AVAILABLE	false	
+4949	karil's leatherskirt	AVAILABLE	false	
+4950	karil's leatherskirt	REPAIR	true	repair required
+4952	torag's helm	AVAILABLE	false	
+4953	torag's helm	AVAILABLE	false	
+4954	torag's helm	AVAILABLE	false	
+4955	torag's helm	AVAILABLE	false	
+4956	torag's helm	REPAIR	true	repair required
+4958	torag's hammers	AVAILABLE	false	
+4959	torag's hammers	AVAILABLE	false	
+4960	torag's hammers	AVAILABLE	false	
+4961	torag's hammers	AVAILABLE	false	
+4962	torag's hammers	REPAIR	true	repair required
+4964	torag's platebody	AVAILABLE	false	
+4965	torag's platebody	AVAILABLE	false	
+4966	torag's platebody	AVAILABLE	false	
+4967	torag's platebody	AVAILABLE	false	
+4968	torag's platebody	REPAIR	true	repair required
+4970	torag's platelegs	AVAILABLE	false	
+4971	torag's platelegs	AVAILABLE	false	
+4972	torag's platelegs	AVAILABLE	false	
+4973	torag's platelegs	AVAILABLE	false	
+4974	torag's platelegs	REPAIR	true	repair required
+4976	verac's helm	AVAILABLE	false	
+4977	verac's helm	AVAILABLE	false	
+4978	verac's helm	AVAILABLE	false	
+4979	verac's helm	AVAILABLE	false	
+4980	verac's helm	REPAIR	true	repair required
+4982	verac's flail	AVAILABLE	false	
+4983	verac's flail	AVAILABLE	false	
+4984	verac's flail	AVAILABLE	false	
+4985	verac's flail	AVAILABLE	false	
+4986	verac's flail	REPAIR	true	repair required
+4988	verac's brassard	AVAILABLE	false	
+4989	verac's brassard	AVAILABLE	false	
+4990	verac's brassard	AVAILABLE	false	
+4991	verac's brassard	AVAILABLE	false	
+4992	verac's brassard	REPAIR	true	repair required
+4994	verac's plateskirt	AVAILABLE	false	
+4995	verac's plateskirt	AVAILABLE	false	
+4996	verac's plateskirt	AVAILABLE	false	
+4997	verac's plateskirt	AVAILABLE	false	
+4998	verac's plateskirt	REPAIR	true	repair required
+5013	mining helmet	AVAILABLE	false	lit; check location-specific light-source hazards
+5014	mining helmet	PREPARE	true	light before use as a light source
+5331	watering can	EMPTY	true	fill before watering
+5333	watering can	AVAILABLE	false	
+5334	watering can	AVAILABLE	false	
+5335	watering can	AVAILABLE	false	
+5336	watering can	AVAILABLE	false	
+5337	watering can	AVAILABLE	false	
+5338	watering can	AVAILABLE	false	
+5339	watering can	AVAILABLE	false	
+5340	watering can	AVAILABLE	false	
+5350	empty plant pot	AVAILABLE	false	fill with soil before planting tree seeds
+5378	apples	AVAILABLE	false	1 fruit in basket; contents are not an extra independent item
+5380	apples	AVAILABLE	false	2 fruit in basket; contents are not an extra independent item
+5382	apples	AVAILABLE	false	3 fruit in basket; contents are not an extra independent item
+5384	apples	AVAILABLE	false	4 fruit in basket; contents are not an extra independent item
+5386	apples	AVAILABLE	false	5 fruit in basket; contents are not an extra independent item
+5388	oranges	AVAILABLE	false	1 fruit in basket; contents are not an extra independent item
+5390	oranges	AVAILABLE	false	2 fruit in basket; contents are not an extra independent item
+5392	oranges	AVAILABLE	false	3 fruit in basket; contents are not an extra independent item
+5394	oranges	AVAILABLE	false	4 fruit in basket; contents are not an extra independent item
+5396	oranges	AVAILABLE	false	5 fruit in basket; contents are not an extra independent item
+5398	strawberries	AVAILABLE	false	1 fruit in basket; contents are not an extra independent item
+5400	strawberries	AVAILABLE	false	2 fruit in basket; contents are not an extra independent item
+5402	strawberries	AVAILABLE	false	3 fruit in basket; contents are not an extra independent item
+5404	strawberries	AVAILABLE	false	4 fruit in basket; contents are not an extra independent item
+5406	strawberries	AVAILABLE	false	5 fruit in basket; contents are not an extra independent item
+5408	bananas	AVAILABLE	false	1 fruit in basket; contents are not an extra independent item
+5410	bananas	AVAILABLE	false	2 fruit in basket; contents are not an extra independent item
+5412	bananas	AVAILABLE	false	3 fruit in basket; contents are not an extra independent item
+5414	bananas	AVAILABLE	false	4 fruit in basket; contents are not an extra independent item
+5416	bananas	AVAILABLE	false	5 fruit in basket; contents are not an extra independent item
+5418	empty sack	AVAILABLE	false	ready to store potatoes, onions or cabbages
+5420	potatoes	AVAILABLE	false	1 vegetables in sack; remove for individual use
+5422	potatoes	AVAILABLE	false	2 vegetables in sack; remove for individual use
+5424	potatoes	AVAILABLE	false	3 vegetables in sack; remove for individual use
+5426	potatoes	AVAILABLE	false	4 vegetables in sack; remove for individual use
+5428	potatoes	AVAILABLE	false	5 vegetables in sack; remove for individual use
+5430	potatoes	AVAILABLE	false	6 vegetables in sack; remove for individual use
+5432	potatoes	AVAILABLE	false	7 vegetables in sack; remove for individual use
+5434	potatoes	AVAILABLE	false	8 vegetables in sack; remove for individual use
+5436	potatoes	AVAILABLE	false	9 vegetables in sack; remove for individual use
+5438	potatoes	AVAILABLE	false	10 vegetables in sack; remove for individual use
+5440	onions	AVAILABLE	false	1 vegetables in sack; remove for individual use
+5442	onions	AVAILABLE	false	2 vegetables in sack; remove for individual use
+5444	onions	AVAILABLE	false	3 vegetables in sack; remove for individual use
+5446	onions	AVAILABLE	false	4 vegetables in sack; remove for individual use
+5448	onions	AVAILABLE	false	5 vegetables in sack; remove for individual use
+5450	onions	AVAILABLE	false	6 vegetables in sack; remove for individual use
+5452	onions	AVAILABLE	false	7 vegetables in sack; remove for individual use
+5454	onions	AVAILABLE	false	8 vegetables in sack; remove for individual use
+5456	onions	AVAILABLE	false	9 vegetables in sack; remove for individual use
+5458	onions	AVAILABLE	false	10 vegetables in sack; remove for individual use
+5460	cabbages	AVAILABLE	false	1 vegetables in sack; remove for individual use
+5462	cabbages	AVAILABLE	false	2 vegetables in sack; remove for individual use
+5464	cabbages	AVAILABLE	false	3 vegetables in sack; remove for individual use
+5466	cabbages	AVAILABLE	false	4 vegetables in sack; remove for individual use
+5468	cabbages	AVAILABLE	false	5 vegetables in sack; remove for individual use
+5470	cabbages	AVAILABLE	false	6 vegetables in sack; remove for individual use
+5472	cabbages	AVAILABLE	false	7 vegetables in sack; remove for individual use
+5474	cabbages	AVAILABLE	false	8 vegetables in sack; remove for individual use
+5476	cabbages	AVAILABLE	false	9 vegetables in sack; remove for individual use
+5478	cabbages	AVAILABLE	false	10 vegetables in sack; remove for individual use
+5510	medium pouch	AVAILABLE	false	
+5511	medium pouch	REDUCED	false	reduced capacity; repair before special uses
+5512	large pouch	AVAILABLE	false	
+5513	large pouch	REDUCED	false	reduced capacity; repair before special uses
+5514	giant pouch	AVAILABLE	false	
+5515	giant pouch	REDUCED	false	reduced capacity; repair before special uses
+5518	scrying orb	CHECK	true	quest-stage item; check current quest step
+5519	scrying orb	CHECK	true	quest-stage item; check current quest step
+5521	binding necklace	AVAILABLE	false	check remaining shared uses
+5960	tomatoes	AVAILABLE	false	1 fruit in basket; contents are not an extra independent item
+5962	tomatoes	AVAILABLE	false	2 fruit in basket; contents are not an extra independent item
+5964	tomatoes	AVAILABLE	false	3 fruit in basket; contents are not an extra independent item
+5966	tomatoes	AVAILABLE	false	4 fruit in basket; contents are not an extra independent item
+5968	tomatoes	AVAILABLE	false	5 fruit in basket; contents are not an extra independent item
+6081	broken device	PREPARE	true	quest repair by the captive gnome
+6099	teleport crystal	AVAILABLE	false	
+6100	teleport crystal	AVAILABLE	false	
+6101	teleport crystal	AVAILABLE	false	
+6102	teleport crystal	AVAILABLE	false	
+6125	enchanted lyre	AVAILABLE	false	
+6126	enchanted lyre	AVAILABLE	false	
+6127	enchanted lyre	AVAILABLE	false	
+6215	broodoo shield (poison)	AVAILABLE	false	
+6217	broodoo shield (poison)	AVAILABLE	false	
+6219	broodoo shield (poison)	AVAILABLE	false	
+6221	broodoo shield (poison)	AVAILABLE	false	
+6223	broodoo shield (poison)	AVAILABLE	false	
+6225	broodoo shield (poison)	AVAILABLE	false	
+6227	broodoo shield (poison)	AVAILABLE	false	
+6229	broodoo shield (poison)	AVAILABLE	false	
+6231	broodoo shield (poison)	AVAILABLE	false	
+6233	broodoo shield (poison)	AVAILABLE	false	
+6235	broodoo shield (poison)	REDUCED	false	shield stats retained; no special effect
+6237	broodoo shield (disease)	AVAILABLE	false	
+6239	broodoo shield (disease)	AVAILABLE	false	
+6241	broodoo shield (disease)	AVAILABLE	false	
+6243	broodoo shield (disease)	AVAILABLE	false	
+6245	broodoo shield (disease)	AVAILABLE	false	
+6247	broodoo shield (disease)	AVAILABLE	false	
+6249	broodoo shield (disease)	AVAILABLE	false	
+6251	broodoo shield (disease)	AVAILABLE	false	
+6253	broodoo shield (disease)	AVAILABLE	false	
+6255	broodoo shield (disease)	AVAILABLE	false	
+6257	broodoo shield (disease)	REDUCED	false	shield stats retained; no special effect
+6259	broodoo shield (combat)	AVAILABLE	false	
+6261	broodoo shield (combat)	AVAILABLE	false	
+6263	broodoo shield (combat)	AVAILABLE	false	
+6265	broodoo shield (combat)	AVAILABLE	false	
+6267	broodoo shield (combat)	AVAILABLE	false	
+6269	broodoo shield (combat)	AVAILABLE	false	
+6271	broodoo shield (combat)	AVAILABLE	false	
+6273	broodoo shield (combat)	AVAILABLE	false	
+6275	broodoo shield (combat)	AVAILABLE	false	
+6277	broodoo shield (combat)	AVAILABLE	false	
+6279	broodoo shield (combat)	REDUCED	false	shield stats retained; no special effect
+6570	fire cape	AVAILABLE	false	
+6651	newly made crystal	CHECK	true	quest-stage item; check current quest step
+6652	newly made crystal	CHECK	true	quest-stage item; check current quest step
+6662	broken fishing rod	EMPTY	true	cannot be repaired or used for fishing
+6667	fishbowl	AVAILABLE	false	fishbowl preparation and Humidify uses
+6668	fishbowl	AVAILABLE	false	fishbowl preparation and Humidify uses
+6669	fishbowl	AVAILABLE	false	fishbowl preparation and Humidify uses
+6675	empty fish food box	AVAILABLE	false	add ground guam and ground seaweed
+6707	camulet	CHECK	true	check charges or permanent teleport upgrade
+6741	broken axe (dragon)	RESTRICTED	true	historical random-event item; existing tools were repaired
+6773	rat pole	CHECK	true	quest-stage item; check current quest step
+6774	rat pole	CHECK	true	quest-stage item; check current quest step
+6775	rat pole	CHECK	true	quest-stage item; check current quest step
+6776	rat pole	CHECK	true	quest-stage item; check current quest step
+6777	rat pole	CHECK	true	quest-stage item; check current quest step
+6778	rat pole	CHECK	true	quest-stage item; check current quest step
+6779	rat pole	CHECK	true	quest-stage item; check current quest step
+6852	puppet box	RESTRICTED	true	past holiday event object; no current activity use established
+6853	bauble box	RESTRICTED	true	past holiday event object; no current activity use established
+6854	puppet box	RESTRICTED	true	past holiday event object; no current activity use established
+6855	bauble box	RESTRICTED	true	past holiday event object; no current activity use established
+6885	progress hat	AVAILABLE	false	tracks Mage Training Arena points; no stored charges
+6886	progress hat	AVAILABLE	false	tracks Mage Training Arena points; no stored charges
+6887	progress hat	AVAILABLE	false	tracks Mage Training Arena points; no stored charges
+6950	magical orb	CHECK	true	quest-stage item; check current quest step
+6951	magical orb	CHECK	true	quest-stage item; check current quest step
+7051	bug lantern	PREPARE	true	light before fighting Harpie Bug Swarms
+7053	bug lantern	AVAILABLE	false	equip for Harpie Bug Swarms; not a general light source
+7146	broken cannon	EMPTY	true	discarded Cabin Fever barrel; not a cannon component
+7178	garden pie	AVAILABLE	false	two edible portions
+7180	garden pie	AVAILABLE	false	one edible portion remains
+7188	fish pie	AVAILABLE	false	two edible portions
+7190	fish pie	AVAILABLE	false	one edible portion remains
+7198	admiral pie	AVAILABLE	false	two edible portions
+7200	admiral pie	AVAILABLE	false	one edible portion remains
+7208	wild pie	AVAILABLE	false	two edible portions
+7210	wild pie	AVAILABLE	false	one edible portion remains
+7218	summer pie	AVAILABLE	false	two edible portions
+7220	summer pie	AVAILABLE	false	one edible portion remains
+7421	fungicide spray	AVAILABLE	false	
+7422	fungicide spray	AVAILABLE	false	
+7423	fungicide spray	AVAILABLE	false	
+7424	fungicide spray	AVAILABLE	false	
+7425	fungicide spray	AVAILABLE	false	
+7426	fungicide spray	AVAILABLE	false	
+7427	fungicide spray	AVAILABLE	false	
+7428	fungicide spray	AVAILABLE	false	
+7429	fungicide spray	AVAILABLE	false	
+7430	fungicide spray	AVAILABLE	false	
+7431	fungicide spray	EMPTY	true	refill before fighting Zygomites
+7432	fungicide	AVAILABLE	false	refills fungicide spray; not the spray itself
+7480	red spice	AVAILABLE	false	4 spice doses; stew ingredient, not a guaranteed boost
+7481	red spice	AVAILABLE	false	3 spice doses; stew ingredient, not a guaranteed boost
+7482	red spice	AVAILABLE	false	2 spice doses; stew ingredient, not a guaranteed boost
+7483	red spice	AVAILABLE	false	1 spice doses; stew ingredient, not a guaranteed boost
+7484	orange spice	AVAILABLE	false	4 spice doses; stew ingredient, not a guaranteed boost
+7485	orange spice	AVAILABLE	false	3 spice doses; stew ingredient, not a guaranteed boost
+7486	orange spice	AVAILABLE	false	2 spice doses; stew ingredient, not a guaranteed boost
+7487	orange spice	AVAILABLE	false	1 spice doses; stew ingredient, not a guaranteed boost
+7488	brown spice	AVAILABLE	false	4 spice doses; stew ingredient, not a guaranteed boost
+7489	brown spice	AVAILABLE	false	3 spice doses; stew ingredient, not a guaranteed boost
+7490	brown spice	AVAILABLE	false	2 spice doses; stew ingredient, not a guaranteed boost
+7491	brown spice	AVAILABLE	false	1 spice doses; stew ingredient, not a guaranteed boost
+7492	yellow spice	AVAILABLE	false	4 spice doses; stew ingredient, not a guaranteed boost
+7493	yellow spice	AVAILABLE	false	3 spice doses; stew ingredient, not a guaranteed boost
+7494	yellow spice	AVAILABLE	false	2 spice doses; stew ingredient, not a guaranteed boost
+7495	yellow spice	AVAILABLE	false	1 spice doses; stew ingredient, not a guaranteed boost
+7496	empty spice shaker	EMPTY	true	cannot be refilled; not a stew boost
+7540	broken crab claw	EMPTY	true	failed crafting product; not usable claw equipment
+7541	broken crab shell	EMPTY	true	failed crafting product; not a crab helmet
+7639	rod of ivandis	AVAILABLE	false	
+7640	rod of ivandis	AVAILABLE	false	
+7641	rod of ivandis	AVAILABLE	false	
+7642	rod of ivandis	AVAILABLE	false	
+7643	rod of ivandis	AVAILABLE	false	
+7644	rod of ivandis	AVAILABLE	false	
+7645	rod of ivandis	AVAILABLE	false	
+7646	rod of ivandis	AVAILABLE	false	
+7647	rod of ivandis	AVAILABLE	false	
+7648	rod of ivandis	AVAILABLE	false	
+7921	empty wine bottle	EMPTY	true	cannot be refilled
+7960	empty box	EMPTY	true	Royal Trouble remnant; no post-quest use
+8839	void knight top	AVAILABLE	false	
+8840	void knight robe	AVAILABLE	false	
+8841	void knight mace	AVAILABLE	false	
+8842	void knight gloves	AVAILABLE	false	
+8844	bronze defender	AVAILABLE	false	
+8845	iron defender	AVAILABLE	false	
+8846	steel defender	AVAILABLE	false	
+8847	black defender	AVAILABLE	false	
+8848	mithril defender	AVAILABLE	false	
+8849	adamant defender	AVAILABLE	false	
+8850	rune defender	AVAILABLE	false	
+8901	black mask	AVAILABLE	false	
+8903	black mask	AVAILABLE	false	
+8905	black mask	AVAILABLE	false	
+8907	black mask	AVAILABLE	false	
+8909	black mask	AVAILABLE	false	
+8911	black mask	AVAILABLE	false	
+8913	black mask	AVAILABLE	false	
+8915	black mask	AVAILABLE	false	
+8917	black mask	AVAILABLE	false	
+8919	black mask	AVAILABLE	false	
+8921	black mask	REDUCED	false	Slayer boost retained
+9013	skull sceptre	AVAILABLE	false	
+9064	emerald lantern	PREPARE	true	light before use
+9065	emerald lantern	AVAILABLE	false	
+9085	empty vial	CHECK	true	quest-stage item; check current quest step
+9418	mith grapple (unf)	PREPARE	true	add rope before grappling
+9625	crystal saw	AVAILABLE	false	boost has building restrictions; check remaining uses
+9906	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9907	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9908	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9909	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9910	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9911	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+9912	ghost buster 500	RESTRICTED	true	past holiday event object; no current activity use established
+10027	imp-in-a-box	AVAILABLE	false	2 bank-delivery uses; location restrictions apply
+10028	imp-in-a-box	AVAILABLE	false	1 bank-delivery uses; location restrictions apply
+10354	amulet of glory (t)	AVAILABLE	false	
+10356	amulet of glory (t)	AVAILABLE	false	
+10358	amulet of glory (t)	AVAILABLE	false	
+10360	amulet of glory (t)	AVAILABLE	false	
+10362	amulet of glory (t)	REDUCED	false	no teleports or gem-mining boost; not regular-glory clue substitute
+10542	healing vial	RESTRICTED	true	Barbarian Assault healer supplies
+10543	healing vial	RESTRICTED	true	Barbarian Assault healer supplies
+10544	healing vial	RESTRICTED	true	Barbarian Assault healer supplies
+10545	healing vial	RESTRICTED	true	Barbarian Assault healer supplies
+10546	healing vial	RESTRICTED	true	Barbarian Assault healer supplies
+10547	healer hat	AVAILABLE	false	
+10548	fighter hat	AVAILABLE	false	
+10549	runner hat	AVAILABLE	false	
+10550	ranger hat	AVAILABLE	false	
+10551	fighter torso	AVAILABLE	false	
+10555	penance skirt	AVAILABLE	false	
+10887	barrelchest anchor	AVAILABLE	false	
+10888	barrelchest anchor	REPAIR	true	repair required
+10980	empty light orb	PREPARE	true	add cave goblin wire; not a carried light source
+11003	an empty folder	CHECK	true	quest-stage item; check current quest step
+11079	castle wars bracelet	AVAILABLE	false	
+11081	castle wars bracelet	AVAILABLE	false	
+11083	castle wars bracelet	AVAILABLE	false	
+11095	abyssal bracelet	AVAILABLE	false	5 Abyss skull-prevention charges; does not prevent Prayer drain
+11097	abyssal bracelet	AVAILABLE	false	4 Abyss skull-prevention charges; does not prevent Prayer drain
+11099	abyssal bracelet	AVAILABLE	false	3 Abyss skull-prevention charges; does not prevent Prayer drain
+11101	abyssal bracelet	AVAILABLE	false	2 Abyss skull-prevention charges; does not prevent Prayer drain
+11103	abyssal bracelet	AVAILABLE	false	1 Abyss skull-prevention charges; does not prevent Prayer drain
+11105	skills necklace	AVAILABLE	false	
+11107	skills necklace	AVAILABLE	false	
+11109	skills necklace	AVAILABLE	false	
+11111	skills necklace	AVAILABLE	false	
+11113	skills necklace	REDUCED	false	no teleports
+11118	combat bracelet	AVAILABLE	false	
+11120	combat bracelet	AVAILABLE	false	
+11122	combat bracelet	AVAILABLE	false	
+11124	combat bracelet	AVAILABLE	false	
+11126	combat bracelet	REDUCED	false	no teleports
+11151	dream vial	CHECK	true	quest-stage item; check current quest step
+11152	dream vial	CHECK	true	quest-stage item; check current quest step
+11153	dream vial	CHECK	true	quest-stage item; check current quest step
+11190	digsite pendant	AVAILABLE	false	
+11191	digsite pendant	AVAILABLE	false	
+11192	digsite pendant	AVAILABLE	false	
+11193	digsite pendant	AVAILABLE	false	
+11194	digsite pendant	AVAILABLE	false	
+11217	dragon fire arrow	PREPARE	true	light before Underground Pass bridge use
+11222	dragon fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+11283	dragonfire shield	AVAILABLE	false	
+11284	dragonfire shield	REDUCED	true	reduced defence; no stored breath
+11337	mangled bones	AVAILABLE	false	pyre summons a hostile barbarian; not chewed bones
+11663	void mage helm	AVAILABLE	false	
+11664	void ranger helm	AVAILABLE	false	
+11665	void melee helm	AVAILABLE	false	
+11666	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11667	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11668	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11669	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11670	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11671	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11672	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11673	void seal	RESTRICTED	true	Pest Control special; not general combat equipment
+11738	herb box	AVAILABLE	false	unopened reward container
+11739	herb box	AVAILABLE	false	partly emptied reward container; check remaining contents
+11748	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11749	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11750	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11751	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11752	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11753	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11754	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11755	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11756	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11757	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11758	crystal bow (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+11759	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11760	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11761	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11762	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11763	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11764	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11765	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11766	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11767	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11768	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11769	crystal shield (i)	RESTRICTED	true	legacy imbued shield; not the current crystal shield
+11774	black mask (i)	AVAILABLE	false	
+11775	black mask (i)	AVAILABLE	false	
+11776	black mask (i)	AVAILABLE	false	
+11777	black mask (i)	AVAILABLE	false	
+11778	black mask (i)	AVAILABLE	false	
+11779	black mask (i)	AVAILABLE	false	
+11780	black mask (i)	AVAILABLE	false	
+11781	black mask (i)	AVAILABLE	false	
+11782	black mask (i)	AVAILABLE	false	
+11783	black mask (i)	AVAILABLE	false	
+11784	black mask (i)	REDUCED	false	Slayer boost retained
+11842	knight's notes	AVAILABLE	false	God Wars lore document; not a charge counter
+11843	knight's notes	AVAILABLE	false	God Wars lore document; not a charge counter
+11866	slayer ring	AVAILABLE	false	
+11867	slayer ring	AVAILABLE	false	
+11868	slayer ring	AVAILABLE	false	
+11869	slayer ring	AVAILABLE	false	
+11870	slayer ring	AVAILABLE	false	
+11871	slayer ring	AVAILABLE	false	
+11872	slayer ring	AVAILABLE	false	
+11873	slayer ring	AVAILABLE	false	
+11877	empty vial pack	AVAILABLE	false	contains 100 vials
+11895	decorative armour (gold plateskirt)	AVAILABLE	false	
+11896	decorative armour (magic top)	AVAILABLE	false	
+11897	decorative armour (magic legs)	AVAILABLE	false	
+11898	decorative armour (magic hat)	AVAILABLE	false	
+11899	decorative armour (ranged top)	AVAILABLE	false	
+11900	decorative armour (ranged legs)	AVAILABLE	false	
+11901	decorative armour (quiver)	AVAILABLE	false	
+11905	trident of the seas	AVAILABLE	false	
+11907	trident of the seas	AVAILABLE	false	
+11908	trident of the seas	CHARGE	true	charge required
+11923	broken pickaxe (dragon)	RESTRICTED	true	historical random-event item; existing tools were repaired
+11941	looting bag	AVAILABLE	false	storage with deposit/location restrictions; contents not inferred
+11964	amulet of glory (t)	AVAILABLE	false	
+11966	amulet of glory (t)	AVAILABLE	false	
+11968	skills necklace	AVAILABLE	false	
+11970	skills necklace	AVAILABLE	false	
+11972	combat bracelet	AVAILABLE	false	
+11974	combat bracelet	AVAILABLE	false	
+11976	amulet of glory	AVAILABLE	false	
+11978	amulet of glory	AVAILABLE	false	
+11980	ring of wealth	AVAILABLE	false	
+11982	ring of wealth	AVAILABLE	false	
+11984	ring of wealth	AVAILABLE	false	
+11986	ring of wealth	AVAILABLE	false	
+11988	ring of wealth	AVAILABLE	false	
+12006	abyssal tentacle	AVAILABLE	false	
+12019	coal bag	AVAILABLE	false	container closed; contents and free capacity are not inferred
+12020	gem bag	AVAILABLE	false	container closed; contents and free capacity are not inferred
+12594	broken pickaxe (black)	RESTRICTED	true	historical random-event item; existing tools were repaired
+12607	damaged book (bandos)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+12609	damaged book (armadyl)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+12611	damaged book (ancient)	REDUCED	false	Prayer and god protection retained; add pages for completed-book bonuses
+12637	saradomin halo	AVAILABLE	false	
+12638	zamorak halo	AVAILABLE	false	
+12639	guthix halo	AVAILABLE	false	
+12658	iban's staff (u)	CHECK	true	check spell charges
+12785	ring of wealth (i)	REDUCED	false	passives retained; no teleports
+12792	nest box	AVAILABLE	false	contains empty bird nests
+12794	nest box	AVAILABLE	false	contains ring nests
+12808	saradomin's blessed sword	AVAILABLE	false	
+12809	saradomin's blessed sword	AVAILABLE	false	usable; check remaining degradation
+12851	amulet of the damned	AVAILABLE	false	
+12853	amulet of the damned	AVAILABLE	false	Barrows effects retained while durability remains
+12897	antisanta's coal box	RESTRICTED	true	past Christmas event conversion item; not useful smelting coal
+12898	antisanta's coal box	RESTRICTED	true	past Christmas event conversion item; not useful smelting coal
+12899	trident of the swamp	AVAILABLE	false	
+12900	trident of the swamp	CHARGE	true	charge required
+12902	toxic staff of the dead	REDUCED	true	reduced accuracy; no venom
+12904	toxic staff of the dead	AVAILABLE	false	
+12924	toxic blowpipe	CHARGE	true	charge required
+12926	toxic blowpipe	AVAILABLE	false	
+12929	serpentine helm	CHARGE	true	charge required
+12931	serpentine helm	AVAILABLE	false	
+12954	dragon defender	AVAILABLE	false	
+13072	elite void top	AVAILABLE	false	
+13073	elite void robe	AVAILABLE	false	
+13079	enchanted lyre	AVAILABLE	false	
+13080	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13081	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13082	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13083	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13084	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13085	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13086	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13087	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13088	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13089	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13090	crystal halberd (i)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13091	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13092	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13093	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13094	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13095	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13096	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13097	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13098	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13099	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13100	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13101	crystal halberd (historical)	RESTRICTED	true	historical degradation IDs; not current crystal equipment
+13102	teleport crystal	AVAILABLE	false	
+13116	bonecrusher	CHECK	true	check ecto-token charges and activity toggle
+13117	falador shield 1	CHECK	false	stats retained; daily prayer restore is an account counter
+13118	falador shield 2	CHECK	false	stats retained; daily prayer restore is an account counter
+13119	falador shield 3	CHECK	false	stats retained; daily prayer restore is an account counter
+13120	falador shield 4	CHECK	false	stats retained; daily prayer restore is an account counter
+13125	explorer's ring 1	CHECK	false	stats retained; daily energy/alchemy uses are account counters
+13126	explorer's ring 2	CHECK	false	stats retained; daily energy/alchemy uses are account counters
+13127	explorer's ring 3	CHECK	false	stats retained; daily energy/alchemy uses are account counters
+13128	explorer's ring 4	CHECK	false	stats retained; daily energy/alchemy uses are account counters
+13134	desert amulet 2	CHECK	false	stats retained; Nardah teleport has a daily limit
+13135	desert amulet 3	CHECK	false	stats retained; Nardah teleport has a daily limit
+13136	desert amulet 4	AVAILABLE	false	unlimited Nardah teleports; no charge requirement
+13196	serpentine helm	CHARGE	true	charge required
+13197	serpentine helm	AVAILABLE	false	
+13198	serpentine helm	CHARGE	true	charge required
+13199	serpentine helm	AVAILABLE	false	
+13226	herb sack	AVAILABLE	false	container closed; contents and free capacity are not inferred
+13241	infernal axe	AVAILABLE	false	
+13242	infernal axe	REDUCED	false	dragon-tier tool; no processing
+13243	infernal pickaxe	AVAILABLE	false	
+13244	infernal pickaxe	REDUCED	false	dragon-tier tool; no processing
+13329	fire max cape	AVAILABLE	false	
+13347	vial of tears	RESTRICTED	true	past holiday event object; no current activity use established
+13348	vial of tears	RESTRICTED	true	past holiday event object; no current activity use established
+13349	vial of tears	RESTRICTED	true	past holiday event object; no current activity use established
+13350	vial of tears	RESTRICTED	true	past holiday event object; no current activity use established
+13351	vial of tears	RESTRICTED	true	past holiday event object; no current activity use established
+13353	gricoller's can	CHECK	true	check remaining water
+13392	xeric's talisman	EMPTY	true	charge before teleporting
+13393	xeric's talisman	AVAILABLE	false	
+13639	seed box	AVAILABLE	false	container closed; contents and free capacity are not inferred
+13660	chronicle	CHECK	true	check teleport cards
+19550	ring of suffering	REDUCED	false	defensive stats; no recoil
+19569	combat damaged key	AVAILABLE	false	Monkey Madness II tank-route key; usable as found
+19634	soul bearer	CHECK	true	check charges before banking heads
+19636	damaged soul bearer	PREPARE	true	repair with the Key Master before banking heads
+19659	botanical pie	AVAILABLE	false	one edible portion remains
+19662	botanical pie	AVAILABLE	false	two edible portions
+19665	damaged monkey tail	AVAILABLE	false	craft into sinew; cannot string a ballista
+19675	arclight	AVAILABLE	false	
+19710	ring of suffering (i)	REDUCED	false	defensive stats; no recoil
+20275	gnomish firelighter	EMPTY	true	load firelighters; no tinderbox function
+20278	gnomish firelighter	AVAILABLE	false	standard logs only
+20445	fire cape	REPAIR	true	repair required
+20447	fire max cape	REPAIR	true	repair required
+20449	bronze defender	REPAIR	true	repair required
+20451	iron defender	REPAIR	true	repair required
+20453	steel defender	REPAIR	true	repair required
+20455	black defender	REPAIR	true	repair required
+20457	mithril defender	REPAIR	true	repair required
+20459	adamant defender	REPAIR	true	repair required
+20461	rune defender	REPAIR	true	repair required
+20463	dragon defender	REPAIR	true	repair required
+20465	void knight top	REPAIR	true	repair required
+20467	elite void top	REPAIR	true	repair required
+20469	void knight robe	REPAIR	true	repair required
+20471	elite void robe	REPAIR	true	repair required
+20473	void knight mace	REPAIR	true	repair required
+20475	void knight gloves	REPAIR	true	repair required
+20477	void mage helm	REPAIR	true	repair required
+20479	void ranger helm	REPAIR	true	repair required
+20481	void melee helm	REPAIR	true	repair required
+20483	decorative sword (gold)	REPAIR	true	repair required
+20485	decorative armour (gold platebody)	REPAIR	true	repair required
+20487	decorative armour (gold platelegs)	REPAIR	true	repair required
+20489	decorative helm (gold)	REPAIR	true	repair required
+20491	decorative shield (gold)	REPAIR	true	repair required
+20493	decorative armour (gold plateskirt)	REPAIR	true	repair required
+20495	decorative armour (magic top)	REPAIR	true	repair required
+20497	decorative armour (magic legs)	REPAIR	true	repair required
+20499	decorative armour (magic hat)	REPAIR	true	repair required
+20501	decorative armour (ranged top)	REPAIR	true	repair required
+20503	decorative armour (ranged legs)	REPAIR	true	repair required
+20505	decorative armour (quiver)	REPAIR	true	repair required
+20507	fighter hat	REPAIR	true	repair required
+20509	ranger hat	REPAIR	true	repair required
+20511	healer hat	REPAIR	true	repair required
+20513	fighter torso	REPAIR	true	repair required
+20515	penance skirt	REPAIR	true	repair required
+20537	saradomin halo	REPAIR	true	repair required
+20539	zamorak halo	REPAIR	true	repair required
+20541	guthix halo	REPAIR	true	repair required
+20655	ring of suffering	AVAILABLE	false	
+20657	ring of suffering (i)	AVAILABLE	false	
+20714	tome of fire	AVAILABLE	false	
+20716	tome of fire	REDUCED	true	stats only; no runes or spell boost
+20722	emerald lantern	EMPTY	true	add lamp oil and light
+20742	empty jug pack	AVAILABLE	false	contains 100 noted jugs
+20786	ring of wealth (i)	AVAILABLE	false	
+20787	ring of wealth (i)	AVAILABLE	false	
+20788	ring of wealth (i)	AVAILABLE	false	
+20789	ring of wealth (i)	AVAILABLE	false	
+20790	ring of wealth (i)	AVAILABLE	false	
+20800	empty gourd vial	RESTRICTED	true	CoX internal potion container; fill at a geyser
+21031	infernal harpoon	AVAILABLE	false	
+21033	infernal harpoon	REDUCED	false	dragon-tier tool; no processing
+21126	ring of pursuit	AVAILABLE	false	check remaining shared uses
+21129	ring of returning	AVAILABLE	false	
+21132	ring of returning	AVAILABLE	false	
+21134	ring of returning	AVAILABLE	false	
+21136	ring of returning	AVAILABLE	false	
+21138	ring of returning	AVAILABLE	false	
+21140	efaritay's aid	AVAILABLE	false	check remaining uses
+21143	dodgy necklace	AVAILABLE	false	check remaining shared uses
+21146	necklace of passage	AVAILABLE	false	
+21149	necklace of passage	AVAILABLE	false	
+21151	necklace of passage	AVAILABLE	false	
+21153	necklace of passage	AVAILABLE	false	
+21155	necklace of passage	AVAILABLE	false	
+21160	amulet of bounty	AVAILABLE	false	check remaining shared uses
+21163	amulet of chemistry	AVAILABLE	false	check remaining shared uses
+21166	burning amulet	AVAILABLE	false	
+21169	burning amulet	AVAILABLE	false	
+21171	burning amulet	AVAILABLE	false	
+21173	burning amulet	AVAILABLE	false	
+21175	burning amulet	AVAILABLE	false	
+21177	expeditious bracelet	AVAILABLE	false	check remaining shared uses
+21180	flamtaer bracelet	AVAILABLE	false	check remaining uses
+21183	bracelet of slaughter	AVAILABLE	false	check remaining shared uses
+21255	slayer's staff (e)	AVAILABLE	false	boost needs assigned Slayer target
+21276	skull sceptre (i)	CHECK	false	spellcasting retained; check teleport charges
+21285	infernal max cape	AVAILABLE	false	
+21287	infernal cape	REPAIR	true	repair required
+21289	infernal max cape	REPAIR	true	repair required
+21295	infernal cape	AVAILABLE	false	
+21328	amethyst fire arrow	PREPARE	true	light before Underground Pass bridge use
+21330	amethyst fire arrow	AVAILABLE	false	Underground Pass bridge; match bow requirements
+21387	master scroll book	EMPTY	true	storage only; no scrolls
+21389	master scroll book	CONTENTS	true	check stored teleport scrolls
+21633	ancient wyvern shield	AVAILABLE	false	
+21634	ancient wyvern shield	REDUCED	true	reduced defence; no stored breath
+21687	mushroom pie	AVAILABLE	false	one edible portion remains
+21690	mushroom pie	AVAILABLE	false	two edible portions
+21760	kharedst's memoirs	CHECK	true	check unlocked pages and teleport charges
+21776	imbued saradomin max cape	AVAILABLE	false	
+21780	imbued zamorak max cape	AVAILABLE	false	
+21784	imbued guthix max cape	AVAILABLE	false	
+21791	imbued saradomin cape	AVAILABLE	false	
+21793	imbued guthix cape	AVAILABLE	false	
+21795	imbued zamorak cape	AVAILABLE	false	
+21816	bracelet of ethereum	AVAILABLE	false	
+21817	bracelet of ethereum	CHARGE	true	charge required
+21873	empty sack (christmas 2017)	RESTRICTED	true	past holiday event object; no current activity use established
+21898	assembler max cape	AVAILABLE	false	
+21914	ava's assembler	REPAIR	true	repair required
+21916	assembler max cape	REPAIR	true	repair required
+22002	dragonfire ward	AVAILABLE	false	
+22003	dragonfire ward	REDUCED	true	reduced defence; no stored breath
+22079	inert locator orb	PREPARE	true	give to Ava; not ready to lower Hitpoints
+22109	ava's assembler	AVAILABLE	false	
+22288	trident of the seas	AVAILABLE	false	
+22290	trident of the seas	CHARGE	true	charge required
+22292	trident of the swamp	AVAILABLE	false	
+22294	trident of the swamp	CHARGE	true	charge required
+22322	avernic defender	AVAILABLE	false	
+22323	sanguinesti staff	AVAILABLE	false	
+22325	scythe of vitur	AVAILABLE	false	
+22335	starter staff	RESTRICTED	true	seasonal Deadman starter weapon; cannot attack players
+22368	bryophyta's staff	REDUCED	false	staff stats; no stored nature runes
+22370	bryophyta's staff	AVAILABLE	false	
+22441	avernic defender	REPAIR	true	repair required
+22481	sanguinesti staff	CHARGE	true	charge required
+22486	scythe of vitur	REDUCED	true	reduced stats; charge for raid setup
+22542	viggora's chainmace	REDUCED	true	melee usable; no Wilderness boost
+22545	viggora's chainmace	AVAILABLE	false	
+22547	craw's bow	CHARGE	true	charge required
+22550	craw's bow	AVAILABLE	false	
+22552	thammaron's sceptre	CHARGE	true	charge required
+22555	thammaron's sceptre	AVAILABLE	false	
+22586	looting bag	AVAILABLE	false	storage with deposit/location restrictions; contents not inferred
+22660	empty bucket pack	AVAILABLE	false	contains 100 noted buckets
+22792	dragonfruit pie	AVAILABLE	false	one edible portion remains
+22795	dragonfruit pie	AVAILABLE	false	two edible portions
+22963	broken dragon hasta	PREPARE	true	repair with Otto before use
+22986	bonecrusher necklace	CHECK	false	stats retained; check bonecrushing charges
+22994	bottomless compost bucket	EMPTY	true	fill with compost
+22997	bottomless compost bucket	CONTENTS	true	check compost type and amount
+23062	nest box	AVAILABLE	false	contains seed nests
+23517	giant egg sac	AVAILABLE	false	spider-egg supply container
+23520	giant egg sac	AVAILABLE	false	partly emptied spider-egg container
+23673	crystal axe	AVAILABLE	false	
+23675	crystal axe	REDUCED	false	dragon-tier tool
+23680	crystal pickaxe	AVAILABLE	false	
+23682	crystal pickaxe	REDUCED	false	dragon-tier tool
+23762	crystal harpoon	AVAILABLE	false	
+23764	crystal harpoon	REDUCED	false	dragon-tier tool
+23808	crystal seed	CHECK	true	quest-stage item; check current quest step
+23810	crystal seed	CHECK	true	quest-stage item; check current quest step
+23971	crystal helm	AVAILABLE	false	
+23973	crystal helm	CHARGE	true	charge required
+23975	crystal body	AVAILABLE	false	
+23977	crystal body	CHARGE	true	charge required
+23979	crystal legs	AVAILABLE	false	
+23981	crystal legs	CHARGE	true	charge required
+23983	crystal bow	AVAILABLE	false	
+23985	crystal bow	CHARGE	true	charge required
+23987	crystal halberd	AVAILABLE	false	
+23989	crystal halberd	CHARGE	true	charge required
+23991	crystal shield	AVAILABLE	false	
+23993	crystal shield	CHARGE	true	charge required
+23995	blade of saeldor	AVAILABLE	false	
+23997	blade of saeldor	CHARGE	true	charge required
+24123	crystal bow	AVAILABLE	false	
+24125	crystal halberd	AVAILABLE	false	
+24127	crystal shield	AVAILABLE	false	
+24133	infernal max cape	AVAILABLE	false	
+24134	fire max cape	AVAILABLE	false	
+24135	assembler max cape	AVAILABLE	false	
+24136	bronze defender	AVAILABLE	false	
+24137	iron defender	AVAILABLE	false	
+24138	steel defender	AVAILABLE	false	
+24139	black defender	AVAILABLE	false	
+24140	mithril defender	AVAILABLE	false	
+24141	adamant defender	AVAILABLE	false	
+24142	rune defender	AVAILABLE	false	
+24143	dragon defender	AVAILABLE	false	
+24147	armadyl halo	REPAIR	true	repair required
+24149	bandos halo	REPAIR	true	repair required
+24151	seren halo	REPAIR	true	repair required
+24153	ancient halo	REPAIR	true	repair required
+24155	brassica halo	REPAIR	true	repair required
+24157	decorative sword (gold)	AVAILABLE	false	
+24158	decorative armour (gold platebody)	AVAILABLE	false	
+24159	decorative armour (gold platelegs)	AVAILABLE	false	
+24160	decorative helm (gold)	AVAILABLE	false	
+24161	decorative shield (gold)	AVAILABLE	false	
+24162	decorative armour (gold plateskirt)	AVAILABLE	false	
+24163	decorative armour (magic top)	AVAILABLE	false	
+24164	decorative armour (magic legs)	AVAILABLE	false	
+24165	decorative armour (magic hat)	AVAILABLE	false	
+24166	decorative armour (ranged top)	AVAILABLE	false	
+24167	decorative armour (ranged legs)	AVAILABLE	false	
+24168	decorative armour (quiver)	AVAILABLE	false	
+24169	saradomin halo	AVAILABLE	false	
+24170	zamorak halo	AVAILABLE	false	
+24171	guthix halo	AVAILABLE	false	
+24172	healer hat	AVAILABLE	false	
+24173	fighter hat	AVAILABLE	false	
+24174	ranger hat	AVAILABLE	false	
+24175	fighter torso	AVAILABLE	false	
+24176	penance skirt	AVAILABLE	false	
+24177	void knight top	AVAILABLE	false	
+24178	elite void top	AVAILABLE	false	
+24179	void knight robe	AVAILABLE	false	
+24180	elite void robe	AVAILABLE	false	
+24181	void knight mace	AVAILABLE	false	
+24182	void knight gloves	AVAILABLE	false	
+24183	void mage helm	AVAILABLE	false	
+24184	void ranger helm	AVAILABLE	false	
+24185	void melee helm	AVAILABLE	false	
+24186	avernic defender	AVAILABLE	false	
+24192	armadyl halo	AVAILABLE	false	
+24194	armadyl halo	AVAILABLE	false	
+24195	bandos halo	AVAILABLE	false	
+24197	bandos halo	AVAILABLE	false	
+24198	seren halo	AVAILABLE	false	
+24200	seren halo	AVAILABLE	false	
+24201	ancient halo	AVAILABLE	false	
+24203	ancient halo	AVAILABLE	false	
+24204	brassica halo	AVAILABLE	false	
+24206	brassica halo	AVAILABLE	false	
+24222	ava's assembler	AVAILABLE	false	
+24223	fire cape	AVAILABLE	false	
+24224	infernal cape	AVAILABLE	false	
+24232	imbued saradomin max cape	AVAILABLE	false	
+24233	imbued zamorak max cape	AVAILABLE	false	
+24234	imbued guthix max cape	AVAILABLE	false	
+24236	imbued saradomin cape	REPAIR	true	repair required
+24238	imbued saradomin max cape	REPAIR	true	repair required
+24240	imbued guthix cape	REPAIR	true	repair required
+24242	imbued guthix max cape	REPAIR	true	repair required
+24244	imbued zamorak cape	REPAIR	true	repair required
+24246	imbued zamorak max cape	REPAIR	true	repair required
+24248	imbued saradomin cape	AVAILABLE	false	
+24249	imbued guthix cape	AVAILABLE	false	
+24250	imbued zamorak cape	AVAILABLE	false	
+24478	herb sack	AVAILABLE	false	container open; contents and free capacity are not inferred
+24480	coal bag	AVAILABLE	false	container open; contents and free capacity are not inferred
+24481	gem bag	AVAILABLE	false	container open; contents and free capacity are not inferred
+24482	seed box	AVAILABLE	false	container open; contents and free capacity are not inferred
+24531	runner hat	REPAIR	true	repair required
+24533	runner hat	AVAILABLE	false	
+24617	vesta's blighted longsword	RESTRICTED	true	restricted combat locations
+24619	vesta's blighted longsword	PREPARE	true	activate first; restricted combat locations
+24735	ring of endurance (discontinued)	PREPARE	true	legacy Activate version; not the wearable modern ring
+24736	ring of endurance	AVAILABLE	false	passive drain reduction needs 500 charges
+24738	strange old lockpick	AVAILABLE	false	Barrows charges remain; not a regular lockpick substitute elsewhere
+24740	strange old lockpick	AVAILABLE	false	50 Barrows shortcuts; Sepulchre use costs no charges
+24780	amulet of blood fury	AVAILABLE	false	melee healing only; check remaining uses
+24844	ring of endurance	REDUCED	true	no stamina effects; Saradomin item
+25059	infernal harpoon	AVAILABLE	false	
+25063	infernal pickaxe	AVAILABLE	false	
+25066	infernal axe	AVAILABLE	false	
+25155	decorative boots (gold)	REPAIR	true	repair required
+25157	decorative full helm (gold)	REPAIR	true	repair required
+25171	decorative boots (gold)	AVAILABLE	false	
+25173	decorative boots (gold)	AVAILABLE	false	
+25174	decorative full helm (gold)	AVAILABLE	false	
+25176	decorative full helm (gold)	AVAILABLE	false	
+25246	ring of suffering (i)	REDUCED	false	defensive stats; no recoil
+25248	ring of suffering (i)	AVAILABLE	false	
+25266	black mask (i)	AVAILABLE	false	
+25267	black mask (i)	AVAILABLE	false	
+25268	black mask (i)	AVAILABLE	false	
+25269	black mask (i)	AVAILABLE	false	
+25270	black mask (i)	AVAILABLE	false	
+25271	black mask (i)	AVAILABLE	false	
+25272	black mask (i)	AVAILABLE	false	
+25273	black mask (i)	AVAILABLE	false	
+25274	black mask (i)	AVAILABLE	false	
+25275	black mask (i)	AVAILABLE	false	
+25276	black mask (i)	REDUCED	false	Slayer boost retained
+25367	infernal harpoon	REDUCED	false	dragon-tier tool; no processing
+25369	infernal pickaxe	REDUCED	false	dragon-tier tool; no processing
+25371	infernal axe	REDUCED	false	dragon-tier tool; no processing
+25457	broken coffin	PREPARE	true	add a shade lock before storing remains
+25459	bronze coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25461	steel coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25463	black coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25465	silver coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25467	gold coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25469	bronze coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25470	steel coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25471	black coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25472	silver coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25473	gold coffin	AVAILABLE	false	shade-remains storage; contents are not inferred
+25539	celestial ring	REDUCED	false	Mining boost retained; no extra ore
+25541	celestial ring	AVAILABLE	false	
+25543	celestial signet	REDUCED	false	Mining boost retained; no extra ore
+25545	celestial signet	AVAILABLE	false	
+25574	tome of water	AVAILABLE	false	
+25576	tome of water	REDUCED	true	stats only; no runes or spell boost
+25582	fish barrel	AVAILABLE	false	container closed; contents and free capacity are not inferred
+25584	fish barrel	AVAILABLE	false	container open; contents and free capacity are not inferred
+25585	fish sack barrel	AVAILABLE	false	container closed; contents and free capacity are not inferred
+25587	fish sack barrel	AVAILABLE	false	container open; contents and free capacity are not inferred
+25625	barronite mace	REPAIR	true	repair required
+25633	imcando hammer	REPAIR	true	repair required
+25641	barronite mace	AVAILABLE	false	
+25643	barronite mace	AVAILABLE	false	
+25644	imcando hammer	AVAILABLE	false	
+25731	sanguinesti staff	AVAILABLE	false	
+25733	sanguinesti staff	CHARGE	true	charge required
+25736	scythe of vitur	AVAILABLE	false	
+25738	scythe of vitur	REDUCED	true	reduced stats; charge for raid setup
+25739	scythe of vitur	AVAILABLE	false	
+25741	scythe of vitur	REDUCED	true	reduced stats; charge for raid setup
+25781	ash sanctifier	CHECK	true	check death-rune charges and activity toggle
+25811	broken redirector	CHECK	true	quest-stage item; check current quest step
+25818	book of the dead	AVAILABLE	false	teleports need charges; thralls need runes
+25862	bow of faerdhinen	CHARGE	true	charge required
+25865	bow of faerdhinen	AVAILABLE	false	
+26376	torva full helm	REPAIR	true	repair required
+26378	torva platebody	REPAIR	true	repair required
+26380	torva platelegs	REPAIR	true	repair required
+26382	torva full helm	AVAILABLE	false	
+26384	torva platebody	AVAILABLE	false	
+26386	torva platelegs	AVAILABLE	false	
+26390	blood essence	PREPARE	true	activate before use
+26392	blood essence	AVAILABLE	false	
+26484	abyssal tentacle	AVAILABLE	false	
+26686	maoma's med helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26687	maoma's full helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26688	maoma's great helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26689	calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26690	superior calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26691	elite calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26692	calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26693	superior calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26694	elite calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26698	koriff's headband	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26699	koriff's cowl	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26700	koriff's coif	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26701	saika's hood	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26702	saika's veil	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26703	saika's shroud	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26731	saika's hood	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26732	saika's hood	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26733	saika's veil	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26734	saika's veil	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26735	saika's shroud	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26736	saika's shroud	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26737	koriff's headband	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26738	koriff's headband	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26739	koriff's cowl	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26740	koriff's cowl	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26741	koriff's coif	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26742	koriff's coif	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26743	maoma's med helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26744	maoma's med helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26745	maoma's full helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26746	maoma's full helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26747	maoma's great helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26748	maoma's great helm	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26749	calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26750	calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26751	superior calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26752	superior calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26753	elite calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26754	elite calamity chest	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26755	calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26756	calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26757	superior calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26758	superior calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26759	elite calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26760	elite calamity breeches	RESTRICTED	true	Emir's Arena equipment; not a main-game raid replacement
+26761	ring of suffering (i)	REDUCED	false	defensive stats; no recoil
+26762	ring of suffering (i)	AVAILABLE	false	
+26771	black mask (i)	AVAILABLE	false	
+26772	black mask (i)	AVAILABLE	false	
+26773	black mask (i)	AVAILABLE	false	
+26774	black mask (i)	AVAILABLE	false	
+26775	black mask (i)	AVAILABLE	false	
+26776	black mask (i)	AVAILABLE	false	
+26777	black mask (i)	AVAILABLE	false	
+26778	black mask (i)	AVAILABLE	false	
+26779	black mask (i)	AVAILABLE	false	
+26780	black mask (i)	AVAILABLE	false	
+26781	black mask (i)	REDUCED	false	Slayer boost retained
+26784	colossal pouch	AVAILABLE	false	
+26786	colossal pouch	REDUCED	false	reduced capacity; repair before special uses
+26815	ring of the elements	CHARGE	true	charge required
+26818	ring of the elements	AVAILABLE	false	
+26822	abyssal lantern	PREPARE	true	light with suitable logs
+26824	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26826	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26828	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26830	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26832	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26834	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26836	abyssal lantern	AVAILABLE	false	GOTR points effect; light source
+26838	abyssal lantern	AVAILABLE	false	base rune boost; light source
+26840	abyssal lantern	AVAILABLE	false	GOTR talisman effect; light source
+26842	abyssal lantern	AVAILABLE	false	GOTR points effect; light source
+26844	abyssal lantern	AVAILABLE	false	base blood-rune boost; light source
+26846	abyssal lantern	AVAILABLE	false	base rune boost; light source
+26848	abyssal lantern	AVAILABLE	false	pouch protection and rune boost; GOTR points
+26945	pharaoh's sceptre	CHARGE	true	charge required
+26948	pharaoh's sceptre	AVAILABLE	false	
+26950	pharaoh's sceptre	AVAILABLE	false	
+26967	circlet of water	CHARGE	true	charge required
+26969	circlet of water	AVAILABLE	false	
+27275	tumeken's shadow	AVAILABLE	false	
+27277	tumeken's shadow	CHARGE	true	charge required
+27352	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27354	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27359	masori assembler	REPAIR	true	repair required
+27361	masori assembler max cape	REPAIR	true	repair required
+27363	masori assembler max cape	AVAILABLE	false	
+27365	masori assembler max cape	AVAILABLE	false	
+27374	masori assembler	AVAILABLE	false	
+27376	masori assembler	AVAILABLE	false	
+27382	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27383	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27384	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27385	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27386	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27387	tumeken's guardian	AVAILABLE	false	cosmetic pet form; not damaged equipment
+27555	broken gingerbread	RESTRICTED	true	past holiday event object; no current activity use established
+27556	very broken gingerbread	RESTRICTED	true	past holiday event object; no current activity use established
+27610	venator bow	AVAILABLE	false	
+27612	venator bow	REDUCED	true	single target; no bouncing
+27624	ancient sceptre	AVAILABLE	false	
+27626	ancient sceptre	AVAILABLE	false	
+27652	webweaver bow	CHARGE	true	charge required
+27655	webweaver bow	AVAILABLE	false	
+27657	ursine chainmace	REDUCED	true	melee usable; no boost or special attack
+27660	ursine chainmace	AVAILABLE	false	
+27662	accursed sceptre	CHARGE	true	charge required
+27665	accursed sceptre	AVAILABLE	false	
+27676	accursed sceptre (a)	REDUCED	true	spellcasting retained; no Wilderness boost
+27679	accursed sceptre (a)	AVAILABLE	false	
+27695	dragon pickaxe	REPAIR	true	repair required
+27697	crystal body	AVAILABLE	false	
+27699	crystal body	CHARGE	true	charge required
+27701	crystal legs	AVAILABLE	false	
+27703	crystal legs	CHARGE	true	charge required
+27705	crystal helm	AVAILABLE	false	
+27707	crystal helm	CHARGE	true	charge required
+27709	crystal body	AVAILABLE	false	
+27711	crystal body	CHARGE	true	charge required
+27713	crystal legs	AVAILABLE	false	
+27715	crystal legs	CHARGE	true	charge required
+27717	crystal helm	AVAILABLE	false	
+27719	crystal helm	CHARGE	true	charge required
+27721	crystal body	AVAILABLE	false	
+27723	crystal body	CHARGE	true	charge required
+27725	crystal legs	AVAILABLE	false	
+27727	crystal legs	CHARGE	true	charge required
+27729	crystal helm	AVAILABLE	false	
+27731	crystal helm	CHARGE	true	charge required
+27733	crystal body	AVAILABLE	false	
+27735	crystal body	CHARGE	true	charge required
+27737	crystal legs	AVAILABLE	false	
+27739	crystal legs	CHARGE	true	charge required
+27741	crystal helm	AVAILABLE	false	
+27743	crystal helm	CHARGE	true	charge required
+27745	crystal body	AVAILABLE	false	
+27747	crystal body	CHARGE	true	charge required
+27749	crystal legs	AVAILABLE	false	
+27751	crystal legs	CHARGE	true	charge required
+27753	crystal helm	AVAILABLE	false	
+27755	crystal helm	CHARGE	true	charge required
+27757	crystal body	AVAILABLE	false	
+27759	crystal body	CHARGE	true	charge required
+27761	crystal legs	AVAILABLE	false	
+27763	crystal legs	CHARGE	true	charge required
+27765	crystal helm	AVAILABLE	false	
+27767	crystal helm	CHARGE	true	charge required
+27769	crystal body	AVAILABLE	false	
+27771	crystal body	CHARGE	true	charge required
+27773	crystal legs	AVAILABLE	false	
+27775	crystal legs	CHARGE	true	charge required
+27777	crystal helm	AVAILABLE	false	
+27779	crystal helm	CHARGE	true	charge required
+27785	thammaron's sceptre (a)	REDUCED	true	spellcasting retained; no Wilderness boost
+27788	thammaron's sceptre (a)	AVAILABLE	false	
+27831	vesta's chainbody (bh)	RESTRICTED	true	restricted combat locations
+27832	vesta's plateskirt (bh)	RESTRICTED	true	restricted combat locations
+27833	statius's full helm (bh)	RESTRICTED	true	restricted combat locations
+27834	statius's platebody (bh)	RESTRICTED	true	restricted combat locations
+27835	statius's platelegs (bh)	RESTRICTED	true	restricted combat locations
+27836	morrigan's coif (bh)	RESTRICTED	true	restricted combat locations
+27837	morrigan's leather body (bh)	RESTRICTED	true	restricted combat locations
+27838	morrigan's leather chaps (bh)	RESTRICTED	true	restricted combat locations
+27839	zuriel's hood (bh)	RESTRICTED	true	restricted combat locations
+27840	zuriel's robe top (bh)	RESTRICTED	true	restricted combat locations
+27841	zuriel's robe bottom (bh)	RESTRICTED	true	restricted combat locations
+27842	corrupted vesta's chainbody (bh)	RESTRICTED	true	restricted combat locations
+27843	corrupted vesta's plateskirt (bh)	RESTRICTED	true	restricted combat locations
+27844	corrupted statius's full helm (bh)	RESTRICTED	true	restricted combat locations
+27845	corrupted statius's platebody (bh)	RESTRICTED	true	restricted combat locations
+27846	corrupted statius's platelegs (bh)	RESTRICTED	true	restricted combat locations
+27847	corrupted morrigan's coif (bh)	RESTRICTED	true	restricted combat locations
+27848	corrupted morrigan's leather body (bh)	RESTRICTED	true	restricted combat locations
+27849	corrupted morrigan's leather chaps (bh)	RESTRICTED	true	restricted combat locations
+27850	corrupted zuriel's hood (bh)	RESTRICTED	true	restricted combat locations
+27851	corrupted zuriel's robe top (bh)	RESTRICTED	true	restricted combat locations
+27852	corrupted zuriel's robe bottom (bh)	RESTRICTED	true	restricted combat locations
+27900	vesta's spear (bh)	RESTRICTED	true	restricted combat locations
+27902	vesta's spear (bh)	PREPARE	true	activate first; restricted combat locations
+27904	vesta's longsword (bh)	RESTRICTED	true	restricted combat locations
+27906	vesta's longsword (bh)	PREPARE	true	activate first; restricted combat locations
+27908	statius's warhammer (bh)	RESTRICTED	true	restricted combat locations
+27910	statius's warhammer (bh)	PREPARE	true	activate first; restricted combat locations
+27912	morrigan's throwing axe (bh)	RESTRICTED	true	restricted combat locations
+27914	morrigan's throwing axe (bh)	PREPARE	true	activate first; restricted combat locations
+27916	morrigan's javelin (bh)	RESTRICTED	true	restricted combat locations
+27918	morrigan's javelin (bh)	PREPARE	true	activate first; restricted combat locations
+27920	zuriel's staff (bh)	RESTRICTED	true	restricted combat locations
+27922	zuriel's staff (bh)	PREPARE	true	activate first; restricted combat locations
+27925	vesta's chainbody (bh)	PREPARE	true	activate first; restricted combat locations
+27928	vesta's plateskirt (bh)	PREPARE	true	activate first; restricted combat locations
+27931	statius's full helm (bh)	PREPARE	true	activate first; restricted combat locations
+27934	statius's platebody (bh)	PREPARE	true	activate first; restricted combat locations
+27937	statius's platelegs (bh)	PREPARE	true	activate first; restricted combat locations
+27940	morrigan's coif (bh)	PREPARE	true	activate first; restricted combat locations
+27943	morrigan's leather body (bh)	PREPARE	true	activate first; restricted combat locations
+27946	morrigan's leather chaps (bh)	PREPARE	true	activate first; restricted combat locations
+27949	zuriel's hood (bh)	PREPARE	true	activate first; restricted combat locations
+27952	zuriel's robe top (bh)	PREPARE	true	activate first; restricted combat locations
+27955	zuriel's robe bottom (bh)	PREPARE	true	activate first; restricted combat locations
+27965	corrupted vesta's chainbody (bh)	PREPARE	true	activate first; restricted combat locations
+27968	corrupted vesta's plateskirt (bh)	PREPARE	true	activate first; restricted combat locations
+27971	corrupted statius's full helm (bh)	PREPARE	true	activate first; restricted combat locations
+27974	corrupted statius's platebody (bh)	PREPARE	true	activate first; restricted combat locations
+27977	corrupted statius's platelegs (bh)	PREPARE	true	activate first; restricted combat locations
+27980	corrupted morrigan's coif (bh)	PREPARE	true	activate first; restricted combat locations
+27983	corrupted morrigan's leather body (bh)	PREPARE	true	activate first; restricted combat locations
+27986	corrupted morrigan's leather chaps (bh)	PREPARE	true	activate first; restricted combat locations
+27989	corrupted zuriel's hood (bh)	PREPARE	true	activate first; restricted combat locations
+27992	corrupted zuriel's robe top (bh)	PREPARE	true	activate first; restricted combat locations
+27995	corrupted zuriel's robe bottom (bh)	PREPARE	true	activate first; restricted combat locations
+28140	log basket	AVAILABLE	false	container closed; contents and free capacity are not inferred
+28142	log basket	AVAILABLE	false	container open; contents and free capacity are not inferred
+28143	forestry basket	AVAILABLE	false	container closed; contents and free capacity are not inferred
+28145	forestry basket	AVAILABLE	false	container open; contents and free capacity are not inferred
+28220	crystal felling axe	AVAILABLE	false	
+28223	crystal felling axe	REDUCED	false	dragon felling tier; ration effect separate
+28238	blood ancient sceptre	REPAIR	true	repair required
+28240	smoke ancient sceptre	REPAIR	true	repair required
+28242	ice ancient sceptre	REPAIR	true	repair required
+28244	shadow ancient sceptre	REPAIR	true	repair required
+28260	blood ancient sceptre	AVAILABLE	false	
+28262	ice ancient sceptre	AVAILABLE	false	
+28264	smoke ancient sceptre	AVAILABLE	false	
+28266	shadow ancient sceptre	AVAILABLE	false	
+28327	ring of shadows	AVAILABLE	false	
+28329	ring of shadows	REDUCED	false	combat stats retained; no teleports
+28402	uncharged cell (desert treasure ii)	CHECK	true	quest-stage item; check current quest step
+28473	blood ancient sceptre	AVAILABLE	false	
+28474	ice ancient sceptre	AVAILABLE	false	
+28475	smoke ancient sceptre	AVAILABLE	false	
+28476	shadow ancient sceptre	AVAILABLE	false	
+28543	corrupted scythe of vitur	RESTRICTED	true	seasonal Deadman equipment; not the ordinary raid weapon
+28545	corrupted scythe of vitur	RESTRICTED	true	seasonal Deadman equipment; not the ordinary raid weapon
+28547	corrupted tumeken's shadow	RESTRICTED	true	seasonal Deadman equipment; not the ordinary raid weapon
+28549	corrupted tumeken's shadow	RESTRICTED	true	seasonal Deadman equipment; not the ordinary raid weapon
+28561	trinket of vengeance	RESTRICTED	true	Deadman item; not ordinary-world combat gear
+28583	warped sceptre	CHARGE	true	charge required
+28585	warped sceptre	AVAILABLE	false	
+28597	mangled extract	AVAILABLE	false	runecrafting catalyst for nature, law, astral and death runes
+28687	toxic blowpipe	CHARGE	true	charge required
+28688	toxic blowpipe	AVAILABLE	false	
+28796	bone staff	CHECK	true	rats only; check spell charges
+28813	zombie axe	REPAIR	true	repair required
+28826	dizana's quiver	REPAIR	true	repair required
+28828	dizana's quiver	REPAIR	true	repair required
+28830	dizana's max cape	REPAIR	true	repair required
+28902	dizana's max cape	AVAILABLE	false	
+28906	dizana's max cape	AVAILABLE	false	
+28919	tonalztics of ralos	REDUCED	true	single hit; reduced range
+28922	tonalztics of ralos	AVAILABLE	false	
+28945	echo boots	CHECK	false	stats retained; check recoil charges and toggle
+28947	dizana's quiver	REDUCED	true	base stats; no Sunfire bonus
+28949	dizana's quiver	REDUCED	true	base stats; no Sunfire bonus
+28951	dizana's quiver	AVAILABLE	false	
+28953	dizana's quiver	AVAILABLE	false	
+28955	dizana's quiver	AVAILABLE	false	
+28957	dizana's quiver	AVAILABLE	false	
+29004	eclipse moon chestplate	AVAILABLE	false	
+29007	eclipse moon tassets	AVAILABLE	false	
+29010	eclipse moon helm	AVAILABLE	false	
+29013	blue moon chestplate	AVAILABLE	false	
+29016	blue moon tassets	AVAILABLE	false	
+29019	blue moon helm	AVAILABLE	false	
+29022	blood moon chestplate	AVAILABLE	false	
+29025	blood moon tassets	AVAILABLE	false	
+29028	blood moon helm	AVAILABLE	false	
+29031	eclipse moon chestplate	AVAILABLE	false	
+29033	eclipse moon tassets	AVAILABLE	false	
+29035	eclipse moon helm	AVAILABLE	false	
+29037	blue moon chestplate	AVAILABLE	false	
+29039	blue moon tassets	AVAILABLE	false	
+29041	blue moon helm	AVAILABLE	false	
+29043	blood moon chestplate	AVAILABLE	false	
+29045	blood moon tassets	AVAILABLE	false	
+29047	blood moon helm	AVAILABLE	false	
+29049	eclipse moon chestplate	REPAIR	true	repair required
+29052	eclipse moon tassets	REPAIR	true	repair required
+29055	eclipse moon helm	REPAIR	true	repair required
+29058	blue moon chestplate	REPAIR	true	repair required
+29061	blue moon tassets	REPAIR	true	repair required
+29064	blue moon helm	REPAIR	true	repair required
+29067	blood moon chestplate	REPAIR	true	repair required
+29070	blood moon tassets	REPAIR	true	repair required
+29073	blood moon helm	REPAIR	true	repair required
+29295	small meat pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29297	large meat pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29299	small fur pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29301	medium fur pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29303	large fur pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29462	small meat pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+29464	large meat pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+29466	small fur pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+29468	medium fur pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+29470	large fur pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+29892	pendant of ates	EMPTY	true	charge before teleporting
+29893	pendant of ates	AVAILABLE	false	
+29988	alchemist's amulet	CHARGE	true	charge required
+29990	alchemist's amulet	AVAILABLE	false	
+29996	reagent pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+29998	reagent pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+30064	tome of earth	AVAILABLE	false	
+30066	tome of earth	REDUCED	true	stats only; no runes or spell boost
+30305	arclight	REDUCED	true	Darklight stats; special retained
+30312	canopic jar (the curse of arrav)	CHECK	true	quest preparation stage; match the current quest step
+30313	canopic jar (the curse of arrav)	CHECK	true	quest preparation stage; match the current quest step
+30314	canopic jar (the curse of arrav)	CHECK	true	quest preparation stage; match the current quest step
+30324	zombie helmet	REPAIR	true	repair required
+30342	infernal harpoon	AVAILABLE	false	
+30343	infernal harpoon	REDUCED	false	dragon-tier tool; no processing
+30345	infernal pickaxe	AVAILABLE	false	
+30346	infernal pickaxe	REDUCED	false	dragon-tier tool; no processing
+30347	infernal axe	AVAILABLE	false	
+30348	infernal axe	REDUCED	false	dragon-tier tool; no processing
+30373	drygore blowpipe	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+30374	drygore blowpipe	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+30390	nature's reprisal	RESTRICTED	true	Raging Echoes League weapon; not ordinary raid equipment
+30392	nature's reprisal	RESTRICTED	true	Raging Echoes League weapon; not ordinary raid equipment
+30434	venator bow	AVAILABLE	false	
+30436	venator bow	REDUCED	true	single target; no bouncing
+30445	ahrim's hood	AVAILABLE	false	
+30447	ahrim's robetop	AVAILABLE	false	
+30449	ahrim's robeskirt	AVAILABLE	false	
+30519	ahrim's hood	AVAILABLE	false	
+30521	ahrim's robetop	AVAILABLE	false	
+30523	ahrim's robeskirt	AVAILABLE	false	
+30525	ahrim's hood	AVAILABLE	false	
+30527	ahrim's robetop	AVAILABLE	false	
+30529	ahrim's robeskirt	AVAILABLE	false	
+30531	ahrim's hood	AVAILABLE	false	
+30533	ahrim's robetop	AVAILABLE	false	
+30535	ahrim's robeskirt	AVAILABLE	false	
+30537	ahrim's hood	AVAILABLE	false	
+30539	ahrim's robetop	AVAILABLE	false	
+30541	ahrim's robeskirt	AVAILABLE	false	
+30543	ahrim's hood	REPAIR	true	repair required
+30545	ahrim's robetop	REPAIR	true	repair required
+30547	ahrim's robeskirt	REPAIR	true	repair required
+30568	ahrim's staff	AVAILABLE	false	
+30570	ahrim's staff	AVAILABLE	false	
+30571	ahrim's staff	AVAILABLE	false	
+30572	ahrim's staff	AVAILABLE	false	
+30573	ahrim's staff	AVAILABLE	false	
+30574	ahrim's staff	REPAIR	true	repair required
+30637	giantsoul amulet	EMPTY	true	no teleports
+30638	giantsoul amulet	AVAILABLE	false	
+30795	barrel of demonic tallow	AVAILABLE	false	demonic-tallow supply container
+30798	barrel of demonic tallow	AVAILABLE	false	partly emptied demonic-tallow container
+30989	acatzin's axe	CHECK	true	quest-stage item; check current quest step
+30990	acatzin's axe	CHECK	true	quest-stage item; check current quest step
+31086	broken antler	AVAILABLE	false	fletching material
+31113	eye of ayak	AVAILABLE	false	
+31115	eye of ayak	CHARGE	true	charge required
+31241	horn of plenty	AVAILABLE	false	+4 Hunter; double catches have restrictions
+31243	horn of plenty	REDUCED	false	+2 Hunter retained; no double catches
+31251	broken hasta (tortugan)	CHECK	true	quest-stage item; check current quest step
+31575	camphor blowpipe	AVAILABLE	false	
+31577	camphor blowpipe	EMPTY	true	load suitable darts
+31579	ironwood blowpipe	AVAILABLE	false	
+31581	ironwood blowpipe	EMPTY	true	load suitable darts
+31583	rosewood blowpipe	AVAILABLE	false	
+31585	rosewood blowpipe	EMPTY	true	load suitable darts
+31961	broken dragon hook	AVAILABLE	false	dragon salvaging hook construction material
+31989	boat bottle	AVAILABLE	false	ready to store a boat at a dock
+31992	boat bottle	CONTENTS	true	contains a boat; release consumes bottle
+32366	fish crate (empty)	AVAILABLE	false	ready for deep-sea fish; fills in groups of ten
+32368	fish crate (giant krill)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32370	fish crate (giant krill)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32371	fish crate (haddock)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32373	fish crate (haddock)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32374	fish crate (yellowfin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32376	fish crate (yellowfin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32377	fish crate (halibut)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32379	fish crate (halibut)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32380	fish crate (bluefin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32382	fish crate (bluefin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32383	fish crate (marlin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32385	fish crate (marlin)	AVAILABLE	false	raw-fish container; empty with the bank interface open to retain the crate
+32398	sailors' amulet	EMPTY	true	charge before teleporting
+32399	sailors' amulet	AVAILABLE	false	
+32866	broken compass	AVAILABLE	false	Varrock Museum salvaging relic
+32868	broken sextant	AVAILABLE	false	Varrock Museum salvaging relic
+33023	crystal body	AVAILABLE	false	
+33025	crystal body	CHARGE	true	charge required
+33027	crystal legs	AVAILABLE	false	
+33029	crystal legs	CHARGE	true	charge required
+33031	crystal helm	AVAILABLE	false	
+33033	crystal helm	CHARGE	true	charge required
+33035	toxic staff of the dead	REDUCED	true	reduced accuracy; no venom
+33036	toxic staff of the dead	AVAILABLE	false	
+33047	trinket of fortuity	RESTRICTED	true	Deadman drop-rate modifier; activation and teleport restrictions
+33050	trinket of fortuity	RESTRICTED	true	Deadman drop-rate modifier; activation and teleport restrictions
+33074	facility bottle	AVAILABLE	false	ready to store a facility
+33077	facility bottle	CONTENTS	true	contains a facility; rebuilding consumes bottle
+33089	bottomless milk bucket	CONTENTS	true	check milk type; not all regular-bucket uses
+33091	bottomless milk bucket	AVAILABLE	false	ready to collect milk
+33103	cowbell amulet	REDUCED	false	faster milking retained; no teleports
+33104	cowbell amulet	AVAILABLE	false	
+33135	silklined herb sack	AVAILABLE	false	container closed; contents and free capacity are not inferred
+33137	silklined herb sack	AVAILABLE	false	container open; contents and free capacity are not inferred
+33218	knapsack	RESTRICTED	true	Demonic Pacts League relic storage
+33220	knapsack	RESTRICTED	true	Demonic Pacts League relic storage
+33239	flask of fervour (item)	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+33241	flask of fervour (item)	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+33255	lithic sceptre	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+33257	lithic sceptre	RESTRICTED	true	Leagues-only item; not ordinary main-game equipment
+33314	trident of the swamp	AVAILABLE	false	
+33316	trident of the swamp	CHARGE	true	charge required
+33318	trident of the swamp	AVAILABLE	false	
+33320	trident of the swamp	CHARGE	true	charge required
+33322	trident of the seas	AVAILABLE	false	
+33323	trident of the seas	AVAILABLE	false	
+33326	trident of the seas	AVAILABLE	false	
+33328	trident of the seas	CHARGE	true	charge required
+33330	iban's staff	CHECK	true	check spell charges
+33332	iban's staff (u)	CHECK	true	check spell charges
+33333	iban's staff	REPAIR	true	repair required
+33384	gem pouch	AVAILABLE	false	container closed; contents and free capacity are not inferred
+33386	gem pouch	AVAILABLE	false	container open; contents and free capacity are not inferred
+33387	gem satchel	AVAILABLE	false	container closed; contents and free capacity are not inferred
+33389	gem satchel	AVAILABLE	false	container open; contents and free capacity are not inferred
+33390	gem tote	AVAILABLE	false	container closed; contents and free capacity are not inferred
+33392	gem tote	AVAILABLE	false	container open; contents and free capacity are not inferred
+33393	gem sack	AVAILABLE	false	container closed; contents and free capacity are not inferred
+33395	gem sack	AVAILABLE	false	container open; contents and free capacity are not inferred
+33428	trinket of vengeance	RESTRICTED	true	Deadman item; not ordinary-world combat gear
+33431	trinket of vengeance	RESTRICTED	true	Deadman item; not ordinary-world combat gear
+33434	trident of the seas	CHARGE	true	charge required
+33464	void melee helm	REPAIR	true	repair required
+33466	void melee helm	REPAIR	true	repair required
+33468	void mage helm	REPAIR	true	repair required
+33470	void mage helm	REPAIR	true	repair required
+33472	void ranger helm	REPAIR	true	repair required
+33474	void ranger helm	REPAIR	true	repair required
+33476	void knight top	REPAIR	true	repair required
+33478	void knight top	REPAIR	true	repair required
+33480	elite void top	REPAIR	true	repair required
+33482	elite void top	REPAIR	true	repair required
+33484	void knight robe	REPAIR	true	repair required
+33486	void knight robe	REPAIR	true	repair required
+33488	elite void robe	REPAIR	true	repair required
+33490	elite void robe	REPAIR	true	repair required
+33492	void knight gloves	REPAIR	true	repair required
+33494	void knight gloves	REPAIR	true	repair required
+33496	infernal max cape	REPAIR	true	repair required
+33498	infernal max cape	REPAIR	true	repair required
+33500	infernal cape	REPAIR	true	repair required
+33502	infernal cape	REPAIR	true	repair required
+33504	blood ancient sceptre	REPAIR	true	repair required
+33506	blood ancient sceptre	REPAIR	true	repair required
+33508	ice ancient sceptre	REPAIR	true	repair required
+33510	ice ancient sceptre	REPAIR	true	repair required
+33512	smoke ancient sceptre	REPAIR	true	repair required
+33514	smoke ancient sceptre	REPAIR	true	repair required
+33516	shadow ancient sceptre	REPAIR	true	repair required
+33518	shadow ancient sceptre	REPAIR	true	repair required
+33520	fighter torso	REPAIR	true	repair required
+33522	fighter torso	REPAIR	true	repair required
+33524	dizana's quiver	REPAIR	true	repair required
+33526	dizana's quiver	REPAIR	true	repair required
+33528	dizana's quiver	REPAIR	true	repair required
+33530	dizana's quiver	REPAIR	true	repair required
+33532	dizana's max cape	REPAIR	true	repair required
+33533	dizana's max cape	REPAIR	true	repair required
+33827	ancient sceptre	REPAIR	true	repair required
+33829	ancient sceptre	REPAIR	true	repair required
+34625	imbued ancient max cape	AVAILABLE	false	
+34629	imbued ancient max cape	REPAIR	true	repair required
+34633	imbued ancient cape	AVAILABLE	false	
+34635	imbued ancient cape	REPAIR	true	repair required
+34637	imbued ancient cape	AVAILABLE	false	
+34715	obligator	AVAILABLE	false	
+34717	obligator	CHECK	true	uncharged weapon; verify attack functionality before activity use
+34722	archivist's folio	EMPTY	true	charge with ascension shards before teleporting
+34723	archivist's folio	AVAILABLE	false	
+34725	zorya's tome	AVAILABLE	false	
+34727	zorya's tome	CHARGE	true	charge required

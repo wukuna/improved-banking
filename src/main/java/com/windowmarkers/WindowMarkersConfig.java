@@ -24,6 +24,8 @@ public interface WindowMarkersConfig extends Config
     default boolean quietFills() { return true; }
     @ConfigItem(section=appearance,keyName="hoverHighlight",name="Highlight on hover",description="Highlight groups when hovering bank items or legend entries. Turn off to highlight only by clicking a legend entry. Hover names remain available.",position=7)
     default boolean hoverHighlight() { return true; }
+    @ConfigItem(section=appearance,keyName="improvedBankSearch",name="Enable Improved Banking search",description="Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.",position=8)
+    default boolean improvedBankSearch() { return false; }
     @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
     default boolean snapToGrid() { return false; }
 

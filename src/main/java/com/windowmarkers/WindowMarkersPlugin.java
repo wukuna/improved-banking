@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description="Beta bank markers, tab-aware legends and Wiki-based categories", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description="Beta bank groups, searchable Wiki categories, item comparisons and custom presets", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
@@ -44,10 +44,20 @@ public class WindowMarkersPlugin extends Plugin
     @Inject ClientToolbar toolbar;
     @Inject BorderRenderer borders;
     @Inject ItemManager itemManager;
+    @Inject BankItemSearch itemSearch;
+    private CustomPresets customPresets=new CustomPresets();
+    private JComboBox<CustomPresets.Preset> customPicker;
+    private List<BankCatalogue.Choice> catalogueChoices=java.util.Collections.emptyList();
+    private long catalogueRevision;
+    private List<ItemAnchors.Cell> legendCells=new ArrayList<>();
+    private Boolean forceLink;
+    private Marker appendTarget;
+    private String pendingGroupName;
     @Inject net.runelite.client.callback.ClientThread clientThread;
     @Inject BankLayoutController bankLayout;
     @Inject BankCapture bankCapture;
     @Inject BankScreenshotButton screenshotButton;
+    @Inject NativeBankSearch nativeSearch;
     private List<ItemAnchors.Cell> itemCells = new ArrayList<>();
     private final List<Marker> markers = new ArrayList<>();
     private Rectangle bank;
@@ -73,6 +83,7 @@ public class WindowMarkersPlugin extends Plugin
     private List<MarkerLegend.Entry> legendEntries;
     private volatile long legendRevision;
     private volatile Marker legendHover, legendPinned;
+    private volatile Marker lookupHighlight;
     @Inject net.runelite.client.ui.overlay.tooltip.TooltipManager tooltipManager;
     private final MarkerMouse mouse = new MarkerMouse();
     private final MarkerOverlay overlay = new MarkerOverlay();
@@ -125,23 +136,30 @@ public class WindowMarkersPlugin extends Plugin
                 undo.addActionListener(e -> restoreHistory(false)); redo.addActionListener(e -> restoreHistory(true));
                 historyActions.add(undo); historyActions.add(redo); controls.add(historyActions);
                 JButton categorize=new JButton("Auto-categorize");
-                categorize.addActionListener(e -> autoCategorize()); controls.add(categorize);
+                categorize.addActionListener(e -> autoCategorize());
                 JButton layoutControls=new JButton("Bank size and tabs");
                 layoutControls.addActionListener(e -> editBankLayout()); toolsPanel.add(new JLabel("Bank tools")); toolsPanel.add(layoutControls);
                 JButton screenshot=new JButton("Save bank screenshot");
                 screenshot.addActionListener(e -> clientThread.invokeLater(this::captureBank)); toolsPanel.add(screenshot);
-                JButton add = new JButton("Draw marker");
-                add.addActionListener(e -> arm());
-                controls.add(add);
-                JButton cancel = new JButton("Cancel drawing");
-                cancel.addActionListener(e -> cancel());
-                controls.add(cancel);
-                JCheckBox snap = new JCheckBox("Snap areas to item grid",config.snapToGrid());
-                snap.addActionListener(e -> configs.setConfiguration("windowmarkers","snapToGrid",snap.isSelected()));
-                controls.add(snap);
-                JCheckBox link = new JCheckBox("<html>Link new markers<br>to enclosed items</html>",config.linkNewMarkers());
-                link.addActionListener(e -> configs.setConfiguration("windowmarkers","linkNewMarkers",link.isSelected()));
-                controls.add(link);
+                JPanel customPanel=new MarkerForm();
+                customPanel.add(new JLabel("<html>Create named item groups or area markers.<br>Manage existing groups in Legend.</html>"));
+                addButton(customPanel,"Create item group…",() -> editGroupItems(null));
+                addButton(customPanel,"Draw item group…",() -> armGroup(null));
+                addButton(customPanel,"Add selection to group",() -> {
+                    List<Marker> selected=legend.selected();
+                    if(selected.size()==1 && selected.get(0).linked()) armGroup(selected.get(0));
+                    else setStatus("Select one linked group in Legend first.");
+                });
+                addButton(customPanel,"Merge selected groups…",this::mergeGroups);
+                addButton(customPanel,"Draw area marker",() -> { synchronized(this) { arm(); forceLink=false; } });
+                addButton(customPanel,"Cancel drawing",this::cancel);
+                JCheckBox snap=new JCheckBox("Snap areas to item grid",config.snapToGrid());
+                snap.addActionListener(e -> configs.setConfiguration("windowmarkers","snapToGrid",snap.isSelected())); customPanel.add(snap);
+                customPanel.add(new JLabel("<html>Custom presets<br>This account and RuneLite profile</html>"));
+                customPicker=new JComboBox<>(); customPanel.add(customPicker);
+                addButton(customPanel,"Save selected as preset…",this::saveCustomPreset);
+                addButton(customPanel,"Apply preset…",() -> applyCustomPreset((CustomPresets.Preset)customPicker.getSelectedItem()));
+                customPanel.add(new JLabel("<html>Select groups in Legend, then save them.<br>Presets retain item IDs and appearance.<br>Applying one never moves bank items.</html>"));
                 JButton copyAccount = new JButton("Copy earlier account markers");
                 copyAccount.addActionListener(e -> copyAccountMarkers());
                 toolsPanel.add(new JLabel("Copy older markers")); toolsPanel.add(copyAccount);
@@ -153,45 +171,28 @@ public class WindowMarkersPlugin extends Plugin
                 styles.addActionListener(e -> configs.setConfiguration("windowmarkers", "style", styles.getSelectedItem()));
                 toolsPanel.add(new JLabel("Default border style"));
                 toolsPanel.add(styles);
-                rows = new DefaultListModel<>();
-                JList<String> list = new JList<>(rows);
-                list.setVisibleRowCount(6);
-                list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                JButton remove = new JButton("Delete selected markers");
-                remove.addActionListener(e -> removeMarkers(list.getSelectedIndices(),false));
-                JButton edit = new JButton("Edit label and appearance");
-                edit.addActionListener(e -> edit(list.getSelectedIndex()));
-                JPanel actions = new JPanel(new GridLayout(0,1,0,6));
-                JButton move=new JButton("Move selected area"), resize=new JButton("Resize selected area");
-                move.addActionListener(e -> armTransform(list.getSelectedIndex(),false));
-                resize.addActionListener(e -> armTransform(list.getSelectedIndex(),true));
-                actions.add(move); actions.add(resize);
-                actions.add(edit); actions.add(remove);
-                JButton clear=new JButton("Clear all markers");
-                clear.setToolTipText("Clear this layout only. Undo restores all markers.");
-                clear.addActionListener(e -> removeMarkers(new int[0],true));
-                actions.add(clear);
-                list.setToolTipText("Shift + Up/Down selects a range; Ctrl + click selects individual markers.");
-                list.addListSelectionListener(e -> {
-                    boolean single=list.getSelectedIndices().length==1;
-                    edit.setEnabled(single); move.setEnabled(single); resize.setEnabled(single);
-                    remove.setEnabled(!list.isSelectionEmpty());
+                rows=new DefaultListModel<>();
+                legend=new MarkerLegend(m -> legendHover=m,m -> { legendPinned=m; if(m!=null) lookupHighlight=null; },new MarkerLegend.Actions() {
+                    public void edit(Marker m) { editMarker(m); }
+                    public void items(Marker m) { editGroupItems(m); }
+                    public void delete(List<Marker> selected) { synchronized(WindowMarkersPlugin.this) {
+                        removeMarkers(selected.stream().mapToInt(markers::indexOf).toArray(),false);
+                    }}
+                    public void clear(List<Marker> expected) { synchronized(WindowMarkersPlugin.this) {
+                        if(markers.equals(expected)) removeMarkers(new int[0],true);
+                        else setStatus("Layout changed. Review the groups before clearing.");
+                    }}
+                    public void browse(String query) { browseCatalogue(query); }
+                    public void inspect() { inspectItems(); }
+                    public void clearHighlight() { lookupHighlight=null; }
+                    public void reorder(List<Marker> visible,List<Marker> selected,int index) { reorderGroups(visible,selected,index); }
+                    public void transform(Marker m,boolean resize) { synchronized(WindowMarkersPlugin.this) { armTransform(markers.indexOf(m),resize); } }
                 });
-                edit.setEnabled(false); move.setEnabled(false); resize.setEnabled(false); remove.setEnabled(false);
-                list.getInputMap().put(KeyStroke.getKeyStroke("DELETE"),"deleteMarkers");
-                list.getActionMap().put("deleteMarkers",new AbstractAction() {
-                    @Override public void actionPerformed(java.awt.event.ActionEvent e)
-                    { removeMarkers(list.getSelectedIndices(),false); }
-                });
-                JPanel editor=new JPanel(new BorderLayout(0,10));
-                editor.add(controls,BorderLayout.NORTH);
-                editor.add(new JScrollPane(list),BorderLayout.CENTER);
-                editor.add(actions,BorderLayout.SOUTH);
-                legend=new MarkerLegend(m -> legendHover=m,m -> legendPinned=m);
+                JPanel legendPanel=new JPanel(new BorderLayout(0,6)); legendPanel.add(categorize,BorderLayout.NORTH); legendPanel.add(legend,BorderLayout.CENTER);
                 JTabbedPane tabs=new JTabbedPane();
-                tabs.addTab("Legend",legend); tabs.addTab("Markers",editor); tabs.addTab("Tools",toolsPanel);
+                tabs.addTab("Legend",legendPanel); tabs.addTab("Custom",customPanel); tabs.addTab("Tools",toolsPanel);
                 tabs.addChangeListener(e -> { legendHover=null; });
-                panel.add(tabs,BorderLayout.CENTER);
+                panel.add(controls,BorderLayout.NORTH); panel.add(tabs,BorderLayout.CENTER);
                 BufferedImage icon = new BufferedImage(24,24,BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g = icon.createGraphics();
                 g.setColor(new Color(190,155,85)); g.drawRect(2,2,19,19); g.drawRect(5,5,13,13); g.dispose();
@@ -204,7 +205,10 @@ public class WindowMarkersPlugin extends Plugin
 
     @Override protected synchronized void shutDown()
     {
-        active = false;
+        active = false; catalogueRevision++;
+        lookupHighlight=null;
+        if(nativeSearch!=null) nativeSearch.stop();
+        if(legend!=null) SwingUtilities.invokeLater(legend::close);
         if(screenshotButton!=null) { screenshotButton.clear(); }
         if(bankLayout!=null) { bankLayout.shutDown(); }
         cancel(); bank = null; captured = false; suppressClick = false;
@@ -225,7 +229,10 @@ public class WindowMarkersPlugin extends Plugin
 
     private void load()
     {
-        legendHover=null; legendPinned=null;
+        if(nativeSearch!=null) { nativeSearch.reset(); nativeSearch.start(); }
+        legendHover=null; legendPinned=null; lookupHighlight=null; legendCells.clear(); catalogueRevision++;
+        if(legend!=null) SwingUtilities.invokeLater(legend::resetContext);
+        customPresets=new CustomPresets();
         markers.clear();
         accountKey = configs.getRSProfileKey();
         catalog=new LayoutCatalog();
@@ -236,6 +243,9 @@ public class WindowMarkersPlugin extends Plugin
                 String rawCatalog=configs.getConfiguration("windowmarkers",accountKey,baseLayoutKey()+"_catalog");
                 LayoutCatalog saved=rawCatalog == null ? null : gson.fromJson(rawCatalog,LayoutCatalog.class);
                 if (saved != null) { catalog=saved; catalog.normalize(); }
+                String templates=configs.getConfiguration("windowmarkers",accountKey,baseLayoutKey()+"_customPresets");
+                CustomPresets library=templates==null?null:gson.fromJson(templates,CustomPresets.class);
+                if(library!=null) { library.normalize(); customPresets=library; }
             }
             catch (JsonParseException ex) { setStatus("Could not read named layouts; using Default."); }
         }
@@ -378,16 +388,27 @@ public class WindowMarkersPlugin extends Plugin
         load();
     }
 
-    private void autoCategorize()
+    private void autoCategorize() { autoCategorize(AutoCategories.Preset.ALL_CATEGORIES); }
+
+    private void autoCategorize(AutoCategories.Preset initial)
     {
         JComboBox<AutoCategories.Preset> presets=new JComboBox<>(AutoCategories.Preset.values());
+        presets.setSelectedItem(initial);
         JCheckBox excludeWorse=new JCheckBox("Exclude worse items (verified raid gear and tools)",false);
+        presets.addActionListener(e -> excludeWorse.setEnabled(presets.getSelectedItem()!=AutoCategories.Preset.WIKI_ACTIVITY_SETUP));
         JPanel settings=new MarkerForm();
         settings.add(presets); settings.add(excludeWorse);
         settings.add(new JLabel("<html>Uses your real skill levels and owned replacements.<br>Preserves set, clue, quest and special-use alternatives.<br>Exclusions are listed for review before any markers change.</html>"));
         if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),settings,"Auto-categorize",560,280)) { return; }
         AutoCategories.Preset preset=(AutoCategories.Preset)presets.getSelectedItem();
-        final boolean filterWorse=excludeWorse.isSelected();
+        final ActivitySetups.Setup setup=preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP
+            ? ActivitySetupPicker.choose(navigation==null ? null : navigation.getPanel()) : null;
+        if (preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP && setup==null) { return; }
+        categorize(preset,setup,excludeWorse.isSelected() && setup==null);
+    }
+
+    private void categorize(AutoCategories.Preset preset,ActivitySetups.Setup setup,boolean filterWorse)
+    {
         final String owner, layout;
         synchronized (this)
         {
@@ -398,44 +419,38 @@ public class WindowMarkersPlugin extends Plugin
             synchronized (WindowMarkersPlugin.this)
             {
                 if (!active || bank==null || !owner.equals(accountKey) || !layout.equals(layoutKey) || !currentLayout()) { return; }
-                net.runelite.api.ItemContainer container=client.getItemContainer(net.runelite.api.gameval.InventoryID.BANK);
-                if (container==null) { return; }
-                java.util.Map<Integer,AutoCategories.Item> facts=new java.util.LinkedHashMap<>();
-                for (net.runelite.api.Item item : container.getItems())
-                {
-                    if (item.getId()<0 || item.getQuantity()<=0 || item.getId()==6512) { continue; }
-                    int id=itemManager.canonicalize(item.getId());
-                    net.runelite.api.ItemComposition definition=itemManager.getItemComposition(id);
-                    net.runelite.client.game.ItemStats stats=itemManager.getItemStats(id);
-                    net.runelite.client.game.ItemEquipmentStats eq=stats==null ? null : stats.getEquipment();
-                    int melee=eq==null ? 0 : Math.max(eq.getAstab(),Math.max(eq.getAslash(),eq.getAcrush()))+eq.getStr();
-                    int ranged=eq==null ? 0 : eq.getArange()+eq.getRstr();
-                    int magic=eq==null ? 0 : eq.getAmagic()+(int)eq.getMdmg();
-                    facts.put(id,new AutoCategories.Item(id,definition.getName(),stats!=null && stats.isEquipable(),definition.getInventoryActions(),melee,ranged,magic));
-                }
-                List<AutoCategories.Item> owned=new ArrayList<>(facts.values());
+                List<AutoCategories.Item> owned=bankFacts();
                 java.util.Map<Integer,String> exclusions=filterWorse ? LowerTierFilter.exclusions(owned,
                     client.getRealSkillLevel(net.runelite.api.Skill.MINING),client.getRealSkillLevel(net.runelite.api.Skill.WOODCUTTING),client.getRealSkillLevel(net.runelite.api.Skill.FISHING)) : java.util.Collections.emptyMap();
                 owned.removeIf(i -> exclusions.containsKey(i.id));
-                java.util.Map<String,List<AutoCategories.Item>> groups=AutoCategories.suggest(preset,owned);
+                java.util.Map<String,List<AutoCategories.Item>> groups=setup==null ? AutoCategories.suggest(preset,owned) : setup.suggest(owned);
                 if (filterWorse)
                 {
                     net.runelite.api.Skill[] skills={net.runelite.api.Skill.ATTACK,net.runelite.api.Skill.STRENGTH,net.runelite.api.Skill.DEFENCE,net.runelite.api.Skill.RANGED,net.runelite.api.Skill.MAGIC,net.runelite.api.Skill.PRAYER,net.runelite.api.Skill.HITPOINTS};
                     int[] levels=new int[skills.length];
                     for(int i=0;i<skills.length;i++) { levels[i]=client.getRealSkillLevel(skills[i]); }
                     boolean ancientRingsUnlocked=net.runelite.api.Quest.DESERT_TREASURE_II__THE_FALLEN_EMPIRE.getState(client)==net.runelite.api.QuestState.FINISHED;
-                    RaidGearFilter.filter(preset,groups,levels,ancientRingsUnlocked,exclusions);
+                    boolean allSkillsMaxed=java.util.Arrays.stream(net.runelite.api.Skill.values())
+                        .filter(skill -> skill!=net.runelite.api.Skill.OVERALL)
+                        .allMatch(skill -> client.getRealSkillLevel(skill)>=99);
+                    RaidGearFilter.filter(preset,groups,levels,ancientRingsUnlocked,allSkillsMaxed,exclusions);
                 }
-                SwingUtilities.invokeLater(() -> reviewCategories(owner,layout,groups,preset,exclusions));
+                SwingUtilities.invokeLater(() -> reviewCategories(owner,layout,groups,preset,exclusions,setup));
             }
         });
     }
 
-    private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions)
+    private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions,ActivitySetups.Setup setup)
     {
         if (groups.isEmpty()) { setStatus("No owned items matched this preset."); return; }
         JPanel panel=new MarkerForm();
         panel.add(new JLabel("<html>Wiki classifications describe uses, not one combined loadout.<br>Outfit groups include owned pieces; partial ownership does<br>not activate a full-set bonus. Tools are grouped separately.<br>Raid lists depend on role, spellbook, charges and invocations.<br>Unresolved items stay in an unchecked review group.</html>"));
+        if (setup!=null && !setup.notes.isEmpty())
+        {
+            JTextArea notes=new JTextArea(setup.notes);
+            notes.setEditable(false); notes.setLineWrap(true); notes.setWrapStyleWord(true); notes.setColumns(42);
+            panel.add(notes);
+        }
         if (!exclusions.isEmpty())
         {
             JTextArea excluded=new JTextArea("Excluded lower-tier items:\n"+String.join("\n",exclusions.values()));
@@ -443,7 +458,7 @@ public class WindowMarkersPlugin extends Plugin
             panel.add(excluded);
         }
         JButton source=new JButton("Open Wiki source");
-        source.addActionListener(e -> net.runelite.client.util.LinkBrowser.browse(WikiCatalogue.source(preset)));
+        source.addActionListener(e -> net.runelite.client.util.LinkBrowser.browse(setup==null ? WikiCatalogue.source(preset) : setup.source));
         panel.add(source);
         panel.add(new JLabel("<html>Existing linked items are skipped. To correct old groups,<br>check their names below for replacement. Area markers stay.<br>Replacing removes the entire checked marker. Undo restores it.</html>"));
         java.util.Map<JCheckBox,Marker> replacements=new java.util.LinkedHashMap<>();
@@ -467,7 +482,7 @@ public class WindowMarkersPlugin extends Plugin
             items.setBackground(panel.getBackground()); panel.add(items);
         }
         
-        if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),panel,"Review "+preset,620,620)) { return; }
+        if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),panel,"Review "+(setup==null ? preset : setup.activity+" — "+setup.label),620,620)) { return; }
         synchronized (this)
         {
             if (!active || !owner.equals(accountKey) || !layout.equals(layoutKey) || !currentLayout()) { setStatus("Layout changed; run categorization again."); return; }
@@ -490,6 +505,7 @@ public class WindowMarkersPlugin extends Plugin
                 if (ids.length==0) { continue; }
                 Marker marker=new Marker(0,0,48,36); marker.scrollWithItems=true; marker.linkedItemIds=ids;
                 marker.label=MarkerPresentation.title(entry.getKey().getText()); marker.labelOnce=true;
+                marker.category=entry.getKey().getText(); marker.preset=setup==null?preset.toString():setup.activity+" — "+setup.label;
                 marker.labelFont="Arial"; marker.labelSize=12;
                 marker.labelPlacement=Marker.LabelPlacement.ABOVE; marker.style=WindowMarkersConfig.BorderStyle.PLAIN;
                 Color color=MarkerPresentation.nextColor(usedColors); usedColors.add(color);
@@ -498,6 +514,317 @@ public class WindowMarkersPlugin extends Plugin
             }
             if (added>0 || replaced>0) { save(); }
             setStatus(added+" groups added; "+replaced+" replaced."+(limited>0 ? " "+limited+" groups skipped at the "+MAX_MARKERS+"-marker limit." : "")+" Undo restores the previous layout.");
+        }
+    }
+
+    private static void addButton(JPanel panel,String title,Runnable action)
+    { JButton button=new JButton(title); button.addActionListener(e -> action.run()); panel.add(button); }
+
+    private Component parent() { return navigation==null?null:navigation.getPanel(); }
+
+    private AutoCategories.Item itemFact(int id)
+    {
+        var definition=itemManager.getItemComposition(id);
+        var stats=itemManager.getItemStats(id); var eq=stats==null?null:stats.getEquipment();
+        return new AutoCategories.Item(id,definition.getName(),stats!=null && stats.isEquipable(),definition.getInventoryActions(),
+            eq==null?0:Math.max(eq.getAstab(),Math.max(eq.getAslash(),eq.getAcrush()))+eq.getStr(),
+            eq==null?0:eq.getArange()+eq.getRstr(),eq==null?0:eq.getAmagic()+(int)eq.getMdmg());
+    }
+
+    private List<AutoCategories.Item> bankFacts()
+    {
+        java.util.Map<Integer,AutoCategories.Item> facts=new java.util.LinkedHashMap<>();
+        var container=client.getItemContainer(net.runelite.api.gameval.InventoryID.BANK);
+        if(container!=null) for(var item:container.getItems()) {
+            if(item.getId()<0 || item.getQuantity()<=0 || item.getId()==6512) continue;
+            int id=itemManager.canonicalize(item.getId()); facts.putIfAbsent(id,itemFact(id));
+        }
+        return new ArrayList<>(facts.values());
+    }
+
+    @Subscribe public synchronized void onItemContainerChanged(net.runelite.api.events.ItemContainerChanged event)
+    { if(event.getContainerId()==net.runelite.api.gameval.InventoryID.BANK) reloadCatalogue(); }
+
+    private void reloadCatalogue()
+    {
+        if(!active || clientThread==null || itemManager==null) return;
+        final long revision=++catalogueRevision;
+        clientThread.invokeLater(() -> {
+            final List<AutoCategories.Item> owned;
+            final List<Marker> saved;
+            final CustomPresets templates;
+            synchronized(this) {
+                if(!active || revision!=catalogueRevision) return;
+                owned=bankFacts(); saved=new ArrayList<>();
+                for(Marker m:markers) saved.add(gson.fromJson(gson.toJson(m),Marker.class));
+                templates=gson.fromJson(gson.toJson(customPresets),CustomPresets.class);
+            }
+            new SwingWorker<List<BankCatalogue.Choice>,Void>() {
+                private BankSearchIndex searchIndex;
+                protected List<BankCatalogue.Choice> doInBackground() {
+                    searchIndex=new BankSearchIndex(owned,saved,templates);
+                    return BankCatalogue.choices(owned,saved,templates);
+                }
+                protected void done() {
+                    try { List<BankCatalogue.Choice> choices=get(); synchronized(WindowMarkersPlugin.this) {
+                        if(!active || revision!=catalogueRevision) return;
+                        // Saved-group choices must refer to current identities, not the worker's snapshots.
+                        choices.removeIf(c -> c.kind==BankCatalogue.Kind.SAVED_GROUP || c.kind==BankCatalogue.Kind.CUSTOM_PRESET);
+                        for(Marker m:markers) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.SAVED_GROUP,m.labelText().isEmpty()?"Unnamed group":m.labelText(),m));
+                        for(CustomPresets.Preset p:customPresets.presets) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,p.name,p));
+                        catalogueChoices=choices; if(legend!=null) legend.catalogue(choices);
+                        if(nativeSearch!=null) nativeSearch.index(searchIndex);
+                    }} catch(Exception ex) { setStatus("Catalogue search could not be loaded. Reopen the bank to retry."); }
+                }
+            }.execute();
+        });
+    }
+
+    private void browseCatalogue(String query)
+    {
+        List<BankCatalogue.Choice> choices; String owner,layout;
+        synchronized(this) { choices=new ArrayList<>(catalogueChoices); owner=accountKey; layout=layoutKey; }
+        BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),choices,query,
+            selected -> deleteCustomPreset((CustomPresets.Preset)selected.value)); if(choice==null) return;
+        synchronized(this) { if(!context(owner,layout)) return; }
+        switch(choice.kind) {
+            case PRESET: autoCategorize((AutoCategories.Preset)choice.value); break;
+            case WIKI_SETUP: categorize(AutoCategories.Preset.WIKI_ACTIVITY_SETUP,(ActivitySetups.Setup)choice.value,false); break;
+            case CUSTOM_PRESET: applyCustomPreset((CustomPresets.Preset)choice.value); break;
+            case SAVED_GROUP:
+                legend.search.setText(""); legend.scope.setSelectedIndex(1); legend.preset.setSelectedIndex(0); legend.filter();
+                for(int i=0;i<legend.rows.size();i++) if(legend.rows.get(i).marker==choice.value) {
+                    legend.list.setSelectedIndex(i); legend.list.ensureIndexIsVisible(i); break;
+                }
+                break;
+            case CATEGORY:
+                clientThread.invokeLater(() -> {
+                    List<AutoCategories.Item> owned;
+                    synchronized(this) { if(!context(owner,layout) || bank==null) { setStatus("Open your bank first."); return; } owned=bankFacts(); }
+                    new SwingWorker<java.util.Map<String,List<AutoCategories.Item>>,Void>() {
+                        protected java.util.Map<String,List<AutoCategories.Item>> doInBackground() {
+                            return BankCatalogue.categoryGroups(choice.name,owned);
+                        }
+                        protected void done() { try { reviewCategories(owner,layout,get(),AutoCategories.Preset.ALL_CATEGORIES,java.util.Collections.emptyMap(),null); }
+                            catch(Exception ex) { setStatus("Could not load this category."); } }
+                    }.execute();
+                }); break;
+        }
+    }
+
+    private boolean context(String owner,String layout)
+    { return active && currentLayout() && java.util.Objects.equals(owner,accountKey) && java.util.Objects.equals(layout,layoutKey); }
+
+    synchronized void reorderGroups(List<Marker> visible,List<Marker> selected,int index)
+    {
+        if(active && currentLayout() && GroupEdits.reorder(markers,visible,selected,index)) {
+            cancel(); save(); setStatus("Legend order saved. Bank items stay in place. Undo restores the order.");
+        }
+    }
+
+    private void editMarker(Marker marker)
+    { edit(marker); }
+
+    private void styleGroup(Marker marker,String name)
+    {
+        List<Color> colors=new ArrayList<>();
+        for(Marker m:markers) colors.add(m.borderArgb==null?config.color():new Color(m.borderArgb,true));
+        Color color=MarkerPresentation.nextColor(colors);
+        marker.label=name; marker.preset="Custom"; marker.category=null; marker.labelOnce=true;
+        marker.labelFont="Arial"; marker.labelSize=12; marker.labelPlacement=Marker.LabelPlacement.ABOVE;
+        marker.style=WindowMarkersConfig.BorderStyle.PLAIN; marker.borderArgb=color.getRGB();
+        marker.backgroundArgb=new Color(color.getRed(),color.getGreen(),color.getBlue(),65).getRGB();
+    }
+
+    private String askName(String title,String initial)
+    {
+        JTextField field=new JTextField(initial==null?"":initial,30);
+        if(!MarkerDialogs.confirm(parent(),field,title,440,190)) return null;
+        String name=field.getText().trim(); if(name.isEmpty()) { setStatus("Enter a name for the group or preset."); return null; }
+        return name.substring(0,Math.min(60,name.length()));
+    }
+
+    private void armGroup(Marker append)
+    {
+        String owner,layout;
+        synchronized(this) { if(!currentLayout() || bank==null) { setStatus("Open your bank first."); return; } owner=accountKey; layout=layoutKey; }
+        String name=append==null?askName("Name the item group","My Food"):append.labelText(); if(name==null) return;
+        synchronized(this) {
+            if(!context(owner,layout) || (append!=null && !markers.contains(append))) return;
+            cancel(); if(append==null && markers.size()>=MAX_MARKERS) { setStatus("Marker limit reached."); return; }
+            forceLink=true; appendTarget=append; pendingGroupName=name; armed=true;
+            setStatus("Draw around items for "+name+". Add another bank selection to include other rows.");
+        }
+    }
+
+    private void mergeGroups()
+    {
+        List<Marker> selected=legend.selected(); String owner,layout;
+        synchronized(this) {
+            if(!currentLayout() || selected.size()<2 || selected.stream().anyMatch(m -> !m.linked() || !markers.contains(m))) {
+                setStatus("Select at least two linked groups in Legend to merge."); return;
+            }
+            owner=accountKey; layout=layoutKey;
+        }
+        String name=askName("Name the merged group",selected.get(0).labelText()); if(name==null) return;
+        synchronized(this) {
+            if(!context(owner,layout) || !markers.containsAll(selected)) return;
+            Marker merged=gson.fromJson(gson.toJson(selected.get(0)),Marker.class); merged.linkedItemIds=GroupEdits.union(selected);
+            if(merged.linkedItemIds.length>4000) { setStatus("A group can contain up to 4,000 item types."); return; }
+            merged.label=name; merged.category=null; merged.preset="Custom";
+            int index=selected.stream().mapToInt(markers::indexOf).min().getAsInt();
+            cancel(); markers.removeAll(selected); markers.add(index,merged); save(); setStatus("Groups merged. Undo restores the separate groups.");
+        }
+    }
+
+    /** Palette inputs are captured on the client thread; all Swing work stays on the EDT. */
+    private void paletteInputs(int[] initial,java.util.function.BiConsumer<java.util.Set<Integer>,List<BankItemSearch.Choice>> action)
+    {
+        clientThread.invokeLater(() -> {
+            java.util.Set<Integer> owned=new java.util.LinkedHashSet<>(); for(var fact:bankFacts()) owned.add(fact.id);
+            List<BankItemSearch.Choice> selected=new ArrayList<>();
+            for(int id:initial) { var c=new BankItemSearch.Choice(id,itemManager.getItemComposition(id).getName()); c.image=itemManager.getImage(id); selected.add(c); }
+            SwingUtilities.invokeLater(() -> action.accept(owned,selected));
+        });
+    }
+
+    private void editGroupItems(Marker target)
+    {
+        final String owner,layout; final int[] initial;
+        synchronized(this) {
+            if(!currentLayout() || (target!=null && (!markers.contains(target) || !target.linked()))) return;
+            owner=accountKey; layout=layoutKey; initial=target==null?new int[0]:target.linkedItemIds.clone();
+        }
+        paletteInputs(initial,(owned,selected) -> {
+            synchronized(this) { if(!context(owner,layout)) return; }
+            ItemPalette palette=new ItemPalette(itemSearch,owned,selected,4000);
+            JTextField label=new JTextField(target==null?"My group":target.labelText());
+            JPanel form=new JPanel(new BorderLayout(0,8));
+            JPanel heading=new JPanel(new BorderLayout(6,0)); heading.add(new JLabel("Group name"),BorderLayout.WEST); heading.add(label,BorderLayout.CENTER);
+            form.add(heading,BorderLayout.NORTH); form.add(palette,BorderLayout.CENTER);
+            boolean accepted; try { accepted=MarkerDialogs.confirm(parent(),form,target==null?"Create item group":"Edit group items",740,680); }
+            finally { palette.close(); }
+            if(!accepted) return; int[] ids=palette.ids(); String name=label.getText().trim();
+            if(ids.length==0 || name.isEmpty()) { setStatus("Choose at least one item and enter a group name."); return; }
+            synchronized(this) {
+                if(!context(owner,layout) || (target!=null && !markers.contains(target))) return;
+                if(target==null && markers.size()>=MAX_MARKERS) { setStatus("Marker limit reached."); return; }
+                cancel(); Marker group=target==null?new Marker(0,0,48,36):target;
+                if(target==null) { styleGroup(group,name); markers.add(group); }
+                group.label=name.substring(0,Math.min(60,name.length())); group.scrollWithItems=true; group.linkedItemIds=ids;
+                group.category=null; group.preset="Custom"; save(); setStatus("Item group saved. Manage its appearance in Legend.");
+            }
+        });
+    }
+
+    private void inspectItems()
+    {
+        final String owner,layout; synchronized(this) { if(!currentLayout()) { setStatus("Log in to look up item categories."); return; } owner=accountKey; layout=layoutKey; }
+        paletteInputs(new int[0],(owned,initial) -> {
+            synchronized(this) { if(!context(owner,layout)) return; }
+            ItemPalette palette=new ItemPalette(itemSearch,owned,initial,2);
+            boolean accepted; try { accepted=MarkerDialogs.confirm(parent(),palette,"Choose one item to inspect, or two to compare",740,650); } finally { palette.close(); }
+            if(!accepted || palette.ids().length==0) return; int[] ids=palette.ids();
+            clientThread.invokeLater(() -> {
+                final List<AutoCategories.Item> bankItems,items=new ArrayList<>(); final List<Marker> groups=new ArrayList<>(); final CustomPresets templates;
+                synchronized(this) {
+                    if(!context(owner,layout)) return;
+                    bankItems=bankFacts(); for(int id:ids) items.add(itemFact(id));
+                    for(Marker m:markers) groups.add(gson.fromJson(gson.toJson(m),Marker.class));
+                    templates=gson.fromJson(gson.toJson(customPresets),CustomPresets.class);
+                }
+                new SwingWorker<List<java.util.SortedSet<String>>,Void>() {
+                    protected List<java.util.SortedSet<String>> doInBackground() {
+                        List<java.util.SortedSet<String>> results=new ArrayList<>();
+                        for(AutoCategories.Item item:items) results.add(BankCatalogue.memberships(item,bankItems,groups,templates));
+                        return results;
+                    }
+                    protected void done() { try {
+                        var memberships=get(); synchronized(WindowMarkersPlugin.this) { if(!context(owner,layout)) return; }
+                        List<String> names=new ArrayList<>(); for(AutoCategories.Item item:items) names.add(item.name+" (#"+item.id+")");
+                        ItemLookupPanel form=new ItemLookupPanel(names,memberships);
+                        MarkerDialogs.confirm(parent(),form,"Item categories",850,640);
+                        synchronized(WindowMarkersPlugin.this) {
+                            if(!context(owner,layout)) return;
+                            if(form.filter!=null) {
+                                lookupHighlight=null; legend.preset.setSelectedIndex(0); legend.search.setText(form.filter); legend.filter();
+                                setStatus("Legend filtered by "+form.filter+". Categories / presets can add groups that are not saved yet.");
+                            } else if(form.highlightRequested) {
+                                highlightLookupItems(ids);
+                                setStatus("Highlighting "+ids.length+" item types in the current bank view. Legend → Unpin clears it.");
+                            }
+                        }
+                    } catch(Exception ex) { setStatus("Item categories could not be loaded."); } }
+                }.execute();
+            });
+        });
+    }
+
+    synchronized void highlightLookupItems(int[] ids)
+    {
+        if(!active || !currentLayout()) return;
+        Marker temporary=new Marker(0,0,48,36);
+        temporary.linkedItemIds=java.util.Arrays.stream(ids).filter(id -> id>=0).distinct().limit(2).toArray();
+        temporary.scrollWithItems=true;
+        lookupHighlight=temporary.linkedItemIds.length==0?null:temporary;
+        legendHover=null; legendPinned=null;
+    }
+
+    private void saveCustomPreset()
+    {
+        List<Marker> selected=legend.selected(); final String owner,layout;
+        synchronized(this) {
+            if(!currentLayout() || selected.isEmpty() || selected.stream().anyMatch(m -> !m.linked() || !markers.contains(m))) {
+                setStatus("Select linked item groups in Legend first. Area markers cannot be saved as item presets."); return;
+            }
+            owner=accountKey; layout=layoutKey;
+        }
+        String name=askName("Save "+selected.size()+" groups as a custom preset",""); if(name==null) return;
+        synchronized(this) {
+            if(!context(owner,layout) || !markers.containsAll(selected)) return;
+            if(customPresets.presets.size()>=CustomPresets.LIMIT) { setStatus("50-preset limit reached."); return; }
+            if(customPresets.presets.stream().anyMatch(p -> p.name.equalsIgnoreCase(name))) { setStatus("That preset name already exists. Choose a different name."); return; }
+            CustomPresets.Preset template=new CustomPresets.Preset(); template.name=name;
+            for(Marker m:selected) template.groups.add(gson.fromJson(gson.toJson(m),Marker.class));
+            customPresets.presets.add(template); savePresets(); setStatus("Custom preset saved for this account and RuneLite profile.");
+        }
+    }
+
+    private void savePresets()
+    { configs.setConfiguration("windowmarkers",accountKey,baseLayoutKey()+"_customPresets",gson.toJson(customPresets)); refreshRows(); }
+
+    private boolean deleteCustomPreset(CustomPresets.Preset preset)
+    {
+        if(preset==null) return false;
+        String owner,layout; synchronized(this) { owner=accountKey; layout=layoutKey; }
+        if(!MarkerDialogs.confirm(parent(),new JLabel("Delete saved preset \""+preset.name+"\"? Existing groups stay."),"Delete preset",540,200)) return false;
+        synchronized(this) { if(context(owner,layout) && customPresets.presets.remove(preset)) { savePresets(); setStatus("Saved preset deleted. Existing groups are unchanged."); return true; } }
+        return false;
+    }
+
+    private void applyCustomPreset(CustomPresets.Preset preset)
+    {
+        if(preset==null) { setStatus("Select a saved custom preset first."); return; }
+        String owner,layout; synchronized(this) { if(!currentLayout() || !customPresets.presets.contains(preset)) return; owner=accountKey; layout=layoutKey; }
+        JPanel form=new MarkerForm();
+        form.add(new JLabel("<html>Add copies of these groups to the current layout.<br>Items not currently owned remain linked for future use.<br>Existing groups and saved preset are retained.</html>"));
+        JCheckBox skip=new JCheckBox("Skip items already in a group",true); form.add(skip);
+        List<JCheckBox> choices=new ArrayList<>();
+        for(Marker group:preset.groups) { JCheckBox box=new JCheckBox(group.labelText()+" · "+group.linkedItemIds.length+" item types",true); choices.add(box); form.add(box); }
+        if(!MarkerDialogs.confirm(parent(),form,"Apply "+preset.name,600,500)) return;
+        synchronized(this) {
+            if(!context(owner,layout) || !customPresets.presets.contains(preset)) return;
+            java.util.Set<Integer> assigned=new java.util.HashSet<>();
+            for(Marker m:markers) if(m.linked()) for(int id:m.linkedItemIds) assigned.add(id);
+            int added=0; boolean limited=false; cancel();
+            for(int i=0;i<choices.size();i++) if(choices.get(i).isSelected()) {
+                if(markers.size()>=MAX_MARKERS) { limited=true; break; }
+                Marker copy=gson.fromJson(gson.toJson(preset.groups.get(i)),Marker.class);
+                if(skip.isSelected()) copy.linkedItemIds=java.util.Arrays.stream(copy.linkedItemIds).filter(id -> !assigned.contains(id)).toArray();
+                if(!copy.linked()) continue;
+                copy.preset=preset.name; markers.add(copy); for(int id:copy.linkedItemIds) assigned.add(id); added++;
+            }
+            if(added>0) save(); setStatus(added+" groups added."+(limited?" Marker limit reached.":"")+" Undo restores the layout.");
         }
     }
 
@@ -529,28 +856,22 @@ public class WindowMarkersPlugin extends Plugin
 
     private void refreshRows()
     {
-        List<String> layoutNames=new ArrayList<>(catalog.names.values());
-        int activeLayout=new ArrayList<>(catalog.names.keySet()).indexOf(catalog.active);
-        List<String> labels = new ArrayList<>();
-        legendEntries=null;
-        long revision=++legendRevision;
-        for (int i=0;i<markers.size();i++)
-        {
-            Marker m = markers.get(i);
-
-            labels.add((m.labelText().isEmpty() ? "Marker " + (i+1) : m.labelText()) + (m.linked() ? " — linked items" : " — " + m.width + " × " + m.height));
-        }
+        List<String> names=new ArrayList<>(catalog.names.values());
+        int index=new ArrayList<>(catalog.names.keySet()).indexOf(catalog.active);
+        List<CustomPresets.Preset> templates=new ArrayList<>(customPresets.presets);
         SwingUtilities.invokeLater(() -> {
-            if (rows == null) { return; }
-            if (layoutPicker != null)
-            {
+            if(layoutPicker!=null) {
                 refreshingLayouts=true; layoutPicker.removeAllItems();
-                for (String name : layoutNames) { layoutPicker.addItem(name); }
-                layoutPicker.setSelectedIndex(activeLayout); refreshingLayouts=false;
+                for(String name:names) layoutPicker.addItem(name);
+                layoutPicker.setSelectedIndex(index); refreshingLayouts=false;
             }
-            rows.clear(); for (String label : labels) { rows.addElement(label); }
-            if(legend!=null && revision==legendRevision) { legend.replace(java.util.Collections.emptyList()); }
+            if(customPicker!=null) {
+                Object selected=customPicker.getSelectedItem(); customPicker.removeAllItems();
+                for(CustomPresets.Preset template:templates) customPicker.addItem(template);
+                if(templates.contains(selected)) customPicker.setSelectedItem(selected);
+            }
         });
+        legendEntries=null; updateLegend(legendCells); reloadCatalogue();
     }
 
     private void setStatus(String text) { SwingUtilities.invokeLater(() -> { if (status != null) { status.setText("<html>" + text + "</html>"); } }); }
@@ -563,7 +884,7 @@ public class WindowMarkersPlugin extends Plugin
         armed = true; setStatus("Drag inside bank. Right-click cancels.");
     }
 
-    synchronized void cancel() { armed = false; start = null; preview = null; transformTarget=null; setStatus("Ready. Draw or select a marker."); }
+    synchronized void cancel() { armed = false; start = null; preview = null; transformTarget=null; forceLink=null; appendTarget=null; pendingGroupName=null; setStatus("Ready. Draw or select a marker."); }
 
     synchronized void armTransform(int index, boolean resize)
     {
@@ -591,16 +912,15 @@ public class WindowMarkersPlugin extends Plugin
         setStatus(removed+" markers deleted from this layout. Undo restores them.");
     }
 
-    private void edit(int index)
+    private void edit(Marker marker)
     {
-        final Marker marker;
         final String owner;
         final String ownerLayout;
         final int[] enclosedIds;
         synchronized (this)
         {
-            if (index < 0 || index >= markers.size()) { setStatus("Select a marker first."); return; }
-            marker = markers.get(index); owner = accountKey; ownerLayout = layoutKey;
+            if (!currentLayout() || !markers.contains(marker)) { setStatus("Select a marker first."); return; }
+            owner = accountKey; ownerLayout = layoutKey;
             Rectangle original=bank == null ? null : marker.onScreen(bank,itemArea,itemScroll);
             enclosedIds=original == null || itemArea == null ? new int[0] : ItemAnchors.enclosed(original,itemCells,itemArea);
         }
@@ -665,12 +985,22 @@ public class WindowMarkersPlugin extends Plugin
         }
     }
 
+    @Subscribe(priority=-1) public void onBankSearchCallback(net.runelite.api.events.ScriptCallbackEvent event)
+    { if(active && nativeSearch!=null) nativeSearch.filter(event); }
+
     @Subscribe public synchronized void onBeforeRender(BeforeRender event)
     {
+        if(nativeSearch!=null) nativeSearch.update();
         if (client.getGameState() != GameState.LOGGED_IN)
         {
             if(screenshotButton!=null) { screenshotButton.clear(); }
-            if (bank != null || accountKey != null) { cancel(); bank = null; accountKey = null; layoutKey = null; markers.clear(); refreshRows(); }
+            if (bank != null || accountKey != null) {
+                cancel(); bank=null; itemArea=null; accountKey=null; layoutKey=null; markers.clear(); legendCells.clear();
+                customPresets=new CustomPresets(); lookupHighlight=null; catalogueRevision++;
+                if(nativeSearch!=null) nativeSearch.reset();
+                if(legend!=null) SwingUtilities.invokeLater(legend::resetContext);
+                refreshRows();
+            }
             return;
         }
         // A first-time character may not have an RS profile until its first account-scoped write.
@@ -713,7 +1043,7 @@ public class WindowMarkersPlugin extends Plugin
             for (Marker marker : markers) { marker.anchorLegacy(bank,itemArea); }
             commit(false); history.reset(gson.toJson(markers));
         }
-        updateLegend(tabCells);
+        legendCells=tabCells; updateLegend(tabCells);
         if(screenshotButton!=null) { screenshotButton.update(active && bank!=null && config.screenshotButton(),this::captureBank); }
     }
 
@@ -724,9 +1054,14 @@ public class WindowMarkersPlugin extends Plugin
         legendEntries=entries;
         if(entries.stream().noneMatch(e -> e.marker==legendHover)) { legendHover=null; }
         if(entries.stream().noneMatch(e -> e.marker==legendPinned)) { legendPinned=null; }
+        List<MarkerLegend.Entry> all=new ArrayList<>();
+        for(int i=0;i<markers.size();i++) {
+            Marker m=markers.get(i);
+            all.add(new MarkerLegend.Entry(m,m.labelText().isEmpty()?"Marker "+(i+1):m.labelText(),m.borderArgb==null?config.color():new Color(m.borderArgb,true)));
+        }
         long revision=++legendRevision;
         SwingUtilities.invokeLater(() -> {
-            if(active && legend!=null && revision==legendRevision) { legend.replace(entries); }
+            if(active && legend!=null && revision==legendRevision) { legend.replace(entries,all); }
         });
     }
 
@@ -843,9 +1178,9 @@ public class WindowMarkersPlugin extends Plugin
                 if (!captured) { return e; }
                 e.consume(); captured = false; suppressClick = true;
                 Marker drawn = start == null || bank == null ? null : drawnMarker(e.getPoint());
-                Marker target=transformTarget;
+                Marker target=transformTarget,append=appendTarget; Boolean linking=forceLink; String groupName=pendingGroupName;
                 cancel();
-                if (drawn != null && drawn.valid())
+                if (drawn != null && drawn.valid() && active && currentLayout())
                 {
                     if (target != null)
                     {
@@ -853,10 +1188,23 @@ public class WindowMarkersPlugin extends Plugin
                         target.x=drawn.x; target.y=drawn.y; target.width=drawn.width; target.height=drawn.height;
                         save(); setStatus("Area updated."); return e;
                     }
-                    if (config.linkNewMarkers() && itemArea != null)
+                    boolean linked=linking==null?config.linkNewMarkers():linking;
+                    if (linked && itemArea != null && Boolean.TRUE.equals(drawn.scrollWithItems))
                     { drawn.linkedItemIds=ItemAnchors.enclosed(drawn.onScreen(bank,itemArea,itemScroll),itemCells,itemArea); }
+                    if(Boolean.TRUE.equals(linking) && !drawn.linked()) { setStatus("No enclosed items. Draw around item icons to create a group."); return e; }
+                    if(append!=null) {
+                        if(markers.contains(append)) {
+                            int[] joined=GroupEdits.union(java.util.Arrays.asList(append,drawn));
+                            if(joined.length>4000) { setStatus("A group can contain up to 4,000 item types."); return e; }
+                            append.linkedItemIds=joined; append.category=null; append.preset="Custom";
+                            save(); setStatus("Items added to "+append.labelText()+". Undo restores the group.");
+                        }
+                        return e;
+                    }
+                    if(markers.size()>=MAX_MARKERS) return e;
+                    if(groupName!=null) { styleGroup(drawn,groupName); }
                     markers.add(drawn); save();
-                    setStatus(config.linkNewMarkers() && !drawn.linked() ? "No enclosed items; saved an area marker." : "Marker saved.");
+                    setStatus(linked && !drawn.linked() ? "No enclosed items; saved an area marker." : "Marker saved.");
                 }
                 else if (drawn != null) { setStatus("Draw at least 16 × 16 pixels."); }
             }
@@ -871,6 +1219,8 @@ public class WindowMarkersPlugin extends Plugin
 
     private Marker highlightedMarker()
     {
+        if(lookupHighlight!=null) { return lookupHighlight; }
+        if(nativeSearch!=null && nativeSearch.highlight()!=null) { return nativeSearch.highlight(); }
         if(config.hoverHighlight() && markers.contains(legendHover)) { return legendHover; }
         if(markers.contains(legendPinned)) { return legendPinned; }
         return config.hoverHighlight() ? hoveredBankMarker() : null;
@@ -964,6 +1314,15 @@ public class WindowMarkersPlugin extends Plugin
                                 if (drawn && (config.bankLabels()==WindowMarkersConfig.BankLabels.MINI || Boolean.TRUE.equals(marker.labelOnce))) { break; }
                             }
                         }
+                    }
+                    Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
+                    if(itemHighlight!=null && itemArea!=null)
+                    {
+                        Graphics2D highlight=(Graphics2D)g.create();
+                        try {
+                            highlight.clip(itemArea); highlight.setStroke(new BasicStroke(2));
+                            for(Rectangle r:markerRegions(itemHighlight)) if(r!=null) BorderRenderer.plain(highlight,r,Color.YELLOW);
+                        } finally { highlight.dispose(); }
                     }
                     if (preview != null && markerClip(preview) != null)
                     { g.clip(markerClip(preview)); BorderRenderer.plain(g, preview.onScreen(bank,itemArea,itemScroll), config.color()); }

@@ -12,7 +12,9 @@ final class AutoCategories
         COMBAT_GROUPS("General combat and equipment sets"), FOOD_AND_POTIONS("Food, potions and restricted supplies"),
         TRAVEL_AND_UTILITY("Travel, storage and utility"), QUESTS_AND_CLUES("Quest and clue items"), COSMETICS("Cosmetic and utility equipment"),
         RAID_MEGA_RARES("Raid mega-rare weapons"),
-        CHAMBERS_OF_XERIC("Chambers of Xeric — Wiki gear and supplies"), THEATRE_OF_BLOOD("Theatre of Blood — Wiki gear and supplies"), TOMBS_OF_AMASCUT("Tombs of Amascut — Wiki gear and supplies");
+        CHAMBERS_OF_XERIC("Chambers of Xeric — Wiki gear and supplies"), THEATRE_OF_BLOOD("Theatre of Blood — Wiki gear and supplies"), TOMBS_OF_AMASCUT("Tombs of Amascut — Wiki gear and supplies"),
+        FRACTURED_ARCHIVE("The Fractured Archive — provisional Wiki setups"),
+        WIKI_ACTIVITY_SETUP("Choose a Wiki activity and setup…");
         private final String label;
         Preset(String label) { this.label=label; }
         @Override public String toString() { return label; }
@@ -28,17 +30,24 @@ final class AutoCategories
     static Map<String,List<Item>> suggest(Preset preset,List<Item> items)
     {
         Map<String,List<Item>> groups=new LinkedHashMap<>();
-        if (preset!=Preset.RAID_MEGA_RARES && preset!=Preset.CHAMBERS_OF_XERIC && preset!=Preset.THEATRE_OF_BLOOD && preset!=Preset.TOMBS_OF_AMASCUT)
+        if (preset==Preset.WIKI_ACTIVITY_SETUP) { return groups; }
+        if (preset!=Preset.RAID_MEGA_RARES && preset!=Preset.CHAMBERS_OF_XERIC && preset!=Preset.THEATRE_OF_BLOOD && preset!=Preset.TOMBS_OF_AMASCUT && preset!=Preset.FRACTURED_ARCHIVE)
         {
             for (Item item : items)
             {
+                if (ItemVariantState.identityNeedsReview(item))
+                {
+                    if (preset==Preset.BROAD_TYPES || preset==Preset.ALL_CATEGORIES)
+                    { add(groups,ItemVariantState.reviewGroup(item),item); }
+                    continue;
+                }
                 boolean standalone=standaloneSetWeapon(item,items);
                 String group;
-                if (preset==Preset.BROAD_TYPES || preset==Preset.ALL_CATEGORIES) { group=standalone ? ItemTaxonomy.weaponRole(item.name) : category(item,true); }
+                if (preset==Preset.BROAD_TYPES || preset==Preset.ALL_CATEGORIES) { group=standalone ? ItemTaxonomy.weaponRole(ItemVariantState.familyName(item)) : category(item,true); }
                 else if (preset==Preset.COMBAT_GROUPS)
                 {
                     group=WikiCatalogue.category(item,preset);
-                    String set=ItemTaxonomy.equipmentSet(item.name), role=ItemTaxonomy.weaponRole(item.name);
+                    String set=ItemTaxonomy.equipmentSet(ItemVariantState.familyName(item)), role=ItemTaxonomy.weaponRole(ItemVariantState.familyName(item));
                     if (set!=null && !standalone) { group=set; }
                     else if (role!=null && !role.equals("Tools")) { group=role; }
                     else if ("Tools".equals(role)) { group=null; }
@@ -46,28 +55,29 @@ final class AutoCategories
                     { group="Other — equipment role needs review"; }
                 }
                 else { group=WikiCatalogue.category(item,preset); }
-                if (group!=null) { add(groups,group,item); }
+                if (group!=null) { add(groups,ItemVariantState.annotate(group,item),item); }
             }
             return groups;
         }
         if (preset==Preset.RAID_MEGA_RARES)
         {
-            for (Item item : items) if (ItemTaxonomy.matchesAny(item.name,"twisted bow","scythe of vitur","tumeken's shadow"))
-            { add(groups,"Raid mega-rare weapons",item); }
+            for (Item item : items) if (ItemTaxonomy.matchesAny(item,"twisted bow","scythe of vitur","tumeken's shadow"))
+            { add(groups,ItemVariantState.needsActivityReview(item) ? ItemVariantState.reviewGroup(item) : "Raid mega-rare weapons",item); }
             return groups;
         }
         return RaidRecommendations.suggest(preset,items);
     }
     private static boolean standaloneSetWeapon(Item item,List<Item> bank)
     {
-        String set=ItemTaxonomy.equipmentSet(item.name),role=ItemTaxonomy.weaponRole(item.name);
+        String set=ItemTaxonomy.equipmentSet(ItemVariantState.familyName(item)),role=ItemTaxonomy.weaponRole(ItemVariantState.familyName(item));
         if(set==null || role==null || role.equals("Tools")) { return false; }
-        return bank.stream().noneMatch(other -> set.equals(ItemTaxonomy.equipmentSet(other.name)) && ItemTaxonomy.weaponRole(other.name)==null
-            && !ItemTaxonomy.baseName(other.name).equals("berserker necklace"));
+        return bank.stream().noneMatch(other -> set.equals(ItemTaxonomy.equipmentSet(ItemVariantState.familyName(other)))
+            && ItemTaxonomy.weaponRole(ItemVariantState.familyName(other))==null
+            && !ItemTaxonomy.baseName(ItemVariantState.familyName(other)).equals("berserker necklace"));
     }
     static String category(Item item,boolean combat)
     {
-        String n=ItemTaxonomy.baseName(item.name);
+        String n=ItemTaxonomy.baseName(ItemVariantState.familyName(item));
         String set=ItemTaxonomy.equipmentSet(n);
         if (set!=null) { return set+(ItemTaxonomy.needsRepair(item.name) ? " — repair needed" : ""); }
         if (n.contains("rock cake") || n.equals("locator orb")) { return "Health-lowering utility"; }

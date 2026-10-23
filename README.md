@@ -2,7 +2,7 @@
 
 ![Improved Banking](icon.png)
 
-Organize your bank with item-linked markers, a tab-aware group legend, flexible bank layouts and full-tab screenshots.
+Find and organize bank items with a searchable legend, Wiki categories and activity setups, custom item groups and presets, flexible layouts and full-tab screenshots.
 
 **Beta — rapidly updated.** Improved Banking is being rapidly updated with up-to-date Old School RuneScape Wiki information and item categorizations. Categories and recommendations are still being refined. All requests, corrections and information are considered and appreciated: please [open an issue](https://github.com/wukuna/improved-banking/issues).
 
@@ -12,11 +12,13 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 
 ## Features
 
-- **Bank organization:** linked-item groups, scrolling area markers, labels, per-marker colors and OSRS-style borders.
-- **A readable legend:** only groups in the current tab or search, with optional hover highlighting and pinned selection.
-- **Category suggestions:** reviewable Wiki-derived skilling, combat, raid and utility groups with conservative alternative filtering.
-- **Bank presentation:** flexible dimensions, tab alignment and local full-tab screenshots.
-- **Saved layouts:** separate markers for each character and RuneLite profile, with multi-selection and Undo/Redo.
+- **Searchable Legend:** find categories, presets and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
+- **Item lookup and comparison:** inspect one or two items, send a classification to Legend, or temporarily highlight the selected items without creating a group.
+- **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
+- **Wiki-based organization:** broad categories, skilling, utility and raid presets, plus separately reviewed activity setups. Charged, empty, broken and equivalent versions retain their documented distinctions.
+- **Optional native bank search:** enable category, preset and custom-group matches from the checkbox in the bank search prompt, with live item highlighting.
+- **Bank presentation:** item-linked and area markers, readable labels, optional hover highlights, flexible dimensions, tab alignment and local full-tab screenshots.
+- **Saved layouts:** separate settings for each character and RuneLite profile, multi-selection and Undo/Redo.
 
 **Availability:** [Plugin Hub submission #19100](https://github.com/runelite/plugin-hub/pull/19100) is pending. This README describes the submitted beta.
 
@@ -24,8 +26,8 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 
 Open your bank and the **Improved Banking** square-frame sidebar icon.
 
-- **Legend:** groups with matching items in the current tab or search results. Hover a row or a marked bank item to highlight its group. Click a legend entry to pin its highlight; use **Clear highlight** to release it. Counts show distinct matching item types, including items below the scroll area, not stack quantities.
-- **Markers:** draw, auto-categorize, select and edit markers; manage named layouts; Undo or Redo changes. Shift + Up/Down, Shift-click and Ctrl-click support multi-selection. Delete selected markers or clear the current layout; either is one Undo step.
+- **Legend:** search saved groups, categories and presets with suggestions and approximate spelling. By default, groups follow the current bank tab; choose **All saved groups** to manage absent items too. Filter by preset, drag rows to reorder the legend, edit labels/appearance or item membership, and delete selected groups or clear the layout. Shift + arrows and Ctrl-click select several groups. Undo restores group edits and ordering.
+- **Custom:** create item groups with a searchable item-icon palette, draw linked groups or ordinary area markers, combine selected groups, and save/apply custom presets.
 - **Tools:** bank size and tab alignment, screenshots, default border style and copies of older marker layouts.
 
 The camera button immediately left of the bank's **X** saves the complete current tab or search results. **Tools → Save bank screenshot** offers the same capture. Select the main bank tab to capture the whole bank. Images are saved locally under RuneLite's `screenshots/<character>/bank-markers` folder, with native item icons, quantities, marker artwork and a separate legend. Nothing is uploaded or copied to the clipboard. This is a content export, not a reproduction of every third-party widget.
@@ -34,19 +36,43 @@ The camera button immediately left of the bank's **X** saves the complete curren
 
 ### Markers and labels
 
-Choose **Draw marker**, then drag inside the bank. Right-click or **Cancel drawing** cancels. Outside drawing mode, markers are click-through.
+Choose **Custom → Draw item group** or **Draw area marker**, then drag inside the bank. Right-click or **Cancel drawing** cancels. Outside drawing mode, markers are click-through.
 
-**Link new markers to enclosed items** makes markers follow those item identities between bank tabs and across width/column changes. Linked regions use the item grid and leave unrelated cells unmarked. **Snap areas to item grid** independently applies to ordinary area markers. Area markers scroll with bank contents but do not follow item identities or reflow. You can move or resize an area marker; unlink a linked marker before editing its stored area.
+Item groups follow exact item identities between bank tabs and across width/column changes. Their regions use the item grid and leave unrelated cells unmarked. To combine disconnected selections, draw and name the first group, select it in Legend, then choose **Custom → Add selection to group** and draw around another set of items. **Merge selected groups** combines existing linked groups under one name and retains the first selected group's appearance. Matching colours alone do not merge groups.
 
-Select one marker to edit its label, color, font, font size, border, background and opacity. Item icons draw above marker backgrounds. Borders support **Plain**, **Vanilla OSRS** and **Active theme**. Active theme uses loaded equipment-frame sprite overrides from Resource Packs or Interface Styles, falling back to vanilla; it does not download or redistribute packs.
+**Snap areas to item grid** applies independently to ordinary area markers. Area markers scroll with bank contents but do not follow item identities or reflow. Move and resize area markers from Legend.
+
+Select one marker in Legend and choose **Label / appearance** to edit its label, color, font, font size, border, background and opacity. Item icons draw above marker backgrounds. Borders support **Plain**, **Vanilla OSRS** and **Active theme**. Active theme uses loaded equipment-frame sprite overrides from Resource Packs or Interface Styles, falling back to vanilla; it does not download or redistribute packs.
 
 Mini-labels show short names once per group, only where they fit without covering item cells. Full names remain in the legend. Plugin settings offer **Bank labels: MINI / FULL / OFF**, **Subtle marker backgrounds** and **Highlight on hover**. Turning off hover highlighting retains click-to-pin and hover names. Saved labels and colors are not rewritten by these display options.
+
+### Search, item lookup and custom presets
+
+**Legend → Categories / presets** searches the bundled Wiki categories, equipment groups, raid presets, Wiki activity setups and saved custom presets. Results update as you type and tolerate approximate spelling; CoX, ToB and ToA abbreviations work. Choosing a category or preset opens a review before adding any groups. Search finds available categories even when they are not yet in your legend.
+
+**Item lookup / compare** opens a searchable item-icon palette. Choose one item to list its recorded categories, presets, Wiki setups and custom memberships, or two to see shared and unique memberships. Same-name item variants retain separate IDs. This compares membership, not item power or activity readiness. Use **Only items in this bank** to limit results to owned items; uncheck it to search the item catalogue.
+
+Select linked groups in Legend, then use **Custom → Save selected as preset**. Custom presets store their item IDs, labels and appearance separately for each character and RuneLite profile, and can be applied across that combination's named layouts. Applying a preset copies groups, retains unowned item links for later and skips already-grouped items by default. Select a custom preset in **Legend → Categories / presets** to delete it; existing groups stay intact. Up to 50 custom presets and 4,000 item types per custom group are supported.
+
+### Item lookup actions
+
+After choosing one or two items and pressing **OK**, select a classification and choose **Send filter to Legend** (or double-click the row). This filters existing legend groups; use **Categories / presets** to review and add a category that is not saved yet. **Highlight this item(s)** temporarily outlines both selected item identities in the current bank view, including items without a saved group. Use **Legend → Unpin** to clear the lookup highlight. Changing account, profile or named layout also clears it.
+
+### Native bank search
+
+Click the bank's normal search button and check **Enable Improved Banking search** in the chatbox search prompt. This starts off and is also available in plugin settings. Plain-text searches can match item names, Wiki categories, presets and custom groups, with matching items outlined as you type. Longer words tolerate small spelling mistakes. Search does not make a gear recommendation: item-state and activity conditions still apply.
+
+Normal native matches are retained, active Bank Tags tab membership is respected, and special searches such as `tag:food` or value comparisons keep their existing behavior. Clearing or closing search clears its highlights. Turning the option off restores ordinary search. The plugin only adds its own checkbox to the active bank-search prompt; other chatbox inputs are unchanged.
 
 ### Auto-categorize
 
 Choose a broad classification, skilling, outfit, combat, supply, utility or raid preset. Review the proposed groups before applying them. Existing linked items are skipped unless their old markers are checked for replacement; area markers remain. A batch is one Undo step.
 
-The bundled catalogue includes skilling outfits and tools, equipment sets, general combat, supplies, travel, storage, quest/clue items and raid recommendations for Chambers of Xeric, Theatre of Blood and Tombs of Amascut. Partial set ownership does not imply an active set bonus. A set weapon without matching armour remains a standalone weapon category. Unknown items remain in an unchecked review group.
+The bundled catalogue includes skilling outfits and tools, production ingredients, equipment sets, general combat, supplies, travel, storage and quest/clue items. General categories use Wiki item classifications; activity choices use the relevant guide's equipment and inventory lists. Partial set ownership does not imply an active set bonus. A set weapon without matching armour remains a standalone weapon category. Unknown items remain in an unchecked review group.
+
+The CoX, ToB and ToA presets retain their separate gear, supply and specialist roles. **Choose a Wiki activity and setup** opens a searchable selection of boss, skilling and activity guides. Select one equipment table or example inventory, read its conditions and review the matching items before applying markers. These choices begin unchecked and do not combine alternative setups into one loadout. The Fractured Archive guide is marked provisional while the Wiki develops its recommendations.
+
+Equivalent items are recognized only for the effect they share. Fire and Infernal max capes can fill their corresponding combat-cape roles; they do not acquire every ordinary Max cape perk. Skilling outfit recolours and upgrades retain their documented XP or movement benefits, without copying extra effects, clue requirements or quest identities. Charged, empty, damaged and broken versions keep separate state notes. An item in your bank does not prove that it has sufficient charges, that you meet every requirement or that a complete set is equipped.
 
 **Exclude worse items** conservatively compares supported alternatives using owned replacements, real skill levels and verified unlocks. It preserves separate roles, special attacks, set effects and useful alternatives. It does not claim a universal gear ranking. [Coverage details](src/main/resources/com/windowmarkers/CATALOGUE-COVERAGE.md), [Wiki attribution](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md) and [raid comparison sources](src/main/resources/com/windowmarkers/RAID-FILTER-SOURCES.md) describe the implemented scope.
 
@@ -82,7 +108,7 @@ Feature overlap does not imply every option of another plugin is reproduced. Jav
 
 ## Development
 
-Use Java 11 and run `./gradlew test jar` (Windows: `gradlew.bat test jar`). Published source uses the normal name and starts disabled by default. Local testing builds display **Improved Banking TEST** and retain the same feature-storage keys.
+Use Java 11 and run `./gradlew test jar` (Windows: `gradlew.bat test jar`). Published source uses the normal plugin name and RuneLite activation defaults. Local testing builds display **Improved Banking TEST** and retain the same feature-storage keys.
 
 ## Support
 

@@ -75,6 +75,70 @@ public class CatalogueTest
         assertTrue(WikiCatalogue.hasFacet(item(1351,"Unknown localized name"),"skilling"));
         assertTrue(category("Graceful hood",AutoCategories.Preset.SKILLING).startsWith("Agility"));
     }
+    @Test public void wikiSupplementRetainsSharedToolRolesAndMissingMaterials()
+    {
+        assertTrue(WikiCatalogue.entries(item(2347,"Hammer")).stream().anyMatch(e -> e.group.equals("Smithing — tools")));
+        assertTrue(WikiCatalogue.entries(item(2347,"Hammer")).stream().anyMatch(e -> e.group.equals("Construction — tools")));
+        assertTrue(WikiCatalogue.entries(item(946,"Knife")).stream().anyMatch(e -> e.group.equals("Cooking — tools")));
+        assertNotNull(WikiCatalogue.category(item(1733,"Needle"),AutoCategories.Preset.SKILLING));
+        assertEquals("Crafting — materials",WikiCatalogue.category(item(1734,"Thread"),AutoCategories.Preset.SKILLING));
+        assertNotNull(WikiCatalogue.category(item(590,"Tinderbox"),AutoCategories.Preset.SKILLING));
+    }
+    @Test public void categoryMembershipDoesNotMistakeASeedDibberForSeeds()
+    {
+        assertFalse(WikiCatalogue.entries(item(5343,"Seed dibber")).stream().anyMatch(e -> e.group.equals("Farming — seeds and planting materials")));
+        assertTrue(WikiCatalogue.hasFacet(item(5343,"Seed dibber"),"skilling"));
+    }
+    @Test public void organizationalRolesCannotGrantRaidEligibility()
+    {
+        List<AutoCategories.Item> tools=Arrays.asList(item(2347,"Hammer"),item(1734,"Thread"),item(5343,"Seed dibber"));
+        for(AutoCategories.Preset raid:Arrays.asList(AutoCategories.Preset.CHAMBERS_OF_XERIC,
+            AutoCategories.Preset.THEATRE_OF_BLOOD,AutoCategories.Preset.TOMBS_OF_AMASCUT))
+        {
+            for(AutoCategories.Item tool:tools) { assertNull(WikiCatalogue.category(tool,raid)); }
+        }
+        assertFalse(AutoCategories.suggest(AutoCategories.Preset.THEATRE_OF_BLOOD,
+            Collections.singletonList(item(1734,"Thread"))).values().stream().anyMatch(items -> !items.isEmpty()));
+    }
+    @Test public void everySupplementRowUsesAnExactIdentityAndNeverBecomesARaidRule()
+    {
+        Set<String> facets=new HashSet<>(Arrays.asList("skilling","boost","utility","travel","supply","quest","clue","cosmetic","combat","restricted"));
+        Set<String> ids=new HashSet<>();
+        for(String[] row:ItemTaxonomy.readRows("wiki-category-supplement.tsv",3))
+        {
+            assertTrue(row[0],row[0].matches("I:[0-9]+"));
+            assertTrue(row[1],facets.contains(row[1]));
+            if(!ids.add(row[0])) { continue; }
+            AutoCategories.Item unknownName=item(Integer.parseInt(row[0].substring(2)),"Unknown item name");
+            for(AutoCategories.Preset raid:Arrays.asList(AutoCategories.Preset.CHAMBERS_OF_XERIC,
+                AutoCategories.Preset.THEATRE_OF_BLOOD,AutoCategories.Preset.TOMBS_OF_AMASCUT))
+            {
+                assertNull(row[0],WikiCatalogue.category(unknownName,raid));
+                // A separately reviewed variant ID can resolve to an explicit raid-table item.
+                // Category membership alone still cannot establish that identity or eligibility.
+                if(CombatEquivalence.familyName(unknownName).equals(unknownName.name))
+                { assertTrue(row[0],AutoCategories.suggest(raid,Collections.singletonList(unknownName)).isEmpty()); }
+            }
+        }
+    }
+    @Test public void nonCombatMaterialsKeepTheirUseWithoutBecomingRaidGear()
+    {
+        AutoCategories.Item[] materials={item(4821,"Black nails"),item(21338,"Amethyst bolt tips"),
+            item(2307,"Bread dough"),item(9463,"Adamant crossbow (u)"),item(9429,"Adamantite limbs"),
+            item(5496,"Apple sapling"),item(21469,"Teak seedling"),item(21504,"Giant seaweed"),
+            item(21512,"Bird house"),item(6040,"Amulet of Nature")};
+        for(AutoCategories.Item material:materials)
+        {
+            assertNotNull(material.name,WikiCatalogue.category(material,AutoCategories.Preset.SKILLING));
+            for(AutoCategories.Preset raid:Arrays.asList(AutoCategories.Preset.CHAMBERS_OF_XERIC,
+                AutoCategories.Preset.THEATRE_OF_BLOOD,AutoCategories.Preset.TOMBS_OF_AMASCUT))
+            { assertTrue(material.name,AutoCategories.suggest(raid,Collections.singletonList(material)).isEmpty()); }
+        }
+        assertNull(WikiCatalogue.category(item(9463,"Adamant crossbow (u)"),AutoCategories.Preset.COMBAT_GROUPS));
+        assertNull(WikiCatalogue.category(item(9429,"Adamantite limbs"),AutoCategories.Preset.COMBAT_GROUPS));
+        assertTrue(WikiCatalogue.entries(item(21504,"Giant seaweed")).stream()
+            .anyMatch(e -> e.group.equals("Crafting — glassmaking materials")));
+    }
     @Test public void worseToolsRequireOwnedUsableUpgradeAndRetainDistinctUses()
     {
         List<AutoCategories.Item> bank=Arrays.asList(item(-1,"Bronze pickaxe"),item(-2,"Dragon pickaxe"),
@@ -84,5 +148,22 @@ public class CatalogueTest
         assertTrue(hidden.containsKey(-1));
         for(int id:new int[]{-2,-3,-4,-5,-6}) { assertFalse(hidden.containsKey(id)); }
         assertTrue(LowerTierFilter.exclusions(Collections.singletonList(item(-1,"Bronze pickaxe")),99,99,99).isEmpty());
+    }
+
+    @Test public void ammoComponentsAndUnfinishedGrapplesCannotInheritReadyEquipmentRoles()
+    {
+        for(AutoCategories.Item component:Arrays.asList(item(21350,"Amethyst arrowtips"),
+            item(11876,"Unfinished broad bolts"),item(30998,"Atlatl dart tips"),item(9418,"Mith grapple")))
+        {
+            assertNotNull(component.name,WikiCatalogue.category(component,AutoCategories.Preset.SKILLING));
+            assertNull(component.name,WikiCatalogue.category(component,AutoCategories.Preset.COMBAT_GROUPS));
+            assertFalse(component.name,WikiCatalogue.entries(component).stream().anyMatch(e -> e.group.startsWith("Ammunition —")));
+        }
+        assertFalse(WikiCatalogue.hasFacet(item(9418,"Mith grapple"),"cosmetic"));
+        assertTrue(WikiCatalogue.hasFacet(item(9419,"Mith grapple"),"cosmetic"));
+        assertTrue(ItemVariantState.needsActivityReview(item(9418,"Mith grapple")));
+        assertFalse(ItemVariantState.needsActivityReview(item(9419,"Mith grapple")));
+        assertTrue(WikiCatalogue.entries(item(9143,"Adamant bolts")).stream()
+            .anyMatch(e -> e.group.equals("Ammunition — bolts (match weapon)")));
     }
 }

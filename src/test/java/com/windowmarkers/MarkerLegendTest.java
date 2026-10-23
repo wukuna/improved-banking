@@ -46,7 +46,7 @@ public class MarkerLegendTest
             list.setSelectedIndex(0); assertSame(marker,pinned[0]);
             legend.replace(Arrays.asList(new MarkerLegend.Entry(marker,"Magic",Color.BLUE,"1 item types in this tab")));
             assertSame(marker,pinned[0]);
-            ((JButton)legend.getComponent(2)).doClick(); assertNull(pinned[0]);
+            list.clearSelection(); assertNull(pinned[0]);
             list.setSelectedIndex(0); legend.replace(java.util.Collections.emptyList()); assertNull(pinned[0]);
         });
     }
@@ -56,5 +56,23 @@ public class MarkerLegendTest
         assertEquals("Mining",MarkerPresentation.miniTitle(marker.labelText()));
         assertEquals("Mining — useful equipment",marker.labelText());
         assertEquals("Melee",MarkerPresentation.miniTitle("Melee weapons"));
+    }
+
+    @Test public void scopePresetAndFuzzyFiltersRetainSelectionAcrossReordering() throws Exception
+    {
+        SwingUtilities.invokeAndWait(() -> {
+            Marker a=new Marker(0,0,48,36), b=new Marker(0,0,48,36);
+            a.label="Herblore ingredients"; a.preset="Skilling"; b.label="My food"; b.preset="Custom";
+            MarkerLegend.Entry first=new MarkerLegend.Entry(a,a.label,Color.GREEN), second=new MarkerLegend.Entry(b,b.label,Color.BLUE);
+            MarkerLegend legend=new MarkerLegend(m -> {},m -> {});
+            legend.replace(Arrays.asList(first),Arrays.asList(first,second)); assertEquals(1,legend.rows.size());
+            legend.scope.setSelectedIndex(1); assertEquals(2,legend.rows.size());
+            legend.list.setSelectedIndex(1);
+            legend.replace(Arrays.asList(first),Arrays.asList(second,first)); assertEquals(Arrays.asList(b),legend.selected());
+            legend.preset.setSelectedItem("Skilling"); assertEquals(1,legend.rows.size()); assertSame(a,legend.rows.get(0).marker);
+            legend.search.setText("herblroe"); legend.filter(); assertEquals(1,legend.rows.size());
+            legend.search.setText("ranged"); legend.filter(); assertEquals(0,legend.rows.size());
+            legend.close();
+        });
     }
 }

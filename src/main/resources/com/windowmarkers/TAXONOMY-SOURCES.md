@@ -1,8 +1,12 @@
-# Window Markers item taxonomy and activity data
+# Improved Banking item taxonomy and activity data
 
-Reviewed October 20, 2026. The plugin uses bundled local lookups; it sends no bank data to the Wiki and does not fetch recommendations during play.
+Original tables reviewed October 20, 2026; full snapshot reconciliation and scoped equivalence audit updated October 23, 2026. The plugin uses bundled local lookups; it sends no bank data to the Wiki and does not fetch recommendations during play.
 
 ## Attribution and data licence
+
+The exact-ID organizational supplement, `wiki-category-supplement.tsv`, also adapts OSRS Wiki contributor data under CC BY-NC-SA 3.0. [WIKI-CATEGORY-SOURCES.md](WIKI-CATEGORY-SOURCES.md) records its revisions and scope. It adds broad roles without granting activity eligibility or lower-tier rankings. [CATALOGUE-COVERAGE.md](CATALOGUE-COVERAGE.md) records the completed snapshot reconciliation and the identities or functional uses that remain explicitly unverified.
+
+New resources retain that same data licence. Separate source records describe [variant states](VARIANT-STATE-SOURCES.md), [cape combat equivalence](COMBAT-EQUIVALENCE-SOURCES.md), [cosmetic combat equivalence](COSMETIC-EQUIVALENCE-SOURCES.md), [skilling effect alternatives](SKILLING-EQUIVALENCE-SOURCES.md), [recipe inputs and tools](RECIPE-ROLE-SOURCES.md), [source-specific activity setups](ACTIVITY-SETUP-SOURCES.md) and [additional raid contexts](RAID-CONTEXT-SOURCES.md). Exact-ID exclusions and review guards preserve source conflicts instead of guessing at their meaning.
 
 `weapon-roles.tsv`, `raid-equipment.tsv`, `item-catalogue.tsv`, `raid-ranks.tsv` and `raid-wear-requirements.tsv` adapt factual lists by **Old School RuneScape Wiki contributors**, available under [Creative Commons Attribution-NonCommercial-ShareAlike 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). These adapted data files are distributed under that same licence. Original Java implementation remains under the repository's BSD 2-Clause licence. No DPS-calculator source code or data was incorporated.
 

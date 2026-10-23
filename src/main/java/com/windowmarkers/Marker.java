@@ -7,6 +7,7 @@ final class Marker
 {
     int x, y, width, height;
     String label;
+    String category, preset;
     Integer borderArgb;
     Integer backgroundArgb;
     WindowMarkersConfig.BorderStyle style;

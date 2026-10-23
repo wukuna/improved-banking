@@ -5,43 +5,83 @@ import java.util.*;
 /** Explicit per-activity membership from the cited Wiki tables, plus reviewed supply lists. */
 final class RaidRecommendations
 {
-    private static final List<String[]> EQUIPMENT=ItemTaxonomy.readRows("raid-equipment.tsv",3);
+    private static final List<String[]> EQUIPMENT=new ArrayList<>();
+    static
+    {
+        EQUIPMENT.addAll(ItemTaxonomy.readRows("raid-equipment.tsv",3));
+        EQUIPMENT.addAll(ItemTaxonomy.readRows("raid-context-equipment.tsv",3));
+    }
 
     static Map<String,List<AutoCategories.Item>> suggest(AutoCategories.Preset preset,List<AutoCategories.Item> items)
     {
-        String raid=raid(preset), prefix=raid.equals("cox") ? "CoX" : raid.equals("tob") ? "ToB" : "ToA";
+        String raid=raid(preset), prefix=raid.equals("cox") ? "CoX" : raid.equals("tob") ? "ToB" : raid.equals("tfa") ? "TFA" : "ToA";
         Map<String,List<AutoCategories.Item>> groups=new LinkedHashMap<>();
         for (String[] row : EQUIPMENT)
         {
             if (!row[0].equals(raid)) { continue; }
             for (AutoCategories.Item item : items)
             {
-                if (!ItemTaxonomy.matches(item.name,row[2])) { continue; }
+                if (!CombatEquivalence.matches(item,row[2])) { continue; }
                 // Learner alternatives repeated in a main-role table use that role's group and filtering.
                 if(row[1].startsWith("Learner") && EQUIPMENT.stream().anyMatch(other -> other[0].equals(raid)
-                    && !other[1].startsWith("Learner") && ItemTaxonomy.matches(item.name,other[2]))) { continue; }
+                    && !other[1].startsWith("Learner") && CombatEquivalence.matches(item,other[2]))) { continue; }
                 String group=row[1];
-                if (ItemTaxonomy.needsRepair(item.name) || ItemTaxonomy.needsCharge(item.name))
-                { group="Needs repair/charge — review"; }
-                else if (isVoid(item.name))
+                if (ItemVariantState.needsActivityReview(item,group))
+                { group=ItemVariantState.reviewGroup(item); }
+                else if (isVoid(ItemVariantState.familyName(item)))
                 { group=completeVoid(items) ? "Elite Void switches — choose helm for role" : "Incomplete Void set — review"; }
-                else if (isCrystal(item.name))
+                else if (isCrystal(ItemVariantState.familyName(item)))
                 { group=completeCrystal(items) ? "Crystal bow setup" : "Incomplete crystal setup — review"; }
                 else if (raid.equals("tob") && group.equals("Magic")) { group="Magic switches — freezer role"; }
                 else if (raid.equals("tob") && group.equals("Ranged")) { group="Ranged switches — ranger/Tbow use"; }
+                if (raid.equals("tfa") && !group.contains("review")) { group+=" — provisional review"; }
+                // Keep combat role keys stable for the same-role upgrade filter.
+                if (group.startsWith("Guardians tools") || group.startsWith("Special attacks"))
+                { group=ItemVariantState.annotate(group,item); }
                 AutoCategories.add(groups,prefix+" "+group,item);
             }
         }
         for (AutoCategories.Item item : items)
         {
-            String supply=supplyGroup(raid,item.name);
-            if (supply!=null) { AutoCategories.add(groups,prefix+" "+supply,item); }
+            String supply=supplyGroup(raid,ItemVariantState.familyName(item));
+            if (supply!=null)
+            {
+                if (ItemVariantState.needsActivityReview(item)) { supply=ItemVariantState.reviewGroup(item); }
+                if (raid.equals("tfa")) { supply+=" — provisional review"; }
+                AutoCategories.add(groups,prefix+" "+supply,item);
+            }
         }
         return groups;
     }
 
     static String raid(AutoCategories.Preset preset)
-    { return preset==AutoCategories.Preset.CHAMBERS_OF_XERIC ? "cox" : preset==AutoCategories.Preset.THEATRE_OF_BLOOD ? "tob" : "toa"; }
+    { return preset==AutoCategories.Preset.CHAMBERS_OF_XERIC ? "cox" : preset==AutoCategories.Preset.THEATRE_OF_BLOOD ? "tob" : preset==AutoCategories.Preset.FRACTURED_ARCHIVE ? "tfa" : "toa"; }
+
+    /** Discoverable names even when none of the relevant items are currently owned. */
+    static Set<String> groups()
+    {
+        Set<String> result=new TreeSet<>();
+        for(String raid:Arrays.asList("cox","tob","toa","tfa")) {
+            String prefix=raid.equals("cox")?"CoX":raid.equals("tob")?"ToB":raid.equals("toa")?"ToA":"TFA";
+            Set<String> roles=new TreeSet<>();
+            for(String[] row:EQUIPMENT) if(row[0].equals(raid)) {
+                String role=row[1];
+                if(raid.equals("tob") && role.equals("Magic")) role="Magic switches — freezer role";
+                if(raid.equals("tob") && role.equals("Ranged")) role="Ranged switches — ranger/Tbow use";
+                roles.add(role);
+            }
+            roles.addAll(Arrays.asList("Elite Void switches — choose helm for role","Incomplete Void set — review","Crystal bow setup","Incomplete crystal setup — review"));
+            roles.addAll(Arrays.asList("Needs repair/charge — review","Check charges — review","Unverified item identity — review",
+                "Activity restrictions — review","Check item use — review","Reduced function — review","Preparation needed — review","Check contents — review","Empty — review"));
+            for(String name:Arrays.asList("saradomin brew","super restore","prayer potion","stamina potion","sanfew serum",
+                "super combat potion","ranging potion","anglerfish","cooked karambwan","saturated heart","salve amulet (e)","salve amulet(ei)",
+                "water rune","blood rune","air rune","antidote++","keris partisan of the sun","rune pouch")) {
+                String group=supplyGroup(raid,name); if(group!=null) roles.add(group);
+            }
+            for(String role:roles) result.add(prefix+" "+role+(raid.equals("tfa") && !role.contains("review")?" — provisional review":""));
+        }
+        return result;
+    }
 
     static String source(AutoCategories.Preset preset)
     {
@@ -50,6 +90,7 @@ final class RaidRecommendations
             case CHAMBERS_OF_XERIC: return "https://oldschool.runescape.wiki/w/Chambers_of_Xeric/Strategies";
             case THEATRE_OF_BLOOD: return "https://oldschool.runescape.wiki/w/Theatre_of_Blood/Strategies";
             case TOMBS_OF_AMASCUT: return "https://oldschool.runescape.wiki/w/Tombs_of_Amascut/Strategies";
+            case FRACTURED_ARCHIVE: return "https://oldschool.runescape.wiki/w/The_Fractured_Archive/Strategies";
             default: return "https://oldschool.runescape.wiki/w/Weapons/Types";
         }
     }
@@ -58,7 +99,7 @@ final class RaidRecommendations
     { return !group.startsWith("Other") && !group.contains("review") && !group.contains("Incomplete") && !group.contains("Needs repair"); }
 
     private static boolean owns(List<AutoCategories.Item> items,String... names)
-    { return items.stream().anyMatch(i -> !ItemTaxonomy.needsRepair(i.name) && !ItemTaxonomy.needsCharge(i.name) && ItemTaxonomy.matchesAny(i.name,names)); }
+    { return items.stream().anyMatch(i -> !ItemVariantState.needsActivityReview(i) && ItemTaxonomy.matchesAny(i,names)); }
 
     private static boolean completeVoid(List<AutoCategories.Item> items)
     {
@@ -108,7 +149,15 @@ final class RaidRecommendations
             if (oneOf(n,"saturated heart","imbued heart")) { return "Magic boost — pre-raid"; }
             if (oneOf(n,"keris partisan of the sun")) { return "Healing utility — needs special energy"; }
         }
+        else if (raid.equals("tfa"))
+        {
+            if (oneOf(n,"saradomin brew","super restore","sanfew serum")) { return "Restoration supplies"; }
+            if (oneOf(n,"super combat potion","ranging potion")) { return "Combat boosts"; }
+            if (oneOf(n,"blood rune","soul rune","death rune","water rune","fire rune","aether rune"))
+            { return "Rune pouch alternatives — match spells and role"; }
+        }
         if (oneOf(n,"rune pouch","divine rune pouch","book of the dead")) { return "Spell supplies — choose spellbook"; }
+        if (raid.equals("tfa")) { return null; }
         if (oneOf(n,"air rune","cosmic rune","blood rune")) { return "Thrall runes — Arceuus only"; }
         return null;
     }

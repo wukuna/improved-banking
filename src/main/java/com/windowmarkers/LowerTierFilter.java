@@ -22,13 +22,13 @@ final class LowerTierFilter
         for (AutoCategories.Item i : bank)
         {
             int tier=tier(i.name,type);
-            if (tier>best && LEVELS[tier]<=skill && usable(i.name)) { best=tier; better=i; }
+            if (tier>best && LEVELS[tier]<=skill && usable(i.name) && !ItemVariantState.needsActivityReview(i)) { best=tier; better=i; }
         }
         if (better==null) { return; }
         for (AutoCategories.Item i : bank)
         {
             int tier=tier(i.name,type);
-            if (tier<0 || tier>=best || !usable(i.name)) { continue; }
+            if (tier<0 || tier>=best || !usable(i.name) || ItemVariantState.needsActivityReview(i)) { continue; }
             // Its exceptionally low weight remains useful for Abyss runecrafting.
             if (i.name.equals("black pickaxe")) { continue; }
             // A tool can also be required by a clue/quest. Preserve that verified separate use.

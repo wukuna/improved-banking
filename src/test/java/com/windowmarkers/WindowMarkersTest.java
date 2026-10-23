@@ -25,6 +25,63 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
+    @Test public void itemLookupHighlightIsTemporaryAndClearedByProfileChange() throws Exception
+    {
+        WindowMarkersPlugin p=plugin();
+        var field=WindowMarkersPlugin.class.getDeclaredField("lookupHighlight"); field.setAccessible(true);
+        try {
+            clearInvocations(p.configs);
+            p.highlightLookupItems(new int[]{6570,13329});
+            assertArrayEquals(new int[]{6570,13329},((Marker)field.get(p)).linkedItemIds);
+            verify(p.configs,never()).setConfiguration(eq("windowmarkers"),anyString(),anyString(),anyString());
+            when(p.configs.getProfile().getId()).thenReturn(20L); p.onProfileChanged(new ProfileChanged());
+            assertNull(field.get(p));
+        } finally { p.shutDown(); }
+    }
+    @Test public void customPresetsUseAccountAndRuneLiteProfileAndRetainSavedMarkers() throws Exception
+    {
+        WindowMarkersPlugin p=plugin(); Map<String,String> saved=new HashMap<>();
+        when(p.configs.getConfiguration(eq("windowmarkers"),anyString(),anyString()))
+            .thenAnswer(call -> saved.get(call.getArgument(1)+"/"+call.getArgument(2)));
+        doAnswer(call -> { saved.put(call.getArgument(1)+"/"+call.getArgument(2),call.getArgument(3)); return null; })
+            .when(p.configs).setConfiguration(eq("windowmarkers"),anyString(),anyString(),anyString());
+        var field=WindowMarkersPlugin.class.getDeclaredField("customPresets"); field.setAccessible(true);
+        var save=WindowMarkersPlugin.class.getDeclaredMethod("savePresets"); save.setAccessible(true);
+        try {
+            CustomPresets library=(CustomPresets)field.get(p); CustomPresets.Preset preset=new CustomPresets.Preset(); preset.name="My Food";
+            Marker group=new Marker(0,0,48,36); group.linkedItemIds=new int[]{385,3144}; group.label="Food"; preset.groups.add(group); library.presets.add(preset);
+            save.invoke(p); String original=saved.get("account-a/markersV3_profile_10_customPresets"); assertNotNull(original);
+            p.createNamedLayout("Raid",false,false);
+            assertEquals("My Food",((CustomPresets)field.get(p)).presets.get(0).name);
+            when(p.configs.getProfile().getId()).thenReturn(20L); p.onProfileChanged(new ProfileChanged());
+            assertTrue(((CustomPresets)field.get(p)).presets.isEmpty());
+            when(p.configs.getProfile().getId()).thenReturn(10L); p.onProfileChanged(new ProfileChanged());
+            assertEquals(1,((CustomPresets)field.get(p)).presets.size());
+            when(p.configs.getRSProfileKey()).thenReturn("account-b"); p.onRuneScapeProfileChanged(new RuneScapeProfileChanged("account-a","account-b"));
+            assertTrue(((CustomPresets)field.get(p)).presets.isEmpty());
+            assertEquals(original,saved.get("account-a/markersV3_profile_10_customPresets"));
+            assertNull(saved.get("account-b/markersV3_profile_10_customPresets"));
+        } finally { p.shutDown(); }
+    }
+
+    @Test public void filteredReorderSavesAndUndoRestoresFullLayout() throws Exception
+    {
+        WindowMarkersPlugin p=plugin();
+        try {
+            String json="[{\"x\":0,\"y\":0,\"width\":48,\"height\":36,\"label\":\"A\"},{\"x\":0,\"y\":0,\"width\":48,\"height\":36,\"label\":\"Hidden\"},{\"x\":0,\"y\":0,\"width\":48,\"height\":36,\"label\":\"B\"}]";
+            when(p.configs.getConfiguration("windowmarkers","account-a","markersV3_profile_10")).thenReturn(json);
+            p.onProfileChanged(new ProfileChanged());
+            var field=WindowMarkersPlugin.class.getDeclaredField("markers"); field.setAccessible(true);
+            @SuppressWarnings("unchecked") java.util.List<Marker> markers=(java.util.List<Marker>)field.get(p);
+            Marker a=markers.get(0), b=markers.get(2);
+            p.reorderGroups(java.util.Arrays.asList(a,b),java.util.Collections.singletonList(b),0);
+            assertEquals("B",markers.get(0).label); assertEquals("Hidden",markers.get(1).label);
+            p.restoreHistory(false); assertEquals("A",markers.get(0).label); assertEquals("Hidden",markers.get(1).label);
+            p.reorderGroups(java.util.Arrays.asList(a,b),java.util.Collections.singletonList(b),0); // old identities after Undo
+            assertEquals("A",markers.get(0).label);
+        } finally { p.shutDown(); }
+    }
+
     @Test public void namedLayoutsPreserveDefaultAndHistoryDoesNotLeakAcrossAccounts() throws Exception
     {
         WindowMarkersPlugin p=plugin(); WindowMarkersPlugin.MarkerMouse mouse=p.new MarkerMouse();

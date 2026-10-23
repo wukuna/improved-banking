@@ -67,6 +67,8 @@ final class ItemTaxonomy
     static boolean needsRepair(String name) { return name.endsWith(" 0") || name.contains("(broken)"); }
     static boolean needsCharge(String name) { return name.contains("(uncharged)") || name.contains("(empty)") || name.contains("(inactive)"); }
     static String equipmentSet(String n) { return SETS.get(baseName(n)); }
+    static Set<String> groups()
+    { Set<String> result=new TreeSet<>(SETS.values()); result.addAll(WEAPONS.values()); return result; }
     static String weaponRole(String n)
     {
         String role=WEAPONS.get(n);
@@ -74,6 +76,10 @@ final class ItemTaxonomy
     }
     static boolean matchesAny(String name,String... expected)
     { for (String n : expected) { if (matches(name,n)) { return true; } } return false; }
+    static boolean matches(AutoCategories.Item item,String expected)
+    { return matches(ItemVariantState.familyName(item),expected); }
+    static boolean matchesAny(AutoCategories.Item item,String... expected)
+    { return matchesAny(ItemVariantState.familyName(item),expected); }
     static boolean matches(String name,String expected)
     {
         String n=baseName(name), e=baseName(expected);
