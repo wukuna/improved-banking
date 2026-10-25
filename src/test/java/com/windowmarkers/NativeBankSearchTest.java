@@ -1,7 +1,11 @@
 package com.windowmarkers;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.ScriptCallbackEvent;
@@ -9,17 +13,39 @@ import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.VarClientID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.game.ItemManager;
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.plugins.bank.BankSearch;
 import net.runelite.client.plugins.banktags.BankTag;
 import net.runelite.client.plugins.banktags.BankTagsPlugin;
+import net.runelite.client.plugins.banktags.BankTagsService;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class NativeBankSearchTest
 {
+    @Test public void initializesUsingTheActualBankTagsPublicModule() throws Exception {
+        BankTagsPlugin existingBankTags=new BankTagsPlugin();
+        Method publicModule=BankTagsPlugin.class.getDeclaredMethod("getPublicModule");
+        publicModule.setAccessible(true);
+        Module exported=(Module)publicModule.invoke(existingBankTags);
+        Injector root=Guice.createInjector(binder -> {
+            binder.bind(Client.class).toInstance(mock(Client.class));
+            binder.bind(ClientThread.class).toInstance(mock(ClientThread.class));
+            binder.bind(ConfigManager.class).toInstance(mock(ConfigManager.class));
+            binder.bind(WindowMarkersConfig.class).toInstance(mock(WindowMarkersConfig.class));
+            binder.bind(ItemManager.class).toInstance(mock(ItemManager.class));
+            binder.bind(BankSearch.class).toInstance(mock(BankSearch.class));
+        });
+        NativeBankSearch search=root.createChildInjector(exported,
+            binder -> binder.bind(NativeBankSearch.class)).getInstance(NativeBankSearch.class);
+        assertSame(existingBankTags,search.bankTags);
+    }
+
     private NativeBankSearch ready() throws Exception {
         NativeBankSearch search=new NativeBankSearch(); search.client=mock(Client.class);
-        search.config=mock(WindowMarkersConfig.class); search.bankTags=mock(BankTagsPlugin.class); search.itemManager=mock(ItemManager.class);
+        search.config=mock(WindowMarkersConfig.class); search.bankTags=mock(BankTagsService.class); search.itemManager=mock(ItemManager.class);
         when(search.client.getGameState()).thenReturn(GameState.LOGGED_IN);
         when(search.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
         when(search.client.getVarcIntValue(VarClientID.MESLAYERMODE)).thenReturn(11);

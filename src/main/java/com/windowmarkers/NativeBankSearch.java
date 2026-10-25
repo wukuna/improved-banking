@@ -16,7 +16,7 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.bank.BankSearch;
-import net.runelite.client.plugins.banktags.BankTagsPlugin;
+import net.runelite.client.plugins.banktags.BankTagsService;
 
 /** Adds only owned search UI and optional matches; native/tag restrictions remain authoritative. */
 final class NativeBankSearch
@@ -27,7 +27,7 @@ final class NativeBankSearch
     @Inject WindowMarkersConfig config;
     @Inject ItemManager itemManager;
     @Inject BankSearch bankSearch;
-    @Inject BankTagsPlugin bankTags;
+    @Inject BankTagsService bankTags;
     private Widget parent,checkbox;
     private BankSearchIndex index;
     private String query;
