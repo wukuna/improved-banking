@@ -25,6 +25,31 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
+    @Test public void realEventBusAcceptsAllSubscribersAcrossDisableAndReenable() throws Exception
+    {
+        net.runelite.client.eventbus.EventBus bus=new net.runelite.client.eventbus.EventBus();
+        WindowMarkersPlugin p=plugin();
+        BankLayoutController layout=new BankLayoutController();
+        try {
+            bus.register(layout);
+            bus.register(p);
+            bus.unregister(p);
+            bus.unregister(layout);
+            p.shutDown();
+            p.startUp();
+            bus.register(layout);
+            bus.register(p);
+            net.runelite.api.events.ScriptCallbackEvent event=new net.runelite.api.events.ScriptCallbackEvent();
+            event.setEventName("bankSearchFilter");
+            bus.post(event);
+        } finally {
+            bus.unregister(p);
+            bus.unregister(layout);
+            p.shutDown();
+            SwingUtilities.invokeAndWait(() -> {});
+        }
+    }
+
     @Test public void itemLookupHighlightIsTemporaryAndClearedByProfileChange() throws Exception
     {
         WindowMarkersPlugin p=plugin();

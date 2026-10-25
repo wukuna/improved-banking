@@ -998,7 +998,7 @@ public class WindowMarkersPlugin extends Plugin
         }
     }
 
-    @Subscribe(priority=-1) public void onBankSearchCallback(net.runelite.api.events.ScriptCallbackEvent event)
+    @Subscribe(priority=-1) public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     { if(active && nativeSearch!=null) nativeSearch.filter(event); }
 
     @Subscribe public synchronized void onBeforeRender(BeforeRender event)
