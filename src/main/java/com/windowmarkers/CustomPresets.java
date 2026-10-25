@@ -10,6 +10,7 @@ final class CustomPresets
     static final class Preset
     {
         String name;
+        boolean bankView, groupBySlot;
         List<Marker> groups=new ArrayList<>();
         @Override public String toString() { return name; }
     }

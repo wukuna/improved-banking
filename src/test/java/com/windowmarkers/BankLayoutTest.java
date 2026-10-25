@@ -38,8 +38,15 @@ public class BankLayoutTest
         BankLayoutController c=controller();Widget tabs=mock(Widget.class),a=cell(51,0),b=cell(91,0);
         when(c.client.getWidget(InterfaceID.Bankmain.TABS)).thenReturn(tabs);when(tabs.getWidth()).thenReturn(600);
         when(tabs.getDynamicChildren()).thenReturn(new Widget[]{a,b});when(c.config.tabAlignment()).thenReturn(WindowMarkersConfig.TabAlignment.RIGHT);
-        c.onClientTick(new ClientTick());int shifted=a.getOriginalX();assertTrue(shifted>51);
-        c.onClientTick(new ClientTick());assertEquals(shifted,a.getOriginalX());assertEquals(40,b.getOriginalX()-a.getOriginalX());
+        c.onBeforeRender(new BeforeRender());int shifted=a.getOriginalX();assertTrue(shifted>51);
+        c.onBeforeRender(new BeforeRender());assertEquals(shifted,a.getOriginalX());assertEquals(40,b.getOriginalX()-a.getOriginalX());
+        // A native search rebuild lands after ClientTick, before the next frame.
+        for(int i=0;i<20;i++) {
+            c.onClientTick(new ClientTick()); a.setOriginalX(51); b.setOriginalX(91);
+            c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
+            assertEquals(shifted,a.getOriginalX());
+            c.onBeforeRender(new BeforeRender()); assertEquals(shifted,a.getOriginalX());
+        }
         c.onWidgetClosed(new WidgetClosed(InterfaceID.BANKMAIN,0,true));assertEquals(51,a.getOriginalX());assertEquals(91,b.getOriginalX());
     }
     @Test public void reflowPreservesIconSizeAndIncludesTopPaddingInScrollHeight()
@@ -69,5 +76,29 @@ public class BankLayoutTest
     }
     @Test public void oversizedCaptureIsRejectedBeforeAllocatingImage()
     { assertFalse(BankCapture.reasonableSize(4096,30000));assertFalse(BankCapture.reasonableSize(0,200));assertTrue(BankCapture.reasonableSize(1000,6000)); }
+    @Test public void slotSearchDoesNotOverrideDisabledOptionOrAnotherTagsLayout() throws Exception {
+        BankLayoutController c=controller(); c.bankTagsService=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        c.nativeSearch=new NativeBankSearch(); c.nativeSearch.client=c.client; c.nativeSearch.config=c.config;
+        when(c.client.getGameState()).thenReturn(GameState.LOGGED_IN);
+        when(c.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
+        when(c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(11);
+        when(c.client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT)).thenReturn("toa");
+        when(c.config.improvedBankSearch()).thenReturn(true);
+        for(String field:new String[]{"query","slots","matches"}) {
+            java.lang.reflect.Field f=NativeBankSearch.class.getDeclaredField(field); f.setAccessible(true);
+            f.set(c.nativeSearch,field.equals("query")?"toa":field.equals("slots")?true:Collections.singleton(1));
+        }
+        c.nativeSearch.start(); assertTrue(c.nativeSearch.groupBySlot());
+        when(c.config.bankLayoutEnabled()).thenReturn(false); when(c.config.setupSearchLayout()).thenReturn(false);
+        Widget items=mock(Widget.class),item=cell(51,0); when(items.getDynamicChildren()).thenReturn(new Widget[]{item});
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING)); verify(item,never()).setOriginalY(anyInt());
+        when(c.config.setupSearchLayout()).thenReturn(true);
+        when(c.bankTagsService.getActiveLayout()).thenReturn(new net.runelite.client.plugins.banktags.tabs.Layout("Own layout"));
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING)); verify(item,never()).setOriginalY(anyInt());
+        when(c.bankTagsService.getActiveLayout()).thenReturn(null);
+        when(c.bankTagsService.getActiveBankTag()).thenReturn(id -> true);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING)); verify(item,never()).setOriginalY(anyInt());
+    }
 }
 

@@ -6,6 +6,20 @@ import static org.junit.Assert.*;
 
 public class ItemVariantStateTest
 {
+    @Test public void unverifiedCacheNamesDoNotAcquireHealthyCrystalOrBarrowsRoles() {
+        int[] ids={4211,16888,16889,16890,16891,16892,16893,28651,34609};
+        String[] names={"Elf crystal","New crystal bow","New crystal bow (i)","New crystal shield","New crystal shield (i)",
+            "New crystal halberd full (i)","New crystal halberd full","Crystal charm","Karil's leatherskirt"};
+        for(int i=0;i<ids.length;i++) {
+            AutoCategories.Item item=item(ids[i],names[i]);
+            assertTrue(names[i],ItemVariantState.identityNeedsReview(item));
+            assertTrue(names[i],ItemVariantState.needsActivityReview(item));
+            assertFalse(names[i],selected(raid(item),ids[i]));
+        }
+        assertFalse(ItemVariantState.needsActivityReview(item(4738,"Karil's leatherskirt")));
+        assertFalse(ItemVariantState.needsActivityReview(item(4949,"Karil's leatherskirt 25")));
+        assertTrue(ItemVariantState.needsActivityReview(item(4950,"Karil's leatherskirt 0")));
+    }
     private AutoCategories.Item item(int id,String name)
     { return new AutoCategories.Item(id,name,true,null,0,0,0); }
     private Map<String,List<AutoCategories.Item>> raid(AutoCategories.Item... items)

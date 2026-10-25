@@ -40,6 +40,7 @@ import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.ScriptID;
 import net.runelite.api.events.ClientTick;
+import net.runelite.api.events.BeforeRender;
 import net.runelite.api.events.ScriptPostFired;
 import net.runelite.api.events.ScriptPreFired;
 import net.runelite.api.events.WidgetClosed;
@@ -114,6 +115,10 @@ public final class BankLayoutController
 	@Inject
 	WindowMarkersConfig config;
 
+    @Inject NativeBankSearch nativeSearch;
+    @Inject BankSearchView searchView;
+    @Inject net.runelite.client.game.ItemManager itemManager;
+
 	@com.google.inject.Inject(optional = true)
 	BankTagsService bankTagsService;
 
@@ -164,7 +169,7 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap").contains(event.getKey()))
+		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout").contains(event.getKey()))
 		{
 			clientThread.invokeLater(() -> { restoreTabs(); restore(); rebuildBank(); });
 		}
@@ -233,7 +238,7 @@ public final class BankLayoutController
 	@Subscribe(priority = -10)
 	public void onScriptPreFired(ScriptPreFired event)
 	{
-		if (!active || !config.bankLayoutEnabled() || event.getScriptId() != ScriptID.BANKMAIN_FINISHBUILDING)
+		if (!active || event.getScriptId() != ScriptID.BANKMAIN_FINISHBUILDING)
 		{
 			return;
 		}
@@ -244,7 +249,9 @@ public final class BankLayoutController
 			return;
 		}
 
-		int[] ends = reflowItems(items);
+        boolean grouped=groupedSearch();
+        if(!config.bankLayoutEnabled() && !grouped) return;
+		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
 		reflowedWidth = items.getWidth();
 		reflowedHeight = items.getHeight();
 		if (ends == null || ends[0] == ends[1])
@@ -268,13 +275,21 @@ public final class BankLayoutController
 		{
 			reapplyFrame();
 		}
+        if(active && config.bankLayoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
 	}
+
+    // Search refresh rebuilds the native tabs after ClientTick. Apply their final
+    // positions after scripts, before any frame can display the intermediate layout.
+    @Subscribe(priority=-20)
+    public void onBeforeRender(BeforeRender event)
+    {
+        if(active && config.bankLayoutEnabled()) { reapplyFrame(); alignTabs(); }
+    }
 
 	@Subscribe
 	public void onClientTick(ClientTick event)
 	{
 		if (!active || !config.bankLayoutEnabled()) { return; }
-		alignTabs();
 		if (rebuildCooldown > 0)
 		{
 			rebuildCooldown--;
@@ -644,6 +659,23 @@ public final class BankLayoutController
 		int columns = config.columns() > 0 ? config.columns() : (usable + VANILLA_GAP) / (CELL_WIDTH + VANILLA_GAP);
 		return Math.max(1, Math.min(columns, (usable + MIN_GAP) / (CELL_WIDTH + MIN_GAP)));
 	}
+
+    private boolean groupedSearch()
+    {
+        if(!config.setupSearchLayout()) return false;
+        if(bankTagsService!=null && bankTagsService.getActiveLayout()!=null) return false;
+        if(searchView!=null && searchView.isActive()) return searchView.bySlot();
+        return (bankTagsService==null || bankTagsService.getActiveBankTag()==null)
+            && nativeSearch!=null && nativeSearch.groupBySlot();
+    }
+
+    private int[] layoutSearch(Widget items)
+    {
+        int usable=items.getWidth()-LEFT_INSET-RIGHT_INSET;
+        int count=config.bankLayoutEnabled()?columns(usable):VANILLA_COLUMNS;
+        int pitch=config.bankLayoutEnabled() && count>1 ? CELL_WIDTH+(usable-count*CELL_WIDTH)/(count-1) : CELL_WIDTH+VANILLA_GAP;
+        return SetupItemLayout.apply(items,itemManager,count,pitch,config.bankLayoutEnabled()?4:0);
+    }
 
 	private void restore()
 	{

@@ -74,7 +74,7 @@ public class WindowMarkersTest
         var save=WindowMarkersPlugin.class.getDeclaredMethod("savePresets"); save.setAccessible(true);
         try {
             CustomPresets library=(CustomPresets)field.get(p); CustomPresets.Preset preset=new CustomPresets.Preset(); preset.name="My Food";
-            Marker group=new Marker(0,0,48,36); group.linkedItemIds=new int[]{385,3144}; group.label="Food"; preset.groups.add(group); library.presets.add(preset);
+            Marker group=new Marker(0,0,48,36); group.linkedItemIds=new int[]{385,3144}; group.label="Food"; preset.groups.add(group); preset.bankView=true; preset.groupBySlot=true; library.presets.add(preset);
             save.invoke(p); String original=saved.get("account-a/markersV3_profile_10_customPresets"); assertNotNull(original);
             p.createNamedLayout("Raid",false,false);
             assertEquals("My Food",((CustomPresets)field.get(p)).presets.get(0).name);
@@ -82,6 +82,8 @@ public class WindowMarkersTest
             assertTrue(((CustomPresets)field.get(p)).presets.isEmpty());
             when(p.configs.getProfile().getId()).thenReturn(10L); p.onProfileChanged(new ProfileChanged());
             assertEquals(1,((CustomPresets)field.get(p)).presets.size());
+            assertTrue(((CustomPresets)field.get(p)).presets.get(0).bankView);
+            assertTrue(((CustomPresets)field.get(p)).presets.get(0).groupBySlot);
             when(p.configs.getRSProfileKey()).thenReturn("account-b"); p.onRuneScapeProfileChanged(new RuneScapeProfileChanged("account-a","account-b"));
             assertTrue(((CustomPresets)field.get(p)).presets.isEmpty());
             assertEquals(original,saved.get("account-a/markersV3_profile_10_customPresets"));

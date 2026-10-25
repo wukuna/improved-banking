@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description="Beta bank groups, searchable Wiki categories, item comparisons and custom presets", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description="Beta bank groups, searchable Wiki categories, bank picker and saved setup views", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
@@ -58,6 +58,8 @@ public class WindowMarkersPlugin extends Plugin
     @Inject BankCapture bankCapture;
     @Inject BankScreenshotButton screenshotButton;
     @Inject NativeBankSearch nativeSearch;
+    @Inject BankSearchView searchView;
+    @Inject BankCataloguePicker bankPicker;
     private List<ItemAnchors.Cell> itemCells = new ArrayList<>();
     private final List<Marker> markers = new ArrayList<>();
     private Rectangle bank;
@@ -158,8 +160,9 @@ public class WindowMarkersPlugin extends Plugin
                 customPanel.add(new JLabel("<html>Custom presets<br>This account and RuneLite profile</html>"));
                 customPicker=new JComboBox<>(); customPanel.add(customPicker);
                 addButton(customPanel,"Save selected as preset…",this::saveCustomPreset);
+                addButton(customPanel,"Save current bank view…",this::saveCurrentBankView);
                 addButton(customPanel,"Apply preset…",() -> applyCustomPreset((CustomPresets.Preset)customPicker.getSelectedItem()));
-                customPanel.add(new JLabel("<html>Select groups in Legend, then save them.<br>Presets retain item IDs and appearance.<br>Applying one never moves bank items.</html>"));
+                customPanel.add(new JLabel("<html>Save selected Legend groups or the current bank view.<br>Presets retain item IDs, appearance and slot grouping.<br>The underlying bank order stays unchanged.</html>"));
                 JButton copyAccount = new JButton("Copy earlier account markers");
                 copyAccount.addActionListener(e -> copyAccountMarkers());
                 toolsPanel.add(new JLabel("Copy older markers")); toolsPanel.add(copyAccount);
@@ -209,6 +212,7 @@ public class WindowMarkersPlugin extends Plugin
         active = false; catalogueRevision++;
         lookupHighlight=null;
         if(nativeSearch!=null) nativeSearch.stop();
+        clearBankView();
         if(legend!=null) SwingUtilities.invokeLater(legend::close);
         if(screenshotButton!=null) { screenshotButton.clear(); }
         if(bankLayout!=null) { bankLayout.shutDown(); }
@@ -230,6 +234,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void load()
     {
+        clearBankView();
         if(nativeSearch!=null) { nativeSearch.reset(); nativeSearch.start(); }
         legendHover=null; legendPinned=null; lookupHighlight=null; legendCells.clear(); catalogueRevision++;
         if(legend!=null) SwingUtilities.invokeLater(legend::resetContext);
@@ -392,6 +397,9 @@ public class WindowMarkersPlugin extends Plugin
     private void autoCategorize() { autoCategorize(AutoCategories.Preset.ALL_CATEGORIES); }
 
     private void autoCategorize(AutoCategories.Preset initial)
+    { autoCategorize(initial,false); }
+
+    private void autoCategorize(AutoCategories.Preset initial,boolean showView)
     {
         JComboBox<AutoCategories.Preset> presets=new JComboBox<>(AutoCategories.Preset.values());
         presets.setSelectedItem(initial);
@@ -405,10 +413,13 @@ public class WindowMarkersPlugin extends Plugin
         final ActivitySetups.Setup setup=preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP
             ? ActivitySetupPicker.choose(navigation==null ? null : navigation.getPanel()) : null;
         if (preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP && setup==null) { return; }
-        categorize(preset,setup,excludeWorse.isSelected() && setup==null);
+        categorize(preset,setup,excludeWorse.isSelected() && setup==null,showView);
     }
 
     private void categorize(AutoCategories.Preset preset,ActivitySetups.Setup setup,boolean filterWorse)
+    { categorize(preset,setup,filterWorse,false); }
+
+    private void categorize(AutoCategories.Preset preset,ActivitySetups.Setup setup,boolean filterWorse,boolean showView)
     {
         final String owner, layout;
         synchronized (this)
@@ -436,7 +447,7 @@ public class WindowMarkersPlugin extends Plugin
                         .allMatch(skill -> client.getRealSkillLevel(skill)>=99);
                     RaidGearFilter.filter(preset,groups,levels,ancientRingsUnlocked,allSkillsMaxed,exclusions);
                 }
-                SwingUtilities.invokeLater(() -> reviewCategories(owner,layout,groups,preset,exclusions,setup));
+                SwingUtilities.invokeLater(() -> reviewCategories(owner,layout,groups,preset,exclusions,setup,false,showView));
             }
         });
     }
@@ -445,6 +456,9 @@ public class WindowMarkersPlugin extends Plugin
     { reviewCategories(owner,layout,groups,preset,exclusions,setup,false); }
 
     private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions,ActivitySetups.Setup setup,boolean explicitCategory)
+    { reviewCategories(owner,layout,groups,preset,exclusions,setup,explicitCategory,false); }
+
+    private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions,ActivitySetups.Setup setup,boolean explicitCategory,boolean requestedView)
     {
         if (groups.isEmpty()) { setStatus("No owned items matched this preset."); return; }
         JPanel panel=new MarkerForm();
@@ -466,6 +480,10 @@ public class WindowMarkersPlugin extends Plugin
         panel.add(source);
         JCheckBox includeGrouped=new JCheckBox("Include items already in other groups",explicitCategory);
         panel.add(includeGrouped);
+        boolean slotView=(setup!=null || SetupItemLayout.activityPreset(preset)) && config.setupSearchLayout();
+        JCheckBox showView=new JCheckBox("Show selected groups as a temporary bank view",requestedView || slotView);
+        panel.add(showView);
+        if(slotView) panel.add(new JLabel("<html>View groups equipment by slot, then tools and supplies.<br>Save it from the bank dropdown. Your bank order stays unchanged.</html>"));
         panel.add(new JLabel("<html>Including grouped items keeps their existing groups too.<br>To replace old groups instead, check their names below.<br>Replacing removes the entire checked marker. Undo restores it.</html>"));
         java.util.Map<JCheckBox,Marker> replacements=new java.util.LinkedHashMap<>();
         synchronized (this)
@@ -503,6 +521,11 @@ public class WindowMarkersPlugin extends Plugin
             String presetName=setup==null?preset.toString():setup.activity+" — "+setup.label;
             CategoryGroups.Result result=CategoryGroups.add(markers,selected,presetName,includeGrouped.isSelected(),config.color(),MAX_MARKERS);
             if(result.added>0 || replaced>0) save();
+            if(showView.isSelected()) {
+                // Keep the exact colours/labels the reviewed groups use in Legend.
+                // Skipped groups are not silently saved under different colours.
+                if(!result.selected.isEmpty()) showBankView(presetName,result.selected,slotView,owner,layout);
+            }
             if(!result.selected.isEmpty()) SwingUtilities.invokeLater(() -> {
                 synchronized(WindowMarkersPlugin.this) { if(context(owner,layout)) legend.showGroups(result.selected); }
             });
@@ -587,14 +610,18 @@ public class WindowMarkersPlugin extends Plugin
     }
 
     private void chooseCatalogue(BankCatalogue.Choice choice)
+    { chooseCatalogue(choice,false); }
+
+    private void chooseCatalogue(BankCatalogue.Choice choice,boolean showView)
     {
         final String owner,layout;
         synchronized(this) { if(!currentLayout()) { setStatus("Log in first."); return; } owner=accountKey; layout=layoutKey; }
         switch(choice.kind) {
-            case PRESET: autoCategorize((AutoCategories.Preset)choice.value); break;
-            case WIKI_SETUP: categorize(AutoCategories.Preset.WIKI_ACTIVITY_SETUP,(ActivitySetups.Setup)choice.value,false); break;
-            case CUSTOM_PRESET: applyCustomPreset((CustomPresets.Preset)choice.value,choice.customGroup); break;
+            case PRESET: autoCategorize((AutoCategories.Preset)choice.value,showView); break;
+            case WIKI_SETUP: categorize(AutoCategories.Preset.WIKI_ACTIVITY_SETUP,(ActivitySetups.Setup)choice.value,false,showView); break;
+            case CUSTOM_PRESET: applyCustomPreset((CustomPresets.Preset)choice.value,choice.customGroup,showView); break;
             case SAVED_GROUP:
+                if(showView) showBankView(choice.name,java.util.Collections.singletonList((Marker)choice.value),false,owner,layout);
                 legend.search.setText(""); legend.scope.setSelectedIndex(1); legend.preset.setSelectedIndex(0); legend.filter();
                 for(int i=0;i<legend.rows.size();i++) if(legend.rows.get(i).marker==choice.value) {
                     legend.list.setSelectedIndex(i); legend.list.ensureIndexIsVisible(i); break;
@@ -608,7 +635,7 @@ public class WindowMarkersPlugin extends Plugin
                         protected java.util.Map<String,List<AutoCategories.Item>> doInBackground() {
                             return BankCatalogue.categoryGroups(choice,owned);
                         }
-                        protected void done() { try { reviewCategories(owner,layout,get(),choice.presetScope==null?AutoCategories.Preset.ALL_CATEGORIES:choice.presetScope,java.util.Collections.emptyMap(),null,true); }
+                        protected void done() { try { reviewCategories(owner,layout,get(),choice.presetScope==null?AutoCategories.Preset.ALL_CATEGORIES:choice.presetScope,java.util.Collections.emptyMap(),null,true,showView); }
                             catch(Exception ex) { setStatus("Could not load this category."); } }
                     }.execute();
                 }); break;
@@ -780,6 +807,80 @@ public class WindowMarkersPlugin extends Plugin
         legendHover=null; legendPinned=null;
     }
 
+    private void openBankPicker()
+    {
+        if(bankPicker==null || bank==null || !currentLayout()) return;
+        final String owner=accountKey,layout=layoutKey;
+        boolean canSave=searchView!=null && searchView.isActive() || nativeSearch!=null && !nativeSearch.matches().isEmpty();
+        bankPicker.show(client.getCanvas(),catalogueChoices,canSave,choice -> {
+            synchronized(WindowMarkersPlugin.this) { if(!context(owner,layout)) return; }
+            chooseCatalogue(choice,true);
+        },this::saveCurrentBankView,() -> clientThread.invokeLater(() -> {
+            synchronized(WindowMarkersPlugin.this) {
+                if(!context(owner,layout)) return;
+                if(searchView!=null && searchView.isActive()) searchView.clear();
+                else if(nativeSearch!=null) nativeSearch.closeSearch();
+            }
+        }));
+    }
+
+    private void clearBankView()
+    {
+        // Named-layout/profile changes also arrive from Swing. Bank Tags and
+        // native widgets must only be touched on the client thread.
+        if(clientThread!=null) clientThread.invoke(() -> {
+            if(searchView!=null) searchView.clear();
+            if(bankPicker!=null) bankPicker.clear();
+        });
+    }
+
+    private void showBankView(String name,List<Marker> groups,boolean slots,String owner,String layout)
+    {
+        if(searchView==null) return;
+        List<Marker> snapshot=new ArrayList<>();
+        for(Marker group:groups) snapshot.add(gson.fromJson(gson.toJson(group),Marker.class));
+        clientThread.invokeLater(() -> {
+            synchronized(WindowMarkersPlugin.this) {
+                if(!context(owner,layout) || bank==null) return;
+                searchView.show(name,snapshot,slots);
+            }
+        });
+    }
+
+    private void saveCurrentBankView()
+    {
+        final String owner,layout;
+        synchronized(this) { if(!currentLayout() || bank==null) { setStatus("Open a bank search or setup first."); return; } owner=accountKey; layout=layoutKey; }
+        clientThread.invokeLater(() -> {
+            final CustomPresets.Preset template=new CustomPresets.Preset();
+            synchronized(WindowMarkersPlugin.this) {
+                if(!context(owner,layout) || bank==null) return;
+                if(searchView!=null && searchView.isActive()) {
+                    template.name=searchView.name(); template.groupBySlot=searchView.bySlot();
+                    for(Marker group:searchView.groups()) template.groups.add(gson.fromJson(gson.toJson(group),Marker.class));
+                } else if(nativeSearch!=null && !nativeSearch.matches().isEmpty()) {
+                    Marker group=new Marker(0,0,48,36);
+                    styleGroup(group,nativeSearch.query()); group.scrollWithItems=true;
+                    group.linkedItemIds=nativeSearch.matches().stream().sorted().mapToInt(Integer::intValue).toArray();
+                    template.groups.add(group); template.name=nativeSearch.query(); template.groupBySlot=nativeSearch.groupBySlot() && config.setupSearchLayout();
+                }
+                if(template.groups.isEmpty()) { setStatus("No Improved Banking search results to save."); return; }
+                template.bankView=true;
+            }
+            SwingUtilities.invokeLater(() -> {
+                synchronized(WindowMarkersPlugin.this) { if(!context(owner,layout)) return; }
+                String name=askName("Save current bank view",template.name); if(name==null) return;
+                synchronized(WindowMarkersPlugin.this) {
+                    if(!context(owner,layout)) return;
+                    if(customPresets.presets.size()>=CustomPresets.LIMIT) { setStatus("50-preset limit reached."); return; }
+                    if(customPresets.presets.stream().anyMatch(p -> p.name.equalsIgnoreCase(name))) { setStatus("That preset name already exists. Choose a different name."); return; }
+                    template.name=name; customPresets.presets.add(template); savePresets();
+                    setStatus("Bank view saved for this account and RuneLite profile. Find it in Custom presets.");
+                }
+            });
+        });
+    }
+
     private void saveCustomPreset()
     {
         List<Marker> selected=legend.selected(); final String owner,layout;
@@ -816,17 +917,23 @@ public class WindowMarkersPlugin extends Plugin
     { applyCustomPreset(preset,null); }
 
     private void applyCustomPreset(CustomPresets.Preset preset,String selectedGroup)
+    { applyCustomPreset(preset,selectedGroup,false); }
+
+    private void applyCustomPreset(CustomPresets.Preset preset,String selectedGroup,boolean requestedView)
     {
         if(preset==null) { setStatus("Select a saved custom preset first."); return; }
         String owner,layout; synchronized(this) { if(!currentLayout() || !customPresets.presets.contains(preset)) return; owner=accountKey; layout=layoutKey; }
         JPanel form=new MarkerForm();
         form.add(new JLabel("<html>Add copies of these groups to the current layout.<br>Items not currently owned remain linked for future use.<br>Existing groups and saved preset are retained.</html>"));
         JCheckBox skip=new JCheckBox("Skip items already in a group",selectedGroup==null); form.add(skip);
+        JCheckBox showView=new JCheckBox("Open as a temporary bank view",requestedView || preset.bankView); form.add(showView);
         List<JCheckBox> choices=new ArrayList<>();
         for(Marker group:preset.groups) { JCheckBox box=new JCheckBox(group.labelText()+" · "+group.linkedItemIds.length+" item types",selectedGroup==null || selectedGroup.equals(group.labelText())); choices.add(box); form.add(box); }
         if(!MarkerDialogs.confirm(parent(),form,"Apply "+preset.name,600,500)) return;
         synchronized(this) {
             if(!context(owner,layout) || !customPresets.presets.contains(preset)) return;
+            List<Marker> viewGroups=new ArrayList<>();
+            for(int i=0;i<choices.size();i++) if(choices.get(i).isSelected()) viewGroups.add(preset.groups.get(i));
             java.util.Set<Integer> assigned=new java.util.HashSet<>();
             for(Marker m:markers) if(m.linked()) for(int id:m.linkedItemIds) assigned.add(id);
             int added=0; boolean limited=false; cancel();
@@ -838,6 +945,7 @@ public class WindowMarkersPlugin extends Plugin
                 copy.preset=preset.name; markers.add(copy); for(int id:copy.linkedItemIds) assigned.add(id); added++;
             }
             if(added>0) save(); setStatus(added+" groups added."+(limited?" Marker limit reached.":"")+" Undo restores the layout.");
+            if(showView.isSelected() && !viewGroups.isEmpty()) showBankView(preset.name,viewGroups,preset.groupBySlot,owner,layout);
         }
     }
 
@@ -1004,9 +1112,12 @@ public class WindowMarkersPlugin extends Plugin
     @Subscribe public synchronized void onBeforeRender(BeforeRender event)
     {
         if(nativeSearch!=null) nativeSearch.update();
+        if(searchView!=null) searchView.update();
         if (client.getGameState() != GameState.LOGGED_IN)
         {
             if(screenshotButton!=null) { screenshotButton.clear(); }
+            if(bankPicker!=null) bankPicker.clear();
+            if(searchView!=null) searchView.clear();
             if (bank != null || accountKey != null) {
                 cancel(); bank=null; itemArea=null; accountKey=null; layoutKey=null; markers.clear(); legendCells.clear();
                 customPresets=new CustomPresets(); lookupHighlight=null; catalogueRevision++;
@@ -1058,6 +1169,7 @@ public class WindowMarkersPlugin extends Plugin
         }
         legendCells=tabCells; updateLegend(tabCells);
         if(screenshotButton!=null) { screenshotButton.update(active && bank!=null && config.screenshotButton(),this::captureBank); }
+        if(bankPicker!=null) bankPicker.update(active && bank!=null && config.bankCatalogueButton(),this::openBankPicker);
     }
 
     private void updateLegend(List<ItemAnchors.Cell> tabCells)

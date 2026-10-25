@@ -27,6 +27,8 @@ public class NativeBankSearchTest
 {
     @Test public void initializesUsingTheActualBankTagsPublicModule() throws Exception {
         BankTagsPlugin existingBankTags=new BankTagsPlugin();
+        net.runelite.client.plugins.banktags.TagManager tagManager=mock(net.runelite.client.plugins.banktags.TagManager.class);
+        set(existingBankTags,"tagManager",tagManager);
         Method publicModule=BankTagsPlugin.class.getDeclaredMethod("getPublicModule");
         publicModule.setAccessible(true);
         Module exported=(Module)publicModule.invoke(existingBankTags);
@@ -38,9 +40,13 @@ public class NativeBankSearchTest
             binder.bind(ItemManager.class).toInstance(mock(ItemManager.class));
             binder.bind(BankSearch.class).toInstance(mock(BankSearch.class));
         });
-        NativeBankSearch search=root.createChildInjector(exported,
-            binder -> binder.bind(NativeBankSearch.class)).getInstance(NativeBankSearch.class);
+        Injector child=root.createChildInjector(exported,
+            binder -> { binder.bind(NativeBankSearch.class); binder.bind(BankSearchView.class); });
+        NativeBankSearch search=child.getInstance(NativeBankSearch.class);
         assertSame(existingBankTags,search.bankTags);
+        assertSame(search,child.getInstance(NativeBankSearch.class));
+        BankSearchView view=child.getInstance(BankSearchView.class);
+        assertSame(existingBankTags,view.bankTags); assertSame(tagManager,view.tags);
     }
 
     private NativeBankSearch ready() throws Exception {
@@ -72,5 +78,12 @@ public class NativeBankSearchTest
         when(search.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
         when(search.client.getObjectStack()).thenReturn(new Object[]{"food"}); filter(search); assertEquals(0,search.client.getIntStack()[0]);
         when(search.client.getObjectStack()).thenReturn(new Object[]{"farming"}); search.reset(); filter(search); assertEquals(0,search.client.getIntStack()[0]);
+    }
+    @Test public void savingSearchCannotCaptureThePreviousQueryResults() throws Exception {
+        NativeBankSearch search=ready();
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        assertEquals(Collections.singleton(5331),search.matches());
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa");
+        assertTrue(search.matches().isEmpty());
     }
 }

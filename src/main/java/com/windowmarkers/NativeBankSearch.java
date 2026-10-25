@@ -19,6 +19,7 @@ import net.runelite.client.plugins.bank.BankSearch;
 import net.runelite.client.plugins.banktags.BankTagsService;
 
 /** Adds only owned search UI and optional matches; native/tag restrictions remain authoritative. */
+@javax.inject.Singleton
 final class NativeBankSearch
 {
     @Inject Client client;
@@ -33,13 +34,14 @@ final class NativeBankSearch
     private String query;
     private Set<Integer> matches=Collections.emptySet();
     private Marker highlight;
+    private boolean slots;
     private long revision;
     private boolean running;
     private volatile long context;
 
     void start() { running=true; }
     void stop() { boolean restore=searching(); running=false; reset(); clearWidget(); if(restore) bankSearch.layoutBank(); }
-    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); highlight=null; if(checkbox!=null) checkbox.setHidden(true); }
+    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); highlight=null; slots=false; if(checkbox!=null) checkbox.setHidden(true); }
     void index(BankSearchIndex next)
     { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; query=null; revision++; update(); } }); }
     boolean searching()
@@ -51,14 +53,15 @@ final class NativeBankSearch
     void update()
     {
         if(!searching()) {
-            if(query!=null) { revision++; query=null; matches=Collections.emptySet(); highlight=null; }
+            if(query!=null) { revision++; query=null; matches=Collections.emptySet(); highlight=null; slots=false; }
             if(checkbox!=null) checkbox.setHidden(true); return;
         }
         updateCheckbox();
         String next=client.getVarcStrValue(VarClientID.MESLAYERINPUT);
         if(!config.improvedBankSearch()) next="";
         if(Objects.equals(query,next)) return;
-        query=next; matches=Collections.emptySet(); highlight=null; final long token=++revision;
+        Set<Integer> previous=new HashSet<>(matches); boolean previousSlots=slots;
+        query=next; matches=Collections.emptySet(); highlight=null; slots=false; final long token=++revision;
         final BankSearchIndex snapshot=index; final String text=next;
         if(snapshot==null || !BankSearchIndex.plainQuery(text)) return;
         new SwingWorker<Set<Integer>,Void>() {
@@ -68,14 +71,14 @@ final class NativeBankSearch
                 clientThread.invokeLater(() -> {
                     if(!running || token!=revision || !searching() || !config.improvedBankSearch()
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
-                    matches=found;
+                    matches=new HashSet<>(found); slots=snapshot.groupBySlot(text);
                     // A tab's own membership must not be expanded by category search.
                     if(bankTags.getActiveBankTag()!=null) matches.removeIf(id -> !bankTags.getActiveBankTag().contains(id));
                     if(!matches.isEmpty()) {
                         highlight=new Marker(0,0,48,36); highlight.scrollWithItems=true;
                         highlight.linkedItemIds=matches.stream().mapToInt(Integer::intValue).toArray();
                     }
-                    bankSearch.layoutBank();
+                    if(!matches.equals(previous) || slots!=previousSlots) bankSearch.layoutBank();
                 });
             } catch(Exception ex) { /* Native search remains available if the optional index fails. */ } }
         }.execute();
@@ -92,6 +95,12 @@ final class NativeBankSearch
         if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
     }
     Marker highlight() { return highlight; }
+    void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); highlight=null; slots=false; }
+    boolean groupBySlot() { return searching() && config.improvedBankSearch() && slots && !matches.isEmpty()
+        && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
+    String query() { return query; }
+    Set<Integer> matches() { return searching() && config.improvedBankSearch()
+        && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?new HashSet<>(matches):Collections.emptySet(); }
     private void updateCheckbox()
     {
         Widget layer=client.getWidget(InterfaceID.Chatbox.MES_LAYER);

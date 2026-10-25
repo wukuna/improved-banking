@@ -39,6 +39,9 @@ public class LookupSearchTest
         assertTrue(index.find("farming").contains(5331));
         assertTrue(index.find("cox").contains(6570));
         assertFalse(index.find("cox").contains(5331));
+        assertTrue(index.groupBySlot("cox")); assertTrue(index.groupBySlot("Tombs of Amascut"));
+        assertFalse(index.groupBySlot("shark")); assertFalse(index.groupBySlot("farming"));
+        assertFalse(index.groupBySlot("food")); assertFalse(index.groupBySlot("capes"));
         for(String query:new String[]{""," ","tag:food",">100k","qty>=10","ha:1000"}) assertTrue(query,index.find(query).isEmpty());
     }
 }

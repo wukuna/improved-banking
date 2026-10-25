@@ -12,6 +12,23 @@ import static org.junit.Assert.*;
 /** Offline layout check: no game client, account interaction or input automation. */
 public class BankingPanelPreviewTest
 {
+    @Test public void bankDropdownFitsAndEnterOpensTheSelectedChoice() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            BankCatalogue.Choice choice=new BankCatalogue.Choice(BankCatalogue.Kind.PRESET,"Tombs of Amascut",AutoCategories.Preset.TOMBS_OF_AMASCUT);
+            java.util.concurrent.atomic.AtomicReference<BankCatalogue.Choice> opened=new java.util.concurrent.atomic.AtomicReference<>();
+            BankCataloguePicker.PickerPanel panel=new BankCataloguePicker.PickerPanel(Arrays.asList(choice),opened::set,() -> {},() -> {},true);
+            try {
+                panel.addNotify(); panel.setSize(390,350); layout(panel); layout(panel); checkButtons(panel);
+                panel.rows.addElement(choice); panel.list.setSelectedIndex(0);
+                panel.list.getActionMap().get("open").actionPerformed(new java.awt.event.ActionEvent(panel,0,"open"));
+                assertSame(choice,opened.get()); assertTrue(panel.list.getHeight()>60);
+                BufferedImage image=new BufferedImage(390,350,BufferedImage.TYPE_INT_ARGB); Graphics2D g=image.createGraphics(); panel.printAll(g); g.dispose();
+                File output=new File("build/ui-preview/bank-picker.png"); output.getParentFile().mkdirs(); ImageIO.write(image,"png",output);
+                panel.search.setText("new query"); assertTrue(panel.rows.isEmpty());
+            } catch(Exception ex) { throw new RuntimeException(ex); }
+            finally { panel.stop(); panel.removeNotify(); }
+        });
+    }
     @Test public void itemLookupActionsFitBelowSelectableMemberships() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             try {

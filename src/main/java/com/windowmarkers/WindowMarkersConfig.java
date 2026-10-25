@@ -26,6 +26,10 @@ public interface WindowMarkersConfig extends Config
     default boolean hoverHighlight() { return true; }
     @ConfigItem(section=appearance,keyName="improvedBankSearch",name="Enable Improved Banking search",description="Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.",position=8)
     default boolean improvedBankSearch() { return false; }
+    @ConfigItem(section=appearance,keyName="setupSearchLayout",name="Group setup searches by slot",description="Temporarily arrange activity and gear-setup search results by equipment slot, then tools and supplies. Ordinary searches and existing Bank Tag layouts keep their order.",position=9)
+    default boolean setupSearchLayout() { return true; }
+    @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="Bank category picker",description="Show a searchable category and preset dropdown beside the bank screenshot button.",position=10)
+    default boolean bankCatalogueButton() { return true; }
     @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
     default boolean snapToGrid() { return false; }
 

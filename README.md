@@ -2,7 +2,7 @@
 
 ![Improved Banking](icon.png)
 
-Find and organize bank items with a searchable legend, Wiki categories and activity setups, custom item groups and presets, flexible layouts and full-tab screenshots.
+Find and organize bank items with a searchable legend and bank-window picker, Wiki categories and activity setups, saveable equipment-slot views, custom groups, flexible layouts and full-tab screenshots.
 
 **Beta — rapidly updated.** Improved Banking is being rapidly updated with up-to-date Old School RuneScape Wiki information and item categorizations. Categories and recommendations are still being refined. All requests, corrections and information are considered and appreciated: please [open an issue](https://github.com/wukuna/improved-banking/issues).
 
@@ -17,6 +17,8 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 - **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
 - **Wiki-based organization:** broad categories, skilling, utility and raid presets, plus separately reviewed activity setups. Charged, empty, broken and equivalent versions retain their documented distinctions.
 - **Optional native bank search:** enable category, preset and custom-group matches from the checkbox in the bank search prompt, with live item highlighting.
+- **Bank category picker:** search the same catalogue from the dropdown beside the bank camera button, open a reviewed view, save it as a custom preset or return to your bank.
+- **Equipment-slot views:** group activity search results by equipment slot, followed by tools and supplies. General item/category searches retain their normal order; saved views retain their groups and colours.
 - **Bank presentation:** item-linked and area markers, readable labels, optional hover highlights, flexible dimensions, tab alignment and local full-tab screenshots.
 - **Saved layouts:** separate settings for each character and RuneLite profile, multi-selection and Undo/Redo.
 
@@ -64,6 +66,12 @@ Click the bank's normal search button and check **Enable Improved Banking search
 
 Normal native matches are retained, active Bank Tags tab membership is respected, and special searches such as `tag:food` or value comparisons keep their existing behavior. Clearing or closing search clears its highlights. Turning the option off restores ordinary search. The plugin only adds its own checkbox to the active bank-search prompt; other chatbox inputs are unchanged.
 
+The **v** dropdown beside the bank camera button opens **Search categories & presets**. Type a name or abbreviation, then choose a result with Enter, double-click or **Open selected**. Review its groups before applying them. **Show selected groups as a temporary bank view** filters the bank to the groups actually added or selected in Legend, retaining their colours. Enable **Include items already in other groups** if you want overlapping classifications included too.
+
+**Group setup searches by slot** arranges activity/setup results into equipment-slot rows, then tools and supplies. Alternatives share a slot row; this is not a claim that all alternatives form one loadout. The option also applies to native activity searches such as `toa` and `cox`. Individual item searches, general categories and bare skill names keep ordinary order. An existing Bank Tags layout takes precedence. Turn the option off to keep ordinary result order everywhere.
+
+Use **Save current view…** in the dropdown, or **Custom → Save current bank view**, to keep the current view as a named custom preset for this character and RuneLite profile. Saved views preserve exact item IDs, labels, colours and whether they use slot grouping; they do not dynamically expand to future Wiki recommendations. Reopen one from either catalogue picker. **Return to bank** closes the temporary view/search. Temporary views do not create saved Bank Tags tabs or replace their layouts. The dropdown can be hidden with **Bank category picker** in plugin settings.
+
 ### Auto-categorize
 
 Choose a broad classification, skilling, outfit, combat, supply, utility or raid preset. Review the proposed groups before applying them. Bulk presets skip already-linked items by default. **Include items already in other groups** keeps multiple uses of the same item; it starts checked when adding an individual category. Alternatively, check an old marker for replacement. Area markers remain. A batch is one Undo step.
@@ -92,7 +100,7 @@ Existing Window Markers beta settings and saved layouts are preserved under thei
 
 Improved Banking replaces the separate **Flexible Bank** and **Bank Screenshot** plugins and declares those conflicts. Existing Flexible Bank size preferences are copied once when no corresponding Improved Banking preference exists. Original settings remain stored. Disable Improved Banking before re-enabling the separate plugins. The integrated bank-layout option can also be disabled in settings.
 
-The screenshot button can be disabled independently in **Screenshots** settings. Bank controls, menus and character actions remain under your control. This plugin does not automatically withdraw, equip, sort or move bank items.
+The screenshot button can be disabled independently in **Screenshots** settings. Bank controls, menus and character actions remain under your control. Slot grouping changes the displayed search layout only; it never rearranges the stored bank, withdraws or equips items.
 
 ## Related plugins and sources
 
