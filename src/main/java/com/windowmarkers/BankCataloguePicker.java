@@ -20,6 +20,7 @@ final class BankCataloguePicker
     @Inject Client client;
     private Widget parent,button;
     private volatile JPopupMenu popup;
+    private volatile long context;
 
     void update(boolean enabled,Runnable open)
     {
@@ -35,7 +36,9 @@ final class BankCataloguePicker
             button.setOnOpListener((JavaScriptCallback)e -> open.run());
         }
         Rectangle bounds=frame.getBounds(),exit=close.getBounds();
-        button.setOriginalX(exit.x-bounds.x-48); button.setOriginalY(exit.y-bounds.y);
+        Rectangle position=new Rectangle(exit.x-bounds.x-48,exit.y-bounds.y+(exit.height-20)/2,20,20);
+        if(!new Rectangle(0,0,bounds.width,bounds.height).contains(position)) { clear(); return; }
+        button.setOriginalX(position.x); button.setOriginalY(position.y);
         button.setHidden(false); button.revalidate();
     }
 
@@ -44,9 +47,10 @@ final class BankCataloguePicker
         // Called on the client thread; capture widget coordinates here, Swing on EDT.
         if(button==null || button.isHidden() || canvas==null) return;
         Rectangle anchor=button.getBounds();
+        long token=++context;
         List<BankCatalogue.Choice> snapshot=new ArrayList<>(choices);
         SwingUtilities.invokeLater(() -> {
-            if(!canvas.isShowing()) return;
+            if(token!=context || !canvas.isShowing()) return;
             close();
             PickerPanel panel=new PickerPanel(snapshot,choice -> { close(); choose.accept(choice); },
                 () -> { close(); save.run(); },() -> { close(); closeView.run(); },canSave);
@@ -65,9 +69,11 @@ final class BankCataloguePicker
     }
     void close() { JPopupMenu current=popup; popup=null; if(current!=null) current.setVisible(false); }
     void clear() {
+        context++;
         if(button!=null) { button.setHidden(true); button.clearActions(); button.setOnOpListener((Object[])null); button.setHasListener(false); }
         button=null; parent=null;
-        if(popup!=null) SwingUtilities.invokeLater(this::close);
+        JPopupMenu old=popup;
+        if(old!=null) SwingUtilities.invokeLater(() -> { old.setVisible(false); if(popup==old) popup=null; });
     }
 
     static final class PickerPanel extends JPanel

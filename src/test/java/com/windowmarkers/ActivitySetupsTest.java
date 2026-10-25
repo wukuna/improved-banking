@@ -6,6 +6,43 @@ import static org.junit.Assert.*;
 
 public class ActivitySetupsTest
 {
+    @Test public void ordinaryWikiLinksRestoreAlternativesWithoutIgnoringTheirStates() {
+        for(String key:Arrays.asList("110044:5","305955:8","635395:3")) {
+            ActivitySetups.Setup s=setup(key);
+            assertTrue(s.itemIds.containsAll(Arrays.asList(12899,12900,33314,33316)));
+            Map<String,List<AutoCategories.Item>> result=s.suggest(Arrays.asList(item(12899,"Trident of the Swamp"),item(12900,"Uncharged toxic trident")));
+            assertTrue(result.entrySet().stream().anyMatch(e -> e.getKey().contains("Needs repair/charge") && e.getValue().stream().anyMatch(i -> i.id==12900)));
+        }
+        assertTrue(setup("80876:1").itemIds.contains(9757));
+        assertFalse(setup("80876:1").itemIds.contains(9756));
+        assertTrue(setup("82921:1").itemIds.containsAll(Arrays.asList(13121,13122,13123,13124)));
+    }
+
+    @Test public void requiredOrnateMaulDoesNotSelectOrdinaryMaulOrLooseUpgrade() {
+        for(String key:Arrays.asList("43753:9","43753:11")) {
+            ActivitySetups.Setup s=setup(key);
+            assertTrue(s.itemIds.containsAll(Arrays.asList(24225,24227)));
+            for(int id:new int[]{4153,12848,24229}) assertFalse(s.itemIds.contains(id));
+            assertTrue(s.notes.contains("must already be installed"));
+        }
+    }
+
+    @Test public void valeTotemOfferingVariableContainsProductsAndRetainsCostChoice() {
+        ActivitySetups.Setup s=setup("596472:3");
+        assertTrue(s.itemIds.containsAll(Arrays.asList(70,72,859,861,21952,22263,1513)));
+        assertFalse(s.itemIds.contains(4734)); // Another wooden-looking weapon is not a listed offering.
+        assertTrue(s.notes.contains("not more magic logs"));
+        assertTrue(s.notes.contains("price and required quantity are not inferred"));
+    }
+
+    @Test public void namedFootnotesAndSkillRequirementsAreNotDropped() {
+        assertTrue(setup("44881:5").notes.contains("With earth spells"));
+        assertTrue(setup("44881:5").notes.contains("Requires super antifire potion"));
+        assertTrue(setup("102334:2").notes.contains("Defence 1"));
+        assertTrue(setup("364045:1").notes.contains("Ranged section"));
+        assertTrue(setup("204107:1").notes.contains("ammunition dependency"));
+    }
+
     private ActivitySetups.Setup setup(String id) {
         return ActivitySetups.all().stream().filter(s -> s.id.equals(id)).findFirst().get();
     }

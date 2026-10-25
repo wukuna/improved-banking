@@ -20,6 +20,7 @@ final class SetupItemLayout
     static int bucket(int id,ItemManager manager)
     {
         var definition=manager.getItemComposition(id);
+        if(definition==null) return 19;
         var stats=manager.getItemStats(id);
         String name=definition.getName();
         AutoCategories.Item item=new AutoCategories.Item(id,name,stats!=null && stats.isEquipable(),definition.getInventoryActions(),0,0,0);

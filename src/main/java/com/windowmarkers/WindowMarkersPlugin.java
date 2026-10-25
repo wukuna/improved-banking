@@ -69,6 +69,7 @@ public class WindowMarkersPlugin extends Plugin
     private Point start;
     private Marker preview;
     private boolean armed, active, suppressClick, captured;
+    private long lifecycle;
     private String accountKey;
     private String layoutKey;
     private LayoutCatalog catalog=new LayoutCatalog();
@@ -96,6 +97,7 @@ public class WindowMarkersPlugin extends Plugin
     @Override protected synchronized void startUp()
     {
         active = true;
+        final long startup = ++lifecycle;
         if (bankLayout!=null)
         {
             if(configs.getConfiguration("windowmarkers","bankLayoutImported")==null)
@@ -116,7 +118,7 @@ public class WindowMarkersPlugin extends Plugin
         SwingUtilities.invokeLater(() -> {
             synchronized (WindowMarkersPlugin.this)
             {
-                if (!active) { return; }
+                if (!active || startup != lifecycle) { return; }
                 PluginPanel panel = new PluginPanel() {};
                 panel.setLayout(new BorderLayout(0, 10));
                 JPanel controls = new MarkerForm();
@@ -209,12 +211,10 @@ public class WindowMarkersPlugin extends Plugin
 
     @Override protected synchronized void shutDown()
     {
-        active = false; catalogueRevision++;
+        active = false; lifecycle++; catalogueRevision++;
         lookupHighlight=null;
-        if(nativeSearch!=null) nativeSearch.stop();
-        clearBankView();
+        resetBankContext(true);
         if(legend!=null) SwingUtilities.invokeLater(legend::close);
-        if(screenshotButton!=null) { screenshotButton.clear(); }
         if(bankLayout!=null) { bankLayout.shutDown(); }
         cancel(); bank = null; captured = false; suppressClick = false;
         mouseManager.unregisterMouseListener(mouse);
@@ -234,8 +234,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void load()
     {
-        clearBankView();
-        if(nativeSearch!=null) { nativeSearch.reset(); nativeSearch.start(); }
+        resetBankContext(false);
         legendHover=null; legendPinned=null; lookupHighlight=null; legendCells.clear(); catalogueRevision++;
         if(legend!=null) SwingUtilities.invokeLater(legend::resetContext);
         customPresets=new CustomPresets();
@@ -824,13 +823,20 @@ public class WindowMarkersPlugin extends Plugin
         }));
     }
 
-    private void clearBankView()
+    private void resetBankContext(boolean stopping)
     {
-        // Named-layout/profile changes also arrive from Swing. Bank Tags and
-        // native widgets must only be touched on the client thread.
+        // RuneLite starts/stops plugins on EDT; layout/profile changes may also
+        // arrive there. Confine all game-widget and Bank Tags cleanup to client.
         if(clientThread!=null) clientThread.invoke(() -> {
-            if(searchView!=null) searchView.clear();
-            if(bankPicker!=null) bankPicker.clear();
+            synchronized(WindowMarkersPlugin.this) {
+                if(nativeSearch!=null) {
+                    if(stopping) nativeSearch.stop();
+                    else { nativeSearch.reset(); nativeSearch.start(); }
+                }
+                if(searchView!=null) searchView.clear();
+                if(bankPicker!=null) bankPicker.clear();
+                if(stopping && screenshotButton!=null) screenshotButton.clear();
+            }
         });
     }
 

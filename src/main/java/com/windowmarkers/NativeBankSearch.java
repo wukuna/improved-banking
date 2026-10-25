@@ -40,17 +40,18 @@ final class NativeBankSearch
     private volatile long context;
 
     void start() { running=true; }
-    void stop() { boolean restore=searching(); running=false; reset(); clearWidget(); if(restore) bankSearch.layoutBank(); }
-    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); highlight=null; slots=false; if(checkbox!=null) checkbox.setHidden(true); }
+    void stop() { boolean restore=searching(); running=false; reset(); if(restore) bankSearch.layoutBank(); }
+    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); highlight=null; slots=false; clearWidget(); }
     void index(BankSearchIndex next)
-    { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; query=null; revision++; update(); } }); }
+    { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; update(true); } }); }
     boolean searching()
     {
         Widget bank=client.getWidget(InterfaceID.Bankmain.UNIVERSE);
         return running && client.getGameState()==GameState.LOGGED_IN && bank!=null && !bank.isHidden()
             && client.getVarcIntValue(VarClientID.MESLAYERMODE)==InputType.SEARCH.getType();
     }
-    void update()
+    void update() { update(false); }
+    private void update(boolean indexChanged)
     {
         if(!searching()) {
             if(query!=null) { revision++; query=null; matches=Collections.emptySet(); highlight=null; slots=false; }
@@ -59,11 +60,17 @@ final class NativeBankSearch
         updateCheckbox();
         String next=client.getVarcStrValue(VarClientID.MESLAYERINPUT);
         if(!config.improvedBankSearch()) next="";
-        if(Objects.equals(query,next)) return;
+        boolean queryChanged=!Objects.equals(query,next);
+        if(!queryChanged && !indexChanged) return;
         Set<Integer> previous=new HashSet<>(matches); boolean previousSlots=slots;
-        query=next; matches=Collections.emptySet(); highlight=null; slots=false; final long token=++revision;
+        query=next;
+        if(queryChanged) { matches=Collections.emptySet(); highlight=null; slots=false; }
+        final long token=++revision;
         final BankSearchIndex snapshot=index; final String text=next;
-        if(snapshot==null || !BankSearchIndex.plainQuery(text)) return;
+        if(snapshot==null || !BankSearchIndex.plainQuery(text)) {
+            if(!previous.isEmpty() || previousSlots) bankSearch.layoutBank();
+            return;
+        }
         new SwingWorker<Set<Integer>,Void>() {
             protected Set<Integer> doInBackground() { return snapshot.find(text); }
             protected void done() { try {
@@ -74,11 +81,12 @@ final class NativeBankSearch
                     matches=new HashSet<>(found); slots=snapshot.groupBySlot(text);
                     // A tab's own membership must not be expanded by category search.
                     if(bankTags.getActiveBankTag()!=null) matches.removeIf(id -> !bankTags.getActiveBankTag().contains(id));
+                    highlight=null;
                     if(!matches.isEmpty()) {
                         highlight=new Marker(0,0,48,36); highlight.scrollWithItems=true;
                         highlight.linkedItemIds=matches.stream().mapToInt(Integer::intValue).toArray();
                     }
-                    if(!matches.equals(previous) || slots!=previousSlots) bankSearch.layoutBank();
+                    if(!matches.equals(previous) || slots!=previousSlots || (queryChanged && !matches.isEmpty())) bankSearch.layoutBank();
                 });
             } catch(Exception ex) { /* Native search remains available if the optional index fails. */ } }
         }.execute();
@@ -94,7 +102,8 @@ final class NativeBankSearch
         if(bankTags.getActiveBankTag()!=null && !bankTags.getActiveBankTag().contains(id)) return;
         if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
     }
-    Marker highlight() { return highlight; }
+    Marker highlight() { return searching() && config.improvedBankSearch()
+        && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?highlight:null; }
     void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); highlight=null; slots=false; }
     boolean groupBySlot() { return searching() && config.improvedBankSearch() && slots && !matches.isEmpty()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }

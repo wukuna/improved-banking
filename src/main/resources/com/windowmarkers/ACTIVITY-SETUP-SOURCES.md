@@ -1,6 +1,6 @@
 # Wiki activity setups
 
-OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices.
+OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices. The remaining 167 conditional fields were individually reviewed against revision-bound raw text: ordinary linked alternatives, named footnotes, skill requirements and the Vale Totems offering variable are preserved. Links to a required weapon, spell, ammunition or set remain conditions rather than being silently classified as another item in that slot. Cross-references between guide sections remain explicit player choices.
 
 - [Abyss/Strategies](https://oldschool.runescape.wiki/w/Abyss/Strategies?oldid=15371537)
 - [Abyssal Sire/Strategies](https://oldschool.runescape.wiki/w/Abyssal_Sire/Strategies?oldid=15366976)
@@ -231,4 +231,14 @@ Alternatives: Stone tablet (The Garden of Death)#Ruins of Morra.
 
 Sources: [1](https://oldschool.runescape.wiki/w/Stone_tablet_(The_Garden_of_Death)?oldid=15232876).
 
-Additional compatibility evidence: [Zaryte crossbow](https://oldschool.runescape.wiki/w/Zaryte_crossbow?oldid=15293439) retains Zaros affiliation; [Scorching bow](https://oldschool.runescape.wiki/w/Scorching_bow?oldid=15317455) accepts arrows up to dragon.
+## Additional field-review references
+
+- [Arrows](https://oldschool.runescape.wiki/w/Arrows?oldid=15367680)
+- [God book](https://oldschool.runescape.wiki/w/God_book?oldid=15358560)
+- [Crozier](https://oldschool.runescape.wiki/w/Crozier?oldid=15323324)
+- [Granite maul](https://oldschool.runescape.wiki/w/Granite_maul?oldid=15351678)
+- [Salve amulet](https://oldschool.runescape.wiki/w/Salve_amulet?oldid=15365552)
+- [Ranging cape](https://oldschool.runescape.wiki/w/Ranging_cape?oldid=15357223)
+- [Ava's device](https://oldschool.runescape.wiki/w/Ava's_device?oldid=15364986)
+- [D'hide body](https://oldschool.runescape.wiki/w/D'hide_body?oldid=15335213)
+- [D'hide chaps](https://oldschool.runescape.wiki/w/D'hide_chaps?oldid=15335218)

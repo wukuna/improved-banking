@@ -86,4 +86,58 @@ public class NativeBankSearchTest
         when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa");
         assertTrue(search.matches().isEmpty());
     }
+
+    @Test public void disabledOrChangedSearchCannotKeepOldHighlightAndResetRemovesListener() throws Exception {
+        NativeBankSearch search=ready(); Marker marker=new Marker(0,0,48,36);
+        set(search,"highlight",marker);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        assertSame(marker,search.highlight());
+        when(search.config.improvedBankSearch()).thenReturn(false); assertNull(search.highlight());
+        when(search.config.improvedBankSearch()).thenReturn(true);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa"); assertNull(search.highlight());
+        Widget checkbox=mock(Widget.class); set(search,"checkbox",checkbox); search.reset();
+        verify(checkbox).setHidden(true); verify(checkbox).clearActions();
+        verify(checkbox).setOnOpListener((Object[])null); verify(checkbox).setHasListener(false);
+    }
+
+    @Test public void switchingOffInPluginSettingsRebuildsResultsOnlyOnce() throws Exception {
+        NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
+        when(search.config.improvedBankSearch()).thenReturn(false);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        search.update(); search.update();
+        verify(search.bankSearch,times(1)).layoutBank(); assertTrue(search.matches().isEmpty());
+    }
+
+    @Test public void changedBankContentsClearHighlightEvenWhenQueryIsUnchanged() throws Exception {
+        NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
+        search.clientThread=mock(ClientThread.class);
+        java.util.concurrent.CountDownLatch applied=new java.util.concurrent.CountDownLatch(2);
+        doAnswer(call -> { ((Runnable)call.getArgument(0)).run(); applied.countDown(); return null; })
+            .when(search.clientThread).invokeLater(any(Runnable.class));
+        set(search,"highlight",new Marker(0,0,48,36));
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        search.index(new BankSearchIndex(Collections.emptyList(),Collections.emptyList(),new CustomPresets()));
+        assertTrue(applied.await(10,java.util.concurrent.TimeUnit.SECONDS));
+        assertTrue(search.matches().isEmpty()); assertNull(search.highlight());
+        verify(search.bankSearch).layoutBank();
+    }
+
+    @Test public void newQueryWithSameMatchesStillRestoresResultsAfterNativeSearchRebuild() throws Exception {
+        NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
+        search.clientThread=mock(ClientThread.class);
+        java.util.concurrent.CountDownLatch applied=new java.util.concurrent.CountDownLatch(1);
+        doAnswer(call -> { ((Runnable)call.getArgument(0)).run(); applied.countDown(); return null; })
+            .when(search.clientThread).invokeLater(any(Runnable.class));
+        BankSearchIndex index=new BankSearchIndex(Collections.singletonList(new AutoCategories.Item(5331,"Watering can",false,null,0,0,0)),Collections.emptyList(),new CustomPresets());
+        set(search,"index",index);
+        Set<Integer> expected=index.find("farmng"); assertEquals(Collections.singleton(5331),expected);
+        set(search,"matches",expected);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farmng");
+        search.update(); assertTrue(applied.await(10,java.util.concurrent.TimeUnit.SECONDS));
+        assertEquals(expected,search.matches()); verify(search.bankSearch).layoutBank();
+        clearInvocations(search.bankSearch);
+        search.index(index); // A refresh of identical data must not cause repeated bank-tab rebuilds.
+        javax.swing.SwingUtilities.invokeAndWait(() -> {});
+        verify(search.bankSearch,after(200).never()).layoutBank();
+    }
 }

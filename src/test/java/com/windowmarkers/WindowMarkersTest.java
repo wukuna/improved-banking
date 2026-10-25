@@ -25,6 +25,49 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
+    @Test public void rapidTogglesDoNotCreateDuplicateSidebarButtons() throws Exception
+    {
+        WindowMarkersPlugin p=plugin(); clearInvocations(p.toolbar);
+        try {
+            SwingUtilities.invokeAndWait(() -> {
+                p.shutDown(); p.startUp(); p.shutDown(); p.startUp();
+            });
+            SwingUtilities.invokeAndWait(() -> {});
+            verify(p.toolbar,times(1)).addNavigation(any());
+            verify(p.toolbar,times(1)).removeNavigation(any());
+        } finally { p.shutDown(); SwingUtilities.invokeAndWait(() -> {}); }
+    }
+
+    @Test public void lifecycleWidgetCleanupWaitsForClientThread() throws Exception
+    {
+        WindowMarkersPlugin p=plugin();
+        p.clientThread=mock(net.runelite.client.callback.ClientThread.class);
+        java.util.List<Runnable> pending=new java.util.ArrayList<>();
+        doAnswer(call -> { pending.add(call.getArgument(0)); return null; })
+            .when(p.clientThread).invoke(any(Runnable.class));
+        p.nativeSearch=new NativeBankSearch(); p.nativeSearch.client=p.client;
+        p.nativeSearch.bankSearch=mock(net.runelite.client.plugins.bank.BankSearch.class);
+        p.nativeSearch.start();
+        p.searchView=new BankSearchView(); p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
+        p.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        p.bankPicker=new BankCataloguePicker(); p.screenshotButton=new BankScreenshotButton();
+        Widget checkbox=mock(Widget.class), picker=mock(Widget.class), camera=mock(Widget.class);
+        Object[] helpers={p.nativeSearch,p.bankPicker,p.screenshotButton}; Widget[] widgets={checkbox,picker,camera};
+        for(int i=0;i<helpers.length;i++) {
+            var field=helpers[i].getClass().getDeclaredField(i==0?"checkbox":"button");
+            field.setAccessible(true); field.set(helpers[i],widgets[i]);
+        }
+        SwingUtilities.invokeAndWait(() -> {
+            p.shutDown(); p.startUp(); p.onProfileChanged(new ProfileChanged()); p.shutDown();
+        });
+        verifyNoInteractions(checkbox,picker,camera);
+        for(Runnable action:pending) action.run();
+        for(Widget widget:widgets) { verify(widget).setHidden(true); verify(widget).clearActions(); verify(widget).setHasListener(false); }
+        var running=NativeBankSearch.class.getDeclaredField("running"); running.setAccessible(true);
+        assertFalse(running.getBoolean(p.nativeSearch));
+        SwingUtilities.invokeAndWait(() -> {});
+    }
+
     @Test public void realEventBusAcceptsAllSubscribersAcrossDisableAndReenable() throws Exception
     {
         net.runelite.client.eventbus.EventBus bus=new net.runelite.client.eventbus.EventBus();
