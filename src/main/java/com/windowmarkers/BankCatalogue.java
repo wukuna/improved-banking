@@ -11,9 +11,14 @@ final class BankCatalogue
         final Kind kind;
         final String name, search;
         final Object value;
+        final AutoCategories.Preset presetScope;
+        final String customGroup;
         Choice(Kind kind,String name,Object value)
+        { this(kind,name,value,null,null); }
+        Choice(Kind kind,String name,Object value,AutoCategories.Preset presetScope,String customGroup)
         {
             this.kind=kind; this.name=name; this.value=value;
+            this.presetScope=presetScope; this.customGroup=customGroup;
             search=SearchText.normalize(name+" "+aliases(name));
         }
         @Override public String toString() { return name+"  · "+kind.toString().toLowerCase(Locale.ROOT).replace('_',' '); }
@@ -34,6 +39,8 @@ final class BankCatalogue
         // All preset and setup names are indexed independently of ownership. Only
         // broad groups need the current bank to discover state-specific labels.
         categories.addAll(AutoCategories.suggest(AutoCategories.Preset.ALL_CATEGORIES,owned).keySet());
+        for(AutoCategories.Item item:owned) if(!ItemVariantState.identityNeedsReview(item))
+            for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) categories.add(ItemVariantState.annotate(entry.group,item));
         List<Choice> result=new ArrayList<>();
         for(String category:categories) result.add(new Choice(Kind.CATEGORY,category,category));
         for(AutoCategories.Preset preset:AutoCategories.Preset.values()) result.add(new Choice(Kind.PRESET,preset.toString(),preset));
@@ -60,8 +67,12 @@ final class BankCatalogue
         Map<String,List<AutoCategories.Item>> groups=new LinkedHashMap<>();
         Set<Integer> found=new HashSet<>();
         for(AutoCategories.Item item:items)
-            if(!ItemVariantState.identityNeedsReview(item) && WikiCatalogue.entries(item).stream().anyMatch(e -> e.group.equals(category)) && found.add(item.id))
-                groups.computeIfAbsent(ItemVariantState.annotate(category,item),k -> new ArrayList<>()).add(item);
+            if(!ItemVariantState.identityNeedsReview(item)) for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item))
+            {
+                String annotated=ItemVariantState.annotate(entry.group,item);
+                if((entry.group.equals(category) || annotated.equals(category)) && found.add(item.id))
+                    groups.computeIfAbsent(annotated,k -> new ArrayList<>()).add(item);
+            }
         List<AutoCategories.Preset> matching=new ArrayList<>();
         if(category.startsWith("CoX ")) matching.add(AutoCategories.Preset.CHAMBERS_OF_XERIC);
         else if(category.startsWith("ToB ")) matching.add(AutoCategories.Preset.THEATRE_OF_BLOOD);
@@ -73,6 +84,42 @@ final class BankCatalogue
                 // Suggested labels already contain their state or review note.
                 if(found.add(item.id)) groups.computeIfAbsent(category,k -> new ArrayList<>()).add(item);
         return groups;
+    }
+    static Map<String,List<AutoCategories.Item>> categoryGroups(Choice choice,List<AutoCategories.Item> items)
+    {
+        if(choice.presetScope==null) return categoryGroups(choice.name,items);
+        List<AutoCategories.Item> matches=AutoCategories.suggest(choice.presetScope,items).get(choice.name);
+        return matches==null?Collections.emptyMap():Collections.singletonMap(choice.name,matches);
+    }
+    /** Match the exact recorded membership, never a fuzzy result or a different activity's role. */
+    static List<Choice> targets(String membership,List<Choice> available)
+    {
+        if(membership.startsWith("Category: ")) {
+            String category=membership.substring("Category: ".length());
+            return Collections.singletonList(new Choice(Kind.CATEGORY,category,category));
+        }
+        for(AutoCategories.Preset preset:AutoCategories.Preset.values()) {
+            String prefix="Preset: "+preset+" / ";
+            if(membership.startsWith(prefix)) {
+                String category=membership.substring(prefix.length());
+                return Collections.singletonList(new Choice(Kind.CATEGORY,category,category,preset,null));
+            }
+        }
+        List<Choice> matches=new ArrayList<>();
+        for(Choice choice:available) {
+            if(choice.kind==Kind.WIKI_SETUP) {
+                ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;
+                String label="Wiki setup: "+setup.activity+" / "+setup.label;
+                if(membership.equals(label) || membership.equals(label+" — state needs review")) matches.add(choice);
+            } else if(choice.kind==Kind.SAVED_GROUP && membership.equals("Saved group: "+((Marker)choice.value).labelText())) matches.add(choice);
+            else if(choice.kind==Kind.CUSTOM_PRESET) {
+                CustomPresets.Preset preset=(CustomPresets.Preset)choice.value;
+                Set<String> seen=new HashSet<>();
+                for(Marker group:preset.groups) if(membership.equals("Custom preset: "+preset.name+" / "+group.labelText()) && seen.add(group.labelText()))
+                    matches.add(new Choice(Kind.CUSTOM_PRESET,choice.name,choice.value,null,group.labelText()));
+            }
+        }
+        return matches;
     }
     static SortedSet<String> memberships(AutoCategories.Item item,List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets custom)
     {

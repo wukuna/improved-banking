@@ -6,6 +6,17 @@ import static org.junit.Assert.*;
 
 public class CatalogueTest
 {
+    @Test public void refreshedUtilityRolesPreservePartnersAndDoNotBecomeRaidSupplies() {
+        for(int id:new int[]{10890,1718,24725}) {
+            AutoCategories.Item i=item(id,"test");
+            for(String skill:new String[]{"Agility","Thieving","Woodcutting"})
+                assertTrue(WikiCatalogue.entries(i).stream().anyMatch(e -> e.group.equals(skill+" — poison cure (book + symbol + Prayer)")));
+            assertFalse(WikiCatalogue.hasFacet(i,"supply"));
+        }
+        for(int id:new int[]{7534,7535}) assertTrue(WikiCatalogue.entries(item(id,"test")).stream().anyMatch(e -> e.group.equals("Sailing — diving pair (helmet + apparatus)")));
+        assertTrue(WikiCatalogue.hasFacet(item(33881,"Wyrmscraig boots"),"cosmetic"));
+        assertTrue(WikiCatalogue.entries(item(34658,"Archive key")).isEmpty());
+    }
     private static AutoCategories.Item item(int id,String name)
     { return new AutoCategories.Item(id,name,false,null,0,0,0); }
     private static String category(String name,AutoCategories.Preset preset)
@@ -165,5 +176,14 @@ public class CatalogueTest
         assertFalse(ItemVariantState.needsActivityReview(item(9419,"Mith grapple")));
         assertTrue(WikiCatalogue.entries(item(9143,"Adamant bolts")).stream()
             .anyMatch(e -> e.group.equals("Ammunition — bolts (match weapon)")));
+    }
+    @Test public void refreshedWeaponCategoriesPreserveChargesAndModeRestrictions() {
+        assertTrue(WikiCatalogue.hasFacet(item(13307,"Blood money"),"restricted"));
+        assertTrue(WikiCatalogue.entries(item(34681,"Ascension crossbows")).stream().anyMatch(e -> e.group.equals("Ranged weapons — crossbows")));
+        for(int id:new int[]{34715,34717})
+            assertTrue(WikiCatalogue.entries(item(id,id==34715?"Obligator":"Obligator (uncharged)")).stream().anyMatch(e -> e.group.equals("Melee weapons — crush")));
+        assertTrue(ItemVariantState.needsActivityReview(item(34717,"Obligator (uncharged)")));
+        assertFalse(ItemVariantState.needsActivityReview(item(34715,"Obligator")));
+        assertTrue(WikiCatalogue.entries(item(34059,"Fairy tale quest lamp")).isEmpty());
     }
 }

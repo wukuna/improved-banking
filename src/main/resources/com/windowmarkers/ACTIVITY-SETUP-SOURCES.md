@@ -1,19 +1,19 @@
 # Wiki activity setups
 
-OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices.
+OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices.
 
 - [Abyss/Strategies](https://oldschool.runescape.wiki/w/Abyss/Strategies?oldid=15371537)
 - [Abyssal Sire/Strategies](https://oldschool.runescape.wiki/w/Abyssal_Sire/Strategies?oldid=15366976)
 - [Adamant dragon/Strategies](https://oldschool.runescape.wiki/w/Adamant_dragon/Strategies?oldid=15357788)
 - [Alchemical Hydra/Strategies](https://oldschool.runescape.wiki/w/Alchemical_Hydra/Strategies?oldid=15357786)
-- [Amoxliatl/Strategies](https://oldschool.runescape.wiki/w/Amoxliatl/Strategies?oldid=15354880)
+- [Amoxliatl/Strategies](https://oldschool.runescape.wiki/w/Amoxliatl/Strategies?oldid=15381786)
 - [Aquanite/Strategies](https://oldschool.runescape.wiki/w/Aquanite/Strategies?oldid=15354922)
 - [Araxxor/Strategies](https://oldschool.runescape.wiki/w/Araxxor/Strategies?oldid=15379462)
 - [Artio/Strategies](https://oldschool.runescape.wiki/w/Artio/Strategies?oldid=15371547)
 - [Aviansie/Strategies](https://oldschool.runescape.wiki/w/Aviansie/Strategies?oldid=15354981)
 - [Barbarian Assault/Advanced strategies](https://oldschool.runescape.wiki/w/Barbarian_Assault/Advanced_strategies?oldid=15379483)
 - [Barbarian Assault/Strategies](https://oldschool.runescape.wiki/w/Barbarian_Assault/Strategies?oldid=15379482)
-- [Barrows/Strategies](https://oldschool.runescape.wiki/w/Barrows/Strategies?oldid=15379474)
+- [Barrows/Strategies](https://oldschool.runescape.wiki/w/Barrows/Strategies?oldid=15381706)
 - [Basilisk Knight/Strategies](https://oldschool.runescape.wiki/w/Basilisk_Knight/Strategies?oldid=15374651)
 - [Blast Furnace/Strategies](https://oldschool.runescape.wiki/w/Blast_Furnace/Strategies?oldid=15364498)
 - [Brutal black dragon/Strategies](https://oldschool.runescape.wiki/w/Brutal_black_dragon/Strategies?oldid=15360885)
@@ -31,10 +31,10 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preser
 - [Commander Zilyana/Strategies](https://oldschool.runescape.wiki/w/Commander_Zilyana/Strategies?oldid=15379480)
 - [Corporeal Beast/Strategies](https://oldschool.runescape.wiki/w/Corporeal_Beast/Strategies?oldid=15373688)
 - [Crazy archaeologist/Strategies](https://oldschool.runescape.wiki/w/Crazy_archaeologist/Strategies?oldid=15318138)
-- [Dagannoth Kings/Strategies](https://oldschool.runescape.wiki/w/Dagannoth_Kings/Strategies?oldid=15376243)
+- [Dagannoth Kings/Strategies](https://oldschool.runescape.wiki/w/Dagannoth_Kings/Strategies?oldid=15381135)
 - [Demonic gorilla/Strategies](https://oldschool.runescape.wiki/w/Demonic_gorilla/Strategies?oldid=15354866)
 - [Deranged archaeologist/Strategies](https://oldschool.runescape.wiki/w/Deranged_archaeologist/Strategies?oldid=15367003)
-- [Duke Sucellus/Strategies](https://oldschool.runescape.wiki/w/Duke_Sucellus/Strategies?oldid=15372792)
+- [Duke Sucellus/Strategies](https://oldschool.runescape.wiki/w/Duke_Sucellus/Strategies?oldid=15381755)
 - [Ecumenical key/Strategies](https://oldschool.runescape.wiki/w/Ecumenical_key/Strategies?oldid=15296823)
 - [Fishing Trawler/Strategies](https://oldschool.runescape.wiki/w/Fishing_Trawler/Strategies?oldid=15355860)
 - [Fortis Colosseum/Strategies](https://oldschool.runescape.wiki/w/Fortis_Colosseum/Strategies?oldid=15373280)
@@ -51,31 +51,31 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preser
 - [Hespori (Echo)/Strategies](https://oldschool.runescape.wiki/w/Hespori_(Echo)/Strategies?oldid=15208401)
 - [Hespori/Strategies](https://oldschool.runescape.wiki/w/Hespori/Strategies?oldid=15359177)
 - [Hunters' Rumours/Strategies](https://oldschool.runescape.wiki/w/Hunters'_Rumours/Strategies?oldid=15374418)
-- [Inferno/Strategies](https://oldschool.runescape.wiki/w/Inferno/Strategies?oldid=15373689)
+- [Inferno/Strategies](https://oldschool.runescape.wiki/w/Inferno/Strategies?oldid=15380843)
 - [K'ril Tsutsaroth/Strategies](https://oldschool.runescape.wiki/w/K'ril_Tsutsaroth/Strategies?oldid=15354847)
 - [Kalphite Queen/Strategies](https://oldschool.runescape.wiki/w/Kalphite_Queen/Strategies?oldid=15369627)
 - [King Black Dragon/Strategies](https://oldschool.runescape.wiki/w/King_Black_Dragon/Strategies?oldid=15372306)
-- [Kraken/Strategies](https://oldschool.runescape.wiki/w/Kraken/Strategies?oldid=15371400)
+- [Kraken/Strategies](https://oldschool.runescape.wiki/w/Kraken/Strategies?oldid=15381721)
 - [Kree'arra/Strategies](https://oldschool.runescape.wiki/w/Kree'arra/Strategies?oldid=15356508)
 - [Krystilia/Strategies](https://oldschool.runescape.wiki/w/Krystilia/Strategies?oldid=15373744)
 - [Lava dragon/Strategies](https://oldschool.runescape.wiki/w/Lava_dragon/Strategies?oldid=15316268)
 - [Lizardman shaman/Strategies](https://oldschool.runescape.wiki/w/Lizardman_shaman/Strategies?oldid=15369517)
-- [Mad Angel/Strategies](https://oldschool.runescape.wiki/w/Mad_Angel/Strategies?oldid=15366931)
+- [Mad Angel/Strategies](https://oldschool.runescape.wiki/w/Mad_Angel/Strategies?oldid=15381788)
 - [Maniacal monkey/Strategies](https://oldschool.runescape.wiki/w/Maniacal_monkey/Strategies?oldid=15355390)
 - [Metal dragons/Strategies](https://oldschool.runescape.wiki/w/Metal_dragons/Strategies?oldid=15353026)
 - [Mithril dragon/Strategies](https://oldschool.runescape.wiki/w/Mithril_dragon/Strategies?oldid=15367803)
-- [Moons of Peril/Strategies](https://oldschool.runescape.wiki/w/Moons_of_Peril/Strategies?oldid=15357348)
+- [Moons of Peril/Strategies](https://oldschool.runescape.wiki/w/Moons_of_Peril/Strategies?oldid=15381143)
 - [Nex/Strategies](https://oldschool.runescape.wiki/w/Nex/Strategies?oldid=15379523)
 - [Nightmare Zone/Strategies](https://oldschool.runescape.wiki/w/Nightmare_Zone/Strategies?oldid=15378354)
-- [Phantom Muspah/Strategies](https://oldschool.runescape.wiki/w/Phantom_Muspah/Strategies?oldid=15379500)
+- [Phantom Muspah/Strategies](https://oldschool.runescape.wiki/w/Phantom_Muspah/Strategies?oldid=15381056)
 - [Phosani's Nightmare/Strategies](https://oldschool.runescape.wiki/w/Phosani's_Nightmare/Strategies?oldid=15379505)
 - [Raw anglerfish/Strategies](https://oldschool.runescape.wiki/w/Raw_anglerfish/Strategies?oldid=15370202)
-- [Revenants/Strategies](https://oldschool.runescape.wiki/w/Revenants/Strategies?oldid=15354854)
+- [Revenants/Strategies](https://oldschool.runescape.wiki/w/Revenants/Strategies?oldid=15381593)
 - [Rune dragon/Strategies](https://oldschool.runescape.wiki/w/Rune_dragon/Strategies?oldid=15357785)
 - [Sarachnis/Strategies](https://oldschool.runescape.wiki/w/Sarachnis/Strategies?oldid=15379428)
 - [Scorpia/Strategies](https://oldschool.runescape.wiki/w/Scorpia/Strategies?oldid=15317574)
 - [Shades of Mort'ton (minigame)/Strategies](https://oldschool.runescape.wiki/w/Shades_of_Mort'ton_(minigame)/Strategies?oldid=15368066)
-- [Shellbane gryphon/Strategies](https://oldschool.runescape.wiki/w/Shellbane_gryphon/Strategies?oldid=15376274)
+- [Shellbane gryphon/Strategies](https://oldschool.runescape.wiki/w/Shellbane_gryphon/Strategies?oldid=15380590)
 - [Skeletal Wyvern/Strategies](https://oldschool.runescape.wiki/w/Skeletal_Wyvern/Strategies?oldid=15370340)
 - [Skotizo/Strategies](https://oldschool.runescape.wiki/w/Skotizo/Strategies?oldid=15372838)
 - [Slayer task/Dark beast](https://oldschool.runescape.wiki/w/Slayer_task/Dark_beast?oldid=15357079)
@@ -85,13 +85,13 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preser
 - [Spindel/Strategies](https://oldschool.runescape.wiki/w/Spindel/Strategies?oldid=15345527)
 - [Sulliuscep/Strategies](https://oldschool.runescape.wiki/w/Sulliuscep/Strategies?oldid=15342081)
 - [Tempoross/Strategies](https://oldschool.runescape.wiki/w/Tempoross/Strategies?oldid=15372130)
-- [The Fractured Archive/Strategies](https://oldschool.runescape.wiki/w/The_Fractured_Archive/Strategies?oldid=15380204)
+- [The Fractured Archive/Strategies](https://oldschool.runescape.wiki/w/The_Fractured_Archive/Strategies?oldid=15381825)
 - [The Gauntlet/Strategies](https://oldschool.runescape.wiki/w/The_Gauntlet/Strategies?oldid=15359999)
 - [The Hueycoatl/Strategies](https://oldschool.runescape.wiki/w/The_Hueycoatl/Strategies?oldid=15354883)
 - [The Leviathan/Strategies](https://oldschool.runescape.wiki/w/The_Leviathan/Strategies?oldid=15379450)
 - [The Mimic/Strategies](https://oldschool.runescape.wiki/w/The_Mimic/Strategies?oldid=15357787)
 - [The Nightmare/Strategies](https://oldschool.runescape.wiki/w/The_Nightmare/Strategies?oldid=15379504)
-- [The Whisperer/Strategies](https://oldschool.runescape.wiki/w/The_Whisperer/Strategies?oldid=15380039)
+- [The Whisperer/Strategies](https://oldschool.runescape.wiki/w/The_Whisperer/Strategies?oldid=15381570)
 - [Theatre of Blood/Strategies](https://oldschool.runescape.wiki/w/Theatre_of_Blood/Strategies?oldid=15372089)
 - [Thermonuclear smoke devil/Strategies](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil/Strategies?oldid=15354870)
 - [Tithe Farm/Strategies](https://oldschool.runescape.wiki/w/Tithe_Farm/Strategies?oldid=15360267)
@@ -100,7 +100,7 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preser
 - [Trouble Brewing/Strategies](https://oldschool.runescape.wiki/w/Trouble_Brewing/Strategies?oldid=15021762)
 - [TzHaar Fight Cave/Strategies](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave/Strategies?oldid=15374896)
 - [Vale Totems/Strategies](https://oldschool.runescape.wiki/w/Vale_Totems/Strategies?oldid=15379633)
-- [Vardorvis/Strategies](https://oldschool.runescape.wiki/w/Vardorvis/Strategies?oldid=15357517)
+- [Vardorvis/Strategies](https://oldschool.runescape.wiki/w/Vardorvis/Strategies?oldid=15380983)
 - [Venenatis/Strategies](https://oldschool.runescape.wiki/w/Venenatis/Strategies?oldid=15371271)
 - [Vet'ion/Strategies](https://oldschool.runescape.wiki/w/Vet'ion/Strategies?oldid=15313276)
 - [Vorkath/Strategies](https://oldschool.runescape.wiki/w/Vorkath/Strategies?oldid=15368595)
@@ -108,3 +108,17 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-23. Each choice preser
 - [Wintertodt/Strategies](https://oldschool.runescape.wiki/w/Wintertodt/Strategies?oldid=15358528)
 - [Zalcano/Strategies](https://oldschool.runescape.wiki/w/Zalcano/Strategies?oldid=15343394)
 - [Zulrah/Strategies](https://oldschool.runescape.wiki/w/Zulrah/Strategies?oldid=15356843)
+
+## Reviewed group references
+
+- [Halo](https://oldschool.runescape.wiki/w/Halo?oldid=15339214): Halo alternatives retain their god alignment and prayer-drain differences; choose the one appropriate to the guide.
+- [Broodoo shield](https://oldschool.runescape.wiki/w/Broodoo_shield?oldid=15261109): Broodoo shield variants drain different combat stats. An uncharged shield retains its equipment bonuses but loses the charged effect.
+- [God book](https://oldschool.runescape.wiki/w/God_book?oldid=15358560): These are completed god books. Their combat bonuses and god alignments differ; an unfinished damaged book is not a completed-book equivalent.
+- [God capes](https://oldschool.runescape.wiki/w/God_capes?oldid=15369476): Unimbued god capes retain their corresponding god spell and god alignment. Imbued cape references are resolved separately.
+- [Damaged book](https://oldschool.runescape.wiki/w/Damaged_book?oldid=15174921): Damaged books provide prayer bonus, without the completed books' additional combat bonuses. God alignments differ.
+- [Blessing](https://oldschool.runescape.wiki/w/Blessing?oldid=15333002): Equipment-slot blessing alternatives only; Bologa's consumable and the League crystal blessing are excluded. Prayer bonus, diary benefits and god alignment still differ.
+- [Godsword](https://oldschool.runescape.wiki/w/Godsword?oldid=15375453): The Eclipse clone-phase list names godswords for ordinary weapon attacks. Their different special attacks are not interchangeable; hilts, shards and unfinished blades are excluded.
+- [Blowpipe](https://oldschool.runescape.wiki/w/Blowpipe?oldid=15379527): The Lost Souls role names blowpipes as fast ranged weapons. They still require appropriate loaded darts, and the toxic version needs scales; an empty version is not ready equipment.
+- [Shortbow (weapon)](https://oldschool.runescape.wiki/w/Shortbow_(weapon)?oldid=15301227): Shortbow alternatives belong to the guide's Lost Souls role. Range, ammunition, charges and attack requirements differ; these are not ranked or interchangeable for every encounter.
+- [Throwing knife](https://oldschool.runescape.wiki/w/Throwing_knife?oldid=15271460): Throwing knives are included for the fast-attack Lost Souls role. Poison states remain exact separate identities; this does not equate their damage, cost or requirements.
+- [Dragonhide shield](https://oldschool.runescape.wiki/w/Leather_shield?oldid=15247727): Dragonhide shields only: hard leather and snakeskin are outside this named group. This is an off-hand option when using a compatible one-handed weapon, not a shield for a two-handed bow; god alignment and bonuses differ.

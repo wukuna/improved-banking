@@ -2,11 +2,11 @@
 
 ## Audited snapshot
 
-Reviewed through 2026-10-23. All 12,521 direct Wiki Category:Items pages in the collected snapshot have a recorded disposition. Raw articles, revision IDs, exact item definitions, category rules and exceptions are retained in the development audit ledger. This is a completed reconciliation of the available snapshot, not a claim that every possible OSRS item or use has been proven.
+Reviewed through 2026-10-25. All 12,521 direct Wiki Category:Items pages in the collected snapshot have a recorded disposition. Raw articles, revision IDs, exact item definitions, category rules and exceptions are retained in the development audit ledger. This is a completed reconciliation of the available snapshot, not a claim that every possible OSRS item or use has been proven.
 
 There are 13,633 potentially bankable, literal, current-source identities that agree with the copied game cache. 13,632 have exact organizational roles. Reef snake gland (32882) has no verified functional use in its cache-derived Wiki article, so it stays in an unchecked review group. Bankability marked unknown by the source is not silently promoted to proven bankability.
 
-Across the earlier catalogue and the new supplements, the compiled tables contain 13,887 distinct exact IDs and 35,694 memberships. These counts overlap the source and category counts; they must not be added. Some records describe retained seasonal or historical objects. Those do not establish activity eligibility.
+Across the earlier catalogue and the new supplements, the compiled tables contain 13,887 distinct exact IDs and 35,713 memberships after explicit identity and role exclusions. These counts overlap the source and category counts; they must not be added. Some records describe retained seasonal or historical objects. Those do not establish activity eligibility.
 
 ## Classification and equivalent effects
 
@@ -26,9 +26,19 @@ Exclude worse items retains its conservative, supported CoX/ToB/ToA comparisons 
 
 ## Activity guides
 
-871 equipment tables, example inventories and rune-pouch examples from 106 activities are available through the searchable Wiki activity/setup choice. Each is kept separate, with source tab/column names, a pinned revision link and conditional notes. All start unchecked. Generic or unresolved references remain visible in the notes instead of being filled from broad categories. The ledger preserves all 166 source fields with markup or reference conditions that need reading in the guide; no universal ranking is inferred from them.
+887 equipment tables, example inventories and rune-pouch examples from 106 activities are available through the searchable Wiki activity/setup choice. Each is kept separate, with source tab/column names, a pinned revision link and conditional notes. All start unchecked. Generic or unresolved references remain visible in the notes instead of being filled from broad categories. The ledger preserves all 167 source fields with markup or reference conditions that need reading in the guide; no universal ranking is inferred from them.
 
 CoX/ToB/ToA retain their main presets and separate specialist roles. Additional covered guide contexts include Tekton crush, Vasa stab, Vespula fire-spell conditions, ToB Entry alternatives and Verzik P1 multi-hit weapons, and ToA Kephri/core roles. These now have explicit memberships without replacing the main-role comparisons. The Fractured Archive source is under construction and remains provisional and unchecked. No raid admits supplies merely because an item has an Eat or Drink action.
+
+## 25 October refresh and remaining work
+
+All 12,521 item-page revisions and category lists were checked again, separately. There were 89 revised articles, 11 changed category lists and no new or removed pages in this direct-category inventory. None of the changed item articles altered the exact identity, variant-name or bankability fields used by the identity ledger. Of 114 source guide pages, 14 changed; their setup tables and conditions were rebuilt. The 887 setup choices contain 54,439 exact-ID memberships across 2,313 distinct items.
+
+Reviewed role additions cover the diving pair, conditional prayer-book poison curing, quest digging, decorative Wyrmscraig boots, Deadman currency and the new crossbow/crush weapons. Eleven explicit reference-group definitions cover books, capes, halos, blessings, shields and specialist weapons without turning their effects into universal equivalence. Kraken damage and sustain setups stay separate, with the sustain shield requirement visible. See WIKI-ROLE-UPDATES.md and ACTIVITY-SETUP-SOURCES.md.
+
+The refresh reduced non-expanded guide references from 34 names to 21. Four are explicitly unbankable (Mimic, Logavano seed, Moonlight potion and Bloated toad), and Placeholder is a diagram spacer. Fifteen are still broad or contextual references, including Barrows slots, skillcapes, powered staves, crossbows and arrows. One source uses a missing stone-tablet title. These references remain in the guide notes; they are not silently replaced with guesses. The 167 conditional source fields remain preserved for reading rather than all being enforced as automatic eligibility rules.
+
+Reef snake gland's function remains unverified. The 593 named cache entries without matched current literal Wiki identities also remain guarded; those are not 593 proven missing bankable items. Further guide interpretation, new source content and live account-specific readiness remain open work. This audit does not claim every possible item use or every preset's optimality is complete.
 
 ## Identity exceptions and safe handling
 
@@ -53,7 +63,7 @@ The full audit ledger and immutable article snapshots are under outputs/banking-
 - 331 names rely on the selected reference lists without a retrieved individual infobox.
 - 102 successfully retrieved non-item references excluded (for example, boat facilities and disambiguations).
 
-These figures describe the original table catalogue. The full item/use audit remains unfinished. Unknown items remain unchecked for review. Further boss/activity recommendations, ammunition compatibility, per-encounter gear ranking and automatic set optimization are not implemented. A general classification can retain several source roles; each preset chooses one display group per item. Already-linked items are skipped unless their old marker is explicitly selected for replacement.
+These figures describe the original table catalogue. The full item/use audit remains unfinished. Unknown items remain unchecked for review. Further boss/activity recommendations, ammunition compatibility, per-encounter gear ranking and automatic set optimization are not implemented. A general classification can retain several source roles; each preset chooses one display group per item. Bulk presets skip already-linked items by default; explicit category additions allow overlapping membership after review. Identical existing groups retain their appearance instead of being duplicated.
 
 ## Outfit families
 

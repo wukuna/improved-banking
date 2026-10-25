@@ -17,6 +17,11 @@ public class GroupCatalogueTest
                 String expected=ItemVariantState.annotate(entry.group,item);
                 assertTrue(row[0]+" / "+entry.group,groups.containsKey(expected));
                 assertEquals(1,groups.values().stream().mapToInt(List::size).sum());
+                // Lookup emits the annotated secondary role, not necessarily
+                // the single primary category chosen by auto-categorization.
+                Map<String,List<AutoCategories.Item>> clicked=BankCatalogue.categoryGroups(expected,Collections.singletonList(item));
+                assertEquals(row[0]+" / "+expected,Collections.singleton(expected),clicked.keySet());
+                assertEquals(item.id,clicked.get(expected).get(0).id);
                 checked++;
             }
         }
@@ -45,6 +50,11 @@ public class GroupCatalogueTest
         assertTrue(BankCatalogue.search(choices,"cox",150).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.PRESET));
         assertTrue(BankCatalogue.search(choices,"herblroe",150).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.CATEGORY));
         assertTrue(choices.stream().anyMatch(c -> c.kind==BankCatalogue.Kind.WIKI_SETUP));
+        for(String query:new String[]{"herb","herbl","herblor","herblroe","ingredients herblroe"})
+            assertTrue(query,SearchText.score("Herblore — ingredients",query)<Integer.MAX_VALUE);
+        assertTrue(SearchText.score("Ancestral hat","ancsetr")<Integer.MAX_VALUE);
+        assertEquals(Integer.MAX_VALUE,SearchText.score("Magic equipment","axe"));
+        assertEquals(Integer.MAX_VALUE,SearchText.score("Herblore","x".repeat(300)));
     }
     @Test public void palettePreservesSameNameVariantsAndBankScope() {
         var a=new BankItemSearch.Choice(1409,"Iban's staff"); var b=new BankItemSearch.Choice(1410,"Iban's staff");

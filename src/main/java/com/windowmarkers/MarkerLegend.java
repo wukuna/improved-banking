@@ -62,6 +62,7 @@ final class MarkerLegend extends JPanel
         void delete(List<Marker> markers);
         void clear(List<Marker> expected);
         void browse(String query);
+        default void choose(BankCatalogue.Choice choice) { browse(choice.name); }
         void inspect();
         void reorder(List<Marker> visible,List<Marker> selected,int index);
         void transform(Marker marker,boolean resize);
@@ -95,11 +96,11 @@ final class MarkerLegend extends JPanel
         suggestionScroll.setPreferredSize(new Dimension(210,75)); suggestionScroll.setVisible(false); header.add(suggestionScroll);
         suggestionList.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) {
             int i=suggestionList.locationToIndex(e.getPoint());
-            if(i>=0 && suggestionList.getCellBounds(i,i).contains(e.getPoint()) && actions!=null) actions.browse(suggestions.get(i).name);
+            if(i>=0 && suggestionList.getCellBounds(i,i).contains(e.getPoint()) && actions!=null) actions.choose(suggestions.get(i));
         }});
         suggestionList.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),"browse");
         suggestionList.getActionMap().put("browse",new AbstractAction() { public void actionPerformed(ActionEvent e) {
-            if(actions!=null && suggestionList.getSelectedValue()!=null) actions.browse(suggestionList.getSelectedValue().name);
+            if(actions!=null && suggestionList.getSelectedValue()!=null) actions.choose(suggestionList.getSelectedValue());
         }});
         header.add(scope); header.add(preset); preset.addItem("All presets");
         scope.setToolTipText("Current bank tab follows tab changes. All saved groups includes absent items and empty area markers.");
@@ -186,6 +187,14 @@ final class MarkerLegend extends JPanel
         if(names.contains(selected)) preset.setSelectedItem(selected); refreshing=false; filter();
     }
     void catalogue(List<BankCatalogue.Choice> choices) { this.choices=choices; filter(); }
+    void showGroups(List<Marker> groups)
+    {
+        search.setText(""); preset.setSelectedIndex(0);
+        if(scope.getSelectedIndex()==0 && tabEntries.stream().noneMatch(e -> groups.contains(e.marker))) scope.setSelectedIndex(1);
+        filter(); list.clearSelection();
+        for(int i=0;i<rows.size();i++) if(groups.contains(rows.get(i).marker)) list.addSelectionInterval(i,i);
+        if(list.getSelectedIndex()>=0) list.ensureIndexIsVisible(list.getSelectedIndex());
+    }
     void resetContext() { search.setText(""); preset.setSelectedIndex(0); list.clearSelection(); }
     void close() { timer.stop(); }
     void filter()
@@ -197,7 +206,7 @@ final class MarkerLegend extends JPanel
         {
             String groupPreset=entry.marker.preset==null?"Custom / older groups":entry.marker.preset;
             if(preset.getSelectedIndex()>0 && !groupPreset.equals(presetName)) continue;
-            if(SearchText.score(entry.name+" "+entry.marker.category+" "+groupPreset,needle)==Integer.MAX_VALUE) continue;
+            if(SearchText.score(entry.name+" "+entry.marker.category+" "+groupPreset+" "+BankCatalogue.aliases(groupPreset),needle)==Integer.MAX_VALUE) continue;
             rows.addElement(entry);
         }
         for(int i=0;i<rows.size();i++) if(selected.contains(rows.get(i).marker)) list.addSelectionInterval(i,i);

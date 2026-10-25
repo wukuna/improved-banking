@@ -183,6 +183,7 @@ public class WindowMarkersPlugin extends Plugin
                         else setStatus("Layout changed. Review the groups before clearing.");
                     }}
                     public void browse(String query) { browseCatalogue(query); }
+                    public void choose(BankCatalogue.Choice choice) { chooseCatalogue(choice); }
                     public void inspect() { inspectItems(); }
                     public void clearHighlight() { lookupHighlight=null; }
                     public void reorder(List<Marker> visible,List<Marker> selected,int index) { reorderGroups(visible,selected,index); }
@@ -441,6 +442,9 @@ public class WindowMarkersPlugin extends Plugin
     }
 
     private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions,ActivitySetups.Setup setup)
+    { reviewCategories(owner,layout,groups,preset,exclusions,setup,false); }
+
+    private void reviewCategories(String owner,String layout,java.util.Map<String,List<AutoCategories.Item>> groups,AutoCategories.Preset preset,java.util.Map<Integer,String> exclusions,ActivitySetups.Setup setup,boolean explicitCategory)
     {
         if (groups.isEmpty()) { setStatus("No owned items matched this preset."); return; }
         JPanel panel=new MarkerForm();
@@ -460,7 +464,9 @@ public class WindowMarkersPlugin extends Plugin
         JButton source=new JButton("Open Wiki source");
         source.addActionListener(e -> net.runelite.client.util.LinkBrowser.browse(setup==null ? WikiCatalogue.source(preset) : setup.source));
         panel.add(source);
-        panel.add(new JLabel("<html>Existing linked items are skipped. To correct old groups,<br>check their names below for replacement. Area markers stay.<br>Replacing removes the entire checked marker. Undo restores it.</html>"));
+        JCheckBox includeGrouped=new JCheckBox("Include items already in other groups",explicitCategory);
+        panel.add(includeGrouped);
+        panel.add(new JLabel("<html>Including grouped items keeps their existing groups too.<br>To replace old groups instead, check their names below.<br>Replacing removes the entire checked marker. Undo restores it.</html>"));
         java.util.Map<JCheckBox,Marker> replacements=new java.util.LinkedHashMap<>();
         synchronized (this)
         {
@@ -492,28 +498,18 @@ public class WindowMarkersPlugin extends Plugin
             int replaced=0;
             for (java.util.Map.Entry<JCheckBox,Marker> entry : replacements.entrySet())
             { if (entry.getKey().isSelected() && markers.remove(entry.getValue())) { replaced++; } }
-            java.util.Set<Integer> assigned=new java.util.HashSet<>();
-            for (Marker m : markers) if (m.linked()) for (int id : m.linkedItemIds) { assigned.add(id); }
-            int added=0, limited=0;
-            List<Color> usedColors=new ArrayList<>();
-            for (Marker existing : markers) { usedColors.add(existing.borderArgb==null ? config.color() : new Color(existing.borderArgb,true)); }
-            for (java.util.Map.Entry<JCheckBox,List<AutoCategories.Item>> entry : choices.entrySet())
-            {
-                if (!entry.getKey().isSelected()) { continue; }
-                if (markers.size()>=MAX_MARKERS) { limited++; continue; }
-                int[] ids=entry.getValue().stream().mapToInt(i -> i.id).distinct().filter(id -> !assigned.contains(id)).toArray();
-                if (ids.length==0) { continue; }
-                Marker marker=new Marker(0,0,48,36); marker.scrollWithItems=true; marker.linkedItemIds=ids;
-                marker.label=MarkerPresentation.title(entry.getKey().getText()); marker.labelOnce=true;
-                marker.category=entry.getKey().getText(); marker.preset=setup==null?preset.toString():setup.activity+" — "+setup.label;
-                marker.labelFont="Arial"; marker.labelSize=12;
-                marker.labelPlacement=Marker.LabelPlacement.ABOVE; marker.style=WindowMarkersConfig.BorderStyle.PLAIN;
-                Color color=MarkerPresentation.nextColor(usedColors); usedColors.add(color);
-                marker.borderArgb=color.getRGB(); marker.backgroundArgb=new Color(color.getRed(),color.getGreen(),color.getBlue(),65).getRGB();
-                markers.add(marker); for (int id : ids) { assigned.add(id); } added++;
-            }
-            if (added>0 || replaced>0) { save(); }
-            setStatus(added+" groups added; "+replaced+" replaced."+(limited>0 ? " "+limited+" groups skipped at the "+MAX_MARKERS+"-marker limit." : "")+" Undo restores the previous layout.");
+            java.util.Map<String,List<AutoCategories.Item>> selected=new java.util.LinkedHashMap<>();
+            choices.forEach((box,items) -> { if(box.isSelected()) selected.put(box.getText(),items); });
+            String presetName=setup==null?preset.toString():setup.activity+" — "+setup.label;
+            CategoryGroups.Result result=CategoryGroups.add(markers,selected,presetName,includeGrouped.isSelected(),config.color(),MAX_MARKERS);
+            if(result.added>0 || replaced>0) save();
+            if(!result.selected.isEmpty()) SwingUtilities.invokeLater(() -> {
+                synchronized(WindowMarkersPlugin.this) { if(context(owner,layout)) legend.showGroups(result.selected); }
+            });
+            setStatus(result.added+" groups added; "+replaced+" replaced; "+result.existing+" already present."
+                +(result.skipped>0?" "+result.skipped+" skipped because their items are already grouped. Enable Include items already in other groups to keep both uses.":"")
+                +(result.limited>0?" "+result.limited+" skipped at the "+MAX_MARKERS+"-marker limit.":"")
+                +" Undo restores the previous layout.");
         }
     }
 
@@ -587,10 +583,17 @@ public class WindowMarkersPlugin extends Plugin
         BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),choices,query,
             selected -> deleteCustomPreset((CustomPresets.Preset)selected.value)); if(choice==null) return;
         synchronized(this) { if(!context(owner,layout)) return; }
+        chooseCatalogue(choice);
+    }
+
+    private void chooseCatalogue(BankCatalogue.Choice choice)
+    {
+        final String owner,layout;
+        synchronized(this) { if(!currentLayout()) { setStatus("Log in first."); return; } owner=accountKey; layout=layoutKey; }
         switch(choice.kind) {
             case PRESET: autoCategorize((AutoCategories.Preset)choice.value); break;
             case WIKI_SETUP: categorize(AutoCategories.Preset.WIKI_ACTIVITY_SETUP,(ActivitySetups.Setup)choice.value,false); break;
-            case CUSTOM_PRESET: applyCustomPreset((CustomPresets.Preset)choice.value); break;
+            case CUSTOM_PRESET: applyCustomPreset((CustomPresets.Preset)choice.value,choice.customGroup); break;
             case SAVED_GROUP:
                 legend.search.setText(""); legend.scope.setSelectedIndex(1); legend.preset.setSelectedIndex(0); legend.filter();
                 for(int i=0;i<legend.rows.size();i++) if(legend.rows.get(i).marker==choice.value) {
@@ -603,9 +606,9 @@ public class WindowMarkersPlugin extends Plugin
                     synchronized(this) { if(!context(owner,layout) || bank==null) { setStatus("Open your bank first."); return; } owned=bankFacts(); }
                     new SwingWorker<java.util.Map<String,List<AutoCategories.Item>>,Void>() {
                         protected java.util.Map<String,List<AutoCategories.Item>> doInBackground() {
-                            return BankCatalogue.categoryGroups(choice.name,owned);
+                            return BankCatalogue.categoryGroups(choice,owned);
                         }
-                        protected void done() { try { reviewCategories(owner,layout,get(),AutoCategories.Preset.ALL_CATEGORIES,java.util.Collections.emptyMap(),null); }
+                        protected void done() { try { reviewCategories(owner,layout,get(),choice.presetScope==null?AutoCategories.Preset.ALL_CATEGORIES:choice.presetScope,java.util.Collections.emptyMap(),null,true); }
                             catch(Exception ex) { setStatus("Could not load this category."); } }
                     }.execute();
                 }); break;
@@ -744,15 +747,22 @@ public class WindowMarkersPlugin extends Plugin
                         List<String> names=new ArrayList<>(); for(AutoCategories.Item item:items) names.add(item.name+" (#"+item.id+")");
                         ItemLookupPanel form=new ItemLookupPanel(names,memberships);
                         MarkerDialogs.confirm(parent(),form,"Item categories",850,640);
+                        List<BankCatalogue.Choice> targets=java.util.Collections.emptyList();
                         synchronized(WindowMarkersPlugin.this) {
                             if(!context(owner,layout)) return;
-                            if(form.filter!=null) {
-                                lookupHighlight=null; legend.preset.setSelectedIndex(0); legend.search.setText(form.filter); legend.filter();
-                                setStatus("Legend filtered by "+form.filter+". Categories / presets can add groups that are not saved yet.");
+                            if(form.membership!=null) {
+                                lookupHighlight=null;
+                                targets=BankCatalogue.targets(form.membership,catalogueChoices);
+                                if(targets.isEmpty()) { setStatus("That classification is no longer available. Look up the item again."); return; }
                             } else if(form.highlightRequested) {
                                 highlightLookupItems(ids);
                                 setStatus("Highlighting "+ids.length+" item types in the current bank view. Legend → Unpin clears it.");
                             }
+                        }
+                        if(!targets.isEmpty()) {
+                            BankCatalogue.Choice choice=targets.size()==1?targets.get(0):CatalogueBrowser.choose(parent(),targets,"",c -> false);
+                            synchronized(WindowMarkersPlugin.this) { if(!context(owner,layout)) return; }
+                            if(choice!=null) chooseCatalogue(choice);
                         }
                     } catch(Exception ex) { setStatus("Item categories could not be loaded."); } }
                 }.execute();
@@ -803,14 +813,17 @@ public class WindowMarkersPlugin extends Plugin
     }
 
     private void applyCustomPreset(CustomPresets.Preset preset)
+    { applyCustomPreset(preset,null); }
+
+    private void applyCustomPreset(CustomPresets.Preset preset,String selectedGroup)
     {
         if(preset==null) { setStatus("Select a saved custom preset first."); return; }
         String owner,layout; synchronized(this) { if(!currentLayout() || !customPresets.presets.contains(preset)) return; owner=accountKey; layout=layoutKey; }
         JPanel form=new MarkerForm();
         form.add(new JLabel("<html>Add copies of these groups to the current layout.<br>Items not currently owned remain linked for future use.<br>Existing groups and saved preset are retained.</html>"));
-        JCheckBox skip=new JCheckBox("Skip items already in a group",true); form.add(skip);
+        JCheckBox skip=new JCheckBox("Skip items already in a group",selectedGroup==null); form.add(skip);
         List<JCheckBox> choices=new ArrayList<>();
-        for(Marker group:preset.groups) { JCheckBox box=new JCheckBox(group.labelText()+" · "+group.linkedItemIds.length+" item types",true); choices.add(box); form.add(box); }
+        for(Marker group:preset.groups) { JCheckBox box=new JCheckBox(group.labelText()+" · "+group.linkedItemIds.length+" item types",selectedGroup==null || selectedGroup.equals(group.labelText())); choices.add(box); form.add(box); }
         if(!MarkerDialogs.confirm(parent(),form,"Apply "+preset.name,600,500)) return;
         synchronized(this) {
             if(!context(owner,layout) || !customPresets.presets.contains(preset)) return;

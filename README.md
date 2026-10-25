@@ -56,7 +56,7 @@ Select linked groups in Legend, then use **Custom → Save selected as preset**.
 
 ### Item lookup actions
 
-After choosing one or two items and pressing **OK**, select a classification and choose **Send filter to Legend** (or double-click the row). This filters existing legend groups; use **Categories / presets** to review and add a category that is not saved yet. **Highlight this item(s)** temporarily outlines both selected item identities in the current bank view, including items without a saved group. Use **Legend → Unpin** to clear the lookup highlight. Changing account, profile or named layout also clears it.
+After choosing one or two items and pressing **OK**, select a classification and choose **Send filter to Legend** (or double-click the row). This opens the matching category or setup for review, then adds colored, item-linked groups to Legend. Category searches include secondary uses and preserve empty/broken state notes. Existing identical groups are selected without duplicating them or resetting their appearance. Saved-group rows focus their existing group; custom-preset rows select the matching group to apply. **Highlight this item(s)** temporarily outlines both selected item identities in the current bank view, including items without a saved group. Use **Legend → Unpin** to clear the lookup highlight. Changing account, profile or named layout also clears it.
 
 ### Native bank search
 
@@ -66,7 +66,7 @@ Normal native matches are retained, active Bank Tags tab membership is respected
 
 ### Auto-categorize
 
-Choose a broad classification, skilling, outfit, combat, supply, utility or raid preset. Review the proposed groups before applying them. Existing linked items are skipped unless their old markers are checked for replacement; area markers remain. A batch is one Undo step.
+Choose a broad classification, skilling, outfit, combat, supply, utility or raid preset. Review the proposed groups before applying them. Bulk presets skip already-linked items by default. **Include items already in other groups** keeps multiple uses of the same item; it starts checked when adding an individual category. Alternatively, check an old marker for replacement. Area markers remain. A batch is one Undo step.
 
 The bundled catalogue includes skilling outfits and tools, production ingredients, equipment sets, general combat, supplies, travel, storage and quest/clue items. General categories use Wiki item classifications; activity choices use the relevant guide's equipment and inventory lists. Partial set ownership does not imply an active set bonus. A set weapon without matching armour remains a standalone weapon category. Unknown items remain in an unchecked review group.
 

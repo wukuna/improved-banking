@@ -5,6 +5,12 @@ cox	Defence-drain fallback — review	osmumten's fang
 cox	Tekton — crush switch	inquisitor's mace
 cox	Vasa crystals — stab switch	dragon sword
 cox	Vespula — Fire Surge + fire tome — review	harmonised nightmare staff
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	ascension crossbows
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	dragon crossbow
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	scorching bow
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	toxic blowpipe
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	twisted bow
+tfa	Dreadnoth the Jellied (Reduced Defence) — provisional review	zaryte crossbow
 tfa	File:Archive Guardian icon.png Archive Guardian (Flying, reduced Defence) — provisional review	armadyl crossbow
 tfa	File:Archive Guardian icon.png Archive Guardian (Flying, reduced Defence) — provisional review	bow of faerdhinen
 tfa	File:Archive Guardian icon.png Archive Guardian (Flying, reduced Defence) — provisional review	dragon crossbow
@@ -27,6 +33,10 @@ tfa	File:Bork icon.png Bork (Stunned, reduced Defence) — provisional review	ru
 tfa	File:Bork icon.png Bork (Stunned, reduced Defence) — provisional review	scythe of vitur
 tfa	File:Bork icon.png Bork (Stunned, reduced Defence) — provisional review	soulreaper axe
 tfa	File:Bork icon.png Bork (Stunned, reduced Defence) — provisional review	zaryte crossbow
+tfa	File:Ezekiel icon.png Ezekiel (Enrage special attacks) — provisional review	abyssal bludgeon
+tfa	File:Ezekiel icon.png Ezekiel (Enrage special attacks) — provisional review	burning claws
+tfa	File:Ezekiel icon.png Ezekiel (Enrage special attacks) — provisional review	crimson kisten
+tfa	File:Ezekiel icon.png Ezekiel (Enrage special attacks) — provisional review	dragon claws
 tfa	File:Ezekiel icon.png Ezekiel (Reduced Defence) — provisional review	abyssal bludgeon
 tfa	File:Ezekiel icon.png Ezekiel (Reduced Defence) — provisional review	inquisitor's mace
 tfa	File:Ezekiel icon.png Ezekiel (Reduced Defence) — provisional review	scythe of vitur
@@ -39,14 +49,12 @@ tfa	Magic switch — provisional review	ahrim's robetop
 tfa	Magic switch — provisional review	ancestral hat
 tfa	Magic switch — provisional review	ancestral robe bottom
 tfa	Magic switch — provisional review	ancestral robe top
-tfa	Magic switch — provisional review	ancient wyvern shield
 tfa	Magic switch — provisional review	arcane spirit shield
 tfa	Magic switch — provisional review	avernic treads (max)
 tfa	Magic switch — provisional review	barrows gloves
 tfa	Magic switch — provisional review	blue moon chestplate
 tfa	Magic switch — provisional review	blue moon helm
 tfa	Magic switch — provisional review	blue moon tassets
-tfa	Magic switch — provisional review	book of the dead
 tfa	Magic switch — provisional review	confliction gauntlets
 tfa	Magic switch — provisional review	eldritch nightmare staff
 tfa	Magic switch — provisional review	elemental amulet
@@ -57,9 +65,7 @@ tfa	Magic switch — provisional review	eye of ayak
 tfa	Magic switch — provisional review	harmonised nightmare staff
 tfa	Magic switch — provisional review	imbued god cape
 tfa	Magic switch — provisional review	lightbearer
-tfa	Magic switch — provisional review	mage's book
 tfa	Magic switch — provisional review	magus ring
-tfa	Magic switch — provisional review	malediction ward
 tfa	Magic switch — provisional review	occult necklace
 tfa	Magic switch — provisional review	seers ring (i)
 tfa	Magic switch — provisional review	tome of earth
@@ -121,6 +127,31 @@ tfa	Melee switch — provisional review	ursine chainmace
 tfa	Melee switch — provisional review	void knight gloves
 tfa	Melee switch — provisional review	void melee helm
 tfa	Melee switch — provisional review	zamorakian hasta
+tfa	Moia (Reduced Defence) — provisional review	ascension crossbows
+tfa	Moia (Reduced Defence) — provisional review	toxic blowpipe
+tfa	Moia (Reduced Defence) — provisional review	twisted bow
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	abyssal bludgeon
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	ascension crossbows
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	emberlight
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	inquisitor's mace
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	obligator
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	scythe of vitur
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	soulreaper axe
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	toxic blowpipe
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	twisted bow
+tfa	Ocellus Phase 1 (Reduced Defence) — provisional review	zamorakian hasta
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	abyssal bludgeon
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	emberlight
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	inquisitor's mace
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	obligator
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	scythe of vitur
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	soulreaper axe
+tfa	Ocellus Phase 3 (Reduced Defence) — provisional review	twisted bow
+tfa	Ocellus Phase 3 (Untethered and Ranged-only Enrage) — provisional review	armadyl crossbow
+tfa	Ocellus Phase 3 (Untethered and Ranged-only Enrage) — provisional review	dragon crossbow
+tfa	Ocellus Phase 3 (Untethered and Ranged-only Enrage) — provisional review	scorching bow
+tfa	Ocellus Phase 3 (Untethered and Ranged-only Enrage) — provisional review	twisted bow
+tfa	Ocellus Phase 3 (Untethered and Ranged-only Enrage) — provisional review	zaryte crossbow
 tfa	Ranged switch — provisional review	amethyst arrow
 tfa	Ranged switch — provisional review	aquanite hopper
 tfa	Ranged switch — provisional review	aranea boots
@@ -181,6 +212,13 @@ tfa	The Smorks (Reduced Defence) — provisional review	soulreaper axe
 tfa	The Smorks (Reduced Defence) — provisional review	toxic blowpipe
 tfa	The Smorks (Reduced Defence) — provisional review	twisted bow
 tfa	The Smorks (Reduced Defence) — provisional review	zaryte crossbow
+tfa	Xarth (Reduced Defence) — provisional review	armadyl crossbow
+tfa	Xarth (Reduced Defence) — provisional review	ascension crossbows
+tfa	Xarth (Reduced Defence) — provisional review	dragon crossbow
+tfa	Xarth (Reduced Defence) — provisional review	scorching bow
+tfa	Xarth (Reduced Defence) — provisional review	toxic blowpipe
+tfa	Xarth (Reduced Defence) — provisional review	twisted bow
+tfa	Xarth (Reduced Defence) — provisional review	zaryte crossbow
 toa	Kephri — partisan alternative	keris partisan
 toa	Wardens core — melee switch	abyssal tentacle
 toa	Wardens core — melee switch	inquisitor's mace

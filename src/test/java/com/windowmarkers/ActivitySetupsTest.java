@@ -6,6 +6,32 @@ import static org.junit.Assert.*;
 
 public class ActivitySetupsTest
 {
+    @Test public void refreshedKrakenSustainAndDpsSetupsStaySeparateAndKeepRequiredShield() {
+        ActivitySetups.Setup sustain=ActivitySetups.forActivity("Kraken").stream()
+            .filter(s -> s.label.equals("Mage (AFK, Sustain) — Equipment alternatives")).findFirst().get();
+        ActivitySetups.Setup dps=ActivitySetups.forActivity("Kraken").stream()
+            .filter(s -> s.label.equals("Magic (DPS) — Equipment alternatives")).findFirst().get();
+        assertNotEquals(sustain.id,dps.id);
+        assertTrue(sustain.notes.contains("requires a Rondache"));
+        assertFalse(dps.notes.contains("requires a Rondache"));
+        assertTrue(sustain.source.contains("oldid="));
+    }
+
+    @Test public void reviewedGenericReferencesHaveExactAlternativesWithoutMixingCompletedAndDamagedBooks() {
+        boolean book=false,halo=false,unimbued=false;
+        for(ActivitySetups.Setup s:ActivitySetups.all()) {
+            if(s.notes.contains("These are completed god books")) {
+                assertTrue(s.itemIds.contains(3840)); // Holy book
+                book=true;
+            }
+            if(s.notes.contains("Halo alternatives retain")) { assertTrue(s.itemIds.contains(12637)); halo=true; }
+            if(s.notes.contains("Unimbued god capes retain")) { assertTrue(s.itemIds.contains(2412)); unimbued=true; }
+        }
+        assertTrue(book && halo && unimbued);
+        ActivitySetups.Setup broken=new ActivitySetups.Setup(new String[]{"test","Test","Example","source",""});
+        broken.itemIds.add(4860);
+        assertTrue(broken.suggest(Collections.singletonList(item(4860,"Ahrim's hood 0"))).keySet().stream().noneMatch(RaidRecommendations::defaultSelected));
+    }
     private AutoCategories.Item item(int id,String name)
     { return new AutoCategories.Item(id,name,true,null,0,0,0); }
     private boolean contains(Map<String,List<AutoCategories.Item>> groups,int id)
@@ -104,5 +130,19 @@ public class ActivitySetupsTest
         assertTrue(tob.keySet().stream().anyMatch(k -> k.contains("Verzik P1")));
         assertTrue(tob.entrySet().stream().filter(e -> e.getValue().stream().anyMatch(i -> i.id==4587))
             .allMatch(e -> !RaidRecommendations.defaultSelected(e.getKey())));
+    }
+    @Test public void specialistWeaponGroupsStayInTheirGuideRoleAndRespectEmptyStates() {
+        ActivitySetups.Setup souls=ActivitySetups.forActivity("The Whisperer").stream().filter(s -> s.label.startsWith("Lost Souls")).findFirst().get();
+        assertTrue(souls.itemIds.containsAll(Arrays.asList(12926,31575,861,22804,22810)));
+        Map<String,List<AutoCategories.Item>> empty=souls.suggest(Collections.singletonList(item(12924,"Toxic blowpipe (empty)")));
+        assertTrue(contains(empty,12924));
+        assertTrue(empty.keySet().stream().noneMatch(RaidRecommendations::defaultSelected));
+        ActivitySetups.Setup clone=ActivitySetups.forActivity("Moons of Peril").stream().filter(s -> s.label.startsWith("Eclipse Clone phase")).findFirst().get();
+        assertTrue(clone.itemIds.containsAll(Arrays.asList(11802,11804,11806,11808,26233)));
+        assertFalse(clone.itemIds.contains(11798)); // A godsword blade is a component, not a weapon.
+        assertTrue(clone.notes.contains("special attacks are not interchangeable"));
+        ActivitySetups.Setup shield=ActivitySetups.forActivity("Spindel").stream().filter(s -> s.label.startsWith("Ranged")).findFirst().get();
+        assertTrue(shield.itemIds.contains(22284)); assertFalse(shield.itemIds.contains(22266));
+        assertTrue(shield.notes.contains("one-handed"));
     }
 }

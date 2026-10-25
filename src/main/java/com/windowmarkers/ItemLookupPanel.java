@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
-/** Select a membership without changing saved groups; actions are applied by the owner. */
+/** Select an exact membership to review and add, or temporarily highlight the inspected items. */
 final class ItemLookupPanel extends JPanel
 {
     static final class Row
@@ -19,13 +19,14 @@ final class ItemLookupPanel extends JPanel
     final JButton send=new JButton("Send filter to Legend");
     final JButton highlight=new JButton("Highlight this item(s)");
     String filter;
+    String membership;
     boolean highlightRequested;
 
     ItemLookupPanel(List<String> names,List<? extends Set<String>> memberships)
     {
         super(new BorderLayout(0,10));
         if(names.isEmpty() || names.size()>2 || names.size()!=memberships.size()) throw new IllegalArgumentException("Choose one or two items");
-        JTextArea hint=new JTextArea(String.join("  /  ",names)+"\nSelect a classification, then send it to Legend. Double-click also sends it.\nMembership describes a use; item state and activity requirements still apply.");
+        JTextArea hint=new JTextArea(String.join("  /  ",names)+"\nSend a classification to review and add its owned items as colored Legend groups. Double-click also sends it.\nMembership describes a use; item state and activity requirements still apply.");
         hint.setLineWrap(true); hint.setWrapStyleWord(true); hint.setEditable(false); hint.setOpaque(false); add(hint,BorderLayout.NORTH);
         DefaultListModel<Row> rows=new DefaultListModel<>();
         Set<String> shared=new TreeSet<>(memberships.get(0));
@@ -47,8 +48,8 @@ final class ItemLookupPanel extends JPanel
         buttons.add(send); buttons.add(highlight);
         buttons.add(new JLabel(rows.isEmpty()?"No recorded memberships. You can still highlight the selected items.":"Highlighting is temporary. Use Legend → Unpin to clear it."));
         add(buttons,BorderLayout.SOUTH); send.setEnabled(false);
-        list.addListSelectionListener(e -> send.setEnabled(list.getSelectedValue()!=null));
-        send.addActionListener(e -> { Row row=list.getSelectedValue(); if(row!=null) { filter=filterText(row.membership); close(); } });
+        list.addListSelectionListener(e -> send.setEnabled(list.getSelectedValue()!=null && !list.getSelectedValue().membership.startsWith("Review: ")));
+        send.addActionListener(e -> { Row row=list.getSelectedValue(); if(row!=null) { membership=row.membership; filter=filterText(membership); close(); } });
         highlight.addActionListener(e -> { highlightRequested=true; close(); });
         list.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) {
             int i=list.locationToIndex(e.getPoint());
