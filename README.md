@@ -20,7 +20,7 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 - **Bank presentation:** item-linked and area markers, readable labels, optional hover highlights, flexible dimensions, tab alignment and local full-tab screenshots.
 - **Saved layouts:** separate settings for each character and RuneLite profile, multi-selection and Undo/Redo.
 
-**Availability:** [Plugin Hub submission #19100](https://github.com/runelite/plugin-hub/pull/19100) is pending. This README describes the submitted beta.
+**Availability:** The [initial Plugin Hub submission](https://github.com/runelite/plugin-hub/pull/19100) has merged. This README follows the current source, which can include updates still awaiting Hub review.
 
 ## Getting started
 
