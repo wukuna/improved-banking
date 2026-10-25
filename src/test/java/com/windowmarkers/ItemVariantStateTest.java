@@ -63,6 +63,20 @@ public class ItemVariantStateTest
         assertFalse(contains(groups,11905)); assertTrue(selected(groups,33318));
     }
 
+    @Test public void ornamentedRaidWeaponsRetainChargedAndDepletedDistinctions()
+    {
+        Map<String,List<AutoCategories.Item>> groups=raid(item(25731,"Holy sanguinesti staff"),
+            item(25733,"Holy sanguinesti staff (uncharged)"),item(25736,"Holy Scythe of Vitur"),
+            item(25738,"Holy Scythe of Vitur (uncharged)"),item(25739,"Sanguine Scythe of Vitur"),
+            item(25741,"Sanguine Scythe of Vitur (uncharged)"));
+        for(int id:new int[]{25731,25736,25739}) assertTrue(selected(groups,id));
+        for(int id:new int[]{25733,25738,25741}) { assertTrue(contains(groups,id)); assertFalse(selected(groups,id)); }
+        groups=raid(item(11907,"Trident of the Seas"),item(25733,"Holy sanguinesti staff (uncharged)"));
+        Map<Integer,String> excluded=new HashMap<>();
+        RaidGearFilter.filter(AutoCategories.Preset.CHAMBERS_OF_XERIC,groups,new int[]{99,99,99,99,99,99,99},excluded);
+        assertTrue(selected(groups,11907)); assertFalse(excluded.containsKey(11907));
+    }
+
     @Test public void partialDurabilityIsUsableButBrokenArmourIsNot()
     {
         Map<String,List<AutoCategories.Item>> groups=raid(item(4859,"Ahrim's hood 25"),item(4860,"Ahrim's hood 0"),

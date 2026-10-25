@@ -180,3 +180,6 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. A literal cosmetic relationship and mat
 - [Steel plateskirt (t)](https://oldschool.runescape.wiki/w/Special:Redirect/page/75488?oldid=15323981) → [Steel plateskirt](https://oldschool.runescape.wiki/w/Special:Redirect/page/10412?oldid=15320261).
 - [Purple slayer helmet (i)](https://oldschool.runescape.wiki/w/Special:Redirect/page/98436?oldid=15188340) → [Slayer helmet (i)](https://oldschool.runescape.wiki/w/Special:Redirect/page/27974?oldid=15345654).
 - [Purple slayer helmet](https://oldschool.runescape.wiki/w/Special:Redirect/page/98437?oldid=15188341) → [Slayer helmet](https://oldschool.runescape.wiki/w/Special:Redirect/page/27486?oldid=15364980).
+- [Holy sanguinesti staff](https://oldschool.runescape.wiki/w/Special:Redirect/page/314377?oldid=15276380) → [Sanguinesti staff](https://oldschool.runescape.wiki/w/Special:Redirect/page/112767?oldid=15336446).
+- [Holy Scythe of Vitur](https://oldschool.runescape.wiki/w/Special:Redirect/page/314379?oldid=15345691) → [Scythe of Vitur](https://oldschool.runescape.wiki/w/Special:Redirect/page/112769?oldid=15372833).
+- [Sanguine Scythe of Vitur](https://oldschool.runescape.wiki/w/Special:Redirect/page/314381?oldid=15345737) → [Scythe of Vitur](https://oldschool.runescape.wiki/w/Special:Redirect/page/112769?oldid=15372833).

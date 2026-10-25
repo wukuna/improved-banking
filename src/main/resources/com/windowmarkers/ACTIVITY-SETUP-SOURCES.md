@@ -122,3 +122,113 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Shortbow (weapon)](https://oldschool.runescape.wiki/w/Shortbow_(weapon)?oldid=15301227): Shortbow alternatives belong to the guide's Lost Souls role. Range, ammunition, charges and attack requirements differ; these are not ranked or interchangeable for every encounter.
 - [Throwing knife](https://oldschool.runescape.wiki/w/Throwing_knife?oldid=15271460): Throwing knives are included for the fast-attack Lost Souls role. Poison states remain exact separate identities; this does not equate their damage, cost or requirements.
 - [Dragonhide shield](https://oldschool.runescape.wiki/w/Leather_shield?oldid=15247727): Dragonhide shields only: hard leather and snakeskin are outside this named group. This is an off-hand option when using a compatible one-handed weapon, not a shield for a two-handed bow; god alignment and bonuses differ.
+
+## Context-specific references
+
+Explicit Wiki variant redirects retain their destination version, including lantern fuel, cape trim, poison and doses. A named version does not acquire other states through cosmetic equivalence. Broad item-family alternatives retain repair/charge warnings. The following interpretations apply only to reviewed, revision-bound guide fields, not to general item equivalence.
+
+### cape-prayer
+
+This cape slot uses the +4 prayer/defence alternatives shown by the guide. Untrimmed achievement diary and ordinary Max capes share those bonuses; untrimmed skillcapes do not. Individual teleports and skill perks are not transferred between capes.
+
+Alternatives: Agility cape#Trimmed, Attack cape#Trimmed, Construct. cape#Trimmed, Cooking cape#Trimmed, Crafting cape#Trimmed, Defence cape#Trimmed, Farming cape#Trimmed, Firemaking cape#Trimmed, Fishing cape#Trimmed, Fletching cape#Trimmed, Herblore cape#Trimmed, Hitpoints cape#Trimmed, Hunter cape#Trimmed, Magic cape#Trimmed, Mining cape#Trimmed, Prayer cape#Trimmed, Ranging cape#Trimmed, Runecraft cape#Trimmed, Sailing cape#Trimmed, Slayer cape#Trimmed, Smithing cape#Trimmed, Strength cape#Trimmed, Thieving cape#Trimmed, Woodcutting cape#Trimmed, Quest point cape#Trimmed, Music cape#Trimmed, Achievement diary cape#Trimmed, Achievement diary cape#Untrimmed, Max cape#Inventory.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Cape_of_Accomplishment?oldid=15373717), [2](https://oldschool.runescape.wiki/w/Achievement_diary_cape?oldid=15342685), [3](https://oldschool.runescape.wiki/w/Quest_point_cape?oldid=15360557), [4](https://oldschool.runescape.wiki/w/Music_cape?oldid=15378811).
+
+### cape-untrimmed
+
+This lower cape alternative uses untrimmed, zero-prayer skillcapes. The guide lists trimmed capes separately; personal cape perks are not interchangeable.
+
+Alternatives: Agility cape#Untrimmed, Attack cape#Untrimmed, Construct. cape#Untrimmed, Cooking cape#Untrimmed, Crafting cape#Untrimmed, Defence cape#Untrimmed, Farming cape#Untrimmed, Firemaking cape#Untrimmed, Fishing cape#Untrimmed, Fletching cape#Untrimmed, Herblore cape#Untrimmed, Hitpoints cape#Untrimmed, Hunter cape#Untrimmed, Magic cape#Untrimmed, Mining cape#Untrimmed, Prayer cape#Untrimmed, Ranging cape#Untrimmed, Runecraft cape#Untrimmed, Sailing cape#Untrimmed, Slayer cape#Untrimmed, Smithing cape#Untrimmed, Strength cape#Untrimmed, Thieving cape#Untrimmed, Woodcutting cape#Untrimmed, Quest point cape#Untrimmed, Music cape#Untrimmed.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Cape_of_Accomplishment?oldid=15373717), [2](https://oldschool.runescape.wiki/w/Achievement_diary_cape?oldid=15342685), [3](https://oldschool.runescape.wiki/w/Quest_point_cape?oldid=15360557), [4](https://oldschool.runescape.wiki/w/Music_cape?oldid=15378811).
+
+### barrows-tank-head
+
+Generic Barrows head alternatives are restricted to the melee/tank pieces for this slot. Their defence and prayer bonuses differ; this does not grant any full-set effect. Partially degraded pieces retain their bonuses; broken pieces need repair.
+
+Alternatives: Dharok's helm, Guthan's helm, Torag's helm, Verac's helm.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### barrows-any-head
+
+The Dagannoth guide permits any Barrows piece in this slot, but requires the complete Guthan set for healing. Mixing pieces does not activate its effect; styles and bonuses differ. Broken pieces need repair.
+
+Alternatives: Dharok's helm, Guthan's helm, Torag's helm, Verac's helm, Ahrim's hood, Karil's coif.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### barrows-tank-body
+
+Generic Barrows body alternatives are restricted to the melee/tank pieces for this slot. Their defence and prayer bonuses differ; this does not grant any full-set effect. Partially degraded pieces retain their bonuses; broken pieces need repair.
+
+Alternatives: Dharok's platebody, Guthan's platebody, Torag's platebody, Verac's brassard.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### barrows-any-body
+
+The Dagannoth guide permits any Barrows piece in this slot, but requires the complete Guthan set for healing. Mixing pieces does not activate its effect; styles and bonuses differ. Broken pieces need repair.
+
+Alternatives: Dharok's platebody, Guthan's platebody, Torag's platebody, Verac's brassard, Ahrim's robetop, Karil's leathertop.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### barrows-tank-legs
+
+Generic Barrows legs alternatives are restricted to the melee/tank pieces for this slot. Their defence and prayer bonuses differ; this does not grant any full-set effect. Partially degraded pieces retain their bonuses; broken pieces need repair.
+
+Alternatives: Dharok's platelegs, Guthan's chainskirt, Torag's platelegs, Verac's plateskirt.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### barrows-any-legs
+
+The Dagannoth guide permits any Barrows piece in this slot, but requires the complete Guthan set for healing. Mixing pieces does not activate its effect; styles and bonuses differ. Broken pieces need repair.
+
+Alternatives: Dharok's platelegs, Guthan's chainskirt, Torag's platelegs, Verac's plateskirt, Ahrim's robeskirt, Karil's leatherskirt.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992).
+
+### crossbows-akkha
+
+The guide gives a generic crossbow alternative for Akkha alongside a separate magic weapon. These crossbows are not equally effective or interchangeable with the same ammunition: bolt racks, antler bolts, Ascension bolts and metal bolts have different weapon requirements. No best-owned ranking is inferred.
+
+Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Armadyl crossbow, Ascension crossbows, Zaryte crossbow.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Crossbow_(weapon)?oldid=15377841).
+
+### crossbows-sepulchre
+
+Grapple-capable crossbows only; the guide explicitly excludes Armadyl. Equip the appropriate grapple. Zaryte is also a non-Saradomin god item: check god affiliation before using an energy obelisk. Ballistae and the love crossbow cannot grapple. Broken crossbows need repair.
+
+Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Ascension crossbows, Zaryte crossbow.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Crossbow_(weapon)?oldid=15377841), [2](https://oldschool.runescape.wiki/w/Mith_grapple?oldid=15374224), [3](https://oldschool.runescape.wiki/w/Hallowed_Sepulchre?oldid=15376258).
+
+### powered-staves-wardens
+
+The generic powered-staff alternative is for Wardens phase 2, alongside a separate ranged weapon. Check charges and choose your usable staff; no universal best-owned ranking is inferred. Rat/Wilderness bonuses do not apply here. Autocast-only sceptre modes and activity-only starter, Gauntlet and Dawnbringer weapons are excluded.
+
+Alternatives: Warped sceptre, Bone staff, Trident of the Seas, Trident of the Seas (e), Trident of the Swamp, Trident of the Swamp (e), Thammaron's sceptre, Accursed sceptre, Sanguinesti staff, Eye of Ayak, Tumeken's shadow.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Powered_staff?oldid=15318151).
+
+### arrows-sire
+
+These arrows belong to the Scorching-bow phase-1 alternative. Training and ogre arrows use different bows and are excluded, as are arrowheads and headless arrows. Ordinary weaker arrows do not reduce accuracy; seeking arrows have a separate accuracy effect. This list does not imply that every bow accepts every arrow.
+
+Alternatives: Bronze arrow#Unpoisoned, Bronze arrow#Poison, Bronze arrow#Poison+, Bronze arrow#Poison++, Iron arrow#Unpoisoned, Iron arrow#Poison, Iron arrow#Poison+, Iron arrow#Poison++, Steel arrow#Unpoisoned, Steel arrow#Poison, Steel arrow#Poison+, Steel arrow#Poison++, Mithril arrow#Unpoisoned, Mithril arrow#Poison, Mithril arrow#Poison+, Mithril arrow#Poison++, Adamant arrow#Unpoisoned, Adamant arrow#Poison, Adamant arrow#Poison+, Adamant arrow#Poison++, Rune arrow#Unpoisoned, Rune arrow#Poison, Rune arrow#Poison+, Rune arrow#Poison++, Amethyst arrow#Unpoisoned, Amethyst arrow#Poison, Amethyst arrow#Poison+, Amethyst arrow#Poison++, Dragon arrow#Unpoisoned, Dragon arrow#Poison, Dragon arrow#Poison+, Dragon arrow#Poison++, Broad arrows, Ice arrows, Seeking bronze arrow, Seeking iron arrow, Seeking steel arrow, Seeking mithril arrow, Seeking adamant arrow, Seeking rune arrow, Seeking amethyst arrow, Seeking dragon arrow, Seeking broad arrows.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Arrows?oldid=15367680).
+
+### tablet-morra
+
+The example inventory names the tablet image, not an existing page title. The item infobox maps that exact fourth image to the Ruins of Morra tablet; the other three tablets are distinct. This is an example inventory item, not a combat recommendation.
+
+Alternatives: Stone tablet (The Garden of Death)#Ruins of Morra.
+
+Sources: [1](https://oldschool.runescape.wiki/w/Stone_tablet_(The_Garden_of_Death)?oldid=15232876).
+
+Additional compatibility evidence: [Zaryte crossbow](https://oldschool.runescape.wiki/w/Zaryte_crossbow?oldid=15293439) retains Zaros affiliation; [Scorching bow](https://oldschool.runescape.wiki/w/Scorching_bow?oldid=15317455) accepts arrows up to dragon.

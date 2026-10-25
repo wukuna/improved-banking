@@ -6,6 +6,63 @@ import static org.junit.Assert.*;
 
 public class ActivitySetupsTest
 {
+    private ActivitySetups.Setup setup(String id) {
+        return ActivitySetups.all().stream().filter(s -> s.id.equals(id)).findFirst().get();
+    }
+
+    @Test public void trimmedCapeAlternativesKeepPrayerBonusWithoutTransferringPerks() {
+        ActivitySetups.Setup drakes=setup("267357:1");
+        assertTrue(drakes.itemIds.containsAll(Arrays.asList(9751,19476,13069,13068,13280)));
+        assertFalse(drakes.itemIds.contains(9750)); // Untrimmed Strength has no prayer bonus.
+        assertFalse(drakes.itemIds.contains(9813)); // Untrimmed quest cape also has none.
+        assertTrue(drakes.notes.contains("Individual teleports and skill perks are not transferred"));
+    }
+
+    @Test public void genericBarrowsSlotsDoNotAddUnrelatedWeaponsOrMagicArmour() {
+        ActivitySetups.Setup vorkath=setup("108966:2");
+        assertTrue(vorkath.itemIds.containsAll(Arrays.asList(4745,4955,4956,4749,4751)));
+        assertFalse(vorkath.itemIds.contains(4708)); // Ahrim's hood is not a tank helm.
+        assertFalse(vorkath.itemIds.contains(4718)); // Dharok's greataxe is not an armour slot.
+        Map<String,List<AutoCategories.Item>> groups=vorkath.suggest(Arrays.asList(
+            item(4955,"Torag's helm 25"),item(4956,"Torag's helm 0")));
+        assertTrue(groups.entrySet().stream().anyMatch(e -> e.getKey().contains("Needs repair/charge")
+            && e.getValue().stream().anyMatch(i -> i.id==4956)));
+        assertTrue(groups.entrySet().stream().filter(e -> e.getValue().stream().anyMatch(i -> i.id==4955))
+            .noneMatch(e -> e.getKey().contains("Needs repair/charge")));
+        assertTrue(setup("25401:2").notes.contains("complete Guthan set"));
+    }
+
+    @Test public void explicitLanternFuelAndTabletImageResolveOnlyTheirDocumentedVersions() {
+        ActivitySetups.Setup gotr=setup("351891:1");
+        assertTrue(gotr.itemIds.containsAll(Arrays.asList(26842,26844,26846,26848)));
+        for(int id:new int[]{26822,26824,26826,26836,26838,26840}) assertFalse(gotr.itemIds.contains(id));
+        ActivitySetups.Setup attacker=setup("414593:2");
+        assertTrue(attacker.itemIds.contains(27522));
+        for(int id:new int[]{27519,27520,27521}) assertFalse(attacker.itemIds.contains(id));
+    }
+
+    @Test public void poweredStaffAlternativesKeepCosmeticAndChargeStatesWithoutRestrictedModes() {
+        ActivitySetups.Setup wardens=setup("364045:25");
+        assertTrue(wardens.itemIds.containsAll(Arrays.asList(22323,22481,25731,25733,12899,12900,33318,33320)));
+        for(int id:new int[]{22335,22516,27679,27788}) assertFalse(wardens.itemIds.contains(id));
+        Map<String,List<AutoCategories.Item>> groups=wardens.suggest(Arrays.asList(
+            item(25731,"Holy sanguinesti staff"),item(25733,"Holy sanguinesti staff (uncharged)")));
+        assertTrue(groups.entrySet().stream().anyMatch(e -> e.getKey().contains("Needs repair/charge")
+            && e.getValue().stream().anyMatch(i -> i.id==25733)));
+        assertTrue(groups.keySet().stream().noneMatch(RaidRecommendations::defaultSelected));
+    }
+
+    @Test public void specialistAmmunitionAndGrapplesDoNotCrossWeaponTypes() {
+        ActivitySetups.Setup sire=setup("74025:1");
+        assertTrue(sire.itemIds.containsAll(Arrays.asList(882,892,11212,21326)));
+        assertFalse(sire.itemIds.contains(9706)); assertFalse(sire.itemIds.contains(2866));
+        ActivitySetups.Setup sepulchre=setup("267008:2");
+        assertTrue(sepulchre.itemIds.contains(9185));
+        assertFalse(sepulchre.itemIds.contains(11785)); // Explicit Armadyl exclusion.
+        assertFalse(sepulchre.itemIds.contains(19481)); // Ballista cannot grapple.
+        assertTrue(sepulchre.notes.contains("Zaryte"));
+    }
+
     @Test public void refreshedKrakenSustainAndDpsSetupsStaySeparateAndKeepRequiredShield() {
         ActivitySetups.Setup sustain=ActivitySetups.forActivity("Kraken").stream()
             .filter(s -> s.label.equals("Mage (AFK, Sustain) — Equipment alternatives")).findFirst().get();
