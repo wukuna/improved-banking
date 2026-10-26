@@ -8,13 +8,17 @@ final class BankSearchIndex
     private final Map<String,Set<Integer>> documents=new LinkedHashMap<>();
     private final Map<String,Set<Integer>> customDocuments=new LinkedHashMap<>();
     private final ItemCatalogueIndex catalogue;
+    private final int hitpoints;
     private final Map<String,Map<Integer,ItemCatalogueIndex.Rank>> markerRanks=new HashMap<>();
     private List<String> lastKeys=Collections.emptyList();
     private List<int[]> lastMembers=Collections.emptyList();
     private Map<Integer,ItemCatalogueIndex.Rank> lastRanks=Collections.emptyMap();
     private final Set<String> activities=new HashSet<>(),ordinaryNames=new HashSet<>();
     BankSearchIndex(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets)
+    { this(owned,markers,presets,99); }
+    BankSearchIndex(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets,int hitpoints)
     {
+        this.hitpoints=Math.max(1,Math.min(99,hitpoints));
         List<ItemCatalogueIndex.Item> facts=new ArrayList<>();
         for(AutoCategories.Item item:owned) facts.add(new ItemCatalogueIndex.Item(item,item.name,
             item.slot==-2?ItemCatalogueIndex.fallbackSlot(item.id,item.name):item.slot));
@@ -49,7 +53,7 @@ final class BankSearchIndex
     }
     private void indexRank(Marker marker) {
         if(marker.guideQuery!=null && !marker.guideQuery.isEmpty()) markerRanks.computeIfAbsent(marker.rankKey(),
-            key->catalogue.guideRanks(marker.guideQuery,marker.guideContext==null?"":marker.guideContext));
+            key->catalogue.guideRanks(marker.guideQuery,marker.guideContext==null?"":marker.guideContext,hitpoints));
     }
     Map<Integer,ItemCatalogueIndex.Rank> ranks(List<Marker> groups) {
         boolean same=groups.size()==lastKeys.size();
@@ -94,12 +98,17 @@ final class BankSearchIndex
     Match search(String query,String context)
     { return search(query,context,""); }
     Match search(String query,String context,String inventoryContext)
+    { return search(query,context,inventoryContext,hitpoints); }
+    Match search(String query,String context,String inventoryContext,int hitpoints)
     {
         Set<Integer> result=new HashSet<>();
         if(!plainQuery(query)) return new Match(result,Collections.emptyMap(),false);
         String normalized=SearchText.normalize(query);
-        ItemCatalogueIndex.Result common=catalogue.find(query,context,inventoryContext);
+        ItemCatalogueIndex.Result common=catalogue.find(query,context,inventoryContext,hitpoints);
         if(common!=null) for(ItemCatalogueIndex.Item item:common.items) result.add(item.id);
+        // Purpose/threshold queries have exact membership. Saved groups with a
+        // matching name must not reintroduce raw food or incompatible ammo.
+        if(common!=null && SupplySearch.parse(query)!=null) return new Match(result,common.ranks,false);
         Map<String,Set<Integer>> extra=common==null?documents:customDocuments;
         boolean exact=extra.keySet().stream().anyMatch(t->t.contains(normalized));
         for(Map.Entry<String,Set<Integer>> entry:extra.entrySet())

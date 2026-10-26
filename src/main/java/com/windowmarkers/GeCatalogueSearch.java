@@ -139,7 +139,7 @@ final class GeCatalogueSearch extends Overlay
         if(index==null) return;
         String input=client.getVarcStrValue(VarClientID.MESLAYERINPUT);
         if(input==null) return;
-        ItemCatalogueIndex.Result next=index.find(input,config.geGuideContext());
+        ItemCatalogueIndex.Result next=index.find(input,config.geGuideContext(),"",client.getRealSkillLevel(Skill.HITPOINTS));
         if(next==null) return;
         query=input; result=next;
         event.consume(); client.setGeSearchResultIndex(0);

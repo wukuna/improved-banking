@@ -2,7 +2,7 @@
 
 ![Improved Banking](icon.png)
 
-Find and organize bank items with a searchable legend and bank-window picker, Wiki categories and activity setups, saveable equipment-and-inventory views, custom groups, flexible layouts and full-tab screenshots. Optional Grand Exchange search finds purchasable items by category, activity and equipment slot, with matching guide colours and 1st/2nd/3rd tags across bank and GE searches.
+Find and organize bank items with a searchable legend and bank-window picker, Wiki categories and activity setups, saveable equipment-and-inventory views, custom groups, flexible layouts and full-tab screenshots. Search food by healing and eating behaviour, potions by effect, and ammunition by compatible weapon. Optional Grand Exchange search finds purchasable items using the same categories, with matching guide colours and 1st/2nd/3rd tags across bank and GE searches.
 
 **Beta — rapidly updated.** Improved Banking is being rapidly updated with up-to-date Old School RuneScape Wiki information and item categorizations. Categories and recommendations are still being refined. All requests, corrections and information are considered and appreciated: please [open an issue](https://github.com/wukuna/improved-banking/issues).
 
@@ -67,7 +67,31 @@ After choosing one or two items and pressing **OK**, select a classification and
 
 Click the bank's normal search button and check **Enable Improved Banking search** in the chatbox search prompt. This starts off and is also available in plugin settings. Plain-text searches can match item names, Wiki categories, presets and custom groups, with matching items outlined as you type. Longer words tolerate small spelling mistakes. Activity searches such as `toa magic head` use the same guide columns and conditions as GE search; general categories and ordinary item-name matches do not receive invented rankings.
 
-Normal native matches are retained, active Bank Tags tab membership is respected, and special searches such as `tag:food` or value comparisons keep their existing behavior. Clearing or closing search clears its highlights. Turning the option off restores ordinary search. If the category index cannot refresh, ordinary search remains available and the previous category results are cleared. The plugin only adds its own checkbox to the active bank-search prompt; other chatbox inputs are unchanged.
+Normal native matches are retained for general searches. Explicit supply filters below use their verified membership so a similarly named item cannot bypass a healing threshold or ammunition restriction. Active Bank Tags tab membership is respected, and special searches such as `tag:food` or value comparisons keep their existing behavior. Clearing or closing search clears its highlights. Turning the option off restores ordinary search. If the category index cannot refresh, ordinary search remains available and the previous category results are cleared. The plugin only adds its own checkbox to the active bank-search prompt; other chatbox inputs are unchanged.
+
+### Food, potion and ammunition searches
+
+These searches work in the bank and in the **in-game GE Buy-item search** when their respective Improved Banking search options are enabled. GE results include only tradeable items; bank results include only owned items. Their categories are also available in Legend and item lookup.
+
+| Search | Results |
+| --- | --- |
+| `food`, `cooked food` | Ready-to-eat food, including edible fruit; excludes raw fish/meat, unfinished cooking inputs and drinks. |
+| `raw food` | Raw fish/meat and uncooked cooking inputs. |
+| `food 20` | Food healing at least 20 HP in one bite. Uses base Hitpoints for level-dependent healing; never adds together separate pie/cake bites. |
+| `instant food 20`, `delayed food 20` | Separate immediate-only foods from hunter foods whose per-bite total includes a delayed heal. |
+| `fast foods`, `combo food` | Fast food has a non-standard attack or eating delay; combo food can follow normal food in the same tick. These are separate groups. |
+| `multi bite food`, `overhealing food` | Multi-bite foods and food that can heal above base Hitpoints. |
+| `blighted food`, `unrestricted food` | Blighted food with area restrictions, or food excluding blighted variants. Other item-specific restrictions still apply. |
+| `prayer potions`, `stat restore potions`, `stamina potions` | Potions by documented effect, retaining every usable dose. Prayer restoration and regeneration also have separate categories. |
+| `poison cure potions`, `venom immunity potions`, `antifire potions` | Cure/protection effects; durations and side effects differ. `venom cure potions` identifies a complete cure in one dose. |
+| `attack potions`, `healing potions`, `special attack potions` | Combat/skill boosts, healing or special-attack restoration. |
+| `blowpipe ammo`, `rcb ammo`, `tbow ammo`, `sunlight crossbow ammo` | Compatible complete ammunition, excluding unfinished parts and weapon-incompatible variants. |
+
+`food 20` includes delayed healing; use `instant food 20` when you need the full heal immediately. Hover GE results to read healing and restriction notes. Random foods such as kebabs do not qualify for numeric healing thresholds; variable-range foods use their minimum heal. Potions remain separate from food. A food group is not a recommendation for every boss or raid.
+
+Ammo groups cover conventional bows/crossbows, blowpipes, ballistae, hunter crossbows, Karil's crossbow, ogre bows, the eclipse atlatl, cannon and salamanders. Unpoisoned darts are required for blowpipes; Dorgeshuun crossbows exclude gem-tipped bolts; hunter antler bolts stay separate from kebbit bolts. Charge-based bows do not receive a guessed arrow group. Weapon, Slayer and area requirements still apply. [Supply sources and scope](src/main/resources/com/windowmarkers/SUPPLY-SEARCH-SOURCES.md).
+
+The core Grand Exchange plugin's fuzzy search remains available for queries Improved Banking does not recognize. Recognized supply and activity queries take priority, including an intentionally empty result. The catalogue loads in the background after login/enabling; if you searched while it was loading, edit or re-enter the query once ready. This does not extend the Grand Exchange side panel's price-lookup search.
 
 The **v** dropdown beside the bank camera button searches categories and presets. **Views** in the sidebar provides the same entry point, plus a plain-text search for queries such as `toa top` or `toa magic head 1st`. Opening a view filters the bank immediately. **Add view to Legend** is the separate action that saves its coloured groups. **Show all bank items** clears the current view/search. Opening a saved view does not add duplicate Legend groups.
 

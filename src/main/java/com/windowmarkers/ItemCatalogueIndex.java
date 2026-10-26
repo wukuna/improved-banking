@@ -189,8 +189,12 @@ final class ItemCatalogueIndex
     Result find(String raw,String context)
     { return find(raw,context,""); }
     Result find(String raw,String context,String inventoryContext)
+    { return find(raw,context,inventoryContext,99); }
+    Result find(String raw,String context,String inventoryContext,int hitpoints)
     {
         if(!BankSearchIndex.plainQuery(raw) || raw.length()>100) return null;
+        SupplySearch.Query supply=SupplySearch.parse(raw);
+        if(supply!=null) return SupplySearch.find(supply,items.values(),hitpoints);
         String query=normalize(raw);
         if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query)) return null;
         SearchQuery qualifiers=SearchQuery.parse(raw);
@@ -262,8 +266,10 @@ final class ItemCatalogueIndex
         return new Result(result,ranks,!matched.isEmpty(),loadout);
     }
     Map<Integer,Rank> guideRanks(String query,String context)
+    { return guideRanks(query,context,99); }
+    Map<Integer,Rank> guideRanks(String query,String context,int hitpoints)
     {
-        Result result=find(query,context);
+        Result result=find(query,context,"",hitpoints);
         return result==null?Collections.emptyMap():result.ranks;
     }
     private static String family(String activity) { return normalize(activity.split("/",2)[0]); }

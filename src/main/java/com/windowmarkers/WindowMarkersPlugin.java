@@ -653,10 +653,11 @@ public class WindowMarkersPlugin extends Plugin
                 for(Marker m:markers) saved.add(gson.fromJson(gson.toJson(m),Marker.class));
                 templates=gson.fromJson(gson.toJson(customPresets),CustomPresets.class);
             }
+            final int baseHitpoints=client.getRealSkillLevel(net.runelite.api.Skill.HITPOINTS);
             new SwingWorker<List<BankCatalogue.Choice>,Void>() {
                 private BankSearchIndex searchIndex;
                 protected List<BankCatalogue.Choice> doInBackground() {
-                    searchIndex=new BankSearchIndex(owned,saved,templates);
+                    searchIndex=new BankSearchIndex(owned,saved,templates,baseHitpoints);
                     return BankCatalogue.choices(owned,saved,templates);
                 }
                 protected void done() {

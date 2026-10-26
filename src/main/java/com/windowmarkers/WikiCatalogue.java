@@ -25,7 +25,7 @@ final class WikiCatalogue
         { EXCLUDED_IDENTITIES.add(Integer.parseInt(row[0])); }
         // Exact-ID Wiki category evidence supplements organizational roles only.
         // Raid recommendations and ranked alternatives use their own reviewed resources.
-        for (String resource : new String[]{"wiki-category-supplement.tsv","combat-equivalence-categories.tsv","wiki-recipe-roles.tsv","wiki-role-updates.tsv"})
+        for (String resource : new String[]{"wiki-category-supplement.tsv","combat-equivalence-categories.tsv","wiki-recipe-roles.tsv","wiki-role-updates.tsv","supply-search-groups.tsv"})
         for (String[] row : ItemTaxonomy.readRows(resource,3))
         {
             if (!row[0].matches("I:[0-9]+")) { throw new IllegalStateException("Wiki category requires an exact item ID"); }

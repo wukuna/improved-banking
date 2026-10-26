@@ -39,13 +39,15 @@ final class NativeBankSearch
     private SetupLoadout loadout;
     private Marker highlight;
     private boolean slots;
+    private boolean exactSupply;
+    private int hitpoints;
     private long revision;
     private boolean running;
     private volatile long context;
 
     void start() { running=true; }
     void stop() { boolean restore=searching(); running=false; reset(); if(restore) bankSearch.layoutBank(); }
-    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; clearWidget(); }
+    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; exactSupply=false; loadout=null; clearWidget(); }
     void index(BankSearchIndex next)
     { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; update(true); } }); }
     boolean searching()
@@ -66,10 +68,12 @@ final class NativeBankSearch
         if(!config.improvedBankSearch()) next="";
         String nextContext=config.geGuideContext()==null?"":config.geGuideContext();
         String nextInventory=config.bankInventoryContext()==null?"":config.bankInventoryContext();
-        boolean queryChanged=!Objects.equals(query,next) || !Objects.equals(guideContext,nextContext) || !Objects.equals(inventoryContext,nextInventory);
+        int nextHitpoints=client.getRealSkillLevel(net.runelite.api.Skill.HITPOINTS);
+        boolean queryChanged=!Objects.equals(query,next) || !Objects.equals(guideContext,nextContext) || !Objects.equals(inventoryContext,nextInventory)
+            || hitpoints!=nextHitpoints;
         if(!queryChanged && !indexChanged) return;
         Set<Integer> previous=new HashSet<>(matches); boolean previousSlots=slots;
-        query=next; guideContext=nextContext; inventoryContext=nextInventory;
+        query=next; guideContext=nextContext; inventoryContext=nextInventory; hitpoints=nextHitpoints;exactSupply=false;
         if(queryChanged) { matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
         final long token=++revision;
         final BankSearchIndex snapshot=index; final String text=next,guide=nextContext,inventory=nextInventory;
@@ -78,14 +82,14 @@ final class NativeBankSearch
             return;
         }
         new SwingWorker<BankSearchIndex.Match,Void>() {
-            protected BankSearchIndex.Match doInBackground() { return snapshot.search(text,guide,inventory); }
+            protected BankSearchIndex.Match doInBackground() { return snapshot.search(text,guide,inventory,nextHitpoints); }
             protected void done() { try {
                 final BankSearchIndex.Match found=get();
                 clientThread.invokeLater(() -> {
                     if(!running || token!=revision || !currentGuide() || !searching() || !config.improvedBankSearch()
                         || !Objects.equals(guide,config.geGuideContext()==null?"":config.geGuideContext())
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
-                    matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;
+                    matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;exactSupply=SupplySearch.parse(text)!=null;
                     // A tab's own membership must not be expanded by category search.
                     if(bankTags.getActiveBankTag()!=null) matches.removeIf(id -> !bankTags.getActiveBankTag().contains(id));
                     ranks=new HashMap<>(found.ranks); ranks.keySet().retainAll(matches);
@@ -115,7 +119,8 @@ final class NativeBankSearch
         if(!(raw instanceof String) || !Objects.equals(query,raw) || !BankSearchIndex.plainQuery(query)) return;
         int id=client.getIntStack()[size-1]; if(id<0) return;
         if(bankTags.getActiveBankTag()!=null && !bankTags.getActiveBankTag().contains(id)) return;
-        if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
+        if(exactSupply) client.getIntStack()[size-2]=matches.contains(itemManager.canonicalize(id))?1:0;
+        else if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
     }
     private boolean currentGuide() { return Objects.equals(guideContext,config.geGuideContext()==null?"":config.geGuideContext()) && Objects.equals(inventoryContext,config.bankInventoryContext()==null?"":config.bankInventoryContext()); }
     SetupLoadout loadout() { return groupBySlot()?loadout:null; }

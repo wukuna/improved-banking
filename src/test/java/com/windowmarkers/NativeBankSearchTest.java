@@ -71,6 +71,18 @@ public class NativeBankSearchTest
         when(tag.contains(5331)).thenReturn(true); filter(search); assertEquals(1,search.client.getIntStack()[0]);
         when(search.client.getIntStack()).thenReturn(new int[]{1,385}); filter(search); assertEquals(1,search.client.getIntStack()[0]);
     }
+    @Test public void completedSupplyFilterRejectsNativeNamesOutsideThePurposeAndResetClearsIt() throws Exception {
+        NativeBankSearch search=ready();set(search,"exactSupply",true);
+        set(search,"query","food 20");when(search.client.getObjectStack()).thenReturn(new Object[]{"food 20"});
+        when(search.client.getIntStack()).thenReturn(new int[]{1,383});
+        when(search.itemManager.canonicalize(383)).thenReturn(383);
+        set(search,"matches",new HashSet<>(Collections.singleton(385)));
+        filter(search);assertEquals(0,search.client.getIntStack()[0]);
+        when(search.client.getIntStack()).thenReturn(new int[]{0,385});when(search.itemManager.canonicalize(385)).thenReturn(385);
+        filter(search);assertEquals(1,search.client.getIntStack()[0]);
+        search.reset();when(search.client.getIntStack()).thenReturn(new int[]{1,383});
+        filter(search);assertEquals(1,search.client.getIntStack()[0]);
+    }
     @Test public void toggleOffClosedBankChangedQueryAndResetPreventStaleMatches() throws Exception {
         NativeBankSearch search=ready(); when(search.config.improvedBankSearch()).thenReturn(false); filter(search); assertEquals(0,search.client.getIntStack()[0]);
         when(search.config.improvedBankSearch()).thenReturn(true); when(search.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(null);

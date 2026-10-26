@@ -1,0 +1,260 @@
+# OSRS Wiki contributors, CC BY-NC-SA 3.0. See SUPPLY-SEARCH-SOURCES.md.
+# id	name	instant	delayed	formula	multi	fast	combo	overheal	restricted	page	revision
+247	jangerberries	2	0	fixed	0	0	0	0	0	18147	15238975
+315	shrimps	3	0	fixed	0	0	0	0	0	11439	15183319
+319	anchovies	1	0	fixed	0	0	0	0	0	10187	15182684
+325	sardine	4	0	fixed	0	0	0	0	0	12055	15183383
+329	salmon	9	0	fixed	0	0	0	0	0	11664	15237880
+333	trout	7	0	fixed	0	0	0	0	0	12865	15183465
+337	giant carp	6	0	fixed	0	0	0	0	0	33546	15290043
+339	cod	7	0	fixed	0	0	0	0	0	14790	15183623
+347	herring	5	0	fixed	0	0	0	0	0	12002	15257976
+351	pike	8	0	fixed	0	0	0	0	0	14141	15183580
+355	mackerel	6	0	fixed	0	0	0	0	0	14982	15183667
+361	tuna	10	0	fixed	0	0	0	0	0	13023	15358604
+365	bass	13	0	fixed	0	0	0	0	0	16249	15241606
+373	swordfish	14	0	fixed	0	0	0	0	0	13403	15183520
+379	lobster	12	0	fixed	0	0	0	0	0	11677	15183358
+385	shark	20	0	fixed	0	0	0	0	0	12159	15183388
+391	manta ray	22	0	fixed	0	0	0	0	0	23257	15184402
+397	sea turtle	21	0	fixed	0	0	0	0	0	19752	15376153
+403	edible seaweed	4	0	fixed	0	0	0	0	0	25463	15184766
+1861	ugthanki meat	3	0	fixed	0	0	0	0	0	28703	15373785
+1869	chopped tomato	2	0	fixed	0	0	0	0	0	28709	15185167
+1871	chopped onion	1	0	fixed	0	0	0	0	0	28702	15365642
+1875	onion & tomato	3	0	fixed	0	0	0	0	0	28706	15185164
+1883	ugthanki kebab	0	0	random	0	0	0	0	0	241780	15373023
+1885	ugthanki kebab	19	0	fixed	0	0	0	0	0	24989	15184660
+1891	cake	4	0	fixed	1	1	0	0	0	10132	15360719
+1893	2/3 cake	4	0	fixed	1	1	0	0	0	10132	15360719
+1895	slice of cake	4	0	fixed	0	0	0	0	0	10132	15360719
+1897	chocolate cake	5	0	fixed	1	1	0	0	0	21668	15360721
+1899	2/3 chocolate cake	5	0	fixed	1	1	0	0	0	21668	15360721
+1901	chocolate slice	5	0	fixed	0	0	0	0	0	21668	15360721
+1942	potato	1	0	fixed	0	0	0	0	0	12961	15183484
+1957	onion	1	0	fixed	0	0	0	0	0	13863	15217876
+1959	pumpkin	14	0	fixed	0	0	0	0	0	19539	15184112
+1961	easter egg	14	0	fixed	0	0	0	0	0	20761	15336373
+1963	banana	2	0	fixed	0	0	0	0	0	18351	15365390
+1965	cabbage	1	0	fixed	0	0	0	0	0	16803	15255126
+1969	spinach roll	2	0	fixed	0	0	0	0	0	14397	15183602
+1971	kebab	0	0	random	0	0	0	0	0	14416	15357940
+1973	chocolate bar	3	0	fixed	0	0	0	0	0	12620	15344579
+1982	tomato	2	0	fixed	0	0	0	0	0	17644	15183927
+1985	cheese	2	0	fixed	0	0	0	0	0	11606	15290321
+2003	stew	11	0	fixed	0	0	0	0	0	13431	15252770
+2011	curry	19	0	fixed	0	0	0	0	0	18049	15271864
+2102	lemon	2	0	fixed	0	0	0	0	0	19987	15364388
+2104	lemon chunks	2	0	fixed	0	0	0	0	0	25419	15366699
+2106	lemon slices	2	0	fixed	0	0	0	0	0	25418	15366700
+2108	orange	2	0	fixed	0	0	0	0	0	14111	15364387
+2110	orange chunks	2	0	fixed	0	0	0	0	0	25414	15373221
+2112	orange slices	2	0	fixed	0	0	0	0	0	25413	15373223
+2116	pineapple chunks	2	0	fixed	0	0	0	0	0	16153	15183792
+2118	pineapple ring	2	0	fixed	0	0	0	0	0	25024	15184663
+2120	lime	2	0	fixed	0	0	0	0	0	20019	15364386
+2122	lime chunks	2	0	fixed	0	0	0	0	0	25410	15184761
+2124	lime slices	2	0	fixed	0	0	0	0	0	25061	15184667
+2126	dwellberries	2	0	fixed	0	0	0	0	0	11455	15262776
+2128	equa leaves	1	0	fixed	0	0	0	0	0	17547	15183913
+2130	pot of cream	1	0	fixed	0	0	0	0	0	20757	15320996
+2140	cooked chicken	3	0	fixed	0	0	0	0	0	11564	15373780
+2142	cooked meat	3	0	fixed	0	0	0	0	0	12533	15373782
+2149	lava eel	11	0	fixed	0	0	0	0	0	17393	15183895
+2152	toad's legs	3	0	fixed	0	1	1	0	0	23103	15184380
+2162	king worm	2	0	fixed	0	0	0	0	0	25407	15292119
+2185	chocolate bomb	15	0	fixed	0	1	1	0	0	16724	15317681
+2187	tangled toad's legs	15	0	fixed	0	1	1	0	0	25224	15319632
+2191	worm hole	12	0	fixed	0	1	1	0	0	25220	15317684
+2195	veg ball	12	0	fixed	0	1	1	0	0	25222	15317680
+2205	worm crunchies	8	0	fixed	0	1	1	0	0	25230	15317671
+2209	chocchip crunchies	7	0	fixed	0	1	1	0	0	25237	15317672
+2213	spicy crunchies	7	0	fixed	0	1	1	0	0	25228	15317674
+2217	toad crunchies	8	0	fixed	0	1	1	0	0	25130	15319633
+2219	premade w'm batta	11	0	fixed	0	1	1	0	0	25251	15184730
+2221	premade t'd batta	11	0	fixed	0	1	1	0	0	25254	15184732
+2223	premade c+t batta	11	0	fixed	0	1	1	0	0	25258	15184736
+2225	premade fr't batta	11	0	fixed	0	1	1	0	0	25249	15184728
+2227	premade veg batta	11	0	fixed	0	1	1	0	0	25256	15184734
+2229	premade choc bomb	15	0	fixed	0	1	1	0	0	25226	15184719
+2231	premade ttl	15	0	fixed	0	1	1	0	0	25225	15319634
+2233	premade worm hole	12	0	fixed	0	1	1	0	0	25221	15352023
+2235	premade veg ball	12	0	fixed	0	1	1	0	0	25223	15184716
+2237	premade w'm crun'	8	0	fixed	0	1	1	0	0	25231	15184724
+2239	premade ch' crunch	8	0	fixed	0	1	1	0	0	25238	15184726
+2241	premade s'y crunch	7	0	fixed	0	1	1	0	0	25229	15184722
+2243	premade t'd crunch	8	0	fixed	0	1	1	0	0	25219	15319635
+2253	worm batta	11	0	fixed	0	1	1	0	0	25250	15317687
+2255	toad batta	11	0	fixed	0	1	1	0	0	25253	15317686
+2259	cheese+tom batta	11	0	fixed	0	1	1	0	0	25257	15317688
+2277	fruit batta	11	0	fixed	0	1	1	0	0	25248	15317685
+2281	vegetable batta	11	0	fixed	0	1	1	0	0	25255	15317689
+2289	plain pizza	7	0	fixed	1	1	0	0	0	15459	15183705
+2291	1/2 plain pizza	7	0	fixed	0	1	0	0	0	15459	15183705
+2293	meat pizza	8	0	fixed	1	1	0	0	0	18978	15184071
+2295	1/2 meat pizza	8	0	fixed	0	1	0	0	0	18978	15184071
+2297	anchovy pizza	9	0	fixed	1	1	0	0	0	10183	15182680
+2299	1/2 anchovy pizza	9	0	fixed	0	1	0	0	0	10183	15182680
+2301	pineapple pizza	11	0	fixed	1	1	0	0	0	14953	15183661
+2303	1/2 pineapple pizza	11	0	fixed	0	1	0	0	0	14953	15183661
+2309	bread	5	0	fixed	0	0	0	0	0	10097	15182634
+2323	apple pie	7	0	fixed	1	1	0	0	0	10192	15242171
+2325	redberry pie	5	0	fixed	1	1	0	0	0	10016	15242172
+2327	meat pie	6	0	fixed	1	1	0	0	0	15456	15242174
+2331	half a meat pie	6	0	fixed	0	1	0	0	0	15456	15242174
+2333	half a redberry pie	5	0	fixed	0	1	0	0	0	10016	15242172
+2335	half an apple pie	7	0	fixed	0	1	0	0	0	10192	15242171
+2343	cooked oomlie wrap	14	0	fixed	0	0	0	0	0	34580	15373802
+2878	cooked chompy	11	0	fixed	0	0	0	0	0	20723	15373796
+3144	cooked karambwan	18	0	fixed	0	1	1	0	0	24277	15364632
+3162	sliced banana	2	0	fixed	0	0	0	0	0	18352	15184013
+3228	cooked rabbit	5	0	fixed	0	0	0	0	0	27390	15373787
+3369	thin snail meat	5	0	range	0	0	0	0	0	34743	15373790
+3371	lean snail meat	5	0	range	0	0	0	0	0	34740	15373793
+3373	fat snail meat	7	0	range	0	0	0	0	0	34739	15373795
+3381	cooked slimy eel	6	0	range	0	0	0	0	0	22643	15184351
+4012	monkey nuts	4	0	fixed	0	0	0	0	0	16451	15234464
+4014	monkey bar	5	0	fixed	0	0	0	0	0	35914	15234463
+4016	banana stew	11	0	fixed	0	0	0	0	0	35912	15185865
+4485	white pearl	2	0	fixed	0	0	0	0	0	23089	15184377
+4517	giant frog legs	6	0	fixed	0	0	0	0	0	29147	15302603
+4608	super kebab	0	0	random	0	0	0	0	0	33504	15273559
+5003	cave eel	8	0	range	0	0	0	0	0	15862	15183749
+5004	frog spawn	3	0	range	0	0	0	0	0	27381	15326632
+5504	strawberry	0	0	strawberry	0	0	0	0	0	16764	15285885
+5972	papaya fruit	8	0	fixed	0	0	0	0	0	22540	15184339
+5984	watermelon slice	0	0	watermelon	0	0	0	0	0	27041	15184916
+5988	cooked sweetcorn	0	0	sweetcorn	0	0	0	0	0	24650	15238979
+6297	spider on stick	7	0	range	0	0	0	0	0	25394	15373791
+6299	spider on shaft	7	0	range	0	0	0	0	0	25397	15373792
+6311	gout tuber	12	0	fixed	0	0	0	0	0	30355	15351998
+6469	white tree fruit	3	0	fixed	0	0	0	0	0	21016	15318045
+6701	baked potato	4	0	fixed	0	0	0	0	0	28695	15375025
+6703	potato with butter	14	0	fixed	0	0	0	0	0	25385	15313256
+6705	potato with cheese	16	0	fixed	0	0	0	0	0	16176	15183795
+6794	choc-ice	7	0	fixed	0	0	0	0	0	17882	15183954
+6883	peach	8	0	fixed	0	0	0	0	0	17629	15365387
+6961	baguette	6	0	fixed	0	0	0	0	0	14961	15356023
+6962	triangle sandwich	6	0	fixed	0	0	0	0	0	11541	15350481
+6963	roll	6	0	fixed	0	0	0	0	0	31804	15342820
+6965	square sandwich	6	0	fixed	0	0	0	0	0	45535	15186656
+7054	chilli potato	14	0	fixed	0	0	0	0	0	28722	15185174
+7056	egg potato	16	0	fixed	0	0	0	0	0	28716	15372686
+7058	mushroom potato	20	0	fixed	0	0	0	0	0	28696	15185157
+7060	tuna potato	22	0	fixed	0	0	0	0	0	14015	15292986
+7062	chilli con carne	5	0	fixed	0	0	0	0	0	28723	15185175
+7064	egg and tomato	8	0	fixed	0	0	0	0	0	28717	15185171
+7066	mushroom & onion	11	0	fixed	0	0	0	0	0	28697	15185158
+7068	tuna and corn	13	0	fixed	0	0	0	0	0	34986	15185800
+7070	minced meat	13	0	fixed	0	0	0	0	0	71634	15187456
+7072	spicy sauce	2	0	fixed	0	0	0	0	0	28724	15185176
+7078	scrambled egg	5	0	fixed	0	0	0	0	0	28718	15185172
+7082	fried mushrooms	5	0	fixed	0	0	0	0	0	17465	15183906
+7084	fried onions	5	0	fixed	0	0	0	0	0	28701	15185160
+7086	chopped tuna	10	0	fixed	0	0	0	0	0	31195	15185366
+7178	garden pie	6	0	fixed	1	1	0	0	0	27382	15242180
+7180	half a garden pie	6	0	fixed	0	1	0	0	0	27382	15242180
+7188	fish pie	6	0	fixed	1	1	0	0	0	20923	15322208
+7190	half a fish pie	6	0	fixed	0	1	0	0	0	20923	15322208
+7198	admiral pie	8	0	fixed	1	1	0	0	0	10171	15227370
+7200	half an admiral pie	8	0	fixed	0	1	0	0	0	10171	15227370
+7208	wild pie	11	0	fixed	1	1	0	0	0	12880	15369834
+7210	half a wild pie	11	0	fixed	0	1	0	0	0	12880	15369834
+7218	summer pie	11	0	fixed	1	1	0	0	0	15463	15369837
+7220	half a summer pie	11	0	fixed	0	1	0	0	0	15463	15369837
+7223	roast rabbit	7	0	fixed	0	0	0	0	0	27389	15373788
+7521	cooked giant crab meat	2	0	fixed	1	1	0	0	0	25571	15373794
+7523	cooked giant crab meat	2	0	fixed	1	1	0	0	0	25571	15373794
+7524	cooked giant crab meat	2	0	fixed	1	1	0	0	0	25571	15373794
+7525	cooked giant crab meat	2	0	fixed	1	1	0	0	0	25571	15373794
+7526	cooked giant crab meat	2	0	fixed	0	1	0	0	0	25571	15373794
+7530	cooked fishcake	11	0	fixed	0	0	0	0	0	15583	15327899
+7568	cooked jubbly	15	0	fixed	0	0	0	0	0	45454	15373799
+7572	red banana	5	0	fixed	0	0	0	0	0	23502	15184440
+7573	tchiki monkey nuts	5	0	fixed	0	0	0	0	0	23506	15184444
+7574	sliced red banana	5	0	fixed	0	0	0	0	0	23503	15184441
+7579	stuffed snake	20	0	fixed	0	0	0	0	0	23505	15375989
+7934	field ration	10	0	fixed	0	0	0	0	0	40820	15363041
+7943	fresh monkfish	1	0	fixed	0	0	0	0	0	26577	15184848
+7946	monkfish	16	0	fixed	0	0	0	0	0	12568	15183439
+9052	locust meat	3	0	fixed	0	0	0	0	0	67158	15187150
+9980	roast bird meat	6	0	fixed	0	0	0	0	0	15584	15373804
+9988	roast beast meat	8	0	fixed	0	0	0	0	0	30591	15373809
+9994	spicy tomato	2	0	fixed	0	0	0	0	0	28710	15185168
+9996	spicy minced meat	3	0	fixed	0	0	0	0	0	67420	15187158
+10136	rainbow fish	11	0	fixed	0	0	0	0	0	16426	15183822
+10476	purple sweets	1	0	range	0	0	0	0	0	12513	15183426
+10960	green gloop soup	2	0	fixed	0	0	0	0	0	35545	15185841
+10961	frogspawn gumbo	2	0	fixed	0	0	0	0	0	35541	15185838
+10962	frogburger	2	0	fixed	0	0	0	0	0	30042	15185290
+10963	coated frogs' legs	2	0	fixed	0	0	0	0	0	30040	15185289
+10964	bat shish	2	0	fixed	0	0	0	0	0	35542	15185839
+10965	fingers	2	0	fixed	0	0	0	0	0	30035	15185288
+10966	grubs à la mode	2	0	fixed	0	0	0	0	0	35546	15185842
+10967	roast frog	2	0	fixed	0	0	0	0	0	35548	15185844
+10968	mushrooms	2	0	fixed	0	0	0	0	0	35547	15185843
+10969	fillets	2	0	fixed	0	0	0	0	0	35540	15185837
+10970	loach	3	0	fixed	0	0	0	0	0	29954	15185270
+10971	eel sushi	10	0	fixed	0	0	0	0	0	35544	15185840
+11324	roe	3	0	fixed	0	0	0	0	0	17837	15372491
+11326	caviar	5	0	fixed	0	0	0	0	0	29804	15185250
+11936	dark crab	22	0	fixed	0	0	0	0	0	30523	15185342
+13441	anglerfish	0	0	anglerfish	0	0	0	1	0	68424	15360516
+19659	half a botanical pie	7	0	fixed	0	1	0	0	0	73838	15242175
+19662	botanical pie	7	0	fixed	1	1	0	0	0	73838	15242175
+20856	pysk fish (0)	5	0	fixed	0	0	0	0	0	82564	15322830
+20858	suphi fish (1)	8	0	fixed	0	0	0	0	0	82550	15322829
+20860	leckish fish (2)	11	0	fixed	0	0	0	0	0	82552	15322828
+20862	brawk fish (3)	14	0	fixed	0	0	0	0	0	82555	15322826
+20864	mycil fish (4)	17	0	fixed	0	0	0	0	0	82557	15322825
+20866	roqed fish (5)	20	0	fixed	0	0	0	0	0	82559	15322824
+20868	kyren fish (6)	23	0	fixed	0	0	0	0	0	82561	15249508
+20871	guanic bat (0)	5	0	fixed	0	0	0	0	0	82549	15188081
+20873	prael bat (1)	8	0	fixed	0	0	0	0	0	82551	15188083
+20875	giral bat (2)	11	0	fixed	0	0	0	0	0	82554	15188085
+20877	phluxia bat (3)	14	0	fixed	0	0	0	0	0	82556	15322827
+20879	kryket bat (4)	17	0	fixed	0	0	0	0	0	82558	15188089
+20881	murng bat (5)	20	0	fixed	0	0	0	0	0	82560	15188091
+20883	psykk bat (6)	23	0	fixed	0	0	0	0	0	82565	15372582
+21687	half a mushroom pie	8	0	fixed	0	1	0	0	0	103055	15364322
+21690	mushroom pie	8	0	fixed	1	1	0	0	0	103055	15364322
+22792	half a dragonfruit pie	10	0	fixed	0	1	0	0	0	199839	15242177
+22795	dragonfruit pie	10	0	fixed	1	1	0	0	0	199839	15242177
+22929	dragonfruit	10	0	fixed	0	0	0	0	0	199829	15371114
+23874	paddlefish	20	0	fixed	0	0	0	0	0	226681	15352020
+24589	blighted manta ray	22	0	fixed	0	0	0	0	1	261721	15189707
+24592	blighted anglerfish	0	0	anglerfish	0	0	0	1	1	261719	15317632
+24595	blighted karambwan	18	0	fixed	0	1	1	0	1	261720	15331033
+24785	cooked mystery meat	5	0	fixed	0	0	0	0	0	265813	15373786
+25631	steak sandwich	6	0	fixed	0	0	0	0	0	308645	15190178
+25958	corrupted paddlefish	16	0	fixed	0	1	1	0	0	323478	15190372
+25960	crystal paddlefish	16	0	fixed	0	1	1	0	0	323479	15190373
+27351	honey locust	20	0	fixed	0	0	0	0	0	363725	15352003
+29077	cooked moss lizard	0	0	unknown	0	0	0	0	0	458463	15373812
+29128	cooked wild kebbit	4	4	fixed	0	0	0	0	0	458466	15373810
+29131	cooked barb-tailed kebbit	7	5	fixed	0	0	0	0	0	458456	15373814
+29134	cooked dashing kebbit	13	10	fixed	0	0	0	0	0	458458	15373819
+29137	cooked pyre fox	11	8	fixed	0	0	0	0	0	458464	15373817
+29140	cooked sunlight antelope	12	9	fixed	0	0	0	0	0	458465	15373818
+29143	cooked moonlight antelope	14	12	fixed	0	0	0	0	0	458462	15374170
+29146	cooked larupia	6	5	fixed	0	0	0	0	0	458461	15373813
+29149	cooked graahk	8	6	fixed	0	0	0	0	0	458459	15373815
+29152	cooked kyatt	9	8	fixed	0	0	0	0	0	458460	15373816
+29217	cooked bream	0	0	unknown	0	0	0	0	0	458457	15221779
+29900	varlamorian kebab	0	0	random	0	0	0	0	0	537825	15369961
+30937	caerula berries	2	0	fixed	0	0	0	0	0	593867	15351991
+31117	orange	2	0	fixed	0	0	0	0	0	594250	15373225
+31128	blueberry muffin	4	0	fixed	0	0	0	0	0	593970	15237103
+31556	swordtip squid	15	0	fixed	0	0	0	0	0	589500	15352050
+31564	jumbo squid	17	0	fixed	0	0	0	0	0	589503	15352007
+31689	red crab meat	8	0	fixed	0	0	0	0	0	589441	15373763
+31695	blue crab meat	14	0	fixed	0	0	0	0	0	571535	15373764
+31703	rainbow crab meat	19	0	fixed	0	0	0	0	0	589444	15373767
+32312	giant krill	17	0	fixed	0	0	0	0	0	571961	15351996
+32320	haddock	18	0	fixed	0	0	0	0	0	571974	15352001
+32328	yellowfin	19	0	fixed	0	0	0	0	0	572070	15352055
+32336	halibut	20	0	fixed	0	1	1	0	0	571976	15352002
+32344	bluefin	22	0	fixed	0	0	0	0	0	571537	15351984
+32352	marlin	24	0	fixed	0	0	0	0	0	589567	15352012
+33109	cooked t-bone steak	9	0	fixed	0	0	0	0	0	646186	15351995
+33628	stymphike tartare	26	0	fixed	0	0	0	0	0	666865	15352046

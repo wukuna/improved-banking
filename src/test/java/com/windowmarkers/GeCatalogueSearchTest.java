@@ -13,6 +13,27 @@ import static org.mockito.Mockito.*;
 
 public class GeCatalogueSearchTest
 {
+    @Test public void bothCoreFuzzyModesAndRegistrationOrdersPreserveSemanticQueries() throws Exception {
+        for(var mode:Arrays.asList(net.runelite.client.plugins.grandexchange.GrandExchangeSearchMode.FUZZY_ONLY,
+            net.runelite.client.plugins.grandexchange.GrandExchangeSearchMode.FUZZY_FALLBACK))
+        for(boolean reverse:Arrays.asList(false,true)) {
+            GeCatalogueSearch ours=ready();
+            var core=new net.runelite.client.plugins.grandexchange.GrandExchangePlugin();
+            var settings=mock(net.runelite.client.plugins.grandexchange.GrandExchangeConfig.class);
+            when(settings.geSearchMode()).thenReturn(mode);
+            var manager=mock(net.runelite.client.game.ItemManager.class);
+            set(core,"client",ours.client);set(core,"config",settings);set(core,"itemManager",manager);
+            var bus=new net.runelite.client.eventbus.EventBus();
+            if(reverse) {bus.register(core);bus.register(ours);} else {bus.register(ours);bus.register(core);}
+            for(String query:Arrays.asList("toa magic head","food 20","food 999","raw food","fast foods","rcb ammo")) {
+                when(ours.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn(query);
+                GrandExchangeSearched event=new GrandExchangeSearched();bus.post(event);assertTrue(event.isConsumed());
+            }
+            // Core disable/re-enable must not change handler precedence.
+            bus.unregister(core);bus.register(core);bus.post(new GrandExchangeSearched());
+            verifyNoInteractions(manager);verify(ours.client,times(7)).setGeSearchResultIds(any());
+        }
+    }
     @Test public void coreFuzzyFallbackRunsOnlyForUnclaimedQueries() throws Exception {
         GeCatalogueSearch ours=ready();
         var core=new net.runelite.client.plugins.grandexchange.GrandExchangePlugin();
@@ -39,6 +60,20 @@ public class GeCatalogueSearchTest
         bus.post(new GrandExchangeSearched());
         verify(manager,times(2)).getItemComposition(0); // exact fallback, then fuzzy scoring
         verify(ours.client).setGeSearchResultIds(new short[]{385});
+    }
+    @Test public void loadingDoesNotLeaveCoreFuzzyResultsInControlOnceTheCatalogueIsReady() throws Exception {
+        GeCatalogueSearch ours=ready();set(ours,"index",null);set(ours,"preparing",true);
+        var core=new net.runelite.client.plugins.grandexchange.GrandExchangePlugin();
+        var settings=mock(net.runelite.client.plugins.grandexchange.GrandExchangeConfig.class);
+        when(settings.geSearchMode()).thenReturn(net.runelite.client.plugins.grandexchange.GrandExchangeSearchMode.FUZZY_ONLY);
+        var manager=mock(net.runelite.client.game.ItemManager.class);
+        set(core,"client",ours.client);set(core,"config",settings);set(core,"itemManager",manager);
+        set(core,"fuzzySearchScorer",new net.runelite.client.plugins.grandexchange.FuzzySearchScorer());
+        var bus=new net.runelite.client.eventbus.EventBus();bus.register(core);bus.register(ours);
+        bus.post(new GrandExchangeSearched());verify(ours.client).setGeSearchResultCount(0);
+        set(ours,"index",GeSearchIndexTest.index());set(ours,"preparing",false);clearInvocations(ours.client);
+        bus.post(new GrandExchangeSearched());verify(ours.client).setGeSearchResultCount(4);
+        verifyNoInteractions(manager);
     }
     private static void set(Object target,String name,Object value) throws Exception
     { Field field=target.getClass().getDeclaredField(name); field.setAccessible(true); field.set(target,value); }

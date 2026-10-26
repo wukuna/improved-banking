@@ -1,0 +1,1904 @@
+# OSRS Wiki contributors, CC BY-NC-SA 3.0. See SUPPLY-SEARCH-SOURCES.md.
+I:2	combat	Ammo — cannon
+I:113	supply	Potions — strength boost
+I:115	supply	Potions — strength boost
+I:117	supply	Potions — strength boost
+I:119	supply	Potions — strength boost
+I:121	supply	Potions — attack boost
+I:123	supply	Potions — attack boost
+I:125	supply	Potions — attack boost
+I:127	supply	Potions — stat restore
+I:129	supply	Potions — stat restore
+I:131	supply	Potions — stat restore
+I:133	supply	Potions — defence boost
+I:135	supply	Potions — defence boost
+I:137	supply	Potions — defence boost
+I:139	supply	Potions — prayer restore
+I:141	supply	Potions — prayer restore
+I:143	supply	Potions — prayer restore
+I:145	supply	Potions — attack boost
+I:147	supply	Potions — attack boost
+I:149	supply	Potions — attack boost
+I:151	supply	Potions — fishing boost
+I:153	supply	Potions — fishing boost
+I:155	supply	Potions — fishing boost
+I:157	supply	Potions — strength boost
+I:159	supply	Potions — strength boost
+I:161	supply	Potions — strength boost
+I:163	supply	Potions — defence boost
+I:165	supply	Potions — defence boost
+I:167	supply	Potions — defence boost
+I:169	supply	Potions — ranged boost
+I:171	supply	Potions — ranged boost
+I:173	supply	Potions — ranged boost
+I:175	supply	Potions — poison cure
+I:175	supply	Potions — poison immunity
+I:177	supply	Potions — poison cure
+I:177	supply	Potions — poison immunity
+I:179	supply	Potions — poison cure
+I:179	supply	Potions — poison immunity
+I:181	supply	Potions — poison cure
+I:181	supply	Potions — poison immunity
+I:183	supply	Potions — poison cure
+I:183	supply	Potions — poison immunity
+I:185	supply	Potions — poison cure
+I:185	supply	Potions — poison immunity
+I:189	supply	Potions — attack boost
+I:189	supply	Potions — strength boost
+I:191	supply	Potions — attack boost
+I:191	supply	Potions — strength boost
+I:193	supply	Potions — attack boost
+I:193	supply	Potions — strength boost
+I:247	supply	Food — ready to eat
+I:315	supply	Food — ready to eat
+I:317	skilling	Raw food — cooking inputs
+I:319	supply	Food — ready to eat
+I:321	skilling	Raw food — cooking inputs
+I:325	supply	Food — ready to eat
+I:327	skilling	Raw food — cooking inputs
+I:329	supply	Food — ready to eat
+I:331	skilling	Raw food — cooking inputs
+I:333	supply	Food — ready to eat
+I:335	skilling	Raw food — cooking inputs
+I:337	supply	Food — ready to eat
+I:338	skilling	Raw food — cooking inputs
+I:339	supply	Food — ready to eat
+I:341	skilling	Raw food — cooking inputs
+I:345	skilling	Raw food — cooking inputs
+I:347	supply	Food — ready to eat
+I:349	skilling	Raw food — cooking inputs
+I:351	supply	Food — ready to eat
+I:353	skilling	Raw food — cooking inputs
+I:355	supply	Food — ready to eat
+I:359	skilling	Raw food — cooking inputs
+I:361	supply	Food — ready to eat
+I:363	skilling	Raw food — cooking inputs
+I:365	supply	Food — ready to eat
+I:371	skilling	Raw food — cooking inputs
+I:373	supply	Food — ready to eat
+I:377	skilling	Raw food — cooking inputs
+I:379	supply	Food — ready to eat
+I:383	skilling	Raw food — cooking inputs
+I:385	supply	Food — ready to eat
+I:389	skilling	Raw food — cooking inputs
+I:391	supply	Food — ready to eat
+I:395	skilling	Raw food — cooking inputs
+I:397	supply	Food — ready to eat
+I:403	supply	Food — ready to eat
+I:806	combat	Ammo — blowpipe
+I:807	combat	Ammo — blowpipe
+I:808	combat	Ammo — blowpipe
+I:809	combat	Ammo — blowpipe
+I:810	combat	Ammo — blowpipe
+I:811	combat	Ammo — blowpipe
+I:825	combat	Ammo — ballista
+I:826	combat	Ammo — ballista
+I:827	combat	Ammo — ballista
+I:828	combat	Ammo — ballista
+I:829	combat	Ammo — ballista
+I:830	combat	Ammo — ballista
+I:831	combat	Ammo — ballista
+I:832	combat	Ammo — ballista
+I:833	combat	Ammo — ballista
+I:834	combat	Ammo — ballista
+I:835	combat	Ammo — ballista
+I:836	combat	Ammo — ballista
+I:877	combat	Ammo — adamant crossbow
+I:877	combat	Ammo — armadyl crossbow
+I:877	combat	Ammo — blurite crossbow
+I:877	combat	Ammo — bronze crossbow
+I:877	combat	Ammo — dorgeshuun crossbow
+I:877	combat	Ammo — dragon crossbow
+I:877	combat	Ammo — dragon hunter crossbow
+I:877	combat	Ammo — iron crossbow
+I:877	combat	Ammo — mithril crossbow
+I:877	combat	Ammo — rune crossbow
+I:877	combat	Ammo — steel crossbow
+I:877	combat	Ammo — zaryte crossbow
+I:878	combat	Ammo — adamant crossbow
+I:878	combat	Ammo — armadyl crossbow
+I:878	combat	Ammo — blurite crossbow
+I:878	combat	Ammo — bronze crossbow
+I:878	combat	Ammo — dorgeshuun crossbow
+I:878	combat	Ammo — dragon crossbow
+I:878	combat	Ammo — dragon hunter crossbow
+I:878	combat	Ammo — iron crossbow
+I:878	combat	Ammo — mithril crossbow
+I:878	combat	Ammo — rune crossbow
+I:878	combat	Ammo — steel crossbow
+I:878	combat	Ammo — zaryte crossbow
+I:879	combat	Ammo — adamant crossbow
+I:879	combat	Ammo — armadyl crossbow
+I:879	combat	Ammo — blurite crossbow
+I:879	combat	Ammo — bronze crossbow
+I:879	combat	Ammo — dragon crossbow
+I:879	combat	Ammo — dragon hunter crossbow
+I:879	combat	Ammo — iron crossbow
+I:879	combat	Ammo — mithril crossbow
+I:879	combat	Ammo — rune crossbow
+I:879	combat	Ammo — steel crossbow
+I:879	combat	Ammo — zaryte crossbow
+I:880	combat	Ammo — adamant crossbow
+I:880	combat	Ammo — armadyl crossbow
+I:880	combat	Ammo — dragon crossbow
+I:880	combat	Ammo — dragon hunter crossbow
+I:880	combat	Ammo — iron crossbow
+I:880	combat	Ammo — mithril crossbow
+I:880	combat	Ammo — rune crossbow
+I:880	combat	Ammo — steel crossbow
+I:880	combat	Ammo — zaryte crossbow
+I:881	combat	Ammo — adamant crossbow
+I:881	combat	Ammo — armadyl crossbow
+I:881	combat	Ammo — blurite crossbow
+I:881	combat	Ammo — bronze crossbow
+I:881	combat	Ammo — dragon crossbow
+I:881	combat	Ammo — dragon hunter crossbow
+I:881	combat	Ammo — iron crossbow
+I:881	combat	Ammo — mithril crossbow
+I:881	combat	Ammo — rune crossbow
+I:881	combat	Ammo — steel crossbow
+I:881	combat	Ammo — zaryte crossbow
+I:882	combat	Ammo — 3rd age bow
+I:882	combat	Ammo — dark bow
+I:882	combat	Ammo — longbow
+I:882	combat	Ammo — magic bow
+I:882	combat	Ammo — maple bow
+I:882	combat	Ammo — oak bow
+I:882	combat	Ammo — scorching bow
+I:882	combat	Ammo — shortbow
+I:882	combat	Ammo — twisted bow
+I:882	combat	Ammo — willow bow
+I:882	combat	Ammo — yew bow
+I:883	combat	Ammo — 3rd age bow
+I:883	combat	Ammo — dark bow
+I:883	combat	Ammo — longbow
+I:883	combat	Ammo — magic bow
+I:883	combat	Ammo — maple bow
+I:883	combat	Ammo — oak bow
+I:883	combat	Ammo — scorching bow
+I:883	combat	Ammo — shortbow
+I:883	combat	Ammo — twisted bow
+I:883	combat	Ammo — willow bow
+I:883	combat	Ammo — yew bow
+I:884	combat	Ammo — 3rd age bow
+I:884	combat	Ammo — dark bow
+I:884	combat	Ammo — longbow
+I:884	combat	Ammo — magic bow
+I:884	combat	Ammo — maple bow
+I:884	combat	Ammo — oak bow
+I:884	combat	Ammo — scorching bow
+I:884	combat	Ammo — shortbow
+I:884	combat	Ammo — twisted bow
+I:884	combat	Ammo — willow bow
+I:884	combat	Ammo — yew bow
+I:885	combat	Ammo — 3rd age bow
+I:885	combat	Ammo — dark bow
+I:885	combat	Ammo — longbow
+I:885	combat	Ammo — magic bow
+I:885	combat	Ammo — maple bow
+I:885	combat	Ammo — oak bow
+I:885	combat	Ammo — scorching bow
+I:885	combat	Ammo — shortbow
+I:885	combat	Ammo — twisted bow
+I:885	combat	Ammo — willow bow
+I:885	combat	Ammo — yew bow
+I:886	combat	Ammo — 3rd age bow
+I:886	combat	Ammo — dark bow
+I:886	combat	Ammo — magic bow
+I:886	combat	Ammo — maple bow
+I:886	combat	Ammo — oak bow
+I:886	combat	Ammo — scorching bow
+I:886	combat	Ammo — twisted bow
+I:886	combat	Ammo — willow bow
+I:886	combat	Ammo — yew bow
+I:887	combat	Ammo — 3rd age bow
+I:887	combat	Ammo — dark bow
+I:887	combat	Ammo — magic bow
+I:887	combat	Ammo — maple bow
+I:887	combat	Ammo — oak bow
+I:887	combat	Ammo — scorching bow
+I:887	combat	Ammo — twisted bow
+I:887	combat	Ammo — willow bow
+I:887	combat	Ammo — yew bow
+I:888	combat	Ammo — 3rd age bow
+I:888	combat	Ammo — dark bow
+I:888	combat	Ammo — magic bow
+I:888	combat	Ammo — maple bow
+I:888	combat	Ammo — scorching bow
+I:888	combat	Ammo — twisted bow
+I:888	combat	Ammo — willow bow
+I:888	combat	Ammo — yew bow
+I:889	combat	Ammo — 3rd age bow
+I:889	combat	Ammo — dark bow
+I:889	combat	Ammo — magic bow
+I:889	combat	Ammo — maple bow
+I:889	combat	Ammo — scorching bow
+I:889	combat	Ammo — twisted bow
+I:889	combat	Ammo — willow bow
+I:889	combat	Ammo — yew bow
+I:890	combat	Ammo — 3rd age bow
+I:890	combat	Ammo — dark bow
+I:890	combat	Ammo — magic bow
+I:890	combat	Ammo — maple bow
+I:890	combat	Ammo — scorching bow
+I:890	combat	Ammo — twisted bow
+I:890	combat	Ammo — yew bow
+I:891	combat	Ammo — 3rd age bow
+I:891	combat	Ammo — dark bow
+I:891	combat	Ammo — magic bow
+I:891	combat	Ammo — maple bow
+I:891	combat	Ammo — scorching bow
+I:891	combat	Ammo — twisted bow
+I:891	combat	Ammo — yew bow
+I:892	combat	Ammo — 3rd age bow
+I:892	combat	Ammo — dark bow
+I:892	combat	Ammo — magic bow
+I:892	combat	Ammo — scorching bow
+I:892	combat	Ammo — twisted bow
+I:892	combat	Ammo — yew bow
+I:893	combat	Ammo — 3rd age bow
+I:893	combat	Ammo — dark bow
+I:893	combat	Ammo — magic bow
+I:893	combat	Ammo — scorching bow
+I:893	combat	Ammo — twisted bow
+I:893	combat	Ammo — yew bow
+I:1859	skilling	Raw food — cooking inputs
+I:1861	supply	Food — ready to eat
+I:1869	supply	Food — ready to eat
+I:1871	supply	Food — ready to eat
+I:1875	supply	Food — ready to eat
+I:1883	supply	Food — ready to eat
+I:1885	supply	Food — ready to eat
+I:1891	supply	Food — fast foods
+I:1891	supply	Food — multi-bite
+I:1891	supply	Food — ready to eat
+I:1893	supply	Food — fast foods
+I:1893	supply	Food — multi-bite
+I:1893	supply	Food — ready to eat
+I:1895	supply	Food — ready to eat
+I:1897	supply	Food — fast foods
+I:1897	supply	Food — multi-bite
+I:1897	supply	Food — ready to eat
+I:1899	supply	Food — fast foods
+I:1899	supply	Food — multi-bite
+I:1899	supply	Food — ready to eat
+I:1901	supply	Food — ready to eat
+I:1942	supply	Food — ready to eat
+I:1957	supply	Food — ready to eat
+I:1959	supply	Food — ready to eat
+I:1961	supply	Food — ready to eat
+I:1963	supply	Food — ready to eat
+I:1965	supply	Food — ready to eat
+I:1969	supply	Food — ready to eat
+I:1971	supply	Food — ready to eat
+I:1973	supply	Food — ready to eat
+I:1982	supply	Food — ready to eat
+I:1985	supply	Food — ready to eat
+I:2003	supply	Food — ready to eat
+I:2011	supply	Food — ready to eat
+I:2102	supply	Food — ready to eat
+I:2104	supply	Food — ready to eat
+I:2106	supply	Food — ready to eat
+I:2108	supply	Food — ready to eat
+I:2110	supply	Food — ready to eat
+I:2112	supply	Food — ready to eat
+I:2116	supply	Food — ready to eat
+I:2118	supply	Food — ready to eat
+I:2120	supply	Food — ready to eat
+I:2122	supply	Food — ready to eat
+I:2124	supply	Food — ready to eat
+I:2126	supply	Food — ready to eat
+I:2128	supply	Food — ready to eat
+I:2130	supply	Food — ready to eat
+I:2132	skilling	Raw food — cooking inputs
+I:2134	skilling	Raw food — cooking inputs
+I:2136	skilling	Raw food — cooking inputs
+I:2138	skilling	Raw food — cooking inputs
+I:2140	supply	Food — ready to eat
+I:2142	supply	Food — ready to eat
+I:2148	skilling	Raw food — cooking inputs
+I:2149	supply	Food — ready to eat
+I:2152	supply	Food — combo eating
+I:2152	supply	Food — fast foods
+I:2152	supply	Food — ready to eat
+I:2162	supply	Food — ready to eat
+I:2178	skilling	Raw food — cooking inputs
+I:2185	supply	Food — combo eating
+I:2185	supply	Food — fast foods
+I:2185	supply	Food — ready to eat
+I:2187	supply	Food — combo eating
+I:2187	supply	Food — fast foods
+I:2187	supply	Food — ready to eat
+I:2191	supply	Food — combo eating
+I:2191	supply	Food — fast foods
+I:2191	supply	Food — ready to eat
+I:2195	supply	Food — combo eating
+I:2195	supply	Food — fast foods
+I:2195	supply	Food — ready to eat
+I:2202	skilling	Raw food — cooking inputs
+I:2205	supply	Food — combo eating
+I:2205	supply	Food — fast foods
+I:2205	supply	Food — ready to eat
+I:2209	supply	Food — combo eating
+I:2209	supply	Food — fast foods
+I:2209	supply	Food — ready to eat
+I:2213	supply	Food — combo eating
+I:2213	supply	Food — fast foods
+I:2213	supply	Food — ready to eat
+I:2217	supply	Food — combo eating
+I:2217	supply	Food — fast foods
+I:2217	supply	Food — ready to eat
+I:2219	supply	Food — combo eating
+I:2219	supply	Food — fast foods
+I:2219	supply	Food — ready to eat
+I:2221	supply	Food — combo eating
+I:2221	supply	Food — fast foods
+I:2221	supply	Food — ready to eat
+I:2223	supply	Food — combo eating
+I:2223	supply	Food — fast foods
+I:2223	supply	Food — ready to eat
+I:2225	supply	Food — combo eating
+I:2225	supply	Food — fast foods
+I:2225	supply	Food — ready to eat
+I:2227	supply	Food — combo eating
+I:2227	supply	Food — fast foods
+I:2227	supply	Food — ready to eat
+I:2229	supply	Food — combo eating
+I:2229	supply	Food — fast foods
+I:2229	supply	Food — ready to eat
+I:2231	supply	Food — combo eating
+I:2231	supply	Food — fast foods
+I:2231	supply	Food — ready to eat
+I:2233	supply	Food — combo eating
+I:2233	supply	Food — fast foods
+I:2233	supply	Food — ready to eat
+I:2235	supply	Food — combo eating
+I:2235	supply	Food — fast foods
+I:2235	supply	Food — ready to eat
+I:2237	supply	Food — combo eating
+I:2237	supply	Food — fast foods
+I:2237	supply	Food — ready to eat
+I:2239	supply	Food — combo eating
+I:2239	supply	Food — fast foods
+I:2239	supply	Food — ready to eat
+I:2241	supply	Food — combo eating
+I:2241	supply	Food — fast foods
+I:2241	supply	Food — ready to eat
+I:2243	supply	Food — combo eating
+I:2243	supply	Food — fast foods
+I:2243	supply	Food — ready to eat
+I:2250	skilling	Raw food — cooking inputs
+I:2253	supply	Food — combo eating
+I:2253	supply	Food — fast foods
+I:2253	supply	Food — ready to eat
+I:2255	supply	Food — combo eating
+I:2255	supply	Food — fast foods
+I:2255	supply	Food — ready to eat
+I:2259	supply	Food — combo eating
+I:2259	supply	Food — fast foods
+I:2259	supply	Food — ready to eat
+I:2277	supply	Food — combo eating
+I:2277	supply	Food — fast foods
+I:2277	supply	Food — ready to eat
+I:2281	supply	Food — combo eating
+I:2281	supply	Food — fast foods
+I:2281	supply	Food — ready to eat
+I:2289	supply	Food — fast foods
+I:2289	supply	Food — multi-bite
+I:2289	supply	Food — ready to eat
+I:2291	supply	Food — fast foods
+I:2291	supply	Food — ready to eat
+I:2293	supply	Food — fast foods
+I:2293	supply	Food — multi-bite
+I:2293	supply	Food — ready to eat
+I:2295	supply	Food — fast foods
+I:2295	supply	Food — ready to eat
+I:2297	supply	Food — fast foods
+I:2297	supply	Food — multi-bite
+I:2297	supply	Food — ready to eat
+I:2299	supply	Food — fast foods
+I:2299	supply	Food — ready to eat
+I:2301	supply	Food — fast foods
+I:2301	supply	Food — multi-bite
+I:2301	supply	Food — ready to eat
+I:2303	supply	Food — fast foods
+I:2303	supply	Food — ready to eat
+I:2309	supply	Food — ready to eat
+I:2317	skilling	Raw food — cooking inputs
+I:2319	skilling	Raw food — cooking inputs
+I:2321	skilling	Raw food — cooking inputs
+I:2323	supply	Food — fast foods
+I:2323	supply	Food — multi-bite
+I:2323	supply	Food — ready to eat
+I:2325	supply	Food — fast foods
+I:2325	supply	Food — multi-bite
+I:2325	supply	Food — ready to eat
+I:2327	supply	Food — fast foods
+I:2327	supply	Food — multi-bite
+I:2327	supply	Food — ready to eat
+I:2331	supply	Food — fast foods
+I:2331	supply	Food — ready to eat
+I:2333	supply	Food — fast foods
+I:2333	supply	Food — ready to eat
+I:2335	supply	Food — fast foods
+I:2335	supply	Food — ready to eat
+I:2337	skilling	Raw food — cooking inputs
+I:2343	supply	Food — ready to eat
+I:2428	supply	Potions — attack boost
+I:2430	supply	Potions — stat restore
+I:2432	supply	Potions — defence boost
+I:2434	supply	Potions — prayer restore
+I:2436	supply	Potions — attack boost
+I:2438	supply	Potions — fishing boost
+I:2440	supply	Potions — strength boost
+I:2442	supply	Potions — defence boost
+I:2444	supply	Potions — ranged boost
+I:2446	supply	Potions — poison cure
+I:2446	supply	Potions — poison immunity
+I:2448	supply	Potions — poison cure
+I:2448	supply	Potions — poison immunity
+I:2450	supply	Potions — attack boost
+I:2450	supply	Potions — strength boost
+I:2452	supply	Potions — antifire
+I:2454	supply	Potions — antifire
+I:2456	supply	Potions — antifire
+I:2458	supply	Potions — antifire
+I:2514	skilling	Raw food — cooking inputs
+I:2866	combat	Ammo — comp ogre bow
+I:2866	combat	Ammo — ogre bow
+I:2876	skilling	Raw food — cooking inputs
+I:2878	supply	Food — ready to eat
+I:3008	supply	Potions — run energy
+I:3010	supply	Potions — run energy
+I:3012	supply	Potions — run energy
+I:3014	supply	Potions — run energy
+I:3016	supply	Potions — run energy
+I:3018	supply	Potions — run energy
+I:3020	supply	Potions — run energy
+I:3022	supply	Potions — run energy
+I:3024	supply	Potions — prayer restore
+I:3024	supply	Potions — stat restore
+I:3026	supply	Potions — prayer restore
+I:3026	supply	Potions — stat restore
+I:3028	supply	Potions — prayer restore
+I:3028	supply	Potions — stat restore
+I:3030	supply	Potions — prayer restore
+I:3030	supply	Potions — stat restore
+I:3032	supply	Potions — agility boost
+I:3034	supply	Potions — agility boost
+I:3036	supply	Potions — agility boost
+I:3038	supply	Potions — agility boost
+I:3040	supply	Potions — magic boost
+I:3042	supply	Potions — magic boost
+I:3044	supply	Potions — magic boost
+I:3046	supply	Potions — magic boost
+I:3093	combat	Ammo — blowpipe
+I:3142	skilling	Raw food — cooking inputs
+I:3144	supply	Food — combo eating
+I:3144	supply	Food — fast foods
+I:3144	supply	Food — ready to eat
+I:3150	skilling	Raw food — cooking inputs
+I:3162	supply	Food — ready to eat
+I:3226	skilling	Raw food — cooking inputs
+I:3228	supply	Food — ready to eat
+I:3369	supply	Food — ready to eat
+I:3371	supply	Food — ready to eat
+I:3373	supply	Food — ready to eat
+I:3379	skilling	Raw food — cooking inputs
+I:3381	supply	Food — ready to eat
+I:4012	supply	Food — ready to eat
+I:4014	supply	Food — ready to eat
+I:4016	supply	Food — ready to eat
+I:4287	skilling	Raw food — cooking inputs
+I:4289	skilling	Raw food — cooking inputs
+I:4417	supply	Potions — healing
+I:4417	supply	Potions — poison cure
+I:4417	supply	Potions — run energy
+I:4419	supply	Potions — healing
+I:4419	supply	Potions — poison cure
+I:4419	supply	Potions — run energy
+I:4421	supply	Potions — healing
+I:4421	supply	Potions — poison cure
+I:4421	supply	Potions — run energy
+I:4423	supply	Potions — healing
+I:4423	supply	Potions — poison cure
+I:4423	supply	Potions — run energy
+I:4485	supply	Food — ready to eat
+I:4517	supply	Food — ready to eat
+I:4608	supply	Food — ready to eat
+I:4740	combat	Ammo — karil crossbow
+I:4773	combat	Ammo — comp ogre bow
+I:4778	combat	Ammo — comp ogre bow
+I:4783	combat	Ammo — comp ogre bow
+I:4788	combat	Ammo — comp ogre bow
+I:4793	combat	Ammo — comp ogre bow
+I:4798	combat	Ammo — comp ogre bow
+I:4803	combat	Ammo — comp ogre bow
+I:4842	supply	Potions — disease cure
+I:4844	supply	Potions — disease cure
+I:4846	supply	Potions — disease cure
+I:4848	supply	Potions — disease cure
+I:5001	skilling	Raw food — cooking inputs
+I:5003	supply	Food — ready to eat
+I:5004	supply	Food — ready to eat
+I:5504	supply	Food — ready to eat
+I:5616	combat	Ammo — 3rd age bow
+I:5616	combat	Ammo — dark bow
+I:5616	combat	Ammo — longbow
+I:5616	combat	Ammo — magic bow
+I:5616	combat	Ammo — maple bow
+I:5616	combat	Ammo — oak bow
+I:5616	combat	Ammo — scorching bow
+I:5616	combat	Ammo — shortbow
+I:5616	combat	Ammo — twisted bow
+I:5616	combat	Ammo — willow bow
+I:5616	combat	Ammo — yew bow
+I:5617	combat	Ammo — 3rd age bow
+I:5617	combat	Ammo — dark bow
+I:5617	combat	Ammo — longbow
+I:5617	combat	Ammo — magic bow
+I:5617	combat	Ammo — maple bow
+I:5617	combat	Ammo — oak bow
+I:5617	combat	Ammo — scorching bow
+I:5617	combat	Ammo — shortbow
+I:5617	combat	Ammo — twisted bow
+I:5617	combat	Ammo — willow bow
+I:5617	combat	Ammo — yew bow
+I:5618	combat	Ammo — 3rd age bow
+I:5618	combat	Ammo — dark bow
+I:5618	combat	Ammo — magic bow
+I:5618	combat	Ammo — maple bow
+I:5618	combat	Ammo — oak bow
+I:5618	combat	Ammo — scorching bow
+I:5618	combat	Ammo — twisted bow
+I:5618	combat	Ammo — willow bow
+I:5618	combat	Ammo — yew bow
+I:5619	combat	Ammo — 3rd age bow
+I:5619	combat	Ammo — dark bow
+I:5619	combat	Ammo — magic bow
+I:5619	combat	Ammo — maple bow
+I:5619	combat	Ammo — scorching bow
+I:5619	combat	Ammo — twisted bow
+I:5619	combat	Ammo — willow bow
+I:5619	combat	Ammo — yew bow
+I:5620	combat	Ammo — 3rd age bow
+I:5620	combat	Ammo — dark bow
+I:5620	combat	Ammo — magic bow
+I:5620	combat	Ammo — maple bow
+I:5620	combat	Ammo — scorching bow
+I:5620	combat	Ammo — twisted bow
+I:5620	combat	Ammo — yew bow
+I:5621	combat	Ammo — 3rd age bow
+I:5621	combat	Ammo — dark bow
+I:5621	combat	Ammo — magic bow
+I:5621	combat	Ammo — scorching bow
+I:5621	combat	Ammo — twisted bow
+I:5621	combat	Ammo — yew bow
+I:5622	combat	Ammo — 3rd age bow
+I:5622	combat	Ammo — dark bow
+I:5622	combat	Ammo — longbow
+I:5622	combat	Ammo — magic bow
+I:5622	combat	Ammo — maple bow
+I:5622	combat	Ammo — oak bow
+I:5622	combat	Ammo — scorching bow
+I:5622	combat	Ammo — shortbow
+I:5622	combat	Ammo — twisted bow
+I:5622	combat	Ammo — willow bow
+I:5622	combat	Ammo — yew bow
+I:5623	combat	Ammo — 3rd age bow
+I:5623	combat	Ammo — dark bow
+I:5623	combat	Ammo — longbow
+I:5623	combat	Ammo — magic bow
+I:5623	combat	Ammo — maple bow
+I:5623	combat	Ammo — oak bow
+I:5623	combat	Ammo — scorching bow
+I:5623	combat	Ammo — shortbow
+I:5623	combat	Ammo — twisted bow
+I:5623	combat	Ammo — willow bow
+I:5623	combat	Ammo — yew bow
+I:5624	combat	Ammo — 3rd age bow
+I:5624	combat	Ammo — dark bow
+I:5624	combat	Ammo — magic bow
+I:5624	combat	Ammo — maple bow
+I:5624	combat	Ammo — oak bow
+I:5624	combat	Ammo — scorching bow
+I:5624	combat	Ammo — twisted bow
+I:5624	combat	Ammo — willow bow
+I:5624	combat	Ammo — yew bow
+I:5625	combat	Ammo — 3rd age bow
+I:5625	combat	Ammo — dark bow
+I:5625	combat	Ammo — magic bow
+I:5625	combat	Ammo — maple bow
+I:5625	combat	Ammo — scorching bow
+I:5625	combat	Ammo — twisted bow
+I:5625	combat	Ammo — willow bow
+I:5625	combat	Ammo — yew bow
+I:5626	combat	Ammo — 3rd age bow
+I:5626	combat	Ammo — dark bow
+I:5626	combat	Ammo — magic bow
+I:5626	combat	Ammo — maple bow
+I:5626	combat	Ammo — scorching bow
+I:5626	combat	Ammo — twisted bow
+I:5626	combat	Ammo — yew bow
+I:5627	combat	Ammo — 3rd age bow
+I:5627	combat	Ammo — dark bow
+I:5627	combat	Ammo — magic bow
+I:5627	combat	Ammo — scorching bow
+I:5627	combat	Ammo — twisted bow
+I:5627	combat	Ammo — yew bow
+I:5642	combat	Ammo — ballista
+I:5643	combat	Ammo — ballista
+I:5644	combat	Ammo — ballista
+I:5645	combat	Ammo — ballista
+I:5646	combat	Ammo — ballista
+I:5647	combat	Ammo — ballista
+I:5648	combat	Ammo — ballista
+I:5649	combat	Ammo — ballista
+I:5650	combat	Ammo — ballista
+I:5651	combat	Ammo — ballista
+I:5652	combat	Ammo — ballista
+I:5653	combat	Ammo — ballista
+I:5943	supply	Potions — poison cure
+I:5943	supply	Potions — poison immunity
+I:5945	supply	Potions — poison cure
+I:5945	supply	Potions — poison immunity
+I:5947	supply	Potions — poison cure
+I:5947	supply	Potions — poison immunity
+I:5949	supply	Potions — poison cure
+I:5949	supply	Potions — poison immunity
+I:5952	supply	Potions — poison cure
+I:5952	supply	Potions — poison immunity
+I:5952	supply	Potions — venom immunity
+I:5954	supply	Potions — poison cure
+I:5954	supply	Potions — poison immunity
+I:5954	supply	Potions — venom immunity
+I:5956	supply	Potions — poison cure
+I:5956	supply	Potions — poison immunity
+I:5956	supply	Potions — venom immunity
+I:5958	supply	Potions — poison cure
+I:5958	supply	Potions — poison immunity
+I:5958	supply	Potions — venom immunity
+I:5972	supply	Food — ready to eat
+I:5984	supply	Food — ready to eat
+I:5988	supply	Food — ready to eat
+I:6061	combat	Ammo — adamant crossbow
+I:6061	combat	Ammo — armadyl crossbow
+I:6061	combat	Ammo — blurite crossbow
+I:6061	combat	Ammo — bronze crossbow
+I:6061	combat	Ammo — dorgeshuun crossbow
+I:6061	combat	Ammo — dragon crossbow
+I:6061	combat	Ammo — dragon hunter crossbow
+I:6061	combat	Ammo — iron crossbow
+I:6061	combat	Ammo — mithril crossbow
+I:6061	combat	Ammo — rune crossbow
+I:6061	combat	Ammo — steel crossbow
+I:6061	combat	Ammo — zaryte crossbow
+I:6062	combat	Ammo — adamant crossbow
+I:6062	combat	Ammo — armadyl crossbow
+I:6062	combat	Ammo — blurite crossbow
+I:6062	combat	Ammo — bronze crossbow
+I:6062	combat	Ammo — dorgeshuun crossbow
+I:6062	combat	Ammo — dragon crossbow
+I:6062	combat	Ammo — dragon hunter crossbow
+I:6062	combat	Ammo — iron crossbow
+I:6062	combat	Ammo — mithril crossbow
+I:6062	combat	Ammo — rune crossbow
+I:6062	combat	Ammo — steel crossbow
+I:6062	combat	Ammo — zaryte crossbow
+I:6200	skilling	Raw food — cooking inputs
+I:6204	skilling	Raw food — cooking inputs
+I:6297	supply	Food — ready to eat
+I:6299	supply	Food — ready to eat
+I:6311	supply	Food — ready to eat
+I:6469	supply	Food — ready to eat
+I:6685	supply	Potions — defence boost
+I:6685	supply	Potions — healing
+I:6687	supply	Potions — defence boost
+I:6687	supply	Potions — healing
+I:6689	supply	Potions — defence boost
+I:6689	supply	Potions — healing
+I:6691	supply	Potions — defence boost
+I:6691	supply	Potions — healing
+I:6701	supply	Food — ready to eat
+I:6703	supply	Food — ready to eat
+I:6705	supply	Food — ready to eat
+I:6794	supply	Food — ready to eat
+I:6883	supply	Food — ready to eat
+I:6961	supply	Food — ready to eat
+I:6962	supply	Food — ready to eat
+I:6963	supply	Food — ready to eat
+I:6965	supply	Food — ready to eat
+I:7054	supply	Food — ready to eat
+I:7056	supply	Food — ready to eat
+I:7058	supply	Food — ready to eat
+I:7060	supply	Food — ready to eat
+I:7062	supply	Food — ready to eat
+I:7064	supply	Food — ready to eat
+I:7066	supply	Food — ready to eat
+I:7068	supply	Food — ready to eat
+I:7070	supply	Food — ready to eat
+I:7072	supply	Food — ready to eat
+I:7078	supply	Food — ready to eat
+I:7082	supply	Food — ready to eat
+I:7084	supply	Food — ready to eat
+I:7086	supply	Food — ready to eat
+I:7168	skilling	Raw food — cooking inputs
+I:7176	skilling	Raw food — cooking inputs
+I:7178	supply	Food — fast foods
+I:7178	supply	Food — multi-bite
+I:7178	supply	Food — ready to eat
+I:7180	supply	Food — fast foods
+I:7180	supply	Food — ready to eat
+I:7186	skilling	Raw food — cooking inputs
+I:7188	supply	Food — fast foods
+I:7188	supply	Food — multi-bite
+I:7188	supply	Food — ready to eat
+I:7190	supply	Food — fast foods
+I:7190	supply	Food — ready to eat
+I:7196	skilling	Raw food — cooking inputs
+I:7198	supply	Food — fast foods
+I:7198	supply	Food — multi-bite
+I:7198	supply	Food — ready to eat
+I:7200	supply	Food — fast foods
+I:7200	supply	Food — ready to eat
+I:7206	skilling	Raw food — cooking inputs
+I:7208	supply	Food — fast foods
+I:7208	supply	Food — multi-bite
+I:7208	supply	Food — ready to eat
+I:7210	supply	Food — fast foods
+I:7210	supply	Food — ready to eat
+I:7216	skilling	Raw food — cooking inputs
+I:7218	supply	Food — fast foods
+I:7218	supply	Food — multi-bite
+I:7218	supply	Food — ready to eat
+I:7220	supply	Food — fast foods
+I:7220	supply	Food — ready to eat
+I:7223	supply	Food — ready to eat
+I:7521	supply	Food — fast foods
+I:7521	supply	Food — multi-bite
+I:7521	supply	Food — ready to eat
+I:7523	supply	Food — fast foods
+I:7523	supply	Food — multi-bite
+I:7523	supply	Food — ready to eat
+I:7524	supply	Food — fast foods
+I:7524	supply	Food — multi-bite
+I:7524	supply	Food — ready to eat
+I:7525	supply	Food — fast foods
+I:7525	supply	Food — multi-bite
+I:7525	supply	Food — ready to eat
+I:7526	supply	Food — fast foods
+I:7526	supply	Food — ready to eat
+I:7530	supply	Food — ready to eat
+I:7566	skilling	Raw food — cooking inputs
+I:7568	supply	Food — ready to eat
+I:7572	supply	Food — ready to eat
+I:7573	supply	Food — ready to eat
+I:7574	supply	Food — ready to eat
+I:7579	supply	Food — ready to eat
+I:7934	supply	Food — ready to eat
+I:7943	supply	Food — ready to eat
+I:7944	skilling	Raw food — cooking inputs
+I:7946	supply	Food — ready to eat
+I:8882	combat	Ammo — dorgeshuun crossbow
+I:9021	supply	Potions — magic boost
+I:9022	supply	Potions — magic boost
+I:9023	supply	Potions — magic boost
+I:9024	supply	Potions — magic boost
+I:9052	supply	Food — ready to eat
+I:9139	combat	Ammo — adamant crossbow
+I:9139	combat	Ammo — armadyl crossbow
+I:9139	combat	Ammo — blurite crossbow
+I:9139	combat	Ammo — dorgeshuun crossbow
+I:9139	combat	Ammo — dragon crossbow
+I:9139	combat	Ammo — dragon hunter crossbow
+I:9139	combat	Ammo — iron crossbow
+I:9139	combat	Ammo — mithril crossbow
+I:9139	combat	Ammo — rune crossbow
+I:9139	combat	Ammo — steel crossbow
+I:9139	combat	Ammo — zaryte crossbow
+I:9140	combat	Ammo — adamant crossbow
+I:9140	combat	Ammo — armadyl crossbow
+I:9140	combat	Ammo — dorgeshuun crossbow
+I:9140	combat	Ammo — dragon crossbow
+I:9140	combat	Ammo — dragon hunter crossbow
+I:9140	combat	Ammo — iron crossbow
+I:9140	combat	Ammo — mithril crossbow
+I:9140	combat	Ammo — rune crossbow
+I:9140	combat	Ammo — steel crossbow
+I:9140	combat	Ammo — zaryte crossbow
+I:9141	combat	Ammo — adamant crossbow
+I:9141	combat	Ammo — armadyl crossbow
+I:9141	combat	Ammo — dragon crossbow
+I:9141	combat	Ammo — dragon hunter crossbow
+I:9141	combat	Ammo — mithril crossbow
+I:9141	combat	Ammo — rune crossbow
+I:9141	combat	Ammo — steel crossbow
+I:9141	combat	Ammo — zaryte crossbow
+I:9142	combat	Ammo — adamant crossbow
+I:9142	combat	Ammo — armadyl crossbow
+I:9142	combat	Ammo — dragon crossbow
+I:9142	combat	Ammo — dragon hunter crossbow
+I:9142	combat	Ammo — mithril crossbow
+I:9142	combat	Ammo — rune crossbow
+I:9142	combat	Ammo — zaryte crossbow
+I:9143	combat	Ammo — adamant crossbow
+I:9143	combat	Ammo — armadyl crossbow
+I:9143	combat	Ammo — dragon crossbow
+I:9143	combat	Ammo — dragon hunter crossbow
+I:9143	combat	Ammo — rune crossbow
+I:9143	combat	Ammo — zaryte crossbow
+I:9144	combat	Ammo — armadyl crossbow
+I:9144	combat	Ammo — dragon crossbow
+I:9144	combat	Ammo — dragon hunter crossbow
+I:9144	combat	Ammo — rune crossbow
+I:9144	combat	Ammo — zaryte crossbow
+I:9145	combat	Ammo — adamant crossbow
+I:9145	combat	Ammo — armadyl crossbow
+I:9145	combat	Ammo — dragon crossbow
+I:9145	combat	Ammo — dragon hunter crossbow
+I:9145	combat	Ammo — iron crossbow
+I:9145	combat	Ammo — mithril crossbow
+I:9145	combat	Ammo — rune crossbow
+I:9145	combat	Ammo — steel crossbow
+I:9145	combat	Ammo — zaryte crossbow
+I:9236	combat	Ammo — adamant crossbow
+I:9236	combat	Ammo — armadyl crossbow
+I:9236	combat	Ammo — blurite crossbow
+I:9236	combat	Ammo — bronze crossbow
+I:9236	combat	Ammo — dragon crossbow
+I:9236	combat	Ammo — dragon hunter crossbow
+I:9236	combat	Ammo — iron crossbow
+I:9236	combat	Ammo — mithril crossbow
+I:9236	combat	Ammo — rune crossbow
+I:9236	combat	Ammo — steel crossbow
+I:9236	combat	Ammo — zaryte crossbow
+I:9237	combat	Ammo — adamant crossbow
+I:9237	combat	Ammo — armadyl crossbow
+I:9237	combat	Ammo — blurite crossbow
+I:9237	combat	Ammo — dragon crossbow
+I:9237	combat	Ammo — dragon hunter crossbow
+I:9237	combat	Ammo — iron crossbow
+I:9237	combat	Ammo — mithril crossbow
+I:9237	combat	Ammo — rune crossbow
+I:9237	combat	Ammo — steel crossbow
+I:9237	combat	Ammo — zaryte crossbow
+I:9238	combat	Ammo — adamant crossbow
+I:9238	combat	Ammo — armadyl crossbow
+I:9238	combat	Ammo — dragon crossbow
+I:9238	combat	Ammo — dragon hunter crossbow
+I:9238	combat	Ammo — iron crossbow
+I:9238	combat	Ammo — mithril crossbow
+I:9238	combat	Ammo — rune crossbow
+I:9238	combat	Ammo — steel crossbow
+I:9238	combat	Ammo — zaryte crossbow
+I:9239	combat	Ammo — adamant crossbow
+I:9239	combat	Ammo — armadyl crossbow
+I:9239	combat	Ammo — dragon crossbow
+I:9239	combat	Ammo — dragon hunter crossbow
+I:9239	combat	Ammo — mithril crossbow
+I:9239	combat	Ammo — rune crossbow
+I:9239	combat	Ammo — steel crossbow
+I:9239	combat	Ammo — zaryte crossbow
+I:9240	combat	Ammo — adamant crossbow
+I:9240	combat	Ammo — armadyl crossbow
+I:9240	combat	Ammo — dragon crossbow
+I:9240	combat	Ammo — dragon hunter crossbow
+I:9240	combat	Ammo — mithril crossbow
+I:9240	combat	Ammo — rune crossbow
+I:9240	combat	Ammo — zaryte crossbow
+I:9241	combat	Ammo — adamant crossbow
+I:9241	combat	Ammo — armadyl crossbow
+I:9241	combat	Ammo — dragon crossbow
+I:9241	combat	Ammo — dragon hunter crossbow
+I:9241	combat	Ammo — mithril crossbow
+I:9241	combat	Ammo — rune crossbow
+I:9241	combat	Ammo — zaryte crossbow
+I:9242	combat	Ammo — adamant crossbow
+I:9242	combat	Ammo — armadyl crossbow
+I:9242	combat	Ammo — dragon crossbow
+I:9242	combat	Ammo — dragon hunter crossbow
+I:9242	combat	Ammo — rune crossbow
+I:9242	combat	Ammo — zaryte crossbow
+I:9243	combat	Ammo — adamant crossbow
+I:9243	combat	Ammo — armadyl crossbow
+I:9243	combat	Ammo — dragon crossbow
+I:9243	combat	Ammo — dragon hunter crossbow
+I:9243	combat	Ammo — rune crossbow
+I:9243	combat	Ammo — zaryte crossbow
+I:9244	combat	Ammo — armadyl crossbow
+I:9244	combat	Ammo — dragon crossbow
+I:9244	combat	Ammo — dragon hunter crossbow
+I:9244	combat	Ammo — rune crossbow
+I:9244	combat	Ammo — zaryte crossbow
+I:9245	combat	Ammo — armadyl crossbow
+I:9245	combat	Ammo — dragon crossbow
+I:9245	combat	Ammo — dragon hunter crossbow
+I:9245	combat	Ammo — rune crossbow
+I:9245	combat	Ammo — zaryte crossbow
+I:9286	combat	Ammo — adamant crossbow
+I:9286	combat	Ammo — armadyl crossbow
+I:9286	combat	Ammo — blurite crossbow
+I:9286	combat	Ammo — dorgeshuun crossbow
+I:9286	combat	Ammo — dragon crossbow
+I:9286	combat	Ammo — dragon hunter crossbow
+I:9286	combat	Ammo — iron crossbow
+I:9286	combat	Ammo — mithril crossbow
+I:9286	combat	Ammo — rune crossbow
+I:9286	combat	Ammo — steel crossbow
+I:9286	combat	Ammo — zaryte crossbow
+I:9287	combat	Ammo — adamant crossbow
+I:9287	combat	Ammo — armadyl crossbow
+I:9287	combat	Ammo — dorgeshuun crossbow
+I:9287	combat	Ammo — dragon crossbow
+I:9287	combat	Ammo — dragon hunter crossbow
+I:9287	combat	Ammo — iron crossbow
+I:9287	combat	Ammo — mithril crossbow
+I:9287	combat	Ammo — rune crossbow
+I:9287	combat	Ammo — steel crossbow
+I:9287	combat	Ammo — zaryte crossbow
+I:9288	combat	Ammo — adamant crossbow
+I:9288	combat	Ammo — armadyl crossbow
+I:9288	combat	Ammo — dragon crossbow
+I:9288	combat	Ammo — dragon hunter crossbow
+I:9288	combat	Ammo — mithril crossbow
+I:9288	combat	Ammo — rune crossbow
+I:9288	combat	Ammo — steel crossbow
+I:9288	combat	Ammo — zaryte crossbow
+I:9289	combat	Ammo — adamant crossbow
+I:9289	combat	Ammo — armadyl crossbow
+I:9289	combat	Ammo — dragon crossbow
+I:9289	combat	Ammo — dragon hunter crossbow
+I:9289	combat	Ammo — mithril crossbow
+I:9289	combat	Ammo — rune crossbow
+I:9289	combat	Ammo — zaryte crossbow
+I:9290	combat	Ammo — adamant crossbow
+I:9290	combat	Ammo — armadyl crossbow
+I:9290	combat	Ammo — dragon crossbow
+I:9290	combat	Ammo — dragon hunter crossbow
+I:9290	combat	Ammo — rune crossbow
+I:9290	combat	Ammo — zaryte crossbow
+I:9291	combat	Ammo — armadyl crossbow
+I:9291	combat	Ammo — dragon crossbow
+I:9291	combat	Ammo — dragon hunter crossbow
+I:9291	combat	Ammo — rune crossbow
+I:9291	combat	Ammo — zaryte crossbow
+I:9292	combat	Ammo — adamant crossbow
+I:9292	combat	Ammo — armadyl crossbow
+I:9292	combat	Ammo — dragon crossbow
+I:9292	combat	Ammo — dragon hunter crossbow
+I:9292	combat	Ammo — iron crossbow
+I:9292	combat	Ammo — mithril crossbow
+I:9292	combat	Ammo — rune crossbow
+I:9292	combat	Ammo — steel crossbow
+I:9292	combat	Ammo — zaryte crossbow
+I:9293	combat	Ammo — adamant crossbow
+I:9293	combat	Ammo — armadyl crossbow
+I:9293	combat	Ammo — blurite crossbow
+I:9293	combat	Ammo — dorgeshuun crossbow
+I:9293	combat	Ammo — dragon crossbow
+I:9293	combat	Ammo — dragon hunter crossbow
+I:9293	combat	Ammo — iron crossbow
+I:9293	combat	Ammo — mithril crossbow
+I:9293	combat	Ammo — rune crossbow
+I:9293	combat	Ammo — steel crossbow
+I:9293	combat	Ammo — zaryte crossbow
+I:9294	combat	Ammo — adamant crossbow
+I:9294	combat	Ammo — armadyl crossbow
+I:9294	combat	Ammo — dorgeshuun crossbow
+I:9294	combat	Ammo — dragon crossbow
+I:9294	combat	Ammo — dragon hunter crossbow
+I:9294	combat	Ammo — iron crossbow
+I:9294	combat	Ammo — mithril crossbow
+I:9294	combat	Ammo — rune crossbow
+I:9294	combat	Ammo — steel crossbow
+I:9294	combat	Ammo — zaryte crossbow
+I:9295	combat	Ammo — adamant crossbow
+I:9295	combat	Ammo — armadyl crossbow
+I:9295	combat	Ammo — dragon crossbow
+I:9295	combat	Ammo — dragon hunter crossbow
+I:9295	combat	Ammo — mithril crossbow
+I:9295	combat	Ammo — rune crossbow
+I:9295	combat	Ammo — steel crossbow
+I:9295	combat	Ammo — zaryte crossbow
+I:9296	combat	Ammo — adamant crossbow
+I:9296	combat	Ammo — armadyl crossbow
+I:9296	combat	Ammo — dragon crossbow
+I:9296	combat	Ammo — dragon hunter crossbow
+I:9296	combat	Ammo — mithril crossbow
+I:9296	combat	Ammo — rune crossbow
+I:9296	combat	Ammo — zaryte crossbow
+I:9297	combat	Ammo — adamant crossbow
+I:9297	combat	Ammo — armadyl crossbow
+I:9297	combat	Ammo — dragon crossbow
+I:9297	combat	Ammo — dragon hunter crossbow
+I:9297	combat	Ammo — rune crossbow
+I:9297	combat	Ammo — zaryte crossbow
+I:9298	combat	Ammo — armadyl crossbow
+I:9298	combat	Ammo — dragon crossbow
+I:9298	combat	Ammo — dragon hunter crossbow
+I:9298	combat	Ammo — rune crossbow
+I:9298	combat	Ammo — zaryte crossbow
+I:9299	combat	Ammo — adamant crossbow
+I:9299	combat	Ammo — armadyl crossbow
+I:9299	combat	Ammo — dragon crossbow
+I:9299	combat	Ammo — dragon hunter crossbow
+I:9299	combat	Ammo — iron crossbow
+I:9299	combat	Ammo — mithril crossbow
+I:9299	combat	Ammo — rune crossbow
+I:9299	combat	Ammo — steel crossbow
+I:9299	combat	Ammo — zaryte crossbow
+I:9300	combat	Ammo — adamant crossbow
+I:9300	combat	Ammo — armadyl crossbow
+I:9300	combat	Ammo — blurite crossbow
+I:9300	combat	Ammo — dorgeshuun crossbow
+I:9300	combat	Ammo — dragon crossbow
+I:9300	combat	Ammo — dragon hunter crossbow
+I:9300	combat	Ammo — iron crossbow
+I:9300	combat	Ammo — mithril crossbow
+I:9300	combat	Ammo — rune crossbow
+I:9300	combat	Ammo — steel crossbow
+I:9300	combat	Ammo — zaryte crossbow
+I:9301	combat	Ammo — adamant crossbow
+I:9301	combat	Ammo — armadyl crossbow
+I:9301	combat	Ammo — dorgeshuun crossbow
+I:9301	combat	Ammo — dragon crossbow
+I:9301	combat	Ammo — dragon hunter crossbow
+I:9301	combat	Ammo — iron crossbow
+I:9301	combat	Ammo — mithril crossbow
+I:9301	combat	Ammo — rune crossbow
+I:9301	combat	Ammo — steel crossbow
+I:9301	combat	Ammo — zaryte crossbow
+I:9302	combat	Ammo — adamant crossbow
+I:9302	combat	Ammo — armadyl crossbow
+I:9302	combat	Ammo — dragon crossbow
+I:9302	combat	Ammo — dragon hunter crossbow
+I:9302	combat	Ammo — mithril crossbow
+I:9302	combat	Ammo — rune crossbow
+I:9302	combat	Ammo — steel crossbow
+I:9302	combat	Ammo — zaryte crossbow
+I:9303	combat	Ammo — adamant crossbow
+I:9303	combat	Ammo — armadyl crossbow
+I:9303	combat	Ammo — dragon crossbow
+I:9303	combat	Ammo — dragon hunter crossbow
+I:9303	combat	Ammo — mithril crossbow
+I:9303	combat	Ammo — rune crossbow
+I:9303	combat	Ammo — zaryte crossbow
+I:9304	combat	Ammo — adamant crossbow
+I:9304	combat	Ammo — armadyl crossbow
+I:9304	combat	Ammo — dragon crossbow
+I:9304	combat	Ammo — dragon hunter crossbow
+I:9304	combat	Ammo — rune crossbow
+I:9304	combat	Ammo — zaryte crossbow
+I:9305	combat	Ammo — armadyl crossbow
+I:9305	combat	Ammo — dragon crossbow
+I:9305	combat	Ammo — dragon hunter crossbow
+I:9305	combat	Ammo — rune crossbow
+I:9305	combat	Ammo — zaryte crossbow
+I:9306	combat	Ammo — adamant crossbow
+I:9306	combat	Ammo — armadyl crossbow
+I:9306	combat	Ammo — dragon crossbow
+I:9306	combat	Ammo — dragon hunter crossbow
+I:9306	combat	Ammo — iron crossbow
+I:9306	combat	Ammo — mithril crossbow
+I:9306	combat	Ammo — rune crossbow
+I:9306	combat	Ammo — steel crossbow
+I:9306	combat	Ammo — zaryte crossbow
+I:9335	combat	Ammo — adamant crossbow
+I:9335	combat	Ammo — armadyl crossbow
+I:9335	combat	Ammo — blurite crossbow
+I:9335	combat	Ammo — dragon crossbow
+I:9335	combat	Ammo — dragon hunter crossbow
+I:9335	combat	Ammo — iron crossbow
+I:9335	combat	Ammo — mithril crossbow
+I:9335	combat	Ammo — rune crossbow
+I:9335	combat	Ammo — steel crossbow
+I:9335	combat	Ammo — zaryte crossbow
+I:9336	combat	Ammo — adamant crossbow
+I:9336	combat	Ammo — armadyl crossbow
+I:9336	combat	Ammo — dragon crossbow
+I:9336	combat	Ammo — dragon hunter crossbow
+I:9336	combat	Ammo — mithril crossbow
+I:9336	combat	Ammo — rune crossbow
+I:9336	combat	Ammo — steel crossbow
+I:9336	combat	Ammo — zaryte crossbow
+I:9337	combat	Ammo — adamant crossbow
+I:9337	combat	Ammo — armadyl crossbow
+I:9337	combat	Ammo — dragon crossbow
+I:9337	combat	Ammo — dragon hunter crossbow
+I:9337	combat	Ammo — mithril crossbow
+I:9337	combat	Ammo — rune crossbow
+I:9337	combat	Ammo — zaryte crossbow
+I:9338	combat	Ammo — adamant crossbow
+I:9338	combat	Ammo — armadyl crossbow
+I:9338	combat	Ammo — dragon crossbow
+I:9338	combat	Ammo — dragon hunter crossbow
+I:9338	combat	Ammo — mithril crossbow
+I:9338	combat	Ammo — rune crossbow
+I:9338	combat	Ammo — zaryte crossbow
+I:9339	combat	Ammo — adamant crossbow
+I:9339	combat	Ammo — armadyl crossbow
+I:9339	combat	Ammo — dragon crossbow
+I:9339	combat	Ammo — dragon hunter crossbow
+I:9339	combat	Ammo — rune crossbow
+I:9339	combat	Ammo — zaryte crossbow
+I:9340	combat	Ammo — adamant crossbow
+I:9340	combat	Ammo — armadyl crossbow
+I:9340	combat	Ammo — dragon crossbow
+I:9340	combat	Ammo — dragon hunter crossbow
+I:9340	combat	Ammo — rune crossbow
+I:9340	combat	Ammo — zaryte crossbow
+I:9341	combat	Ammo — armadyl crossbow
+I:9341	combat	Ammo — dragon crossbow
+I:9341	combat	Ammo — dragon hunter crossbow
+I:9341	combat	Ammo — rune crossbow
+I:9341	combat	Ammo — zaryte crossbow
+I:9342	combat	Ammo — armadyl crossbow
+I:9342	combat	Ammo — dragon crossbow
+I:9342	combat	Ammo — dragon hunter crossbow
+I:9342	combat	Ammo — rune crossbow
+I:9342	combat	Ammo — zaryte crossbow
+I:9739	supply	Potions — attack boost
+I:9739	supply	Potions — strength boost
+I:9741	supply	Potions — attack boost
+I:9741	supply	Potions — strength boost
+I:9743	supply	Potions — attack boost
+I:9743	supply	Potions — strength boost
+I:9745	supply	Potions — attack boost
+I:9745	supply	Potions — strength boost
+I:9978	skilling	Raw food — cooking inputs
+I:9980	supply	Food — ready to eat
+I:9986	skilling	Raw food — cooking inputs
+I:9988	supply	Food — ready to eat
+I:9994	supply	Food — ready to eat
+I:9996	supply	Food — ready to eat
+I:9998	supply	Potions — hunter boost
+I:10000	supply	Potions — hunter boost
+I:10002	supply	Potions — hunter boost
+I:10004	supply	Potions — hunter boost
+I:10136	supply	Food — ready to eat
+I:10138	skilling	Raw food — cooking inputs
+I:10142	combat	Ammo — swamp lizard
+I:10143	combat	Ammo — orange salamander
+I:10144	combat	Ammo — red salamander
+I:10145	combat	Ammo — black salamander
+I:10158	combat	Ammo — hunters crossbow
+I:10159	combat	Ammo — hunters crossbow
+I:10476	supply	Food — ready to eat
+I:10816	skilling	Raw food — cooking inputs
+I:10925	supply	Potions — disease cure
+I:10925	supply	Potions — poison cure
+I:10925	supply	Potions — poison immunity
+I:10925	supply	Potions — prayer restore
+I:10925	supply	Potions — stat restore
+I:10927	supply	Potions — disease cure
+I:10927	supply	Potions — poison cure
+I:10927	supply	Potions — poison immunity
+I:10927	supply	Potions — prayer restore
+I:10927	supply	Potions — stat restore
+I:10929	supply	Potions — disease cure
+I:10929	supply	Potions — poison cure
+I:10929	supply	Potions — poison immunity
+I:10929	supply	Potions — prayer restore
+I:10929	supply	Potions — stat restore
+I:10931	supply	Potions — disease cure
+I:10931	supply	Potions — poison cure
+I:10931	supply	Potions — poison immunity
+I:10931	supply	Potions — prayer restore
+I:10931	supply	Potions — stat restore
+I:10960	supply	Food — ready to eat
+I:10961	supply	Food — ready to eat
+I:10962	supply	Food — ready to eat
+I:10963	supply	Food — ready to eat
+I:10964	supply	Food — ready to eat
+I:10965	supply	Food — ready to eat
+I:10966	supply	Food — ready to eat
+I:10967	supply	Food — ready to eat
+I:10968	supply	Food — ready to eat
+I:10969	supply	Food — ready to eat
+I:10970	supply	Food — ready to eat
+I:10971	supply	Food — ready to eat
+I:11212	combat	Ammo — dark bow
+I:11212	combat	Ammo — scorching bow
+I:11212	combat	Ammo — twisted bow
+I:11227	combat	Ammo — dark bow
+I:11227	combat	Ammo — scorching bow
+I:11227	combat	Ammo — twisted bow
+I:11228	combat	Ammo — dark bow
+I:11228	combat	Ammo — scorching bow
+I:11228	combat	Ammo — twisted bow
+I:11229	combat	Ammo — dark bow
+I:11229	combat	Ammo — scorching bow
+I:11229	combat	Ammo — twisted bow
+I:11230	combat	Ammo — blowpipe
+I:11324	supply	Food — ready to eat
+I:11326	supply	Food — ready to eat
+I:11429	supply	Potions — attack boost
+I:11429	supply	Potions — healing
+I:11431	supply	Potions — attack boost
+I:11431	supply	Potions — healing
+I:11433	supply	Potions — healing
+I:11433	supply	Potions — poison cure
+I:11433	supply	Potions — poison immunity
+I:11435	supply	Potions — healing
+I:11435	supply	Potions — poison cure
+I:11435	supply	Potions — poison immunity
+I:11437	supply	Potions — disease cure
+I:11437	supply	Potions — healing
+I:11439	supply	Potions — disease cure
+I:11439	supply	Potions — healing
+I:11441	supply	Potions — healing
+I:11441	supply	Potions — strength boost
+I:11443	supply	Potions — healing
+I:11443	supply	Potions — strength boost
+I:11445	supply	Potions — attack boost
+I:11445	supply	Potions — healing
+I:11445	supply	Potions — strength boost
+I:11447	supply	Potions — attack boost
+I:11447	supply	Potions — healing
+I:11447	supply	Potions — strength boost
+I:11449	supply	Potions — healing
+I:11449	supply	Potions — stat restore
+I:11451	supply	Potions — healing
+I:11451	supply	Potions — stat restore
+I:11453	supply	Potions — healing
+I:11453	supply	Potions — run energy
+I:11455	supply	Potions — healing
+I:11455	supply	Potions — run energy
+I:11457	supply	Potions — defence boost
+I:11457	supply	Potions — healing
+I:11459	supply	Potions — defence boost
+I:11459	supply	Potions — healing
+I:11461	supply	Potions — agility boost
+I:11461	supply	Potions — healing
+I:11463	supply	Potions — agility boost
+I:11463	supply	Potions — healing
+I:11465	supply	Potions — healing
+I:11465	supply	Potions — prayer restore
+I:11467	supply	Potions — healing
+I:11467	supply	Potions — prayer restore
+I:11469	supply	Potions — attack boost
+I:11469	supply	Potions — healing
+I:11471	supply	Potions — attack boost
+I:11471	supply	Potions — healing
+I:11473	supply	Potions — healing
+I:11473	supply	Potions — poison cure
+I:11473	supply	Potions — poison immunity
+I:11475	supply	Potions — healing
+I:11475	supply	Potions — poison cure
+I:11475	supply	Potions — poison immunity
+I:11477	supply	Potions — fishing boost
+I:11477	supply	Potions — healing
+I:11479	supply	Potions — fishing boost
+I:11479	supply	Potions — healing
+I:11481	supply	Potions — healing
+I:11481	supply	Potions — run energy
+I:11483	supply	Potions — healing
+I:11483	supply	Potions — run energy
+I:11485	supply	Potions — healing
+I:11485	supply	Potions — strength boost
+I:11487	supply	Potions — healing
+I:11487	supply	Potions — strength boost
+I:11489	supply	Potions — healing
+I:11489	supply	Potions — magic boost
+I:11491	supply	Potions — healing
+I:11491	supply	Potions — magic boost
+I:11493	supply	Potions — healing
+I:11493	supply	Potions — prayer restore
+I:11493	supply	Potions — stat restore
+I:11495	supply	Potions — healing
+I:11495	supply	Potions — prayer restore
+I:11495	supply	Potions — stat restore
+I:11497	supply	Potions — defence boost
+I:11497	supply	Potions — healing
+I:11499	supply	Potions — defence boost
+I:11499	supply	Potions — healing
+I:11501	supply	Potions — healing
+I:11501	supply	Potions — poison cure
+I:11501	supply	Potions — poison immunity
+I:11503	supply	Potions — healing
+I:11503	supply	Potions — poison cure
+I:11503	supply	Potions — poison immunity
+I:11505	supply	Potions — antifire
+I:11505	supply	Potions — healing
+I:11507	supply	Potions — antifire
+I:11507	supply	Potions — healing
+I:11509	supply	Potions — healing
+I:11509	supply	Potions — ranged boost
+I:11511	supply	Potions — healing
+I:11511	supply	Potions — ranged boost
+I:11513	supply	Potions — healing
+I:11513	supply	Potions — magic boost
+I:11515	supply	Potions — healing
+I:11515	supply	Potions — magic boost
+I:11517	supply	Potions — healing
+I:11517	supply	Potions — hunter boost
+I:11519	supply	Potions — healing
+I:11519	supply	Potions — hunter boost
+I:11521	supply	Potions — attack boost
+I:11521	supply	Potions — healing
+I:11521	supply	Potions — strength boost
+I:11523	supply	Potions — attack boost
+I:11523	supply	Potions — healing
+I:11523	supply	Potions — strength boost
+I:11700	combat	Ammo — 3rd age bow
+I:11700	combat	Ammo — dark bow
+I:11700	combat	Ammo — longbow
+I:11700	combat	Ammo — magic bow
+I:11700	combat	Ammo — maple bow
+I:11700	combat	Ammo — oak bow
+I:11700	combat	Ammo — scorching bow
+I:11700	combat	Ammo — shortbow
+I:11700	combat	Ammo — twisted bow
+I:11700	combat	Ammo — willow bow
+I:11700	combat	Ammo — yew bow
+I:11701	combat	Ammo — 3rd age bow
+I:11701	combat	Ammo — dark bow
+I:11701	combat	Ammo — longbow
+I:11701	combat	Ammo — magic bow
+I:11701	combat	Ammo — maple bow
+I:11701	combat	Ammo — oak bow
+I:11701	combat	Ammo — scorching bow
+I:11701	combat	Ammo — shortbow
+I:11701	combat	Ammo — twisted bow
+I:11701	combat	Ammo — willow bow
+I:11701	combat	Ammo — yew bow
+I:11702	combat	Ammo — 3rd age bow
+I:11702	combat	Ammo — dark bow
+I:11702	combat	Ammo — magic bow
+I:11702	combat	Ammo — maple bow
+I:11702	combat	Ammo — oak bow
+I:11702	combat	Ammo — scorching bow
+I:11702	combat	Ammo — twisted bow
+I:11702	combat	Ammo — willow bow
+I:11702	combat	Ammo — yew bow
+I:11703	combat	Ammo — 3rd age bow
+I:11703	combat	Ammo — dark bow
+I:11703	combat	Ammo — magic bow
+I:11703	combat	Ammo — maple bow
+I:11703	combat	Ammo — scorching bow
+I:11703	combat	Ammo — twisted bow
+I:11703	combat	Ammo — willow bow
+I:11703	combat	Ammo — yew bow
+I:11875	combat	Ammo — armadyl crossbow
+I:11875	combat	Ammo — dragon crossbow
+I:11875	combat	Ammo — dragon hunter crossbow
+I:11875	combat	Ammo — rune crossbow
+I:11875	combat	Ammo — zaryte crossbow
+I:11934	skilling	Raw food — cooking inputs
+I:11936	supply	Food — ready to eat
+I:11951	supply	Potions — antifire
+I:11953	supply	Potions — antifire
+I:11955	supply	Potions — antifire
+I:11957	supply	Potions — antifire
+I:11960	supply	Potions — antifire
+I:11960	supply	Potions — healing
+I:11962	supply	Potions — antifire
+I:11962	supply	Potions — healing
+I:12625	supply	Potions — run energy
+I:12625	supply	Potions — stamina
+I:12627	supply	Potions — run energy
+I:12627	supply	Potions — stamina
+I:12629	supply	Potions — run energy
+I:12629	supply	Potions — stamina
+I:12631	supply	Potions — run energy
+I:12631	supply	Potions — stamina
+I:12633	supply	Potions — healing
+I:12633	supply	Potions — run energy
+I:12633	supply	Potions — stamina
+I:12635	supply	Potions — healing
+I:12635	supply	Potions — run energy
+I:12635	supply	Potions — stamina
+I:12695	supply	Potions — attack boost
+I:12695	supply	Potions — defence boost
+I:12695	supply	Potions — strength boost
+I:12697	supply	Potions — attack boost
+I:12697	supply	Potions — defence boost
+I:12697	supply	Potions — strength boost
+I:12699	supply	Potions — attack boost
+I:12699	supply	Potions — defence boost
+I:12699	supply	Potions — strength boost
+I:12701	supply	Potions — attack boost
+I:12701	supply	Potions — defence boost
+I:12701	supply	Potions — strength boost
+I:12905	supply	Potions — poison cure
+I:12905	supply	Potions — poison immunity
+I:12905	supply	Potions — venom cure
+I:12905	supply	Potions — venom immunity
+I:12907	supply	Potions — poison cure
+I:12907	supply	Potions — poison immunity
+I:12907	supply	Potions — venom cure
+I:12907	supply	Potions — venom immunity
+I:12909	supply	Potions — poison cure
+I:12909	supply	Potions — poison immunity
+I:12909	supply	Potions — venom cure
+I:12909	supply	Potions — venom immunity
+I:12911	supply	Potions — poison cure
+I:12911	supply	Potions — poison immunity
+I:12911	supply	Potions — venom cure
+I:12911	supply	Potions — venom immunity
+I:12913	supply	Potions — poison cure
+I:12913	supply	Potions — poison immunity
+I:12913	supply	Potions — venom cure
+I:12913	supply	Potions — venom immunity
+I:12915	supply	Potions — poison cure
+I:12915	supply	Potions — poison immunity
+I:12915	supply	Potions — venom cure
+I:12915	supply	Potions — venom immunity
+I:12917	supply	Potions — poison cure
+I:12917	supply	Potions — poison immunity
+I:12917	supply	Potions — venom cure
+I:12917	supply	Potions — venom immunity
+I:12919	supply	Potions — poison cure
+I:12919	supply	Potions — poison immunity
+I:12919	supply	Potions — venom cure
+I:12919	supply	Potions — venom immunity
+I:13439	skilling	Raw food — cooking inputs
+I:13441	supply	Food — overhealing
+I:13441	supply	Food — ready to eat
+I:19484	combat	Ammo — ballista
+I:19486	combat	Ammo — ballista
+I:19488	combat	Ammo — ballista
+I:19490	combat	Ammo — ballista
+I:19656	skilling	Raw food — cooking inputs
+I:19659	supply	Food — fast foods
+I:19659	supply	Food — ready to eat
+I:19662	supply	Food — fast foods
+I:19662	supply	Food — multi-bite
+I:19662	supply	Food — ready to eat
+I:20389	combat	Ammo — dark bow
+I:20389	combat	Ammo — scorching bow
+I:20389	combat	Ammo — twisted bow
+I:20855	skilling	Raw food — cooking inputs
+I:20856	supply	Food — ready to eat
+I:20857	skilling	Raw food — cooking inputs
+I:20858	supply	Food — ready to eat
+I:20859	skilling	Raw food — cooking inputs
+I:20860	supply	Food — ready to eat
+I:20861	skilling	Raw food — cooking inputs
+I:20862	supply	Food — ready to eat
+I:20863	skilling	Raw food — cooking inputs
+I:20864	supply	Food — ready to eat
+I:20865	skilling	Raw food — cooking inputs
+I:20866	supply	Food — ready to eat
+I:20867	skilling	Raw food — cooking inputs
+I:20868	supply	Food — ready to eat
+I:20871	supply	Food — ready to eat
+I:20873	supply	Food — ready to eat
+I:20875	supply	Food — ready to eat
+I:20877	supply	Food — ready to eat
+I:20879	supply	Food — ready to eat
+I:20881	supply	Food — ready to eat
+I:20883	supply	Food — ready to eat
+I:21316	combat	Ammo — armadyl crossbow
+I:21316	combat	Ammo — dragon crossbow
+I:21316	combat	Ammo — dragon hunter crossbow
+I:21316	combat	Ammo — rune crossbow
+I:21316	combat	Ammo — zaryte crossbow
+I:21318	combat	Ammo — ballista
+I:21320	combat	Ammo — ballista
+I:21322	combat	Ammo — ballista
+I:21324	combat	Ammo — ballista
+I:21326	combat	Ammo — 3rd age bow
+I:21326	combat	Ammo — dark bow
+I:21326	combat	Ammo — magic bow
+I:21326	combat	Ammo — scorching bow
+I:21326	combat	Ammo — twisted bow
+I:21332	combat	Ammo — 3rd age bow
+I:21332	combat	Ammo — dark bow
+I:21332	combat	Ammo — magic bow
+I:21332	combat	Ammo — scorching bow
+I:21332	combat	Ammo — twisted bow
+I:21334	combat	Ammo — 3rd age bow
+I:21334	combat	Ammo — dark bow
+I:21334	combat	Ammo — magic bow
+I:21334	combat	Ammo — scorching bow
+I:21334	combat	Ammo — twisted bow
+I:21336	combat	Ammo — 3rd age bow
+I:21336	combat	Ammo — dark bow
+I:21336	combat	Ammo — magic bow
+I:21336	combat	Ammo — scorching bow
+I:21336	combat	Ammo — twisted bow
+I:21684	skilling	Raw food — cooking inputs
+I:21687	supply	Food — fast foods
+I:21687	supply	Food — ready to eat
+I:21690	supply	Food — fast foods
+I:21690	supply	Food — multi-bite
+I:21690	supply	Food — ready to eat
+I:21728	combat	Ammo — cannon
+I:21905	combat	Ammo — armadyl crossbow
+I:21905	combat	Ammo — dragon crossbow
+I:21905	combat	Ammo — dragon hunter crossbow
+I:21905	combat	Ammo — zaryte crossbow
+I:21924	combat	Ammo — armadyl crossbow
+I:21924	combat	Ammo — dragon crossbow
+I:21924	combat	Ammo — dragon hunter crossbow
+I:21924	combat	Ammo — zaryte crossbow
+I:21926	combat	Ammo — armadyl crossbow
+I:21926	combat	Ammo — dragon crossbow
+I:21926	combat	Ammo — dragon hunter crossbow
+I:21926	combat	Ammo — zaryte crossbow
+I:21928	combat	Ammo — armadyl crossbow
+I:21928	combat	Ammo — dragon crossbow
+I:21928	combat	Ammo — dragon hunter crossbow
+I:21928	combat	Ammo — zaryte crossbow
+I:21932	combat	Ammo — armadyl crossbow
+I:21932	combat	Ammo — dragon crossbow
+I:21932	combat	Ammo — dragon hunter crossbow
+I:21932	combat	Ammo — zaryte crossbow
+I:21934	combat	Ammo — armadyl crossbow
+I:21934	combat	Ammo — dragon crossbow
+I:21934	combat	Ammo — dragon hunter crossbow
+I:21934	combat	Ammo — zaryte crossbow
+I:21936	combat	Ammo — armadyl crossbow
+I:21936	combat	Ammo — dragon crossbow
+I:21936	combat	Ammo — dragon hunter crossbow
+I:21936	combat	Ammo — zaryte crossbow
+I:21938	combat	Ammo — armadyl crossbow
+I:21938	combat	Ammo — dragon crossbow
+I:21938	combat	Ammo — dragon hunter crossbow
+I:21938	combat	Ammo — zaryte crossbow
+I:21940	combat	Ammo — armadyl crossbow
+I:21940	combat	Ammo — dragon crossbow
+I:21940	combat	Ammo — dragon hunter crossbow
+I:21940	combat	Ammo — zaryte crossbow
+I:21942	combat	Ammo — armadyl crossbow
+I:21942	combat	Ammo — dragon crossbow
+I:21942	combat	Ammo — dragon hunter crossbow
+I:21942	combat	Ammo — zaryte crossbow
+I:21944	combat	Ammo — armadyl crossbow
+I:21944	combat	Ammo — dragon crossbow
+I:21944	combat	Ammo — dragon hunter crossbow
+I:21944	combat	Ammo — zaryte crossbow
+I:21946	combat	Ammo — armadyl crossbow
+I:21946	combat	Ammo — dragon crossbow
+I:21946	combat	Ammo — dragon hunter crossbow
+I:21946	combat	Ammo — zaryte crossbow
+I:21948	combat	Ammo — armadyl crossbow
+I:21948	combat	Ammo — dragon crossbow
+I:21948	combat	Ammo — dragon hunter crossbow
+I:21948	combat	Ammo — zaryte crossbow
+I:21950	combat	Ammo — armadyl crossbow
+I:21950	combat	Ammo — dragon crossbow
+I:21950	combat	Ammo — dragon hunter crossbow
+I:21950	combat	Ammo — zaryte crossbow
+I:21955	combat	Ammo — armadyl crossbow
+I:21955	combat	Ammo — dragon crossbow
+I:21955	combat	Ammo — dragon hunter crossbow
+I:21955	combat	Ammo — zaryte crossbow
+I:21957	combat	Ammo — armadyl crossbow
+I:21957	combat	Ammo — dragon crossbow
+I:21957	combat	Ammo — dragon hunter crossbow
+I:21957	combat	Ammo — zaryte crossbow
+I:21959	combat	Ammo — armadyl crossbow
+I:21959	combat	Ammo — dragon crossbow
+I:21959	combat	Ammo — dragon hunter crossbow
+I:21959	combat	Ammo — zaryte crossbow
+I:21961	combat	Ammo — armadyl crossbow
+I:21961	combat	Ammo — dragon crossbow
+I:21961	combat	Ammo — dragon hunter crossbow
+I:21961	combat	Ammo — zaryte crossbow
+I:21963	combat	Ammo — armadyl crossbow
+I:21963	combat	Ammo — dragon crossbow
+I:21963	combat	Ammo — dragon hunter crossbow
+I:21963	combat	Ammo — zaryte crossbow
+I:21965	combat	Ammo — armadyl crossbow
+I:21965	combat	Ammo — dragon crossbow
+I:21965	combat	Ammo — dragon hunter crossbow
+I:21965	combat	Ammo — zaryte crossbow
+I:21967	combat	Ammo — armadyl crossbow
+I:21967	combat	Ammo — dragon crossbow
+I:21967	combat	Ammo — dragon hunter crossbow
+I:21967	combat	Ammo — zaryte crossbow
+I:21969	combat	Ammo — armadyl crossbow
+I:21969	combat	Ammo — dragon crossbow
+I:21969	combat	Ammo — dragon hunter crossbow
+I:21969	combat	Ammo — zaryte crossbow
+I:21971	combat	Ammo — armadyl crossbow
+I:21971	combat	Ammo — dragon crossbow
+I:21971	combat	Ammo — dragon hunter crossbow
+I:21971	combat	Ammo — zaryte crossbow
+I:21973	combat	Ammo — armadyl crossbow
+I:21973	combat	Ammo — dragon crossbow
+I:21973	combat	Ammo — dragon hunter crossbow
+I:21973	combat	Ammo — zaryte crossbow
+I:21978	supply	Potions — antifire
+I:21978	supply	Potions — super antifire
+I:21981	supply	Potions — antifire
+I:21981	supply	Potions — super antifire
+I:21984	supply	Potions — antifire
+I:21984	supply	Potions — super antifire
+I:21987	supply	Potions — antifire
+I:21987	supply	Potions — super antifire
+I:22209	supply	Potions — antifire
+I:22209	supply	Potions — super antifire
+I:22212	supply	Potions — antifire
+I:22212	supply	Potions — super antifire
+I:22215	supply	Potions — antifire
+I:22215	supply	Potions — super antifire
+I:22218	supply	Potions — antifire
+I:22218	supply	Potions — super antifire
+I:22449	supply	Potions — defence boost
+I:22449	supply	Potions — magic boost
+I:22452	supply	Potions — defence boost
+I:22452	supply	Potions — magic boost
+I:22455	supply	Potions — defence boost
+I:22455	supply	Potions — magic boost
+I:22458	supply	Potions — defence boost
+I:22458	supply	Potions — magic boost
+I:22461	supply	Potions — defence boost
+I:22461	supply	Potions — ranged boost
+I:22464	supply	Potions — defence boost
+I:22464	supply	Potions — ranged boost
+I:22467	supply	Potions — defence boost
+I:22467	supply	Potions — ranged boost
+I:22470	supply	Potions — defence boost
+I:22470	supply	Potions — ranged boost
+I:22789	skilling	Raw food — cooking inputs
+I:22792	supply	Food — fast foods
+I:22792	supply	Food — ready to eat
+I:22795	supply	Food — fast foods
+I:22795	supply	Food — multi-bite
+I:22795	supply	Food — ready to eat
+I:22929	supply	Food — ready to eat
+I:23648	combat	Ammo — ballista
+I:23649	combat	Ammo — adamant crossbow
+I:23649	combat	Ammo — armadyl crossbow
+I:23649	combat	Ammo — dragon crossbow
+I:23649	combat	Ammo — dragon hunter crossbow
+I:23649	combat	Ammo — rune crossbow
+I:23649	combat	Ammo — zaryte crossbow
+I:23685	supply	Potions — attack boost
+I:23685	supply	Potions — defence boost
+I:23685	supply	Potions — strength boost
+I:23688	supply	Potions — attack boost
+I:23688	supply	Potions — defence boost
+I:23688	supply	Potions — strength boost
+I:23691	supply	Potions — attack boost
+I:23691	supply	Potions — defence boost
+I:23691	supply	Potions — strength boost
+I:23694	supply	Potions — attack boost
+I:23694	supply	Potions — defence boost
+I:23694	supply	Potions — strength boost
+I:23697	supply	Potions — attack boost
+I:23700	supply	Potions — attack boost
+I:23703	supply	Potions — attack boost
+I:23706	supply	Potions — attack boost
+I:23709	supply	Potions — strength boost
+I:23712	supply	Potions — strength boost
+I:23715	supply	Potions — strength boost
+I:23718	supply	Potions — strength boost
+I:23721	supply	Potions — defence boost
+I:23724	supply	Potions — defence boost
+I:23727	supply	Potions — defence boost
+I:23730	supply	Potions — defence boost
+I:23733	supply	Potions — ranged boost
+I:23736	supply	Potions — ranged boost
+I:23739	supply	Potions — ranged boost
+I:23742	supply	Potions — ranged boost
+I:23745	supply	Potions — magic boost
+I:23748	supply	Potions — magic boost
+I:23751	supply	Potions — magic boost
+I:23754	supply	Potions — magic boost
+I:23872	skilling	Raw food — cooking inputs
+I:23874	supply	Food — ready to eat
+I:24589	restricted	Food — blighted (area restricted)
+I:24589	supply	Food — ready to eat
+I:24592	restricted	Food — blighted (area restricted)
+I:24592	supply	Food — overhealing
+I:24592	supply	Food — ready to eat
+I:24595	restricted	Food — blighted (area restricted)
+I:24595	supply	Food — combo eating
+I:24595	supply	Food — fast foods
+I:24595	supply	Food — ready to eat
+I:24598	supply	Potions — prayer restore
+I:24598	supply	Potions — stat restore
+I:24601	supply	Potions — prayer restore
+I:24601	supply	Potions — stat restore
+I:24603	supply	Potions — prayer restore
+I:24603	supply	Potions — stat restore
+I:24605	supply	Potions — prayer restore
+I:24605	supply	Potions — stat restore
+I:24623	supply	Potions — defence boost
+I:24623	supply	Potions — magic boost
+I:24626	supply	Potions — defence boost
+I:24626	supply	Potions — magic boost
+I:24629	supply	Potions — defence boost
+I:24629	supply	Potions — magic boost
+I:24632	supply	Potions — defence boost
+I:24632	supply	Potions — magic boost
+I:24635	supply	Potions — defence boost
+I:24635	supply	Potions — ranged boost
+I:24638	supply	Potions — defence boost
+I:24638	supply	Potions — ranged boost
+I:24641	supply	Potions — defence boost
+I:24641	supply	Potions — ranged boost
+I:24644	supply	Potions — defence boost
+I:24644	supply	Potions — ranged boost
+I:24652	skilling	Raw food — cooking inputs
+I:24782	skilling	Raw food — cooking inputs
+I:24785	supply	Food — ready to eat
+I:25564	skilling	Raw food — cooking inputs
+I:25631	supply	Food — ready to eat
+I:25652	skilling	Raw food — cooking inputs
+I:25658	skilling	Raw food — cooking inputs
+I:25664	skilling	Raw food — cooking inputs
+I:25670	skilling	Raw food — cooking inputs
+I:25833	skilling	Raw food — cooking inputs
+I:25849	combat	Ammo — blowpipe
+I:25958	supply	Food — combo eating
+I:25958	supply	Food — fast foods
+I:25958	supply	Food — ready to eat
+I:25960	supply	Food — combo eating
+I:25960	supply	Food — fast foods
+I:25960	supply	Food — ready to eat
+I:26340	supply	Potions — magic boost
+I:26340	supply	Potions — prayer restore
+I:26342	supply	Potions — magic boost
+I:26342	supply	Potions — prayer restore
+I:26344	supply	Potions — magic boost
+I:26344	supply	Potions — prayer restore
+I:26346	supply	Potions — magic boost
+I:26346	supply	Potions — prayer restore
+I:26350	supply	Potions — healing
+I:26353	supply	Potions — healing
+I:27192	combat	Ammo — armadyl crossbow
+I:27192	combat	Ammo — dragon crossbow
+I:27192	combat	Ammo — dragon hunter crossbow
+I:27192	combat	Ammo — zaryte crossbow
+I:27202	supply	Potions — stat restore
+I:27205	supply	Potions — stat restore
+I:27208	supply	Potions — stat restore
+I:27211	supply	Potions — stat restore
+I:27351	supply	Food — ready to eat
+I:27629	supply	Potions — magic boost
+I:27629	supply	Potions — prayer restore
+I:27632	supply	Potions — magic boost
+I:27632	supply	Potions — prayer restore
+I:27635	supply	Potions — magic boost
+I:27635	supply	Potions — prayer restore
+I:27638	supply	Potions — magic boost
+I:27638	supply	Potions — prayer restore
+I:28837	combat	Ammo — tecu salamander
+I:28872	combat	Ammo — hunters sunlight crossbow
+I:28878	combat	Ammo — hunters sunlight crossbow
+I:28991	combat	Ammo — eclipse atlatl
+I:29076	skilling	Raw food — cooking inputs
+I:29077	supply	Food — ready to eat
+I:29101	skilling	Raw food — cooking inputs
+I:29104	skilling	Raw food — cooking inputs
+I:29107	skilling	Raw food — cooking inputs
+I:29110	skilling	Raw food — cooking inputs
+I:29113	skilling	Raw food — cooking inputs
+I:29116	skilling	Raw food — cooking inputs
+I:29119	skilling	Raw food — cooking inputs
+I:29122	skilling	Raw food — cooking inputs
+I:29125	skilling	Raw food — cooking inputs
+I:29128	supply	Food — delayed healing
+I:29128	supply	Food — ready to eat
+I:29131	supply	Food — delayed healing
+I:29131	supply	Food — ready to eat
+I:29134	supply	Food — delayed healing
+I:29134	supply	Food — ready to eat
+I:29137	supply	Food — delayed healing
+I:29137	supply	Food — ready to eat
+I:29140	supply	Food — delayed healing
+I:29140	supply	Food — ready to eat
+I:29143	supply	Food — delayed healing
+I:29143	supply	Food — ready to eat
+I:29146	supply	Food — delayed healing
+I:29146	supply	Food — ready to eat
+I:29149	supply	Food — delayed healing
+I:29149	supply	Food — ready to eat
+I:29152	supply	Food — delayed healing
+I:29152	supply	Food — ready to eat
+I:29183	supply	Potions — healing
+I:29192	supply	Potions — healing
+I:29201	supply	Potions — healing
+I:29210	supply	Potions — healing
+I:29216	skilling	Raw food — cooking inputs
+I:29217	supply	Food — ready to eat
+I:29824	supply	Potions — poison cure
+I:29824	supply	Potions — poison immunity
+I:29824	supply	Potions — venom cure
+I:29824	supply	Potions — venom immunity
+I:29827	supply	Potions — poison cure
+I:29827	supply	Potions — poison immunity
+I:29827	supply	Potions — venom cure
+I:29827	supply	Potions — venom immunity
+I:29830	supply	Potions — poison cure
+I:29830	supply	Potions — poison immunity
+I:29830	supply	Potions — venom cure
+I:29830	supply	Potions — venom immunity
+I:29833	supply	Potions — poison cure
+I:29833	supply	Potions — poison immunity
+I:29833	supply	Potions — venom cure
+I:29833	supply	Potions — venom immunity
+I:29852	combat	Ammo — eclipse atlatl
+I:29900	supply	Food — ready to eat
+I:30125	supply	Potions — prayer regeneration
+I:30128	supply	Potions — prayer regeneration
+I:30131	supply	Potions — prayer regeneration
+I:30134	supply	Potions — prayer regeneration
+I:30137	supply	Potions — aggression
+I:30140	supply	Potions — aggression
+I:30143	supply	Potions — aggression
+I:30146	supply	Potions — aggression
+I:30875	supply	Potions — special attack
+I:30878	supply	Potions — special attack
+I:30881	supply	Potions — special attack
+I:30884	supply	Potions — special attack
+I:30937	supply	Food — ready to eat
+I:31117	supply	Food — ready to eat
+I:31128	supply	Food — ready to eat
+I:31553	skilling	Raw food — cooking inputs
+I:31556	supply	Food — ready to eat
+I:31561	skilling	Raw food — cooking inputs
+I:31564	supply	Food — ready to eat
+I:31614	supply	Potions — run energy
+I:31617	supply	Potions — run energy
+I:31620	supply	Potions — run energy
+I:31623	supply	Potions — run energy
+I:31626	supply	Potions — hunter boost
+I:31629	supply	Potions — hunter boost
+I:31632	supply	Potions — hunter boost
+I:31635	supply	Potions — hunter boost
+I:31638	supply	Potions — run energy
+I:31638	supply	Potions — stamina
+I:31641	supply	Potions — run energy
+I:31641	supply	Potions — stamina
+I:31644	supply	Potions — run energy
+I:31644	supply	Potions — stamina
+I:31647	supply	Potions — run energy
+I:31647	supply	Potions — stamina
+I:31650	supply	Potions — healing
+I:31650	supply	Potions — ranged boost
+I:31653	supply	Potions — healing
+I:31653	supply	Potions — ranged boost
+I:31656	supply	Potions — healing
+I:31656	supply	Potions — ranged boost
+I:31659	supply	Potions — healing
+I:31659	supply	Potions — ranged boost
+I:31686	skilling	Raw food — cooking inputs
+I:31689	supply	Food — ready to eat
+I:31692	skilling	Raw food — cooking inputs
+I:31695	supply	Food — ready to eat
+I:31700	skilling	Raw food — cooking inputs
+I:31703	supply	Food — ready to eat
+I:32309	skilling	Raw food — cooking inputs
+I:32312	supply	Food — ready to eat
+I:32317	skilling	Raw food — cooking inputs
+I:32320	supply	Food — ready to eat
+I:32325	skilling	Raw food — cooking inputs
+I:32328	supply	Food — ready to eat
+I:32333	skilling	Raw food — cooking inputs
+I:32336	supply	Food — combo eating
+I:32336	supply	Food — fast foods
+I:32336	supply	Food — ready to eat
+I:32341	skilling	Raw food — cooking inputs
+I:32344	supply	Food — ready to eat
+I:32349	skilling	Raw food — cooking inputs
+I:32352	supply	Food — ready to eat
+I:33106	skilling	Raw food — cooking inputs
+I:33109	supply	Food — ready to eat
+I:33628	supply	Food — ready to eat
+I:33821	skilling	Raw food — cooking inputs
