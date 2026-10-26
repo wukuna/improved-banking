@@ -80,9 +80,8 @@ public class GeCatalogueSearchTest
     private GeCatalogueSearch ready() throws Exception
     {
         GeCatalogueSearch search=new GeCatalogueSearch();
-        search.client=mock(Client.class); search.config=new WindowMarkersConfig() {
-            public boolean geCatalogueSearch() { return true; }
-        };
+        search.client=mock(Client.class);
+        search.config=WindowMarkersConfigProxyTest.proxy(Collections.singletonMap("geCatalogueSearch","true"));
         when(search.client.getGameState()).thenReturn(GameState.LOGGED_IN);
         when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa magic head");
         set(search,"active",true); set(search,"index",GeSearchIndexTest.index()); return search;
@@ -162,7 +161,7 @@ public class GeCatalogueSearchTest
     {
         GeCatalogueSearch search=ready();search.config=new WindowMarkersConfig() {
             public boolean geCatalogueSearch() {return true;}public boolean geMarkLocked() {return true;}
-            public GeActivityFilter.Mode geActivityFilter() {return GeActivityFilter.Mode.UNOWNED;}
+            public WindowMarkersConfig.ActivityItems geActivityFilter() {return WindowMarkersConfig.ActivityItems.UNOWNED;}
         };
         search.playerItems=owned(search,new Item(21018,1));
         search.onGrandExchangeSearched(new GrandExchangeSearched());

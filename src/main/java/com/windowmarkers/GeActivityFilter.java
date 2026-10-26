@@ -1,28 +1,22 @@
 package com.windowmarkers;
 
 import java.util.*;
+import com.windowmarkers.WindowMarkersConfig.ActivityItems;
 
 /** Per-guide column comparisons. Never treats an item's market price as its strength. */
 final class GeActivityFilter
 {
-    enum Mode
-    {
-        ALL("All items"), OWNED("Owned"), UNOWNED("Not owned"), NEXT_UPGRADE("Next guide upgrade");
-        private final String label;
-        Mode(String label) { this.label=label; }
-        @Override public String toString() { return label; }
-    }
     static final class Query
     {
-        final String text;final Mode mode;
-        Query(String text,Mode mode) { this.text=text;this.mode=mode; }
-        static Query parse(String input,Mode fallback)
+        final String text;final ActivityItems mode;
+        Query(String text,ActivityItems mode) { this.text=text;this.mode=mode; }
+        static Query parse(String input,ActivityItems fallback)
         {
             String clean=SearchText.normalize(input);
             String[][] suffixes={{" next upgrades","NEXT_UPGRADE"},{" next upgrade","NEXT_UPGRADE"},{" upgrades","NEXT_UPGRADE"},
                 {" not owned","UNOWNED"},{" unowned","UNOWNED"},{" owned","OWNED"}};
-            for(String[] suffix:suffixes) if(clean.endsWith(suffix[0])) return new Query(clean.substring(0,clean.length()-suffix[0].length()),Mode.valueOf(suffix[1]));
-            return new Query(input,fallback==null?Mode.ALL:fallback);
+            for(String[] suffix:suffixes) if(clean.endsWith(suffix[0])) return new Query(clean.substring(0,clean.length()-suffix[0].length()),ActivityItems.valueOf(suffix[1]));
+            return new Query(input,fallback==null?ActivityItems.ALL:fallback);
         }
     }
     private static final class Choice
@@ -66,9 +60,9 @@ final class GeActivityFilter
     }
     private static String key(ItemCatalogueIndex.Item item,Choice choice)
     { String role=role(item,choice);return role.isEmpty()?"":choice.setup+":"+role; }
-    static Outcome apply(ItemCatalogueIndex.Result input,GePlayerItems.Snapshot owned,GeRequirements requirements,Mode mode,boolean hideWorse)
+    static Outcome apply(ItemCatalogueIndex.Result input,GePlayerItems.Snapshot owned,GeRequirements requirements,ActivityItems mode,boolean hideWorse)
     {
-        if(!input.activity || mode==Mode.ALL && !hideWorse) return new Outcome(input,Collections.emptyMap(),"");
+        if(!input.activity || mode==ActivityItems.ALL && !hideWorse) return new Outcome(input,Collections.emptyMap(),"");
         if(!owned.complete) return new Outcome(input,Collections.emptyMap(),"Open your bank once this login. Ownership filters are not applied yet.");
         Set<String> setups=new HashSet<>();for(ActivitySetups.Setup setup:input.setups) setups.add(setup.id);
         Map<String,Integer> best=new HashMap<>();Map<String,String> bestNames=new HashMap<>();
@@ -97,13 +91,13 @@ final class GeActivityFilter
         List<ItemCatalogueIndex.Item> retained=new ArrayList<>();
         for(ItemCatalogueIndex.Item item:input.items) {
             boolean has=owned.owned(item)!=null;
-            if(mode==Mode.OWNED && !has || mode==Mode.UNOWNED && has || mode==Mode.NEXT_UPGRADE && !upgrades.containsKey(item.id)) continue;
-            if(hideWorse && mode!=Mode.OWNED && worseInEveryRole(item,setups,unconditionalBest)) continue;
+            if(mode==ActivityItems.OWNED && !has || mode==ActivityItems.UNOWNED && has || mode==ActivityItems.NEXT_UPGRADE && !upgrades.containsKey(item.id)) continue;
+            if(hideWorse && mode!=ActivityItems.OWNED && worseInEveryRole(item,setups,unconditionalBest)) continue;
             retained.add(item);
         }
         Map<Integer,ItemCatalogueIndex.Rank> ranks=new HashMap<>();
         for(ItemCatalogueIndex.Item item:retained) if(input.ranks.containsKey(item.id)) ranks.put(item.id,input.ranks.get(item.id));
-        String notice=mode==Mode.NEXT_UPGRADE && retained.isEmpty()?"No verified next upgrade in this search. Try a specific guide/slot or All items for conditional, unranked and preparation-needed alternatives.":"";
+        String notice=mode==ActivityItems.NEXT_UPGRADE && retained.isEmpty()?"No verified next upgrade in this search. Try a specific guide/slot or All items for conditional, unranked and preparation-needed alternatives.":"";
         return new Outcome(new ItemCatalogueIndex.Result(retained,ranks,input.activity,input.loadout,input.setups),upgrades,notice);
     }
     private static boolean worseInEveryRole(ItemCatalogueIndex.Item item,Set<String> setups,Map<String,Integer> best)

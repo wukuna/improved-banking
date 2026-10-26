@@ -6,6 +6,14 @@ import net.runelite.client.config.*;
 @ConfigGroup("windowmarkers")
 public interface WindowMarkersConfig extends Config
 {
+    // Interface members are public: RuneLite's generated config proxy must access this return type.
+    enum ActivityItems
+    {
+        ALL("All items"), OWNED("Owned"), UNOWNED("Not owned"), NEXT_UPGRADE("Next guide upgrade");
+        private final String label;
+        ActivityItems(String label) { this.label=label; }
+        @Override public String toString() { return label; }
+    }
     @ConfigSection(name="Labels and highlighting",description="Marker visibility, labels and highlighting",position=0)
     String appearance="appearance";
     @ConfigSection(name="Drawing defaults",description="Defaults for new markers",position=1,closedByDefault=true)
@@ -19,7 +27,7 @@ public interface WindowMarkersConfig extends Config
     @ConfigItem(section=ge,keyName="geCatalogueSearch",name="Enable Grand Exchange search",description="Search activities, equipment slots and categories, e.g. toa head, vorkath ranged or mining tools. Only GE-tradeable items appear. The catalogue takes a moment to load when enabled.",position=0)
     default boolean geCatalogueSearch() { return false; }
     @ConfigItem(section=ge,keyName="geActivityFilter",name="Activity items",description="All, Owned, Not owned or Next guide upgrade. Applies only to activity queries. Open your bank once this login; inventory and equipped items are included. You can also append owned, unowned or next upgrade to an activity search.",position=1)
-    default GeActivityFilter.Mode geActivityFilter() { return GeActivityFilter.Mode.ALL; }
+    default WindowMarkersConfig.ActivityItems geActivityFilter() { return WindowMarkersConfig.ActivityItems.ALL; }
     @ConfigItem(section=ge,keyName="geHideWorseOwned",name="Hide worse than owned",description="Hide verified lower guide choices when usable owned equipment covers every matching role. Preserves conditional, set, specialist and unranked alternatives. Requires a bank snapshot this login.",position=2)
     default boolean geHideWorseOwned() { return false; }
     @ConfigItem(section=ge,keyName="geMarkOwned",name="Mark owned activity items",description="Add Owned or Owned variant to activity results using bank, inventory and equipment. Equivalent gear is checked without treating broken/empty equipment as usable.",position=3)

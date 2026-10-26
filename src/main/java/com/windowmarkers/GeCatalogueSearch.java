@@ -51,7 +51,7 @@ final class GeCatalogueSearch extends Overlay
     private boolean geSearchOpen;
     private boolean detailsDirty;
     private String notice="";
-    private GeActivityFilter.Mode activityMode=GeActivityFilter.Mode.ALL;
+    private WindowMarkersConfig.ActivityItems activityMode=WindowMarkersConfig.ActivityItems.ALL;
     private Map<Integer,String> upgrades=Collections.emptyMap();
     private GeCategorySearch shopping;
     private List<String> suggestions=Collections.emptyList();
@@ -185,8 +185,8 @@ final class GeCatalogueSearch extends Overlay
         if(!options.text.equals(input) && (next==null || !next.activity)) next=index.find(input,config.geGuideContext(),"",client.getRealSkillLevel(Skill.HITPOINTS));
         if(next==null) return;
         if(shopping!=null) suggestions=shopping.suggestions(options.text,next.activity);
-        activityMode=next.activity?options.mode:GeActivityFilter.Mode.ALL;
-        if(next.activity && (activityMode!=GeActivityFilter.Mode.ALL || config.geHideWorseOwned())) {
+        activityMode=next.activity?options.mode:WindowMarkersConfig.ActivityItems.ALL;
+        if(next.activity && (activityMode!=WindowMarkersConfig.ActivityItems.ALL || config.geHideWorseOwned())) {
             GeActivityFilter.Outcome filtered=GeActivityFilter.apply(next,playerItems.snapshot(),GeRequirements.capture(client,ancientRings),activityMode,config.geHideWorseOwned());
             next=filtered.result;upgrades=filtered.upgrades;notice=filtered.notice;
         }
@@ -211,7 +211,7 @@ final class GeCatalogueSearch extends Overlay
         if(children==null || children.length%3!=0) return;
         resultContainer=container;
         Map<Integer,ItemCatalogueIndex.Item> byId=new HashMap<>();for(ItemCatalogueIndex.Item item:result.items) byId.put(item.id,item);
-        boolean ownership=result.activity && (config.geMarkOwned() || activityMode!=GeActivityFilter.Mode.ALL);
+        boolean ownership=result.activity && (config.geMarkOwned() || activityMode!=WindowMarkersConfig.ActivityItems.ALL);
         GePlayerItems.Snapshot owned=(ownership || config.geShowPrices())?playerItems.snapshot():GePlayerItems.Snapshot.unknown();
         GeRequirements requirements=config.geMarkLocked()?GeRequirements.capture(client,ancientRings):null;
         // This is the same public result triplet used by RuneLite's GE search
@@ -280,7 +280,7 @@ final class GeCatalogueSearch extends Overlay
         if(event.getGroupId()==InterfaceID.GE_OFFERS || event.getGroupId()==InterfaceID.CHATBOX)
         { clear(); geSearchOpen=false; }
     }
-    void clear() { restore(); result=null; query=""; resultContainer=null;notice="";upgrades=Collections.emptyMap();activityMode=GeActivityFilter.Mode.ALL;suggestions=Collections.emptyList();if(tips!=null) tips.setHidden(true); }
+    void clear() { restore(); result=null; query=""; resultContainer=null;notice="";upgrades=Collections.emptyMap();activityMode=WindowMarkersConfig.ActivityItems.ALL;suggestions=Collections.emptyList();if(tips!=null) tips.setHidden(true); }
     private void clearTips()
     {
         if(tips!=null) { tips.setHidden(true);tips.clearActions(); }
