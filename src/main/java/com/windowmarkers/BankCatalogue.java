@@ -22,6 +22,7 @@ final class BankCatalogue
             search=SearchText.normalize(name+" "+aliases(name));
         }
         @Override public String toString() { return name+"  · "+kind.toString().toLowerCase(Locale.ROOT).replace('_',' '); }
+        String viewQuery() { return kind==Kind.PRESET?name.split(" — ",2)[0]:name; }
     }
     static String aliases(String name)
     {

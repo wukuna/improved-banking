@@ -694,7 +694,7 @@ public class WindowMarkersPlugin extends Plugin
         if(showView) {
             if(choice.kind==BankCatalogue.Kind.CUSTOM_PRESET) { CustomPresets.Preset saved=(CustomPresets.Preset)choice.value; showBankView(saved.name,saved.groups,saved.groupBySlot,owner,layout);return; }
             if(choice.kind==BankCatalogue.Kind.WIKI_SETUP) { ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;openQueryView(setup.activity,setup.id);return; }
-            if(choice.kind==BankCatalogue.Kind.CATEGORY || choice.kind==BankCatalogue.Kind.PRESET) { openQueryView(choice.name.split(" — ",2)[0],config.geGuideContext());return; }
+            if(choice.kind==BankCatalogue.Kind.CATEGORY || choice.kind==BankCatalogue.Kind.PRESET) { openQueryView(choice.viewQuery(),config.geGuideContext());return; }
         }
         switch(choice.kind) {
             case PRESET: autoCategorize((AutoCategories.Preset)choice.value,showView); break;
@@ -980,7 +980,9 @@ public class WindowMarkersPlugin extends Plugin
     private void refreshOpenView() {
         clientThread.invokeLater(() -> { synchronized(this) {
             if(searchView!=null && searchView.isActive()) {
-                String name=searchView.name();SwingUtilities.invokeLater(() -> openQueryView(name,config.geGuideContext()));
+                List<Marker> groups=searchView.groups();
+                String query=!groups.isEmpty() && groups.get(0).guideQuery!=null?groups.get(0).guideQuery:searchView.name();
+                SwingUtilities.invokeLater(() -> openQueryView(query,config.geGuideContext()));
             }
         }});
     }
