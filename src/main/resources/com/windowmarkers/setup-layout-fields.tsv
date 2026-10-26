@@ -3632,7 +3632,7 @@
 227925:1	legs2	12015,25553,29476	
 227925:1	legs3	25436	Maximises prayer bonus
 227925:1	weapon1	23680,23682	
-227925:1	weapon2	11920,13243,13244,25063,25369,30345,30346	
+227925:1	weapon2	11920,12797,13243,13244,23677,25063,25369,25376,30345,30346,30351	
 227925:1	weapon3	1275	
 227925:1	shield1	12817	
 227925:1	shield2	31081	Maximises prayer bonus
@@ -5582,7 +5582,7 @@
 271073:6	9	12899,12900,22292,22294,33314,33316,33318,33320	
 271073:6	10	4712,4868,4869,4870,4871,4872,30447,30521,30527,30533,30539,30545	
 271073:6	11	19544	
-271073:6	12	11920	
+271073:6	12	11920,12797,23677,25376,30351	
 271073:6	13	12002	
 271073:6	14	4714,4874,4875,4876,4877,4878,30449,30523,30529,30535,30541,30547	
 271073:6	15	21776,21791,24232,24236,24238,24248	
@@ -5618,7 +5618,7 @@
 271073:7	17	22325,22486,25736,25738,25739,25741	
 271073:7	18	21003,27100	
 271073:7	19	11808	
-271073:7	20	11920	
+271073:7	20	11920,12797,23677,25376,30351	
 271073:7	21	13441	
 271073:7	22	13441	
 271073:7	23	25818	
@@ -5647,7 +5647,7 @@
 271073:11	weapon5	12899,12900,22292,22294,33314,33316,33318,33320	Set to Long Range.
 271073:11	special1	26374,27662,27665	Slightly lowers Twisted bow DPS, use this if at least one of your raid members is not using a Twisted bow.
 271073:11	special2	31113,31115	
-271073:12	weapon1	11920,13243,13244,23680,23682,25063,25369,30345,30346	Though the crystal pickaxe is lighter, the difference is negligible and is often irrelevant due to the weight cap.
+271073:12	weapon1	11920,12797,13243,13244,23677,23680,23682,25063,25369,25376,30345,30346,30351	Though the crystal pickaxe is lighter, the difference is negligible and is often irrelevant due to the weight cap.
 271073:12	special1	21003,27100	Even though the Guardians are immune to all forms of damage except those from pickaxes, the defence-lowering portion of the special attack will still occur if the accuracy roll passes.
 271073:12	special2	13576,28035	Even though the Guardians are immune to all forms of damage except those from pickaxes, the defence-lowering portion of the special attack will still occur if the accuracy roll passes.
 271073:13	weapon1	22324	
@@ -7912,7 +7912,7 @@
 351891:1	body4	12014,29474	Due to rounding, the Prospector kit does not provide bonus experience if combined with the Varrock armour 3 or lower.
 351891:1	legs1	26854	
 351891:1	legs3	12015,29476	Due to rounding, the Prospector kit does not provide bonus experience if combined with the Varrock armour 3 or lower.
-351891:1	weapon1	11920,23680,23682	Crystal pickaxe uses no charges, providing only the marginal benefit of having a lower weight.
+351891:1	weapon1	11920,12797,23677,23680,23682,25376,30351	Crystal pickaxe uses no charges, providing only the marginal benefit of having a lower weight.
 351891:1	weapon2	1275	
 351891:1	weapon3	1271	
 351891:1	weapon4	11787,30634	For Magic Imbue, only if making combination runes.
@@ -18626,7 +18626,7 @@
 94147:5	cape	6570,13329,20445,20447,24134,24223	
 94147:5	neck	19553	
 94147:5	ammo	21944	
-94147:5	weapon	11920	
+94147:5	weapon	11920,12797,23677,25376,30351	
 94147:5	torso	29022,29043,29067	
 94147:5	legs	29025,29045,29070	
 94147:5	shield	12954,20463,24143	
@@ -18659,7 +18659,7 @@
 94147:8	cape	21285,21287,21289,21295,24133,24224,33496,33498,33500,33502	
 94147:8	neck	29801,29804	
 94147:8	ammo	33595	
-94147:8	weapon	11920	
+94147:8	weapon	11920,12797,23677,25376,30351	
 94147:8	torso	26378,26384	
 94147:8	legs	26380,26386	
 94147:8	shield	22322,22441,24186	
@@ -18747,7 +18747,7 @@
 94147:11	23	6685	
 94147:11	24	2444	
 94147:11	25	3024	
-94147:11	26	11920	
+94147:11	26	11920,12797,23677,25376,30351	
 94147:11	27	12018,25278,26782	
 94147:11	28	27281	
 94147:12	1	21012,25916,25918	
@@ -18775,7 +18775,7 @@
 94147:12	23	6685	
 94147:12	24	2444	
 94147:12	25	3024	
-94147:12	26	11920	
+94147:12	26	11920,12797,23677,25376,30351	
 94147:12	27	12018,25278,26782	
 94147:12	28	27281	
 94147:13	1	20997	
@@ -18837,7 +18837,7 @@
 94147:19	weapon3	25862,25865,25884,25886,25888,25890,25892,25894,25896,33021	Only with a full set of crystal armour.
 94147:19	weapon4	20997	In Challenge Mode, the twisted bow becomes the best option.
 94147:20	weapon1	23680,23682	The crystal pickaxe is lighter than the dragon pickaxe, but this is the only way in which it is better
-94147:20	weapon2	11920	
+94147:20	weapon2	11920,12797,23677,25376,30351	
 94147:20	weapon3	1275,23276	
 94147:21	weapon1	11230,12924,12926,28687,28688	
 94147:21	weapon2	27275,27277	

@@ -12,13 +12,21 @@ final class SetupItemLayout
         final String text; final int x,y;
         Heading(String text,int x,int y) { this.text=text;this.x=x;this.y=y; }
     }
+    static final class InventoryNote {
+        final String text;final int x,y;
+        InventoryNote(String text,int x,int y) { this.text=text;this.x=x;this.y=y; }
+    }
     private static final int[][] EQUIPMENT={{0,1,0},{1,0,1},{2,1,1},{13,2,1},{3,0,2},{4,1,2},{5,2,2},{7,1,3},{9,0,4},{10,1,4},{12,2,4}};
     private static final String[] BUCKET_NAMES={"Head alternatives","Cape alternatives","Neck alternatives","Weapon alternatives","Body alternatives","Off-hand alternatives","Leg alternatives","Glove alternatives","Boot alternatives","Ring alternatives","Ammunition","Tools","Food","Potions","Runes","Other supplies","Other","Other","Other","Needs repair / charging / review"};
 
     static int[] apply(Widget container,ItemManager manager,int columns,int pitch,int padding,SetupLoadout plan,
         Map<Integer,ItemCatalogueIndex.Rank> ranks,List<Heading> headings)
+    { return apply(container,manager,columns,pitch,padding,plan,ranks,headings,null,new ArrayList<>()); }
+
+    static int[] apply(Widget container,ItemManager manager,int columns,int pitch,int padding,SetupLoadout plan,
+        Map<Integer,ItemCatalogueIndex.Rank> ranks,List<Heading> headings,SetupInventoryWidgets copies,List<InventoryNote> notes)
     {
-        headings.clear();
+        headings.clear();notes.clear();
         if(plan==null) return apply(container,manager,columns,pitch,padding);
         Widget[] children=container.getDynamicChildren(); if(children==null) return null;
         List<Widget> cells=new ArrayList<>(); Map<Integer,Widget> byId=new HashMap<>(); int oldEnd=0;
@@ -54,25 +62,48 @@ final class SetupItemLayout
             }
         }
         int inventoryColumns=Math.min(4,columns),inventoryEnd=inventoryY;
-        for(var entry:plan.inventory.entrySet()) {
-            Widget cell=byId.get(entry.getValue());
-            // A bank stack remains one real, clickable widget, even when an
-            // example inventory repeats it. Never fabricate withdrawal actions.
-            if(cell==null || !placed.add(cell)) continue;
+        for(var entry:plan.inventoryExample.entrySet()) {
+            Integer id=plan.inventory.get(entry.getKey());
+            Widget source=id==null?null:byId.get(id),cell=source;
+            if(source==null || !placed.add(source)) {
+                if(copies==null) continue;
+                cell=copies.add(container,source,entry.getValue().ids.get(0),manager);
+            }
             int position=entry.getKey(),x=51+(columns>=8?4*pitch:0)+(position%inventoryColumns)*pitch;
             int y=inventoryY+(position/inventoryColumns)*36;
             place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
+            String note=entry.getValue().note;
+            if(source==null) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
+            else if(!note.isEmpty()) note="Showing an owned alternative; live prices are not compared. "+note;
+            if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
         }
         int y=Math.max(gearY+5*36,inventoryEnd)+8;
-        Map<Integer,List<Widget>> extras=new TreeMap<>();
-        for(Widget cell:cells) if(!placed.contains(cell)) extras.computeIfAbsent(bucket(manager.canonicalize(cell.getItemId()),manager),k->new ArrayList<>()).add(cell);
+        Map<String,List<Widget>> extras=new TreeMap<>();
+        for(Widget cell:cells) if(!placed.contains(cell)) {
+            int id=manager.canonicalize(cell.getItemId()),bucket=bucket(id,manager);
+            var definition=manager.getItemComposition(id);
+            Set<String> roles=definition==null?Collections.emptySet():RaidRecommendations.layoutGroups(plan.activity,
+                new AutoCategories.Item(id,definition.getName(),bucket<11,definition.getInventoryActions(),0,0,0));
+            if(roles.isEmpty()) extras.computeIfAbsent(String.format(Locale.ROOT,"%02d:%s",bucket,BUCKET_NAMES[Math.min(19,bucket)]),k->new ArrayList<>()).add(cell);
+            else for(String role:roles) extras.computeIfAbsent("11:"+role,k->new ArrayList<>()).add(cell);
+        }
         for(var entry:extras.entrySet()) {
             List<Widget> group=entry.getValue();
             group.sort(Comparator.comparingInt((Widget cell)-> {
                 var rank=ranks.get(manager.canonicalize(cell.getItemId()));return rank==null || rank.tier<=0?Integer.MAX_VALUE:rank.tier;
             }).thenComparingInt(Widget::getItemId));
-            headings.add(new Heading(BUCKET_NAMES[Math.min(19,entry.getKey())],51,y+12));y+=18;
-            for(int i=0;i<group.size();i++) place(group.get(i),51+(i%columns)*pitch,y+(i/columns)*36);
+            String heading=entry.getKey().substring(3);
+            headings.add(new Heading(heading,51,y+12));y+=18;
+            String roomNote=RaidRecommendations.roomNote(plan.activity,heading);
+            for(int i=0;i<group.size();i++) {
+                Widget cell=group.get(i);
+                if(!placed.add(cell)) {
+                    if(copies==null) continue;
+                    cell=copies.add(container,cell,cell.getItemId(),manager);
+                }
+                place(cell,51+(i%columns)*pitch,y+(i/columns)*36);
+                if(!roomNote.isEmpty()) notes.add(new InventoryNote(roomNote,51+(i%columns)*pitch,y+(i/columns)*36));
+            }
             y+=((group.size()+columns-1)/columns)*36+8;
         }
         return new int[]{oldEnd,y};
@@ -100,12 +131,12 @@ final class SetupItemLayout
         String name=definition.getName();
         AutoCategories.Item item=new AutoCategories.Item(id,name,stats!=null && stats.isEquipable(),definition.getInventoryActions(),0,0,0);
         if(ItemVariantState.needsActivityReview(item)) return 19;
+        if("Tools".equals(ItemTaxonomy.weaponRole(ItemVariantState.familyName(item)))
+            || WikiCatalogue.entries(item).stream().anyMatch(e -> e.group.equals("Shared tools") || e.group.endsWith("— tools"))) return 11;
         if(stats!=null && stats.getEquipment()!=null) {
             int slot=stats.getEquipment().getSlot();
             for(int i=0;i<SLOTS.length;i++) if(SLOTS[i]==slot) return i;
         }
-        if("Tools".equals(ItemTaxonomy.weaponRole(ItemVariantState.familyName(item)))
-            || WikiCatalogue.entries(item).stream().anyMatch(e -> e.group.equals("Shared tools") || e.group.endsWith("— tools"))) return 11;
         if(item.action("Eat")) return 12;
         if(item.action("Drink")) return 13;
         if(item.name.endsWith(" rune")) return 14;

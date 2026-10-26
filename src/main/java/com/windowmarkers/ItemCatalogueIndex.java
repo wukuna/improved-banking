@@ -279,6 +279,8 @@ final class ItemCatalogueIndex
         for(ActivitySetups.Setup setup:matched) {
             String note=purchaseNotes.getOrDefault(setup.id,Collections.emptyMap()).get(item.id);
             if(note!=null) notes.add(note);
+            String requirement=SetupItemRequirements.reviewReason(setup.id,item.fact);
+            if(!requirement.isEmpty()) notes.add(setup.activity+" / "+setup.label+": "+requirement);
         }
         String[] functional=functionalSlot(item);
         if(functional!=null) notes.add(functional[3]);
@@ -307,7 +309,7 @@ final class ItemCatalogueIndex
         }
         int tier=tiers.size()==1 && roles.size()==1 ? tiers.iterator().next() : 0;
         String reason=tiers.isEmpty() ? "Category or example match; no ranked recommendation for this search." :
-            tier==0 ? "Ranking differs by setup/role, or needs review. Refine the search or choose a bank / GE guide in Tools." :
+            tier==0 ? "Ranking differs by setup/role, or needs review. Refine the search or use Views / Guide choices." :
             "Wiki tier "+tier+" for the matching setup(s), not a universal ranking. Requirements and set bonuses still apply.";
         return new Rank(tier,reason+extra+(sources.isEmpty()?"":"\n"+String.join("\n",sources)),roles.size()==1?roles.iterator().next():"");
     }

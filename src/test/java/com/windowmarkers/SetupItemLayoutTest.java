@@ -11,6 +11,34 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void repeatedAndMissingInventoryPositionsRenderAtBothBankWidths() {
+        for(int columns:new int[]{8,6}) {
+            Widget brew=cell(6685,"Saradomin brew(4)",-1,"Drink",51,0);
+            var fact=GeSearchIndexTest.item(6685,"Saradomin brew(4)",-1);
+            var owned=Collections.singletonMap(6685,fact);
+            var plan=SetupLoadout.build(ActivitySetups.forActivity("Chambers of Xeric"),owned,owned.keySet(),"94147:13");
+            Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{brew});
+            List<Widget> made=new ArrayList<>();
+            when(container.createChild(anyInt(),anyInt())).thenAnswer(invocation -> {
+                Widget copy=cell(-1,"Preview",-1,"",0,0);AtomicInteger id=new AtomicInteger(-1);
+                when(copy.getItemId()).thenAnswer(i->id.get());
+                doAnswer(i->{id.set(i.getArgument(0));return copy;}).when(copy).setItemId(anyInt());
+                made.add(copy);return copy;
+            });
+            var copies=new SetupInventoryWidgets();var notes=new ArrayList<SetupItemLayout.InventoryNote>();
+            int[] ends=SetupItemLayout.apply(container,manager,columns,48,4,plan,Collections.emptyMap(),new ArrayList<>(),copies,notes);
+            assertEquals(27,made.size());
+            assertEquals(2,made.stream().filter(w->w.getItemId()==6685).count());
+            Set<String> positions=new HashSet<>();made.add(brew);
+            int originX=51+(columns>=8?4*48:0),originY=columns>=8?22:220;
+            for(Widget widget:made) {
+                assertTrue(widget.getOriginalX()>=originX && widget.getOriginalX()<originX+4*48);
+                assertTrue(widget.getOriginalY()>=originY && widget.getOriginalY()<originY+7*36);
+                positions.add(widget.getOriginalX()+":"+widget.getOriginalY());
+            }
+            assertEquals(28,positions.size());assertTrue(ends[1]>=originY+7*36);
+        }
+    }
     @Test public void equipmentAndInventoryUseSeparateHalvesAndAlternativesBelow() {
         var result=SetupLoadoutTest.catalogue().find("toa magic","364045:3","364045:9");
         Widget hat=cell(21018,"Ancestral hat",0,"Wear",51,0),alternative=cell(4708,"Ahrim's hood",0,"Wear",99,0),

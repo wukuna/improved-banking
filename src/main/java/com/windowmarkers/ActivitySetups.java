@@ -19,8 +19,10 @@ final class ActivitySetups
             for (AutoCategories.Item item:owned)
             {
                 if (!itemIds.contains(item.id)) { continue; }
+                String requirement=SetupItemRequirements.reviewReason(id,item);
                 String group=ItemVariantState.needsActivityReview(item)
                     ? ItemVariantState.reviewGroup(item) : label+" — setup review";
+                if (!requirement.isEmpty()) group="Needs preparation — "+requirement;
                 AutoCategories.add(result,activity+" — "+ItemVariantState.annotate(group,item),item);
             }
             return result;
@@ -49,6 +51,7 @@ final class ActivitySetups
         return new ArrayList<>(result);
     }
     static List<Setup> all() { return new ArrayList<>(SETUPS.values()); }
+    static Setup byId(String id) { return SETUPS.get(id); }
     static List<Setup> forActivity(String activity)
     {
         List<Setup> result=new ArrayList<>();

@@ -118,6 +118,7 @@ public final class BankLayoutController
     @Inject NativeBankSearch nativeSearch;
     @Inject BankSearchView searchView;
     @Inject net.runelite.client.game.ItemManager itemManager;
+    private final SetupInventoryWidgets inventoryWidgets=new SetupInventoryWidgets();
 
 	@com.google.inject.Inject(optional = true)
 	BankTagsService bankTagsService;
@@ -146,6 +147,7 @@ public final class BankLayoutController
 
 	void startUp()
 	{
+        inventoryWidgets.setClient(client);
 		active = true;
 		eventBus.register(this);
 		// The frame has to be in place before the bank tags plugin sizes its tab column on this event,
@@ -180,6 +182,7 @@ public final class BankLayoutController
 	{
 		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
+            inventoryWidgets.clear();
 			restoreTabs();
 			// the modal outlives the bank and hosts every other main interface, so it must not stay enlarged
 			restore(positions, true, false);
@@ -193,6 +196,7 @@ public final class BankLayoutController
 
 	private void layoutFrame(ScriptPreFired event)
 	{
+        if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) inventoryWidgets.clear();
 		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
 		{
 			applyFrame();
@@ -250,6 +254,7 @@ public final class BankLayoutController
 		}
 
         boolean grouped=groupedSearch();
+        inventoryWidgets.clear();
         if(!config.bankLayoutEnabled() && !grouped) return;
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
 		reflowedWidth = items.getWidth();
@@ -670,6 +675,11 @@ public final class BankLayoutController
     }
 
     private final java.util.List<SetupItemLayout.Heading> searchHeadings=new java.util.ArrayList<>();
+    private final java.util.List<SetupItemLayout.InventoryNote> inventoryNotes=new java.util.ArrayList<>();
+    java.util.List<SetupItemLayout.InventoryNote> inventoryNotes() { return groupedSearch()?inventoryNotes:java.util.Collections.emptyList(); }
+    boolean inventoryPreview(Widget widget) { return inventoryWidgets.preview(widget); }
+    @Subscribe(priority=20) public void onMenuEntryAdded(net.runelite.api.events.MenuEntryAdded event) { inventoryWidgets.menuAdded(event.getMenuEntry()); }
+    @Subscribe(priority=20) public void onMenuOptionClicked(net.runelite.api.events.MenuOptionClicked event) { inventoryWidgets.clicked(event,client); }
     java.util.List<SetupItemLayout.Heading> searchHeadings() { return groupedSearch()?searchHeadings:java.util.Collections.emptyList(); }
     private int[] layoutSearch(Widget items)
     {
@@ -678,11 +688,12 @@ public final class BankLayoutController
         int pitch=CELL_WIDTH+VANILLA_GAP;
         boolean view=searchView!=null && searchView.isActive();
         return SetupItemLayout.apply(items,itemManager,count,pitch,4,view?searchView.loadout():nativeSearch.loadout(),
-            view?searchView.ranks():nativeSearch.ranks(),searchHeadings);
+            view?searchView.ranks():nativeSearch.ranks(),searchHeadings,inventoryWidgets,inventoryNotes);
     }
 
 	private void restore()
 	{
+        inventoryWidgets.clear();
 		restoreTabs();
 		Widget modal = modal();
 		restore(positions, true, true);

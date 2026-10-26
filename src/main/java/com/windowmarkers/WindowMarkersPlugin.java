@@ -1343,6 +1343,7 @@ public class WindowMarkersPlugin extends Plugin
             {
                 if (child == null || child.isSelfHidden() || child.getItemId() < 0 || child.getItemId() == 6512
                     || child.getRelativeX()<0 || child.getRelativeY()<0) { continue; }
+                if(bankLayout!=null && bankLayout.inventoryPreview(child)) continue;
                 Rectangle bounds=child.getBounds();
                 if(!bounds.isEmpty()) { tabCells.add(new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds)); }
                 if(child.isHidden()) { continue; }
@@ -1642,6 +1643,11 @@ public class WindowMarkersPlugin extends Plugin
                         Graphics2D headings=(Graphics2D)g.create();
                         try { headings.clip(itemArea);headings.setFont(new Font("Arial",Font.PLAIN,11));headings.setColor(new Color(230,205,145));
                             for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) headings.drawString(heading.text,itemArea.x+heading.x,itemArea.y+heading.y-itemScroll);
+                            net.runelite.api.Point mouse=client.getMouseCanvasPosition();
+                            if(mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null)
+                                for(SetupItemLayout.InventoryNote note:bankLayout.inventoryNotes())
+                                    if(new Rectangle(itemArea.x+note.x,itemArea.y+note.y-itemScroll,36,32).contains(mouse.getX(),mouse.getY()))
+                                        tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(note.text)));
                         } finally { headings.dispose(); }
                     }
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();

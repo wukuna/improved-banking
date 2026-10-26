@@ -1518,7 +1518,7 @@
 33077	facility bottle	CONTENTS	true	contains a facility; rebuilding consumes bottle
 33089	bottomless milk bucket	CONTENTS	true	check milk type; not all regular-bucket uses
 33091	bottomless milk bucket	AVAILABLE	false	ready to collect milk
-33103	cowbell amulet	REDUCED	false	faster milking retained; no teleports
+33103	cowbell amulet	REDUCED	false	faster milking and Brutus respawn ringing retained; no teleports
 33104	cowbell amulet	AVAILABLE	false	
 33135	silklined herb sack	AVAILABLE	false	container closed; contents and free capacity are not inferred
 33137	silklined herb sack	AVAILABLE	false	container open; contents and free capacity are not inferred

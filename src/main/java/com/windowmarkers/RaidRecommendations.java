@@ -6,6 +6,7 @@ import java.util.*;
 final class RaidRecommendations
 {
     private static final List<String[]> EQUIPMENT=new ArrayList<>();
+    private static final List<String[]> ROOMS=ItemTaxonomy.readRows("raid-layout-rooms.tsv",2);
     static
     {
         EQUIPMENT.addAll(ItemTaxonomy.readRows("raid-equipment.tsv",3));
@@ -54,6 +55,51 @@ final class RaidRecommendations
 
     static String raid(AutoCategories.Preset preset)
     { return preset==AutoCategories.Preset.CHAMBERS_OF_XERIC ? "cox" : preset==AutoCategories.Preset.THEATRE_OF_BLOOD ? "tob" : "toa"; }
+
+    /** Prefer a documented room or utility role over the item's equipment slot. */
+    static String layoutGroup(String activity,AutoCategories.Item item)
+    {
+        String raid=activity.startsWith("Chambers of Xeric")?"cox":activity.startsWith("Theatre of Blood")?"tob":activity.startsWith("Tombs of Amascut")?"toa":"";
+        if(raid.isEmpty() || ItemVariantState.needsActivityReview(item)) return "";
+        Set<String> rooms=new LinkedHashSet<>();String special="";
+        for(String[] row:EQUIPMENT) if(row[0].equals(raid) && CombatEquivalence.matches(item,row[2]))
+        {
+            String role=row[1];
+            if(role.equals("Melee") || role.equals("Magic") || role.equals("Ranged") || role.startsWith("Learner")) continue;
+            if(role.startsWith("Special attacks")) special="Special attacks — strategy dependent";
+            else rooms.add(role.replace("Guardians tools (room dependent)","Guardians — pickaxes"));
+        }
+        if(!rooms.isEmpty()) return String.join(" / ",rooms);
+        String supply=supplyGroup(raid,ItemVariantState.familyName(item));
+        return supply!=null?supply:special;
+    }
+
+    static Set<String> layoutGroups(String activity,AutoCategories.Item item)
+    {
+        Set<String> groups=new LinkedHashSet<>();
+        if(ItemVariantState.needsActivityReview(item)) return groups;
+        for(String[] row:ROOMS) {
+            ActivitySetups.Setup setup=ActivitySetups.byId(row[0]);
+            if(setup!=null && setup.activity.equals(activity) && setup.itemIds.contains(item.id)) {
+                String label=row[1];
+                if(label.equals("Guardians — pickaxes") && !"Tools".equals(ItemTaxonomy.weaponRole(CombatEquivalence.familyName(item))))
+                    label="Guardians — defence-drain specials";
+                groups.add(label);
+            }
+        }
+        String utility=layoutGroup(activity,item);
+        if(groups.isEmpty() && !utility.isEmpty()) groups.add(utility);
+        return groups;
+    }
+
+    static String roomNote(String activity,String heading)
+    {
+        for(String[] row:ROOMS) if(row[1].equals(heading) || heading.equals("Guardians — defence-drain specials") && row[1].equals("Guardians — pickaxes")) {
+            ActivitySetups.Setup setup=ActivitySetups.byId(row[0]);
+            if(setup!=null && setup.activity.equals(activity)) return activity+" / "+setup.label+". "+setup.notes;
+        }
+        return "";
+    }
 
     /** Discoverable names even when none of the relevant items are currently owned. */
     static Set<String> groups()

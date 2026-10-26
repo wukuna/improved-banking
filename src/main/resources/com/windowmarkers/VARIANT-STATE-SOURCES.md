@@ -573,3 +573,5 @@ Broad organization retains depleted items. Activity suggestions put broken, unus
 - [Broken axe (steel)](https://oldschool.runescape.wiki/w/Special:Redirect/page/9950?oldid=15182596) — revision 15182596
 - [Infernal max cape](https://oldschool.runescape.wiki/w/Special:Redirect/page/99564?oldid=15298601) — revision 15298601
 - [Black defender](https://oldschool.runescape.wiki/w/Special:Redirect/page/9997?oldid=15353909) — revision 15353909
+
+The 2026-10-25 inventory review separates a retained passive effect from a teleport requirement. `setup-item-requirements.tsv` pins the individual guide revisions: Giant Mole's Ring of wealth and the Ring of shadows inventory uses require charges. Combat-stat and Calvar'ion clue-switch uses stay available. The [cowbell amulet](https://oldschool.runescape.wiki/w/Cowbell_amulet?oldid=15358637) retains its Brutus respawn Ring action without teleport charges. Degraded essence pouches retain reduced capacity rather than being treated as wholly unusable.
