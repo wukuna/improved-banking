@@ -227,37 +227,40 @@ final class GeCatalogueSearch extends Overlay
             String text=label.getText();
             if(text==null || text.isBlank()) continue;
             Decoration decoration=new Decoration(label,text,label.getTextColor(),rank);
+            String badges="";
             if(config.geTierColours() && rank.tier>=1 && rank.tier<=3) {
                 Color colour=TierPresentation.colour(config,rank.tier);
-                decoration.appliedText="["+TierPresentation.ordinal(rank.tier)+"] "+text;
+                badges="["+rank.tier+"]";
                 decoration.appliedColour=colour.getRGB() & 0xffffff;
             }
             String detail=rank.explanation;
+            if(!badges.isEmpty()) detail="["+rank.tier+"] = "+TierPresentation.ordinal(rank.tier)+" guide tier for this setup and role.\n"+detail;
             if(ownership) {
                 ItemCatalogueIndex.Item held=owned.owned(item);
                 if(held!=null) {
-                    decoration.appliedText=(held.id==id?"[Owned] ":"[Owned variant] ")+decoration.appliedText;
-                    detail+="\nOwned: "+held.name+" (last observed bank, inventory or equipment this login).";
+                    badges="[O]"+badges;
+                    detail+="\n[O] = Owned"+(held.id==id?"": " equivalent")+": "+held.name+" (last observed bank, inventory or equipment this login).";
                 }
                 if(!owned.complete) detail+="\nOpen your bank once this login before relying on ownership filters.";
             }
-            if(upgrades.containsKey(id)) { decoration.appliedText="[Next] "+decoration.appliedText;detail+="\n"+upgrades.get(id); }
+            if(upgrades.containsKey(id)) { badges="[N]"+badges;detail+="\n[N] = Next guide upgrade. "+upgrades.get(id); }
             if(requirements!=null) {
                 String locked=requirements.locked(item);
-                if(!locked.isEmpty()) { decoration.appliedText="<col=ff7777>[Locked]</col> "+decoration.appliedText;detail="Requires: "+locked+".\n"+detail; }
+                if(!locked.isEmpty()) { badges="<col=ff7777>[!]</col>"+badges;detail="[!] = Requires: "+locked+".\n"+detail; }
                 detail+="\nRequirement checks cover reviewed skills/unlocks only; other quests, charges and set conditions may apply.";
             }
             if(config.geShowPrices()) {
                 long price=itemManager.getItemPrice(id);
                 String colour=config.gePriceAffordability()?priceColour(price,owned):"c0c0c0";
-                decoration.appliedText+=" <col="+colour+">"+(price>0?"~"+compactPrice(price)+" gp":"price unavailable")+"</col>";
+                badges+=(badges.isEmpty()?"":" ")+"<col="+colour+">"+(price>0?"~"+compactPrice(price):"~?")+"</col>";
                 detail="Guide price: "+(price>0?String.format(Locale.ROOT,"%,d gp each",price):"unavailable")+". Cached RuneLite price; not a guaranteed offer.\n"+detail;
                 if(config.gePriceAffordability()) detail="Funds: "+String.format(Locale.ROOT,"%,d gp",owned.funds)+
                     (owned.fundsComplete?" observed in inventory/bank coins and platinum.":" confirmed in inventory; bank balance unverified. Open the bank to refresh.")+
                     " One item at guide price; buy limits and account restrictions still apply.\n"+detail;
             }
             if(!notice.isEmpty()) detail=notice+"\n"+detail;
-            decoration.explanation=detail;
+            decoration.appliedText=GeResultLabel.format(label,text,badges);
+            decoration.explanation=item.name+"\n"+detail;
             if(!text.equals(decoration.appliedText)) label.setText(decoration.appliedText);
             if(label.getTextColor()!=decoration.appliedColour) label.setTextColor(decoration.appliedColour);
             decorations.add(decoration);
@@ -293,9 +296,12 @@ final class GeCatalogueSearch extends Overlay
         if(parent==null || parent.isHidden() || parent.getWidth()<300 || parent.getHeight()<85) { if(tips!=null) tips.setHidden(true);return; }
         if(parent!=tipsParent || tips==null || parent.getChildren()==null || !Arrays.asList(parent.getChildren()).contains(tips)) {
             clearTips();tipsParent=parent;tips=parent.createChild(-1,WidgetType.TEXT);
-            tips.setFontId(494);tips.setOriginalWidth(92);tips.setOriginalHeight(17);tips.setTextColor(0xFFD27F);tips.setTextShadowed(true);
+            tips.setFontId(494);tips.setOriginalWidth(110);tips.setOriginalHeight(17);
         }
-        tips.setOriginalX(parent.getWidth()-100);tips.setOriginalY(parent.getHeight()-20);
+        // Keep the hint in the header, outside the scrolling item results.
+        tips.setOriginalX(8);tips.setOriginalY(2);
+        Widget prompt=client.getWidget(InterfaceID.Chatbox.MES_TEXT);
+        tips.setTextColor(prompt==null?0:prompt.getTextColor());tips.setTextShadowed(prompt!=null && prompt.getTextShadowed());
         tips.setText(notice.isEmpty()?"Search tips [?]":"Search notice [?]");tips.setHidden(false);tips.revalidate();
     }
     private void restore()

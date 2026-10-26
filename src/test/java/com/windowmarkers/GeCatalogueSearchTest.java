@@ -103,13 +103,13 @@ public class GeCatalogueSearchTest
     @Test public void resultLabelDecorationRestoresOnlyOurOwnChanges() throws Exception
     {
         GeCatalogueSearch search=ready(); search.onGrandExchangeSearched(new GrandExchangeSearched());
-        Widget container=mock(Widget.class),background=mock(Widget.class),icon=mock(Widget.class),label=mock(Widget.class);
+        Widget container=mock(Widget.class),background=mock(Widget.class),icon=mock(Widget.class),label=resultLabel();
         when(background.getItemId()).thenReturn(-1); when(icon.getItemId()).thenReturn(21018);
         when(label.getText()).thenReturn("<u>Ancestral</u> hat"); when(label.getTextColor()).thenReturn(123);
         when(container.getDynamicChildren()).thenReturn(new Widget[]{background,label,icon});
         when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
         ScriptPostFired script=new ScriptPostFired(ScriptID.GE_ITEM_SEARCH);
-        search.onScriptPostFired(script); verify(label).setText("[1st] <u>Ancestral</u> hat");
+        search.onScriptPostFired(script); verify(label).setText("<u>Ancestral</u> hat<br>[1]");
         when(label.getText()).thenReturn("another plugin"); when(label.getTextColor()).thenReturn(456);
         clearInvocations(label); search.clear(); verify(label,never()).setText(anyString()); verify(label,never()).setTextColor(anyInt());
     }
@@ -123,12 +123,12 @@ public class GeCatalogueSearchTest
     @Test public void closingGeRestoresTheOriginalLabelAndColour() throws Exception
     {
         GeCatalogueSearch search=ready(); search.onGrandExchangeSearched(new GrandExchangeSearched());
-        Widget container=mock(Widget.class),icon=mock(Widget.class),label=mock(Widget.class);
+        Widget container=mock(Widget.class),icon=mock(Widget.class),label=resultLabel();
         when(icon.getItemId()).thenReturn(21018); when(label.getText()).thenReturn("Ancestral hat"); when(label.getTextColor()).thenReturn(123);
         when(container.getDynamicChildren()).thenReturn(new Widget[]{icon,label,null});
         when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
         search.onScriptPostFired(new ScriptPostFired(ScriptID.GE_ITEM_SEARCH));
-        when(label.getText()).thenReturn("[1st] Ancestral hat"); when(label.getTextColor()).thenReturn(search.config.geFirstColour().getRGB() & 0xffffff);
+        when(label.getText()).thenReturn("Ancestral hat<br>[1]"); when(label.getTextColor()).thenReturn(search.config.geFirstColour().getRGB() & 0xffffff);
         clearInvocations(label); search.onWidgetClosed(new WidgetClosed(InterfaceID.GE_OFFERS,0,true));
         verify(label).setText("Ancestral hat"); verify(label).setTextColor(123);
     }
@@ -141,11 +141,11 @@ public class GeCatalogueSearchTest
         search.itemManager=mock(net.runelite.client.game.ItemManager.class);search.playerItems=owned(search,new Item(995,100));
         when(search.itemManager.getItemPrice(21018)).thenReturn(1_000_000L);
         search.onGrandExchangeSearched(new GrandExchangeSearched());
-        Widget container=mock(Widget.class),icon=mock(Widget.class),label=mock(Widget.class);
+        Widget container=mock(Widget.class),icon=mock(Widget.class),label=resultLabel();
         when(icon.getItemId()).thenReturn(21018);when(label.getText()).thenReturn("Ancestral hat");when(label.getTextColor()).thenReturn(123);
         when(container.getDynamicChildren()).thenReturn(new Widget[]{icon,label,null});when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
         search.onScriptPostFired(new ScriptPostFired(ScriptID.GE_ITEM_SEARCH));
-        String annotated="<col=ff7777>[Locked]</col> Ancestral hat <col=ff7777>~1m gp</col>";
+        String annotated="Ancestral hat<br><col=ff7777>[!]</col> <col=ff7777>~1m</col>";
         verify(label).setText(annotated);verify(label,never()).setTextColor(anyInt());
         when(label.getText()).thenReturn(annotated);clearInvocations(label);search.clear();verify(label).setText("Ancestral hat");
         verify(search.client,never()).setVarcStrValue(anyInt(),anyString());
@@ -193,6 +193,32 @@ public class GeCatalogueSearchTest
             when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn(query);GrandExchangeSearched event=new GrandExchangeSearched();
             search.onGrandExchangeSearched(event);assertFalse(event.isConsumed());
         }
+    }
+    @Test public void ownedTierAndPriceStayOnTheirOwnCompactLine() throws Exception
+    {
+        GeCatalogueSearch search=ready();search.config=new WindowMarkersConfig() {
+            public boolean geCatalogueSearch() {return true;}public boolean geMarkOwned() {return true;}
+            public boolean geShowPrices() {return true;}public boolean gePriceAffordability() {return false;}
+        };
+        search.playerItems=owned(search,new Item(21018,1));
+        search.itemManager=mock(net.runelite.client.game.ItemManager.class);
+        when(search.itemManager.getItemPrice(21018)).thenReturn(2_500_000L);
+        search.onGrandExchangeSearched(new GrandExchangeSearched());
+        Widget container=mock(Widget.class),icon=mock(Widget.class),label=resultLabel();
+        when(icon.getItemId()).thenReturn(21018);when(label.getText()).thenReturn("Ancestral hat");
+        when(container.getDynamicChildren()).thenReturn(new Widget[]{icon,label,null});
+        when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
+        search.onScriptPostFired(new ScriptPostFired(ScriptID.GE_ITEM_SEARCH));
+        verify(label).setText("Ancestral hat<br>[O][1] <col=c0c0c0>~2.5m</col>");
+        verify(label,never()).setOriginalHeight(anyInt());verify(label,never()).setOriginalWidth(anyInt());
+        verify(label,never()).setOriginalX(anyInt());verify(label,never()).setOriginalY(anyInt());
+    }
+    private static Widget resultLabel()
+    {
+        Widget label=mock(Widget.class);
+        FontTypeFace font=GeResultLabelTest.font();when(label.getFont()).thenReturn(font);
+        when(label.getWidth()).thenReturn(120);when(label.getHeight()).thenReturn(32);
+        return label;
     }
     private GePlayerItems owned(GeCatalogueSearch search,Item... items)
     {

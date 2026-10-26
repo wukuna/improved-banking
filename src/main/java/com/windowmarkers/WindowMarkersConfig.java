@@ -30,19 +30,19 @@ public interface WindowMarkersConfig extends Config
     default WindowMarkersConfig.ActivityItems geActivityFilter() { return WindowMarkersConfig.ActivityItems.ALL; }
     @ConfigItem(section=ge,keyName="geHideWorseOwned",name="Hide worse than owned",description="Hide verified lower guide choices when usable owned equipment covers every matching role. Preserves conditional, set, specialist and unranked alternatives. Requires a bank snapshot this login.",position=2)
     default boolean geHideWorseOwned() { return false; }
-    @ConfigItem(section=ge,keyName="geMarkOwned",name="Mark owned activity items",description="Add Owned or Owned variant to activity results using bank, inventory and equipment. Equivalent gear is checked without treating broken/empty equipment as usable.",position=3)
+    @ConfigItem(section=ge,keyName="geMarkOwned",name="Mark owned activity items",description="Add [O] to owned activity items. Hover to see the owned item or usable equivalent from bank, inventory or equipment. Broken/empty equipment does not prove usable ownership.",position=3)
     default boolean geMarkOwned() { return false; }
-    @ConfigItem(section=ge,keyName="geShowPrices",name="Show guide prices",description="Add the cached RuneLite price for one item beside its name. Respects RuneLite's Wiki-price setting. A guide price is not a guaranteed offer price.",position=6)
+    @ConfigItem(section=ge,keyName="geShowPrices",name="Show guide prices",description="Show a compact cached RuneLite price below the name; hover for the full amount in gp. Respects RuneLite's Wiki-price setting. A guide price is not a guaranteed offer price.",position=6)
     default boolean geShowPrices() { return false; }
     @ConfigItem(section=ge,keyName="gePriceAffordability",name="Colour prices by funds",description="With prices enabled: green means observed inventory/bank coins and platinum cover one item at guide price; red means insufficient observed funds; neutral means balance or price is unknown. Excludes uncollected offers and item resale value.",position=7)
     default boolean gePriceAffordability() { return true; }
-    @ConfigItem(section=ge,keyName="geMarkLocked",name="Mark unmet requirements",description="Add Locked for verified unmet skill or quest requirements. Hover for details. Coverage is partial; no tag does not prove every requirement is met. Items remain searchable and purchasable.",position=8)
+    @ConfigItem(section=ge,keyName="geMarkLocked",name="Mark unmet requirements",description="Add [!] for verified unmet skill or quest requirements. Hover for details. Coverage is partial; no tag does not prove every requirement is met. Items remain searchable and purchasable.",position=8)
     default boolean geMarkLocked() { return false; }
-    @ConfigItem(section=ge,keyName="geSearchTips",name="Show search tips",description="Show a small Search tips hint in the GE chatbox for broad searches. Hover for more specific queries. Bank search is unchanged.",position=9)
+    @ConfigItem(section=ge,keyName="geSearchTips",name="Show search tips",description="Show Search tips at the top left of the GE chatbox for broad searches. Hover for more specific queries. Bank search is unchanged.",position=9)
     default boolean geSearchTips() { return true; }
     @ConfigSection(name="Gear guide tiers",description="Shared bank and GE colours and ordinal tags",position=5,closedByDefault=true)
     String tiers="tiers";
-    @ConfigItem(section=tiers,keyName="geTierColours",name="Show Wiki gear tiers",description="Shared bank and GE colours with 1st/2nd/3rd tags mark the first three guide columns. Conflicting ranks, examples and items needing preparation stay neutral. Hover for context. These are not universal BIS ratings.",position=0)
+    @ConfigItem(section=tiers,keyName="geTierColours",name="Show Wiki gear tiers",description="Shared bank and GE colours mark the first three guide columns. GE badges use [1]/[2]/[3]; bank corners use 1st/2nd/3rd. Conflicting ranks and items needing preparation stay neutral. Hover for context; these are not universal BIS ratings.",position=0)
     default boolean geTierColours() { return true; }
     @ConfigItem(section=tiers,keyName="geFirstColour",name="1st — setup BIS",description="Shared bank and GE colour for Wiki column 1 in the matching setup and role. Requirements and set bonuses still apply.",position=1)
     default Color geFirstColour() { return new Color(138,43,226); }
