@@ -11,6 +11,21 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void equipmentAndInventoryUseSeparateHalvesAndAlternativesBelow() {
+        var result=SetupLoadoutTest.catalogue().find("toa magic","364045:3","364045:9");
+        Widget hat=cell(21018,"Ancestral hat",0,"Wear",51,0),alternative=cell(4708,"Ahrim's hood",0,"Wear",99,0),
+            robe=cell(4712,"Ahrim's robetop",4,"Wear",147,0),brew=cell(6685,"Saradomin brew(4)",-1,"Drink",195,0),
+            broken=cell(4860,"Ahrim's hood 0",0,"Check",243,0),restore=cell(3024,"Super restore(4)",-1,"Drink",291,0);
+        Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{hat,alternative,robe,brew,broken,restore});
+        List<SetupItemLayout.Heading> headings=new ArrayList<>();
+        int[] ends=SetupItemLayout.apply(container,manager,8,48,4,result.loadout,result.ranks,headings);
+        assertEquals(99,hat.getOriginalX());assertEquals(22,hat.getOriginalY());
+        assertEquals(99,robe.getOriginalX());assertEquals(94,robe.getOriginalY());
+        assertTrue(brew.getOriginalX()>=243);assertTrue(restore.getOriginalX()>=243);
+        assertTrue(alternative.getOriginalY()>brew.getOriginalY());assertTrue(broken.getOriginalY()>alternative.getOriginalY());
+        assertTrue(ends[1]>broken.getOriginalY());assertEquals("Equipment",headings.get(0).text);
+        for(Widget cell:new Widget[]{hat,alternative,robe,brew,broken,restore}) { assertTrue(cell.getOriginalX()+36<=423);verify(cell,never()).setItemId(anyInt()); }
+    }
     private ItemManager manager=mock(ItemManager.class);
     private Widget cell(int id,String name,int slot,String action,int x,int y) {
         ItemComposition definition=mock(ItemComposition.class);

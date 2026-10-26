@@ -35,7 +35,8 @@ final class NativeBankSearch
     private String query;
     private Set<Integer> matches=Collections.emptySet();
     private Map<Integer,ItemCatalogueIndex.Rank> ranks=Collections.emptyMap();
-    private String guideContext="";
+    private String guideContext="", inventoryContext="";
+    private SetupLoadout loadout;
     private Marker highlight;
     private boolean slots;
     private long revision;
@@ -44,7 +45,7 @@ final class NativeBankSearch
 
     void start() { running=true; }
     void stop() { boolean restore=searching(); running=false; reset(); if(restore) bankSearch.layoutBank(); }
-    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; clearWidget(); }
+    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; clearWidget(); }
     void index(BankSearchIndex next)
     { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; update(true); } }); }
     boolean searching()
@@ -57,33 +58,34 @@ final class NativeBankSearch
     private void update(boolean indexChanged)
     {
         if(!searching()) {
-            if(query!=null) { revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; }
+            if(query!=null) { revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
             if(checkbox!=null) checkbox.setHidden(true); return;
         }
         updateCheckbox();
         String next=client.getVarcStrValue(VarClientID.MESLAYERINPUT);
         if(!config.improvedBankSearch()) next="";
         String nextContext=config.geGuideContext()==null?"":config.geGuideContext();
-        boolean queryChanged=!Objects.equals(query,next) || !Objects.equals(guideContext,nextContext);
+        String nextInventory=config.bankInventoryContext()==null?"":config.bankInventoryContext();
+        boolean queryChanged=!Objects.equals(query,next) || !Objects.equals(guideContext,nextContext) || !Objects.equals(inventoryContext,nextInventory);
         if(!queryChanged && !indexChanged) return;
         Set<Integer> previous=new HashSet<>(matches); boolean previousSlots=slots;
-        query=next; guideContext=nextContext;
-        if(queryChanged) { matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; }
+        query=next; guideContext=nextContext; inventoryContext=nextInventory;
+        if(queryChanged) { matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
         final long token=++revision;
-        final BankSearchIndex snapshot=index; final String text=next,guide=nextContext;
+        final BankSearchIndex snapshot=index; final String text=next,guide=nextContext,inventory=nextInventory;
         if(snapshot==null || !BankSearchIndex.plainQuery(text)) {
             if(!previous.isEmpty() || previousSlots) bankSearch.layoutBank();
             return;
         }
         new SwingWorker<BankSearchIndex.Match,Void>() {
-            protected BankSearchIndex.Match doInBackground() { return snapshot.search(text,guide); }
+            protected BankSearchIndex.Match doInBackground() { return snapshot.search(text,guide,inventory); }
             protected void done() { try {
                 final BankSearchIndex.Match found=get();
                 clientThread.invokeLater(() -> {
-                    if(!running || token!=revision || !searching() || !config.improvedBankSearch()
+                    if(!running || token!=revision || !currentGuide() || !searching() || !config.improvedBankSearch()
                         || !Objects.equals(guide,config.geGuideContext()==null?"":config.geGuideContext())
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
-                    matches=new HashSet<>(found.ids); slots=found.slots;
+                    matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;
                     // A tab's own membership must not be expanded by category search.
                     if(bankTags.getActiveBankTag()!=null) matches.removeIf(id -> !bankTags.getActiveBankTag().contains(id));
                     ranks=new HashMap<>(found.ranks); ranks.keySet().retainAll(matches);
@@ -97,7 +99,7 @@ final class NativeBankSearch
             } catch(Exception ex) {
                 clientThread.invokeLater(() -> {
                     if(!running || token!=revision) return;
-                    matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false;
+                    matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null;
                     if(searching() && (!previous.isEmpty() || previousSlots)) bankSearch.layoutBank();
                     log.warn("Could not refresh Improved Banking search; using ordinary bank search",ex);
                 });
@@ -115,10 +117,11 @@ final class NativeBankSearch
         if(bankTags.getActiveBankTag()!=null && !bankTags.getActiveBankTag().contains(id)) return;
         if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
     }
-    private boolean currentGuide() { return Objects.equals(guideContext,config.geGuideContext()==null?"":config.geGuideContext()); }
+    private boolean currentGuide() { return Objects.equals(guideContext,config.geGuideContext()==null?"":config.geGuideContext()) && Objects.equals(inventoryContext,config.bankInventoryContext()==null?"":config.bankInventoryContext()); }
+    SetupLoadout loadout() { return groupBySlot()?loadout:null; }
     Marker highlight() { return searching() && config.improvedBankSearch() && currentGuide()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?highlight:null; }
-    void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; }
+    void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
     Map<Integer,ItemCatalogueIndex.Rank> ranks() { return highlight()==null?Collections.emptyMap():Collections.unmodifiableMap(ranks); }
     boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentGuide() && slots && !matches.isEmpty()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }

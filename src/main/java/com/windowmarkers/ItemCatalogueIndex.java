@@ -29,7 +29,9 @@ final class ItemCatalogueIndex
         final List<Item> items;
         final Map<Integer,Rank> ranks;
         final boolean activity;
-        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity) { this.items=items; this.ranks=ranks; this.activity=activity; }
+        final SetupLoadout loadout;
+        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity) { this(items,ranks,activity,null); }
+        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity,SetupLoadout loadout) { this.items=items; this.ranks=ranks; this.activity=activity; this.loadout=loadout; }
         short[] ids() { short[] ids=new short[items.size()]; for(int i=0;i<ids.length;i++) ids[i]=(short)items.get(i).id; return ids; }
     }
     private static final class Field
@@ -134,7 +136,7 @@ final class ItemCatalogueIndex
     {
         String s=" "+SearchText.normalize(query)+" ";
         String[][] aliases={{"toa","tombs of amascut"},{"cox","chambers of xeric"},{"tob","theatre of blood"},
-            {"tfa","the fractured archive"},{"kbd","king black dragon"},{"kq","kalphite queen"},
+            {"kbd","king black dragon"},{"kq","kalphite queen"},
             {"dks","dagannoth kings"},{"corp","corporeal beast"},{"mage","magic"},{"range","ranged"},{"armor","armour"}};
         for(String[] alias:aliases) s=s.replace(" "+alias[0]+" "," "+alias[1]+" ");
         return s.trim();
@@ -142,17 +144,17 @@ final class ItemCatalogueIndex
     static int slot(String token)
     {
         switch(token) {
-            case "head": case "helm": case "helmet": case "hat": return 0;
-            case "cape": case "back": return 1;
-            case "neck": case "amulet": case "necklace": return 2;
+            case "head": case "helm": case "helmet": case "hat": case "hood": case "headgear": case "helms": case "helmets": case "hats": return 0;
+            case "cape": case "back": case "capes": return 1;
+            case "neck": case "amulet": case "necklace": case "amulets": case "necklaces": case "pendant": return 2;
             case "weapon": case "weapons": return 3;
-            case "body": case "chest": case "torso": return 4;
-            case "shield": case "offhand": return 5;
-            case "legs": case "leg": return 7;
-            case "hands": case "gloves": return 9;
-            case "feet": case "boots": return 10;
-            case "ring": return 12;
-            case "ammo": case "ammunition": return 13;
+            case "body": case "chest": case "torso": case "top": case "tops": case "platebody": case "robetop": return 4;
+            case "shield": case "shields": case "offhand": case "defender": return 5;
+            case "legs": case "leg": case "bottom": case "bottoms": case "platelegs": case "plateskirt": case "chaps": case "tassets": case "skirt": return 7;
+            case "hands": case "hand": case "gloves": case "glove": case "gauntlets": case "bracers": return 9;
+            case "feet": case "foot": case "boots": case "boot": case "shoes": return 10;
+            case "ring": case "rings": return 12;
+            case "ammo": case "ammunition": case "arrows": case "bolts": return 13;
             default:return -1;
         }
     }
@@ -185,10 +187,14 @@ final class ItemCatalogueIndex
 
     /** Null means leave native search (and other search plugins) entirely alone. */
     Result find(String raw,String context)
+    { return find(raw,context,""); }
+    Result find(String raw,String context,String inventoryContext)
     {
         if(!BankSearchIndex.plainQuery(raw) || raw.length()>100) return null;
         String query=normalize(raw);
         if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query)) return null;
+        SearchQuery qualifiers=SearchQuery.parse(raw);
+        query=normalize(qualifiers.text);
         int wantedSlot=-1;
         List<String> words=new ArrayList<>();
         for(String word:query.split(" +")) {
@@ -241,8 +247,19 @@ final class ItemCatalogueIndex
             .filter(i->filterSlot<0 || fitsSlot(i,filterSlot) || i.search.contains(ordinary))
             .sorted(Comparator.comparing((Item i)->i.name,String.CASE_INSENSITIVE_ORDER).thenComparingInt(i->i.id)).collect(Collectors.toList());
         Map<Integer,Rank> ranks=new HashMap<>();
-        if(!ge || result.size()<=LIMIT) for(Item item:result) ranks.put(item.id,rank(item,matched,wantedSlot));
-        return new Result(result,ranks,!matched.isEmpty());
+        if(!ge || result.size()<=LIMIT || !qualifiers.tiers.isEmpty()) for(Item item:result) ranks.put(item.id,rank(item,matched,wantedSlot));
+        if(!qualifiers.tiers.isEmpty()) {
+            result.removeIf(item->!qualifiers.accepts(ranks.get(item.id)));
+            Set<Integer> retained=result.stream().map(item->item.id).collect(Collectors.toSet());
+            ranks.keySet().retainAll(retained);
+        }
+        SetupLoadout loadout=!ge && wantedSlot<0 && qualifiers.tiers.isEmpty()
+            ? SetupLoadout.build(matched,items,found,inventoryContext):null;
+        if(loadout!=null) {
+            Set<Integer> included=result.stream().map(i->i.id).collect(Collectors.toSet());
+            for(int id:loadout.inventory.values()) if(included.add(id)) result.add(items.get(id));
+        }
+        return new Result(result,ranks,!matched.isEmpty(),loadout);
     }
     Map<Integer,Rank> guideRanks(String query,String context)
     {
@@ -280,7 +297,7 @@ final class ItemCatalogueIndex
                 // Those remain searchable, but are not ranked equipment.
                 if(item.slot<0 || !fitsSlot(item,sourceSlot) || wantedSlot>=0 && sourceSlot!=wantedSlot) continue;
                 boolean reduced=ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
-                int value=setup.activity.equals("The Fractured Archive") || reduced ? 0 : field.tier;
+                int value=reduced ? 0 : field.tier;
                 tiers.add(value); roles.add(field.slot.equals("special") ? "special attack"
                     :field.slot.equals("ammo")?"ammunition":field.slot.equals("shield")?"shield":"equipment");
                 if(sources.size()<3) sources.add(setup.activity+" / "+setup.label+" / "+field.slot+": "+

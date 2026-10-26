@@ -67,7 +67,9 @@ final class BankSearchIndex
     }
     static final class Match {
         final Set<Integer> ids; final Map<Integer,ItemCatalogueIndex.Rank> ranks; final boolean slots;
-        Match(Set<Integer> ids,Map<Integer,ItemCatalogueIndex.Rank> ranks,boolean slots) { this.ids=ids;this.ranks=ranks;this.slots=slots; }
+        final SetupLoadout loadout;
+        Match(Set<Integer> ids,Map<Integer,ItemCatalogueIndex.Rank> ranks,boolean slots) { this(ids,ranks,slots,null); }
+        Match(Set<Integer> ids,Map<Integer,ItemCatalogueIndex.Rank> ranks,boolean slots,SetupLoadout loadout) { this.ids=ids;this.ranks=ranks;this.slots=slots;this.loadout=loadout; }
     }
     private void activity(String name) {
         activities.add(SearchText.normalize(name));
@@ -90,17 +92,21 @@ final class BankSearchIndex
     Set<Integer> find(String query)
     { return search(query,"").ids; }
     Match search(String query,String context)
+    { return search(query,context,""); }
+    Match search(String query,String context,String inventoryContext)
     {
         Set<Integer> result=new HashSet<>();
         if(!plainQuery(query)) return new Match(result,Collections.emptyMap(),false);
         String normalized=SearchText.normalize(query);
-        ItemCatalogueIndex.Result common=catalogue.find(query,context);
+        ItemCatalogueIndex.Result common=catalogue.find(query,context,inventoryContext);
         if(common!=null) for(ItemCatalogueIndex.Item item:common.items) result.add(item.id);
         Map<String,Set<Integer>> extra=common==null?documents:customDocuments;
         boolean exact=extra.keySet().stream().anyMatch(t->t.contains(normalized));
         for(Map.Entry<String,Set<Integer>> entry:extra.entrySet())
             if(entry.getKey().contains(normalized) || (!exact && normalized.length()>=3 && SearchText.normalizedScore(entry.getKey(),normalized)!=Integer.MAX_VALUE))
                 result.addAll(entry.getValue());
-        return new Match(result,common==null?Collections.emptyMap():common.ranks,common!=null && common.activity || groupBySlot(query));
+        SearchQuery qualifiers=SearchQuery.parse(query);
+        if(common!=null && !qualifiers.tiers.isEmpty()) result.removeIf(id->!qualifiers.accepts(common.ranks.get(id)));
+        return new Match(result,common==null?Collections.emptyMap():common.ranks,common!=null && common.activity || groupBySlot(query),common==null?null:common.loadout);
     }
 }

@@ -20,11 +20,17 @@ final class BankSearchView
     private BankTag tag;
     private String name;
     private boolean slots;
+    private SetupLoadout loadout;
+    private Map<Integer,ItemCatalogueIndex.Rank> ranks=Collections.emptyMap();
+    SetupLoadout loadout() { return isActive()?loadout:null; }
+    Map<Integer,ItemCatalogueIndex.Rank> ranks() { return isActive()?ranks:Collections.emptyMap(); }
     private List<Marker> groups=Collections.emptyList();
 
-    void show(String name,List<Marker> groups,boolean slots)
+    void show(String name,List<Marker> groups,boolean slots) { show(name,groups,slots,null,Collections.emptyMap()); }
+    void show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks)
     {
         clear();
+        this.loadout=loadout; this.ranks=ranks;
         this.name=name; this.groups=new ArrayList<>(groups); this.slots=slots;
         Set<Integer> ids=new HashSet<>();
         for(Marker group:groups) if(group.linked()) for(int id:group.linkedItemIds) ids.add(id);
@@ -50,5 +56,5 @@ final class BankSearchView
         }
         forget();
     }
-    private void forget() { if(tag!=null) tags.unregisterTag(tagName); tag=null; name=null; slots=false; groups=Collections.emptyList(); }
+    private void forget() { if(tag!=null) tags.unregisterTag(tagName); tag=null; name=null; slots=false;loadout=null;ranks=Collections.emptyMap(); groups=Collections.emptyList(); }
 }

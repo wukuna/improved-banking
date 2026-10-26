@@ -204,19 +204,6 @@ public class ActivitySetupsTest
         assertTrue(foundRealFood);
     }
 
-    @Test public void provisionalRaidDoesNotBorrowOtherRaidsSuppliesOrRankings()
-    {
-        AutoCategories.Preset raid=AutoCategories.Preset.FRACTURED_ARCHIVE;
-        List<AutoCategories.Item> bank=Arrays.asList(item(34715,"Obligator"),item(13329,"Fire max cape"),
-            item(6685,"Saradomin brew(4)"),item(24592,"Blighted anglerfish"),item(564,"Cosmic rune"));
-        Map<String,List<AutoCategories.Item>> groups=AutoCategories.suggest(raid,bank);
-        assertTrue(contains(groups,34715)); assertTrue(contains(groups,13329)); assertTrue(contains(groups,6685));
-        assertFalse(contains(groups,24592)); assertFalse(contains(groups,564));
-        assertTrue(groups.keySet().stream().noneMatch(RaidRecommendations::defaultSelected));
-        assertEquals("tfa",RaidRecommendations.raid(raid));
-        assertTrue(ActivitySetups.activities("fractured").contains("The Fractured Archive"));
-    }
-
     @Test public void specialistAndEntryGearRetainTheirSeparateRoles()
     {
         Map<String,List<AutoCategories.Item>> tob=AutoCategories.suggest(AutoCategories.Preset.THEATRE_OF_BLOOD,

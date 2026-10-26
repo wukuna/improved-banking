@@ -11,6 +11,10 @@ final class ActivitySetupPicker
     static ActivitySetups.Setup choose(Component parent)
     { return choose(parent,false); }
     static ActivitySetups.Setup choose(Component parent,boolean ge)
+    { return choose(parent,ge,false); }
+    static ActivitySetups.Setup chooseInventory(Component parent)
+    { return choose(parent,false,true); }
+    private static ActivitySetups.Setup choose(Component parent,boolean ge,boolean inventory)
     {
         JTextField search=new JTextField(32);
         JComboBox<String> activities=new JComboBox<>();
@@ -40,7 +44,7 @@ final class ActivitySetupPicker
         activities.addActionListener(e -> {
             setups.removeAllItems();
             for (ActivitySetups.Setup setup:ActivitySetups.forActivity((String)activities.getSelectedItem()))
-            { setups.addItem(setup); }
+            { if(!inventory || SetupLoadout.inventoryTable(setup)) setups.addItem(setup); }
         });
         Runnable refresh=() -> {
             Object previous=activities.getSelectedItem();

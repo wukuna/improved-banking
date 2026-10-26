@@ -13,6 +13,33 @@ import static org.mockito.Mockito.*;
 
 public class GeCatalogueSearchTest
 {
+    @Test public void coreFuzzyFallbackRunsOnlyForUnclaimedQueries() throws Exception {
+        GeCatalogueSearch ours=ready();
+        var core=new net.runelite.client.plugins.grandexchange.GrandExchangePlugin();
+        var config=mock(net.runelite.client.plugins.grandexchange.GrandExchangeConfig.class);
+        when(config.geSearchMode()).thenReturn(net.runelite.client.plugins.grandexchange.GrandExchangeSearchMode.FUZZY_FALLBACK);
+        var manager=mock(net.runelite.client.game.ItemManager.class);
+        set(core,"client",ours.client);set(core,"config",config);set(core,"itemManager",manager);
+        var bus=new net.runelite.client.eventbus.EventBus();bus.register(core);bus.register(ours);
+        // Registration order is intentionally reversed; the actual event priorities must decide.
+        bus.post(new GrandExchangeSearched());verify(ours.client,times(1)).setGeSearchResultIds(any());
+        verifyNoInteractions(manager);
+        clearInvocations(ours.client);
+        when(ours.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("shark");
+        when(ours.client.getItemCount()).thenReturn(1);
+        ItemComposition shark=mock(ItemComposition.class);when(shark.getName()).thenReturn("Shark");
+        when(shark.getId()).thenReturn(385);when(shark.getNote()).thenReturn(-1);when(shark.isGeTradeable()).thenReturn(true);
+        when(manager.getItemComposition(0)).thenReturn(shark);
+        bus.post(new GrandExchangeSearched());verify(manager).getItemComposition(0);
+        verify(ours.client).setGeSearchResultIds(new short[]{385});
+        verify(ours.client,never()).setVarcStrValue(anyInt(),anyString());
+        set(core,"fuzzySearchScorer",new net.runelite.client.plugins.grandexchange.FuzzySearchScorer());
+        clearInvocations(ours.client,manager);
+        when(ours.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("shrk");
+        bus.post(new GrandExchangeSearched());
+        verify(manager,times(2)).getItemComposition(0); // exact fallback, then fuzzy scoring
+        verify(ours.client).setGeSearchResultIds(new short[]{385});
+    }
     private static void set(Object target,String name,Object value) throws Exception
     { Field field=target.getClass().getDeclaredField(name); field.setAccessible(true); field.set(target,value); }
     private GeCatalogueSearch ready() throws Exception

@@ -1,0 +1,859 @@
+# setup ID	kind	section	style or source label
+101880:1	recommended equipment	Equipment	Magic - Ice Burst
+101880:2	inventory	Inventory	Ice Burst
+101880:3	recommended equipment	Equipment	Magic - Ice Barrage
+101880:4	inventory	Inventory	Ice Barrage
+101880:5	recommended equipment	Equipment	Ranged
+101880:6	inventory	Inventory	Ranged
+101880:7	recommended equipment	Equipment	Melee with Hallowfell
+102334:1	recommended equipment	Setup	Graceful
+102334:2	recommended equipment	Setup	Defence
+102334:3	inventory	Setup / Inventory	Setup / Inventory
+103703:1	recommended equipment	Equipment	Melee
+103703:2	inventory	Equipment	Melee
+103703:3	recommended equipment	Inventory	Prayer
+103703:4	inventory	Inventory	Prayer
+103703:5	recommended equipment	Inventory	Magic
+103703:6	inventory	Inventory	Magic
+103703:7	recommended equipment	Inventory	Ranged
+103703:8	inventory	Inventory	Ranged
+104707:1	recommended equipment	Setup	No Clothes pouch
+104707:2	equipment	Setup	No Clothes pouch
+104707:3	inventory	Setup	No Clothes pouch
+104707:4	rune pouch	Setup	No Clothes pouch
+104707:5	recommended equipment	Setup / Inventory	With Clothes pouch
+104707:6	equipment	Setup / Inventory	With Clothes pouch
+104707:7	inventory	Setup / Inventory	With Clothes pouch
+104707:8	rune pouch	Setup / Inventory	With Clothes pouch
+105525:1	recommended equipment	Equipment	Melee
+105525:2	recommended equipment	Equipment	Ranged switches
+105525:3	equipment	Equipment / Inventory	Max
+105525:4	inventory	Equipment / Inventory	Max
+105525:5	rune pouch	Equipment / Inventory	Max
+105525:6	equipment	Equipment / Inventory	Mid-game
+105525:7	inventory	Equipment / Inventory	Mid-game
+105525:8	rune pouch	Equipment / Inventory	Mid-game
+105525:9	equipment	Equipment / Inventory	Atlatl only
+105525:10	inventory	Equipment / Inventory	Atlatl only
+105525:11	rune pouch	Equipment / Inventory	Atlatl only
+105525:12	equipment	Equipment / Inventory	Melee only
+105525:13	inventory	Equipment / Inventory	Melee only
+105525:14	rune pouch	Equipment / Inventory	Melee only
+107082:1	recommended equipment	Equipment	Ranged
+107082:2	inventory	Inventory	Ranged
+107082:3	recommended equipment	Inventory	Melee
+107082:4	inventory	Inventory	Melee
+107082:5	recommended equipment	Inventory	Magic
+107082:6	inventory	Inventory	Mage
+107082:7	recommended equipment	Inventory	Ranged
+107082:8	inventory	Inventory	Survivability
+108241:1	recommended equipment	Equipment	Ranged
+108241:2	inventory	Equipment	Ranged
+108241:3	rune pouch	Equipment	Ranged
+108241:4	recommended equipment	Inventory	Magic
+108241:5	inventory	Inventory	Magic
+108241:6	rune pouch	Inventory	Magic
+108241:7	recommended equipment	Inventory	Melee
+108241:8	inventory	Inventory	Melee
+108241:9	rune pouch	Inventory	Melee
+108241:10	recommended equipment	Inventory	Dharok's
+108241:11	inventory	Inventory	Melee (Dharok's)
+108241:12	rune pouch	Inventory	Melee (Dharok's)
+108241:13	recommended equipment	Inventory	Melee & Prayer Budget
+108241:14	inventory	Inventory	Melee (Budget)
+108966:1	recommended equipment	Equipment	Ranged (crossbow)
+108966:2	recommended equipment	Equipment	Melee
+108966:3	equipment	Inventory setups	Ranged (crossbow)
+108966:4	inventory	Inventory setups	Ranged (crossbow)
+108966:5	rune pouch	Inventory setups	Ranged (crossbow)
+108966:6	equipment	Inventory setups	Ranged (blowpipe)
+108966:7	inventory	Inventory setups	Ranged (blowpipe)
+108966:8	rune pouch	Inventory setups	Ranged (blowpipe)
+108966:9	equipment	Inventory setups	Melee
+108966:10	inventory	Inventory setups	Melee
+108966:11	rune pouch	Inventory setups	Melee
+110044:1	recommended equipment	Equipment	Melee
+110044:2	inventory	Equipment	Melee
+110044:3	recommended equipment	Equipment	Ranged
+110044:4	inventory	Equipment	Ranged
+110044:5	recommended equipment	Equipment	Magic
+110044:6	inventory	Equipment	Magic
+111819:1	recommended equipment	Equipment	Ranged
+111819:2	inventory	Equipment	Ranged
+111819:3	rune pouch	Equipment	Ranged
+111819:4	recommended equipment	Inventory	Ranged - Low Risk
+111819:5	inventory	Inventory	Low Risk
+111819:6	recommended equipment	Inventory	Ranged - Low Risk
+111819:7	inventory	Inventory	Low Risk Melee
+112003:1	recommended equipment	Equipment	Magic
+112003:2	inventory	Equipment	Magic
+112003:3	rune pouch	Equipment	Magic
+117586:1	inventory	Equipment	Entry Mode
+117586:2	rune pouch	Equipment	Entry Mode
+117586:3	recommended equipment	Equipment	Entry mode
+117586:4	recommended equipment	Equipment	Learner
+117586:5	recommended equipment	Equipment	Melee
+117586:6	equipment	Equipment / Scythe considerations	Melee
+117586:7	recommended equipment	Equipment / Scythe considerations	Magic
+117586:8	recommended equipment	Equipment / Scythe considerations	Range
+117586:9	equipment	Equipment / Scythe considerations	Learner/Void
+117586:10	equipment	Equipment / Scythe considerations	Melee Role
+117586:11	equipment	Equipment / Scythe considerations	Mage/Freezer Role
+117586:12	equipment	Equipment / Scythe considerations	Range Role
+117586:13	inventory	Equipment / Scythe considerations	Learner/Void
+117586:14	rune pouch	Equipment / Scythe considerations	Learner/Void
+117586:15	inventory	Equipment / Scythe considerations	Melee Role
+117586:16	rune pouch	Equipment / Scythe considerations	Melee Role
+117586:17	inventory	Equipment / Scythe considerations	Mage/Freezer Role
+117586:18	rune pouch	Equipment / Scythe considerations	Mage/Freezer Role
+117586:19	inventory	Equipment / Scythe considerations	Range Role
+117586:20	rune pouch	Equipment / Scythe considerations	Range Role
+117586:21	recommended equipment	The Maiden of Sugadinti / Strategy / Stacking 70s and 50s (advanced)	Maiden (0 defence)
+117586:22	recommended equipment	Pestilent Bloat / Strategy	Bloat
+117586:23	recommended equipment	The Nylocas / Nylocas Vasilias	Melee Nylocas Vasilias
+117586:24	recommended equipment	The Nylocas / Nylocas Vasilias	Range Nylocas Vasilias
+117586:25	recommended equipment	The Nylocas / Nylocas Vasilias	Mage Nylocas Vasilias
+117586:26	recommended equipment	Sotetseg / Shadow maze	Sotetseg (100 defence)
+117586:27	recommended equipment	Xarpus / Phase 3	Xarpus (0 defence)
+117586:28	recommended equipment	Verzik Vitur - phase 1 / Strategy	Verzik P1
+117586:29	recommended equipment	Verzik Vitur - phase 3 / Green ball / Enrage phase	Verzik
+119426:1	recommended equipment	Equipment	Melee
+119426:2	inventory	Inventory	Melee
+119426:3	rune pouch	Inventory	Melee
+119426:4	recommended equipment	Inventory	Ranged
+119426:5	inventory	Inventory	Ranged
+119426:6	rune pouch	Inventory	Ranged
+204107:1	recommended equipment	Equipment	Ranged
+204107:2	inventory	Equipment / Inventory	Ranged
+204107:3	rune pouch	Equipment / Inventory	Ranged
+204107:4	recommended equipment	Equipment / Inventory	Melee
+204107:5	inventory	Equipment / Inventory (If banking bones)	Melee
+204107:6	rune pouch	Equipment / Inventory (If banking bones)	Melee
+204107:7	inventory	Equipment / Inventory (Long trips)	Melee
+204107:8	rune pouch	Equipment / Inventory (Long trips)	Melee
+210427:1	recommended equipment	Equipment	First cape
+210427:2	recommended equipment	Equipment	On task
+210427:3	recommended equipment	Equipment	Mage tank
+210427:4	equipment	Inventory	Max Twisted bow
+210427:5	inventory	Inventory	Max Twisted bow
+210427:6	rune pouch	Inventory	Max Twisted bow
+210427:7	equipment	Inventory	Bowfa
+210427:8	inventory	Inventory	Bowfa
+210427:9	rune pouch	Inventory	Bowfa
+210427:10	equipment	Inventory	On Task
+210427:11	inventory	Inventory	On Task
+210427:12	rune pouch	Inventory	On Task
+210427:13	equipment	Inventory	Mage tank
+210427:14	inventory	Inventory	Mage tank
+210427:15	rune pouch	Inventory	Mage tank
+224363:1	recommended equipment	Equipment	Melee (Low level)
+224363:2	equipment	Inventory	Melee (Low level)
+224363:3	inventory	Inventory	Melee (Low level)
+224363:4	rune pouch	Inventory	Melee (Low level)
+224363:5	recommended equipment	Inventory	Melee (High level)
+224363:6	equipment	Inventory	Melee (High level)
+224363:7	inventory	Inventory	Melee (High level)
+224363:8	rune pouch	Inventory	Melee (High level)
+224363:9	recommended equipment	Inventory	Magic
+224363:10	equipment	Inventory	Magic (Tumeken's shadow)
+224363:11	inventory	Inventory	Magic (Tumeken's shadow)
+224363:12	rune pouch	Inventory	Magic (Tumeken's shadow)
+224825:1	equipment	Large groups / Equipment	Large groups / Equipment
+224825:2	inventory	Large groups / Equipment	Large groups / Equipment
+224825:3	recommended equipment	Solo method / Equipment	Solo
+227342:1	equipment	Regular Gauntlet strategy / Desired equipment and inventory	Regular Gauntlet strategy / Desired equipment and inventory
+227342:2	inventory	Regular Gauntlet strategy / Desired equipment and inventory	Regular Gauntlet strategy / Desired equipment and inventory
+227342:3	equipment	Regular Gauntlet speedrunning / Desired equipment and inventory	Regular Gauntlet speedrunning / Desired equipment and inventory
+227342:4	inventory	Regular Gauntlet speedrunning / Desired equipment and inventory	Regular Gauntlet speedrunning / Desired equipment and inventory
+227342:5	equipment	Corrupted Gauntlet strategy / Desired equipment and inventory	Corrupted Gauntlet strategy / Desired equipment and inventory
+227342:6	inventory	Corrupted Gauntlet strategy / Desired equipment and inventory	Corrupted Gauntlet strategy / Desired equipment and inventory
+227342:7	equipment	Corrupted Gauntlet speedrunning / Desired equipment and inventory	Corrupted Gauntlet speedrunning / Desired equipment and inventory
+227342:8	inventory	Corrupted Gauntlet speedrunning / Desired equipment and inventory	Corrupted Gauntlet speedrunning / Desired equipment and inventory
+227925:1	recommended equipment	Equipment	Mining
+227925:2	equipment	Equipment	Equipment
+227925:3	inventory	Inventory	Inventory
+24889:1	recommended equipment	Equipment	Ranged
+24889:2	inventory	Inventory	Ranged
+24889:3	rune pouch	Inventory	Ranged
+24889:4	recommended equipment	Inventory	Solo Melee
+24889:5	inventory	Inventory	Solo Melee
+24889:6	rune pouch	Inventory	Solo Melee
+24889:7	recommended equipment	Inventory	Melee Tank
+24889:8	inventory	Inventory	Melee Tank
+24889:9	rune pouch	Inventory	Melee Tank
+24889:10	recommended equipment	Inventory	Melee
+24889:11	inventory	Inventory	Melee
+24889:12	rune pouch	Inventory	Melee
+24889:13	recommended equipment	Inventory	Magic
+24889:14	inventory	Inventory	Magic
+24889:15	rune pouch	Inventory	Magic
+24892:1	recommended equipment	Equipment	Magic
+24892:2	inventory	Inventory	Magic
+24892:3	rune pouch	Inventory	Magic
+24892:4	recommended equipment	Inventory	Ranged
+24892:5	inventory	Inventory	Ranged
+24892:6	rune pouch	Inventory	Ranged
+251022:1	equipment	Equipment	Melee
+251022:2	inventory	Equipment	Melee
+251022:3	rune pouch	Equipment	Melee
+251022:4	recommended equipment	Equipment	Melee
+251022:5	recommended equipment	Equipment	Mage
+251022:6	equipment	Equipment	Solo
+251022:7	inventory	Equipment	Solo
+251022:8	rune pouch	Equipment	Solo
+25401:1	recommended equipment	Equipment	Tribrid (All Kings)
+25401:2	recommended equipment	Equipment	Magic (Rex only)
+25401:3	recommended equipment	Equipment	Ranged
+25401:4	equipment	Inventory	Max Tribrid Setup
+25401:5	inventory	Inventory	Max Tribrid Setup
+25401:6	equipment	Inventory	Mid-Level Tribrid Setup
+25401:7	inventory	Inventory	Mid-Level Tribrid Setup
+25401:8	equipment	Rex Safespot inventory	Rex safespot setup
+25401:9	inventory	Rex Safespot inventory	Rex safespot setup
+25401:10	equipment	Inventory	Early Ironman Rex safespot setup
+25401:11	inventory	Inventory	Early Ironman Rex safespot setup
+256152:1	equipment	Equipment	Equipment
+256152:2	inventory	Equipment	Equipment
+256152:3	rune pouch	Equipment	Equipment
+256152:4	recommended equipment	Equipment / Equipment upgrades and downgrades	Ranged
+256152:5	equipment	Equipment / Equipment upgrades and downgrades	Equipment / Equipment upgrades and downgrades
+256152:6	inventory	Equipment / Equipment upgrades and downgrades	Equipment / Equipment upgrades and downgrades
+256152:7	rune pouch	Equipment / Equipment upgrades and downgrades	Equipment / Equipment upgrades and downgrades
+256152:8	recommended equipment	Equipment / Equipment upgrades and downgrades	Melee
+256152:9	equipment	Notes	Notes
+256152:10	inventory	Notes	Notes
+256152:11	rune pouch	Notes	Notes
+256152:12	recommended equipment	Notes / Equipment upgrades and downgrades	Magic
+264823:1	equipment	Equipment / Magic	Best in slot
+264823:2	inventory	Equipment / Magic	Best in slot
+264823:3	rune pouch	Equipment / Magic	Best in slot
+264823:4	recommended equipment	Equipment / Equipment upgrades and downgrades	Best in slot
+267008:1	inventory	Recommended equipment	Recommended equipment
+267008:2	recommended equipment	Recommended equipment	Agility
+267357:1	recommended equipment	Equipment / Melee	Melee
+267357:2	equipment	Equipment / Melee	Melee
+267357:3	inventory	Equipment / Melee	Melee
+267357:4	rune pouch	Equipment / Melee	Melee
+267357:5	recommended equipment	Equipment / Ranged	Ranged
+267357:6	equipment	Equipment / Ranged	Ranged
+267357:7	inventory	Equipment / Ranged	Ranged
+267357:8	recommended equipment	Equipment / Magic	Magic
+267357:9	equipment	Equipment / Magic	Magic
+267357:10	inventory	Equipment / Magic	Magic
+267357:11	rune pouch	Equipment / Magic	Magic
+269949:1	recommended equipment	Equipment	Magic
+269949:2	inventory	Equipment / Inventory	Magic
+269949:3	recommended equipment	Equipment / Inventory	Ranged
+269949:4	inventory	Equipment / Inventory	Ranged
+269949:5	recommended equipment	Equipment / Inventory	Melee
+269949:6	inventory	Equipment / Inventory	Melee
+271073:1	recommended equipment	Equipment	Melee
+271073:2	recommended equipment	Equipment	Ranged
+271073:3	recommended equipment	Equipment	Magic
+271073:4	equipment	Equipment / Setups	Intermediate
+271073:5	equipment	Equipment / Setups	Best in slot
+271073:6	inventory	Equipment / Setups	Intermediate
+271073:7	inventory	Equipment / Setups	Best in slot
+271073:8	rune pouch	Equipment / Setups	Intermediate
+271073:9	rune pouch	Equipment / Setups	Best in slot
+271073:10	recommended equipment	Rooms / Tekton	Tekton
+271073:11	recommended equipment	Rooms / Vespula	Vespula
+271073:12	recommended equipment	Rooms / Guardians	Guardians
+271073:13	recommended equipment	Rooms / Vasa Nistirio	crystals
+27247:1	equipment	Equipment	Magic (Low level)
+27247:2	recommended equipment	Equipment	Magic (Low level)
+27247:3	inventory	Inventory	Magic (Low level)
+27247:4	equipment	Inventory	Magic (High level)
+27247:5	recommended equipment	Inventory	Magic equipment
+27247:6	inventory	Inventory	Magic (High level)
+27247:7	recommended equipment	Inventory	Ranged (Ahrim)
+277723:1	equipment	Equipment	DPS
+277723:2	inventory	Equipment	DPS
+277723:3	rune pouch	Equipment	DPS
+277723:4	recommended equipment	Equipment	DPS
+277723:5	equipment	Equipment	Prayer (AFK)
+277723:6	inventory	Equipment	Prayer (AFK)
+277723:7	rune pouch	Equipment	Prayer (AFK)
+277723:8	recommended equipment	Equipment	AFK Prayer
+28467:1	recommended equipment	Equipment	Ranged
+28467:2	inventory	Inventory	Ranged
+28467:3	rune pouch	Inventory	Ranged
+28467:4	recommended equipment	Notes	Melee
+28467:5	inventory	Inventory	Melee
+28467:6	recommended equipment	Notes	Magic
+28467:7	recommended equipment	Inventory	Pure
+28467:8	recommended equipment	Inventory	Early-game iron
+28467:9	inventory	Inventory	Early-game iron
+28467:10	recommended equipment	Inventory	Ranged (Atlatl)
+28467:11	inventory	Inventory	Ranged (Atlatl)
+28775:1	equipment	Equipment	Melee
+28775:2	inventory	Equipment	Melee
+28775:3	rune pouch	Equipment	Melee
+28775:4	recommended equipment	Equipment / Equipment upgrades and downgrades	Melee
+28775:5	equipment	Equipment / Equipment upgrades and downgrades	Ranged
+28775:6	inventory	Equipment / Equipment upgrades and downgrades	Ranged
+28775:7	rune pouch	Equipment / Equipment upgrades and downgrades	Ranged
+28775:8	inventory	Equipment / Equipment upgrades and downgrades	Ranged / Loot setup
+28775:9	recommended equipment	Equipment / Equipment upgrades and downgrades	Ranged
+28775:10	equipment	Equipment / Equipment upgrades and downgrades	Void
+28775:11	inventory	Equipment / Equipment upgrades and downgrades	Void
+28775:12	rune pouch	Equipment / Equipment upgrades and downgrades	Void
+28775:13	inventory	Equipment / Equipment upgrades and downgrades	Void / Loot setup
+28775:14	recommended equipment	Equipment / Equipment upgrades and downgrades	Ranged (Void)
+28775:15	equipment	Equipment / Equipment upgrades and downgrades	Magic
+28775:16	inventory	Equipment / Equipment upgrades and downgrades	Magic
+28775:17	rune pouch	Equipment / Equipment upgrades and downgrades	Magic
+28775:18	inventory	Equipment / Equipment upgrades and downgrades	Magic / Loot setup
+28775:19	recommended equipment	Equipment / Equipment upgrades and downgrades	Magic
+291214:1	inventory	Equipment	Equipment
+291214:2	equipment	Equipment	Tank Method
+291214:3	equipment	Equipment	Tank Method
+291214:4	inventory	Equipment	Tank Method
+291214:5	recommended equipment	Equipment / Equipment upgrades and downgrades	Tank
+297887:1	recommended equipment	Equipment	Melee
+297887:2	inventory	Equipment	Melee
+297887:3	recommended equipment	Inventory	Prayer
+297887:4	inventory	Inventory	Prayer
+297887:5	recommended equipment	Inventory	Magic
+297887:6	inventory	Inventory	Magic
+297887:7	rune pouch	Inventory	Magic
+297887:8	recommended equipment	Inventory	Ranged
+297887:9	inventory	Inventory	Ranged
+305955:1	recommended equipment	Equipment	Melee
+305955:2	inventory	Inventory	|-| Melee
+305955:3	recommended equipment	Inventory	Ranged
+305955:4	inventory	Inventory	Ranged
+305955:5	recommended equipment	Inventory	Magic - Tumeken's Shadow
+305955:6	inventory	Inventory	Magic - Tumeken's Shadow
+305955:7	rune pouch	Inventory	Magic - Tumeken's Shadow
+305955:8	recommended equipment	Inventory	Magic
+305955:9	inventory	Inventory	Magic
+317992:1	recommended equipment	Equipment	Melee
+317992:2	recommended equipment	Equipment	Husks
+317992:3	recommended equipment	Equipment	Parasites
+317992:4	recommended equipment	Equipment	Mage
+317992:5	equipment	Inventory	High level
+317992:6	inventory	Inventory	High level
+317992:7	rune pouch	Inventory	High level
+317992:8	equipment	Inventory	Entry level
+317992:9	inventory	Inventory	Entry level
+317992:10	rune pouch	Inventory	Entry level
+317992:11	equipment	Inventory	Budget
+317992:12	inventory	Inventory	Budget
+317992:13	rune pouch	Inventory	Budget
+341817:1	recommended equipment	Recommended equipment	Recommended equipment
+341817:2	inventory	Recommended equipment / Inventory	Recommended equipment / Inventory
+341884:1	equipment	Transportation	Transportation
+341884:2	equipment	Equipment	Ranged
+341884:3	inventory	Equipment	Ranged
+341884:4	rune pouch	Equipment	Ranged
+341884:5	recommended equipment	Equipment	Ranged
+341884:6	equipment	Equipment	Hybrid
+341884:7	inventory	Equipment	Hybrid
+341884:8	rune pouch	Equipment	Hybrid
+341884:9	recommended equipment	Equipment	Hybrid
+346655:1	inventory	Basic strategy	Basic strategy
+351891:1	recommended equipment	Recommended equipment	Runecrafting
+351891:2	inventory	Recommended equipment / Inventory	|-|Entry-level
+351891:3	rune pouch	Recommended equipment / Inventory	|-|Entry-level
+351891:4	inventory	Recommended equipment / Inventory	Combination runes
+351891:5	rune pouch	Recommended equipment / Inventory	Combination runes
+351891:6	inventory	Recommended equipment / Inventory / Rune choice	Colossal pouch
+351891:7	rune pouch	Recommended equipment / Inventory / Rune choice	Colossal pouch
+351891:8	inventory	Recommended equipment / Inventory / Rune choice	Maximum efficiency
+351891:9	rune pouch	Recommended equipment / Inventory / Rune choice	Maximum efficiency
+358711:1	equipment	Recommended equipment	Recommended equipment
+362692:1	recommended equipment	Suggested equipment	Suggested equipment
+364045:1	recommended equipment	Equipment	Melee switch
+364045:2	recommended equipment	Equipment	Ranged switch
+364045:3	recommended equipment	Equipment	Magic switch
+364045:4	equipment	Equipment	Minimum (0-100 Invocation)
+364045:5	equipment	Equipment	Hybrid/Normal (100-250 Invocation)
+364045:6	equipment	Equipment	Masori/Expert (250-350 Invocation)
+364045:7	equipment	Equipment	Bowfa+Ayak/Expert+ (350-450 Invocation)
+364045:8	equipment	Equipment	Max/Expert+ (450+ Invocation)
+364045:9	inventory	Equipment	Minimum (0-100 Invocation)
+364045:10	inventory	Equipment	Hybrid/Normal (100-250 Invocation)
+364045:11	inventory	Equipment	Masori/Expert (250-350 Invocation)
+364045:12	inventory	Equipment	Bowfa+Ayak/Expert+ (350-450 Invocation)
+364045:13	inventory	Equipment	Max/Expert+ (450+ Invocation)
+364045:14	rune pouch	Equipment	Minimum (0-100 Invocation)
+364045:15	rune pouch	Equipment	Hybrid/Normal (100-250 Invocation)
+364045:16	rune pouch	Equipment	Masori/Expert (250-350 Invocation)
+364045:17	rune pouch	Equipment	Bowfa+Ayak/Expert+ (350-450 Invocation)
+364045:18	rune pouch	Equipment	Max/Expert+ (450+ Invocation)
+364045:19	recommended equipment	Path of Crondis / Zebak, Guardian of Crondis	Zebak
+364045:20	recommended equipment	Path of Scabaras / Kephri, Guardian of Scabaras	Kephri
+364045:21	recommended equipment	Path of Het / Equipment	Akkha
+364045:22	recommended equipment	Path of Het / Equipment	Akkha's shadow
+364045:23	recommended equipment	Path of Apmeken / Ba-Ba, Guardian of Apmeken	Ba-Ba
+364045:24	recommended equipment	The Wardens / Phase 1	Obelisk
+364045:25	recommended equipment	The Wardens / Phase 2 / Obelisk's attacks	Wardens (Phase 2)
+364045:26	recommended equipment	The Wardens / Phase 2 / Obelisk's attacks	Core (Phase 2)
+364045:27	recommended equipment	The Wardens / Phase 3 / Enrage phase	Wardens (Phase 3)
+36771:1	equipment	Equipment / Melee	Melee
+36771:2	inventory	Equipment / Melee	Melee
+36771:3	recommended equipment	Equipment / Equipment upgrades and downgrades	4-item melee
+36771:4	equipment	Equipment / Equipment upgrades and downgrades	Melee Gravestone method
+36771:5	inventory	Equipment / Equipment upgrades and downgrades	Melee Gravestone method
+36771:6	recommended equipment	Equipment / Equipment upgrades and downgrades	Melee BIS smuggle
+36771:7	equipment	Equipment / Ranged	Twisted Bow / Bowfa
+36771:8	inventory	Equipment / Ranged	Twisted Bow / Bowfa
+36771:9	recommended equipment	Equipment / Equipment upgrades and downgrades	Ranged
+36771:10	equipment	Equipment / Equipment upgrades and downgrades	Crossbow & shield
+36771:11	inventory	Equipment / Equipment upgrades and downgrades	Crossbow & shield
+36771:12	recommended equipment	Equipment / Equipment upgrades and downgrades	Crossbow
+36771:13	equipment	Equipment / Equipment upgrades and downgrades	Gravestone method
+36771:14	inventory	Equipment / Equipment upgrades and downgrades	Gravestone method
+36771:15	recommended equipment	Equipment / Equipment upgrades and downgrades	Ranged BIS smuggle
+36771:16	equipment	Equipment / AFK Magic	Dragon Hunter Wand
+36771:17	inventory	Equipment / AFK Magic	Dragon Hunter Wand
+373815:1	recommended equipment	Equipment	Magic
+373815:2	recommended equipment	Equipment	Ranged
+373815:3	recommended equipment	Equipment	Melee
+373815:4	inventory	Equipment	Magic & Ranged
+373815:5	rune pouch	Equipment	Magic & Ranged
+373815:6	inventory	Equipment	Ranged
+373815:7	rune pouch	Equipment	Ranged
+373815:8	inventory	Equipment	Melee
+373815:9	rune pouch	Equipment	Melee
+379451:1	recommended equipment	Equipment	Ranged
+379451:2	equipment	Inventory	|-| Ranged
+379451:3	inventory	Inventory	|-| Ranged
+379451:4	recommended equipment	Inventory	Magic
+379451:5	inventory	Inventory	Blood Barrage
+382059:1	recommended equipment	Equipment	Melee
+382059:2	inventory	Inventory	Melee
+382059:3	recommended equipment	Inventory	Ranged
+382059:4	inventory	Inventory	Ranged
+384116:1	recommended equipment	Equipment	Melee
+384116:2	equipment	Inventory	Recommended
+384116:3	inventory	Inventory	Recommended
+384116:4	equipment	Inventory	Low-Risk
+384116:5	inventory	Inventory	Low-Risk
+384116:6	equipment	Inventory	High-risk
+384116:7	inventory	Inventory	High-risk
+38706:1	recommended equipment	Equipment	Melee
+38706:2	inventory	Inventory	Melee
+38706:3	recommended equipment	Inventory / Notes	Magic
+38706:4	inventory	Inventory	Magic
+38706:5	recommended equipment	Inventory / Notes	Ranged
+38706:6	inventory	Inventory	Ranged
+38706:7	recommended equipment	Inventory / Notes	Melee tank
+38706:8	inventory	Inventory	Melee tank
+390886:1	recommended equipment	Equipment	Magic
+390886:2	recommended equipment	Equipment	Lost Souls
+390886:3	inventory	Inventory recommendations	Inventory recommendations
+390886:4	rune pouch	Inventory recommendations	Inventory recommendations
+391169:1	recommended equipment	Equipment	Ranged
+391169:2	recommended equipment	Equipment	Magic
+391169:3	inventory	Inventory recommendations	Inventory recommendations
+391169:4	rune pouch	Inventory recommendations	Inventory recommendations
+391177:1	recommended equipment	Equipment	Melee
+391177:2	inventory	Inventory recommendations	Inventory recommendations
+391177:3	rune pouch	Inventory recommendations	Inventory recommendations
+391188:1	recommended equipment	Equipment	Melee
+391188:2	inventory	Inventory / Normal	Inventory / Normal
+391188:3	rune pouch	Inventory / Normal	Inventory / Normal
+391188:4	inventory	Inventory / Awakened	Inventory / Awakened
+391188:5	rune pouch	Inventory / Awakened	Inventory / Awakened
+392950:1	recommended equipment	Setups / Equipment	Ranged
+392950:2	inventory	Setups / Inventory	Ranged
+392950:3	recommended equipment	Setups / Equipment	Magic
+392950:4	inventory	Setups / Inventory	Magic
+40453:1	recommended equipment	Equipment	High level melee
+40453:2	recommended equipment	Equipment	High level ranged
+40453:3	recommended equipment	Equipment	Max Mage (0 switches)
+40453:4	recommended equipment	Second phase	Flinching
+40453:5	recommended equipment	Second phase	Flinching
+40453:6	equipment	Inventory Setups / Post-Elite Desert Diary	Flinching
+40453:7	inventory	Inventory Setups / Post-Elite Desert Diary	Flinching
+40453:8	rune pouch	Inventory Setups / Post-Elite Desert Diary	Flinching
+40453:9	equipment	Inventory	Med (Pre-Elite diary)
+40453:10	inventory	Inventory	Med (Pre-Elite diary)
+40453:11	rune pouch	Inventory	Med (Pre-Elite diary)
+40453:12	equipment	Inventory	Max (Post-Elite diary)
+40453:13	inventory	Inventory	Max (Post-Elite diary)
+40453:14	rune pouch	Inventory	Max (Post-Elite diary)
+40453:15	equipment	Inventory	Shadow
+40453:16	inventory	Inventory	Shadow
+40453:17	rune pouch	Inventory	Shadow
+414593:1	equipment	Attacker / Solo Attacker	Attacker / Solo Attacker
+414593:2	inventory	Attacker / Solo Attacker	Attacker / Solo Attacker
+41793:1	recommended equipment	Equipment	Magic
+41793:2	inventory	Inventory	Tumeken's Shadow
+41793:3	rune pouch	Inventory	Tumeken's Shadow
+41793:4	recommended equipment	Inventory	Chinchompas
+41793:5	inventory	Inventory	Chinchompas
+41793:6	rune pouch	Inventory	Chinchompas
+41793:7	recommended equipment	Inventory	Ranged Tank
+41793:8	inventory	Inventory	Ranged Tank
+41793:9	recommended equipment	Inventory	Tbow / Bowfa
+41793:10	inventory	Inventory	Tbow / Bowfa
+41793:11	rune pouch	Inventory	Tbow / Bowfa
+41793:12	recommended equipment	Inventory	Melee (soulflame horn)
+41793:13	inventory	Inventory	Melee (soulflame horn)
+41793:14	rune pouch	Inventory	Melee (soulflame horn)
+41794:1	recommended equipment	Equipment / Solo	Melee (Solo)
+41794:2	inventory	Inventory	Melee
+41794:3	recommended equipment	Inventory	Magic (Solo)
+41794:4	inventory	Inventory	Magic
+41794:5	rune pouch	Inventory	Magic
+41794:6	recommended equipment	Inventory	Ranged (Solo)
+41794:7	inventory	Inventory	Ranged
+41794:8	rune pouch	Inventory	Ranged
+41794:9	recommended equipment	Inventory / Team	Advanced Tank
+41794:10	inventory	Inventory	Melee Tank
+41794:11	recommended equipment	Inventory	Ranged Tank
+41794:12	inventory	Inventory	Ranged Tank
+41794:13	recommended equipment	Inventory	Melee Attacker
+41794:14	inventory	Inventory	Melee Attacker
+41794:15	recommended equipment	Inventory	Ranged Attacker
+41794:16	inventory	Inventory	Ranged Attacker
+41794:17	recommended equipment	Inventory	Magic (Group)
+41794:18	inventory	Inventory	Magic Attacker
+41794:19	rune pouch	Inventory	Magic Attacker
+41977:1	equipment	Solo and duo strategy / Melee - Solo and Duo	Stat Draining
+41977:2	inventory	Solo and duo strategy / Melee - Solo and Duo	Stat Draining
+41977:3	rune pouch	Solo and duo strategy / Melee - Solo and Duo	Stat Draining
+41977:4	recommended equipment	Solo and duo strategy / Equipment upgrades and downgrades	Stat draining
+41977:5	equipment	Solo and duo strategy / Equipment upgrades and downgrades	Quick-Pool
+41977:6	inventory	Solo and duo strategy / Equipment upgrades and downgrades	Quick-Pool
+41977:7	rune pouch	Solo and duo strategy / Equipment upgrades and downgrades	Quick-Pool
+41977:8	recommended equipment	Solo and duo strategy / Equipment upgrades and downgrades	Quick pool
+41977:9	equipment	Solo and duo strategy / Equipment upgrades and downgrades	Dolo
+41977:10	inventory	Solo and duo strategy / Equipment upgrades and downgrades	Dolo
+41977:11	rune pouch	Solo and duo strategy / Equipment upgrades and downgrades	Dolo
+41977:12	recommended equipment	Solo and duo strategy / Equipment upgrades and downgrades	Dolo
+41977:13	equipment	Solo and duo strategy / Equipment upgrades and downgrades	Fewer stat drains
+41977:14	inventory	Solo and duo strategy / Equipment upgrades and downgrades	Fewer stat drains
+41977:15	rune pouch	Solo and duo strategy / Equipment upgrades and downgrades	Fewer stat drains
+41977:16	recommended equipment	Notes / Equipment upgrades and downgrades	Fewer stat drains
+41977:17	equipment	3–7 players strategy / Melee	Best in slot
+41977:18	inventory	3–7 players strategy / Melee	Best in slot
+41977:19	rune pouch	3–7 players strategy / Melee	Best in slot
+41977:20	recommended equipment	3–7 players strategy / Equipment upgrades and downgrades	Team melee
+41977:21	equipment	Mass strategy / Melee	Best in slot
+41977:22	inventory	Mass strategy / Melee	Best in slot
+41977:23	recommended equipment	Mass strategy / Equipment upgrades and downgrades	Melee masses
+43753:1	recommended equipment	Equipment	Melee (Prayer + Absorption)
+43753:2	inventory	Inventory	Melee (Prayer)
+43753:3	recommended equipment	Equipment	Melee (Absorption, AFK)
+43753:4	inventory	Inventory	Melee (Absorption + AFK)
+43753:5	recommended equipment	Equipment	Ranged (Absorption, AFK)
+43753:6	inventory	Inventory	Ranged (Absorption, AFK)
+43753:7	recommended equipment	Strategy	Magic
+43753:8	inventory	Inventory	Magic
+43753:9	recommended equipment	Optimal point setups / Equipment	Melee
+43753:10	inventory	Inventory	Melee
+43753:11	recommended equipment	Bosses	Ranged
+43753:12	inventory	Inventory	Ranged
+44459:1	recommended equipment	Equipment	Magic
+44459:2	recommended equipment	Equipment	Ranged
+44459:3	recommended equipment	Equipment	Melee
+44459:4	recommended equipment	Equipment	Magic (Diary kill)
+44881:1	recommended equipment	Equipment	Melee
+44881:2	inventory	Inventory	Melee
+44881:3	recommended equipment	Inventory	Ranged
+44881:4	inventory	Inventory	Ranged
+44881:5	recommended equipment	Inventory	Magic
+44881:6	inventory	Inventory	Magic
+459948:1	recommended equipment	Equipment	Ranged
+459948:2	equipment	Inventory	Ranged
+459948:3	inventory	Inventory	Ranged
+459948:4	rune pouch	Inventory	Ranged
+459948:5	recommended equipment	Inventory	Mage
+459948:6	equipment	Inventory	Magic
+459948:7	inventory	Inventory	Magic
+459948:8	rune pouch	Inventory	Magic
+459948:9	recommended equipment	Inventory	Budget
+459948:10	equipment	Inventory	Budget
+459948:11	inventory	Inventory	Budget
+459948:12	rune pouch	Inventory	Budget
+459948:13	recommended equipment	Inventory	Melee
+459948:14	equipment	Inventory	Melee only (not recommended for first quiver)
+459948:15	inventory	Inventory	Melee only (not recommended for first quiver)
+459948:16	rune pouch	Inventory	Melee only (not recommended for first quiver)
+459948:17	recommended equipment	Inventory	GM time
+459948:18	equipment	Inventory	Melee only (not recommended for first quiver)
+459948:19	inventory	Inventory	Melee only (not recommended for first quiver)
+459948:20	rune pouch	Inventory	Melee only (not recommended for first quiver)
+459948:21	recommended equipment	Inventory	High efficiency
+459948:22	equipment	Inventory	High efficiency
+459948:23	inventory	Inventory	High efficiency
+459948:24	rune pouch	Inventory	High efficiency
+460329:1	recommended equipment	Equipment / Other items	Moons of Peril armour
+460329:2	recommended equipment	Equipment / Other items	Eclipse Moon
+460329:3	recommended equipment	Equipment / Other items	Eclipse Clone phase
+460329:4	recommended equipment	Equipment / Other items	Blue Moon
+460329:5	recommended equipment	Equipment / Other items	Blood Moon
+460329:6	inventory	Inventory	Inventory
+460329:7	rune pouch	Inventory	Inventory
+469947:1	recommended equipment	Equipment	Budget gear
+469947:2	recommended equipment	Equipment	Max gear
+469947:3	equipment	Strategy	Strategy
+469947:4	inventory	Inventory	Optimal strategy
+469947:5	inventory	Inventory	Wild pie method
+499345:1	recommended equipment	Equipment	Ranged
+499345:2	inventory	Inventory	Inventory
+499345:3	rune pouch	Inventory	Inventory
+499345:4	recommended equipment	Inventory	Magic
+499345:5	inventory	Inventory	Inventory
+499345:6	rune pouch	Inventory	Inventory
+516379:1	recommended equipment	Equipment	Melee switch
+516379:2	recommended equipment	Equipment	Shield down (Crush)
+516379:3	recommended equipment	Equipment	Ranged switch
+516379:4	recommended equipment	Equipment	Shield down (Heavy ranged + Accurate)
+516379:5	recommended equipment	Equipment	Magic switch
+516379:6	equipment	Inventory Setups / Max Melee/Mage	Max Melee/Mage
+516379:7	inventory	Inventory Setups / Max Melee/Mage	Max Melee/Mage
+516379:8	rune pouch	Inventory Setups / Max Melee/Mage	Max Melee/Mage
+516379:9	equipment	Inventory Setups / Max Melee/Range	Max Melee/Range
+516379:10	inventory	Inventory Setups / Max Melee/Range	Max Melee/Range
+516379:11	rune pouch	Inventory Setups / Max Melee/Range	Max Melee/Range
+516379:12	equipment	Inventory Setups / Budget Melee/Mage	Budget Melee/Mage
+516379:13	inventory	Inventory Setups / Budget Melee/Mage	Budget Melee/Mage
+516379:14	rune pouch	Inventory Setups / Budget Melee/Mage	Budget Melee/Mage
+516379:15	equipment	Inventory Setups / Budget Melee/Range	Budget Melee/Range
+516379:16	inventory	Inventory Setups / Budget Melee/Range	Budget Melee/Range
+516379:17	rune pouch	Inventory Setups / Budget Melee/Range	Budget Melee/Range
+52453:1	recommended equipment	Equipment	Magic
+52453:2	inventory	Inventory	Inventory
+52454:1	recommended equipment	Equipment	Magic
+52454:2	inventory	Equipment	Equipment
+52699:1	equipment	Equipment / Attacker Equipment	Ranged (High level)
+52699:2	inventory	Equipment / Attacker Equipment	Ranged (High level)
+52699:3	recommended equipment	Equipment / Attacker Equipment	Ranged
+52699:4	equipment	Equipment / Attacker Equipment	Ranged (Low level)
+52699:5	inventory	Equipment / Attacker Equipment	Ranged (Low level)
+52699:6	recommended equipment	Equipment / Attacker Equipment	Ranged
+52699:7	equipment	Equipment / Attacker Equipment	Melee
+52699:8	inventory	Equipment / Attacker Equipment	Melee
+52699:9	recommended equipment	Equipment / Attacker Equipment	Melee (mid level)
+52699:10	inventory	Equipment / Non-attacker Equipment	Equipment / Non-attacker Equipment
+52699:11	inventory	Equipment / Non-attacker Equipment	Equipment / Non-attacker Equipment
+52699:12	inventory	Equipment / Non-attacker Equipment	Equipment / Non-attacker Equipment
+52699:13	equipment	Equipment / Non-attacker Equipment	Equipment / Non-attacker Equipment
+529623:1	recommended equipment	Fight overview	Araxyte weapon
+529623:2	recommended equipment	Equipment	Melee
+529623:3	inventory	Inventory	Melee
+529623:4	rune pouch	Inventory	Melee
+529623:5	recommended equipment	Inventory	Ranged
+529623:6	inventory	Inventory	Ranged
+529623:7	rune pouch	Inventory	Ranged
+538236:1	recommended equipment	Equipment	Melee
+538236:2	recommended equipment	Equipment	Tail
+538236:3	inventory	Inventory	Melee
+538236:4	rune pouch	Inventory	Melee
+538484:1	recommended equipment	Equipment	Melee
+538484:2	inventory	Inventory	Inventory
+538484:3	rune pouch	Inventory	Inventory
+553273:1	inventory	Inventory	Inventory
+55446:1	recommended equipment	Equipment	Magic (DPS)
+55446:2	inventory	Inventory	Magic (DPS)
+55446:3	rune pouch	Inventory	Magic (DPS)
+55446:4	recommended equipment	Inventory	Mage (AFK, Sustain)
+55446:5	inventory	Inventory	Mage (AFK, Sustain)
+55446:6	rune pouch	Inventory	Mage (AFK, Sustain)
+569290:1	inventory	Equipment	Entry level
+569290:2	rune pouch	Equipment	Entry level
+569290:3	recommended equipment	Equipment / Notes	Entry level
+569290:4	inventory	Equipment / Notes	Best-in-slot
+569290:5	rune pouch	Equipment / Notes	Best-in-slot
+569290:6	recommended equipment	Equipment / Notes	Best-in-slot
+569290:7	inventory	Equipment / Notes	Mage
+569290:8	rune pouch	Equipment / Notes	Mage
+569290:9	recommended equipment	Equipment / Inventory	Mage
+596472:1	inventory	Overview	Overview
+596472:2	inventory	Overview	Decorating Precedence
+596472:3	inventory	Setups and Steps	Premade decorations
+596472:4	inventory	Setups and Steps	Fletching decorations, no log basket
+596472:5	inventory	Setups and Steps	Fletching decorations with log basket
+596472:6	inventory	Setups and Steps	Oak totems mini-routes (low level)
+596472:7	inventory	Setups and Steps	Redwood Shields (92+)
+607761:1	equipment	Equipment / Inventory	Max
+607761:2	equipment	Equipment / Inventory	Expert
+607761:3	equipment	Equipment / Inventory	Novice/Adept
+607761:4	inventory	Equipment / Inventory	Max
+607761:5	inventory	Equipment / Inventory	Expert
+607761:6	inventory	Equipment / Inventory	Novice/Adept
+608170:1	recommended equipment		General
+61723:1	recommended equipment	Equipment	Melee
+61723:2	equipment	Equipment / Example setup	Equipment / Example setup
+61723:3	inventory	Inventory	Inventory
+61723:4	inventory	Inventory	Inventory
+61746:1	recommended equipment	Equipment	Melee
+61746:2	recommended equipment	Equipment	Ranged
+61746:3	inventory	Inventory	Ranged
+61746:4	equipment	Example melee setup	Example melee setup
+61746:5	equipment	Example ranged setup	Example ranged setup
+61746:6	inventory	Inventory	Inventory
+61964:1	recommended equipment	Equipment	Ranged
+61964:2	inventory	Inventory	Ranged
+61964:3	recommended equipment	Equipment	Magic
+61964:4	inventory	Inventory	Magic
+624960:1	recommended equipment	Equipment	Melee
+624960:2	inventory	Inventory	Melee
+624960:3	rune pouch	Inventory	Melee
+624960:4	recommended equipment	Inventory	Melee
+624960:5	inventory	Inventory	Melee (POH)
+624960:6	rune pouch	Inventory	Melee (POH)
+624960:7	equipment	Equipment Loadouts	Max
+624960:8	equipment	Equipment Loadouts	Med
+624960:9	equipment	Equipment Loadouts	Min
+631042:1	equipment	Equipment	Melee Slash/Stab
+631042:2	recommended equipment	Equipment	Melee switch
+631042:3	inventory	Equipment	Melee Slash/Stab
+631042:4	rune pouch	Equipment	Melee Slash/Stab
+635395:1	recommended equipment	Equipment	Melee
+635395:2	recommended equipment	Equipment	Ranged
+635395:3	recommended equipment	Equipment	Magic
+646739:1	recommended equipment	Equipment / Free-to-play	Melee (free-to-play)
+646739:2	inventory	Inventory	Melee
+646739:3	recommended equipment	Inventory	Ranged (free-to-play)
+646739:4	inventory	Inventory	Ranged
+646739:5	recommended equipment	Inventory	Magic (free-to-play)
+646739:6	inventory	Inventory	Magic
+646739:7	recommended equipment	Inventory / Members	Melee (high level)
+646739:8	inventory	Inventory / Members	Melee (high level)
+672801:1	inventory	Inventory	Inventory
+672801:2	recommended equipment	Setup	Prayer bonus
+672801:3	equipment	Example Setups	Best never lost
+672801:4	equipment	Example Setups	Best 3 item + low risk
+672801:5	equipment	Example Setups	Best 4 item, zero risk
+672801:6	equipment	Example Setups	Best 3 item, zero risk
+674843:1	recommended equipment	Equipment	Melee
+674843:2	inventory	Equipment / Inventory	Melee
+674843:3	rune pouch	Equipment / Inventory	Melee
+674843:4	recommended equipment	Equipment / Inventory	Melee (Low level)
+674843:5	inventory	Equipment / Inventory	Melee (Low level)
+674843:6	rune pouch	Equipment / Inventory	Melee (Low level)
+674843:7	recommended equipment	Equipment / Inventory	Melee (1 Defence Pure)
+674843:8	inventory	Equipment / Inventory	Melee (1 Defence Pure)
+674843:9	rune pouch	Equipment / Inventory	Melee (1 Defence Pure)
+677425:1	inventory	Strategies / Planning to die	Strategies / Planning to die
+677425:2	recommended equipment	Strategies / Bringing noted bones	High Magic defence
+677425:3	equipment	Strategies / Bringing noted bones	Strategies / Bringing noted bones
+677425:4	inventory	Inventory	Inventory
+677425:5	recommended equipment	Inventory	Dinh's bulwark
+677425:6	equipment	Inventory	Dinh's bulwark
+677425:7	inventory	Inventory	Dinh's bulwark
+678619:1	inventory	Basic Procedure	Basic Procedure
+68335:1	recommended equipment	Equipment	Melee
+68335:2	inventory	Inventory	Melee
+68335:3	rune pouch	Inventory	Melee
+68335:4	recommended equipment	Inventory	Ranged
+68335:5	inventory	Inventory	Ranged
+68335:6	rune pouch	Inventory	Ranged
+691676:1	inventory	Basic Strategy / Starting off	Basic Strategy / Starting off
+691676:2	inventory	Banking Strategy / Cremating shades	Banking Strategy / Cremating shades
+691676:3	inventory	Banking Strategy / Building/reinforcing the temple	Banking Strategy / Building/reinforcing the temple
+72120:1	recommended equipment	Equipment	Melee
+72120:2	recommended equipment	Equipment	Melee (Prayer bonus)
+73909:1	recommended equipment	Equipment	Melee
+73909:2	recommended equipment	Equipment	Ranged
+73909:3	equipment	Equipment / Best-in-slot	Best in slot
+73909:4	inventory	Equipment / Best-in-slot	Best in slot
+73909:5	rune pouch	Equipment / Best-in-slot	Best in slot
+73909:6	equipment	Equipment / More affordable option	More affordable
+73909:7	inventory	Equipment / More affordable option	More affordable
+73909:8	rune pouch	Equipment / More affordable option	More affordable
+73909:9	equipment	Equipment / Budget option	Budget
+73909:10	inventory	Equipment / Budget option	Budget
+73909:11	rune pouch	Equipment / Budget option	Budget
+73909:12	equipment	Duo strategy	Dharok's attacker
+73909:13	inventory	Duo strategy	Dharok's attacker
+73909:14	rune pouch	Duo strategy	Dharok's attacker
+73909:15	equipment	Duo strategy	Tank attacker
+73909:16	inventory	Duo strategy	Tank attacker
+73909:17	rune pouch	Duo strategy	Tank attacker
+74025:1	recommended equipment	Equipment / Phase 1	Phase 1 Melee
+74025:2	recommended equipment	Equipment / Phase 1	Phase 1 Magic
+74025:3	recommended equipment	Equipment / Phase 1	Phase 1 Ranged
+74025:4	recommended equipment	Equipment / Phase 1	Phase 1 Melee
+74025:5	recommended equipment	Equipment / Phase 2 and Phase 3	Phase 2 Melee - DPS
+74025:6	recommended equipment	Equipment / Phase 2 and Phase 3	Phase 2 Other Melee Weapons
+74025:7	recommended equipment	Equipment / Phase 2 and Phase 3	Phase 2 Magic
+74025:8	recommended equipment	Equipment / Phase 2 and Phase 3	Phase 2 Ranged
+74025:9	inventory	Inventory recommendations / Melee and ranged	Inventory recommendations / Melee and ranged
+74025:10	rune pouch	Inventory recommendations / Melee and ranged	Inventory recommendations / Melee and ranged
+80411:1	recommended equipment	Equipment	Magic
+80411:2	inventory	Inventory	Magic
+80411:3	rune pouch	Inventory	Magic
+80411:4	recommended equipment	Inventory	Magic
+80411:5	inventory	Inventory	Magic (redemption)
+80411:6	rune pouch	Inventory	Magic (redemption)
+80411:7	recommended equipment	Inventory	Melee
+80411:8	inventory	Inventory	Melee
+80411:9	rune pouch	Inventory	Melee
+80411:10	recommended equipment	Inventory / Notes	Melee
+80411:11	inventory	Inventory	Melee (redemption)
+80411:12	rune pouch	Inventory	Melee (redemption)
+80876:1	recommended equipment	Equipment	Ranged
+80876:2	inventory	Equipment	Ranged
+80876:3	rune pouch	Equipment	Ranged
+80876:4	inventory	Inventory	Ranged
+80876:5	rune pouch	Inventory	Ranged
+80876:6	inventory	Inventory	Ranged
+80876:7	rune pouch	Inventory	Ranged
+80876:8	recommended equipment	Inventory	Melee
+80876:9	inventory	Inventory	Melee
+80876:10	rune pouch	Inventory	Melee
+80876:11	inventory	Inventory	Melee
+80876:12	rune pouch	Inventory	Melee
+81996:1	recommended equipment	Equipment	Ranged
+81996:2	inventory	Equipment	Ranged
+81996:3	recommended equipment	Inventory	Melee
+81996:4	inventory	Inventory	Melee
+81998:1	recommended equipment	Equipment	Ranged
+81998:2	inventory	Equipment	Equipment
+82921:1	recommended equipment	Equipment	Melee
+82921:2	inventory	Inventory	Inventory
+82921:3	recommended equipment	Equipment	Ranged
+82921:4	inventory	Inventory	Inventory
+82921:5	recommended equipment	Inventory	Magic
+82925:1	recommended equipment	Equipment	Magic
+82925:2	recommended equipment	Equipment / Notes	Ranged
+82925:3	recommended equipment	Equipment / Notes	Melee
+94147:1	recommended equipment	Equipment	Melee
+94147:2	recommended equipment	Equipment	Ranged
+94147:3	recommended equipment	Equipment	Magic
+94147:4	equipment	Equipment / Setups	Minimum
+94147:5	equipment	Equipment / Setups	Standard
+94147:6	equipment	Equipment / Setups	Bowfa
+94147:7	equipment	Equipment / Setups	DHCB
+94147:8	equipment	Equipment / Setups	Max
+94147:9	inventory	Equipment / Setups	Minimum
+94147:10	inventory	Equipment / Setups	Standard
+94147:11	inventory	Equipment / Setups	Bowfa
+94147:12	inventory	Equipment / Setups	DHCB
+94147:13	inventory	Equipment / Setups	Max
+94147:14	recommended equipment	Combat / Tekton	Tekton
+94147:15	recommended equipment	Combat / Vespula	Vespula
+94147:16	recommended equipment	Combat / Vasa Nistirio	Crystals
+94147:17	recommended equipment	Combat / Vanguards	Melee Vanguard
+94147:18	recommended equipment	Combat / Vanguards	Range Vanguard
+94147:19	recommended equipment	Combat / Vanguards	Mage Vanguard
+94147:20	recommended equipment	Combat / Guardians	Guardians
+94147:21	recommended equipment	Combat / Muttadiles	Baby Muttadile
+94147:22	recommended equipment	Combat / Muttadiles	Big Muttadile
+94147:23	recommended equipment	Combat / Great Olm / Phases	Great Olm Left Claw (Melee / 50 Defence)
+94147:24	recommended equipment	Combat / Great Olm / Phases	Great Olm Right Claw (Magic)
+94147:25	recommended equipment	Combat / Great Olm / Phases	Great Olm Head (Ranged)
+97339:1	recommended equipment	Equipment	Ranged
+97339:2	recommended equipment	Equipment	Melee
+97339:3	recommended equipment	Equipment	Magic
+97339:4	recommended equipment	Equipment	Ranged
+97339:5	inventory	Equipment / Inventory	Equipment / Inventory
+306436:1	recommended equipment	Recommended equipment	Standard
+306436:2	recommended equipment	Specific methods / Equipment	Solo Cooking + Firefighting (Max Permits)
+306436:3	inventory	Specific methods / Inventory	Solo cooking + firefighting (max permits)
+306436:4	rune pouch	Specific methods / Inventory	Solo cooking + firefighting (max permits)
+306436:5	recommended equipment	Specific methods / Equipment	Solo Cooking
+306436:6	inventory	Specific methods / Inventory	Solo cooking (mix of XP and permits)
+306436:12	rune pouch	Specific methods / Inventory	Solo cooking (mix of XP and permits)
+306436:7	inventory	Specific methods / Inventory & Equipment	Solo cooking 5 rounds (mix of XP and permits)
+306436:8	recommended equipment	Specific methods / Inventory & Equipment	Solo Cooking (5 Rounds)
+306436:9	recommended equipment	Specific methods / Equipment	Solo No Cooking
+306436:10	inventory	Specific methods / Inventory	Solo no cooking (max XP)
+306436:11	rune pouch	Specific methods / Inventory	Solo no cooking (max XP)

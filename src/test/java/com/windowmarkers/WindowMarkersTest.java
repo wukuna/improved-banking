@@ -25,6 +25,31 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
+    @Test public void viewsTabExposesTheSearchSaveReturnAndTagActionsAtSidebarWidth() throws Exception {
+        WindowMarkersPlugin p=plugin();
+        try {
+            var captured=org.mockito.ArgumentCaptor.forClass(net.runelite.client.ui.NavigationButton.class);
+            verify(p.toolbar).addNavigation(captured.capture());
+            SwingUtilities.invokeAndWait(() -> {
+                try {
+                    Container panel=captured.getValue().getPanel();
+                    javax.swing.JTabbedPane tabs=null;
+                    for(Component child:panel.getComponents()) if(child instanceof javax.swing.JTabbedPane) tabs=(javax.swing.JTabbedPane)child;
+                    assertNotNull(tabs);assertEquals("Views",tabs.getTitleAt(0));
+                    Container views=(Container)tabs.getComponentAt(0);views.setSize(205,900);views.doLayout();
+                    java.util.Set<String> buttons=new java.util.HashSet<>();
+                    for(Component child:views.getComponents()) if(child instanceof javax.swing.JButton) {
+                        var button=(javax.swing.JButton)child;buttons.add(button.getText());
+                        assertTrue(button.getText(),button.getFontMetrics(button.getFont()).stringWidth(button.getText())<=button.getWidth()-button.getInsets().left-button.getInsets().right);
+                    }
+                    assertTrue(buttons.containsAll(java.util.Arrays.asList("Show search in bank","Show all bank items","Save current view…","Open saved view","Add view to Legend","Add tag to item…")));
+                    BufferedImage image=new BufferedImage(205,views.getPreferredSize().height,BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D graphics=image.createGraphics();views.printAll(graphics);graphics.dispose();
+                    java.io.File file=new java.io.File("build/ui-preview/views.png");file.getParentFile().mkdirs();javax.imageio.ImageIO.write(image,"png",file);
+                } catch(Exception ex) { throw new RuntimeException(ex); }
+            });
+        } finally { p.shutDown();SwingUtilities.invokeAndWait(() -> {}); }
+    }
     @Test public void rapidTogglesDoNotCreateDuplicateSidebarButtons() throws Exception
     {
         WindowMarkersPlugin p=plugin(); clearInvocations(p.toolbar);

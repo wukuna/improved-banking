@@ -85,7 +85,6 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Spindel/Strategies](https://oldschool.runescape.wiki/w/Spindel/Strategies?oldid=15345527)
 - [Sulliuscep/Strategies](https://oldschool.runescape.wiki/w/Sulliuscep/Strategies?oldid=15342081)
 - [Tempoross/Strategies](https://oldschool.runescape.wiki/w/Tempoross/Strategies?oldid=15382191)
-- [The Fractured Archive/Strategies](https://oldschool.runescape.wiki/w/The_Fractured_Archive/Strategies?oldid=15381825)
 - [The Gauntlet/Strategies](https://oldschool.runescape.wiki/w/The_Gauntlet/Strategies?oldid=15359999)
 - [The Hueycoatl/Strategies](https://oldschool.runescape.wiki/w/The_Hueycoatl/Strategies?oldid=15354883)
 - [The Leviathan/Strategies](https://oldschool.runescape.wiki/w/The_Leviathan/Strategies?oldid=15379450)

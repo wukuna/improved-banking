@@ -13,7 +13,6 @@ final class AutoCategories
         TRAVEL_AND_UTILITY("Travel, storage and utility"), QUESTS_AND_CLUES("Quest and clue items"), COSMETICS("Cosmetic and utility equipment"),
         RAID_MEGA_RARES("Raid mega-rare weapons"),
         CHAMBERS_OF_XERIC("Chambers of Xeric — Wiki gear and supplies"), THEATRE_OF_BLOOD("Theatre of Blood — Wiki gear and supplies"), TOMBS_OF_AMASCUT("Tombs of Amascut — Wiki gear and supplies"),
-        FRACTURED_ARCHIVE("The Fractured Archive — provisional Wiki setups"),
         WIKI_ACTIVITY_SETUP("Choose a Wiki activity and setup…");
         private final String label;
         Preset(String label) { this.label=label; }
@@ -34,7 +33,7 @@ final class AutoCategories
     {
         Map<String,List<Item>> groups=new LinkedHashMap<>();
         if (preset==Preset.WIKI_ACTIVITY_SETUP) { return groups; }
-        if (preset!=Preset.RAID_MEGA_RARES && preset!=Preset.CHAMBERS_OF_XERIC && preset!=Preset.THEATRE_OF_BLOOD && preset!=Preset.TOMBS_OF_AMASCUT && preset!=Preset.FRACTURED_ARCHIVE)
+        if (preset!=Preset.RAID_MEGA_RARES && preset!=Preset.CHAMBERS_OF_XERIC && preset!=Preset.THEATRE_OF_BLOOD && preset!=Preset.TOMBS_OF_AMASCUT)
         {
             for (Item item : items)
             {

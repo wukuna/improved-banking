@@ -26,7 +26,7 @@ final class BankCatalogue
     static String aliases(String name)
     {
         return name.contains("Chambers of Xeric") ? "cox" : name.contains("Theatre of Blood") ? "tob"
-            : name.contains("Tombs of Amascut") ? "toa" : name.contains("The Fractured Archive") ? "tfa" : "";
+            : name.contains("Tombs of Amascut") ? "toa" : "";
     }
     static List<Choice> choices(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets)
     {
@@ -88,7 +88,6 @@ final class BankCatalogue
         if(category.startsWith("CoX ")) matching.add(AutoCategories.Preset.CHAMBERS_OF_XERIC);
         else if(category.startsWith("ToB ")) matching.add(AutoCategories.Preset.THEATRE_OF_BLOOD);
         else if(category.startsWith("ToA ")) matching.add(AutoCategories.Preset.TOMBS_OF_AMASCUT);
-        else if(category.startsWith("TFA ")) matching.add(AutoCategories.Preset.FRACTURED_ARCHIVE);
         else matching.addAll(Arrays.asList(AutoCategories.Preset.ALL_CATEGORIES,AutoCategories.Preset.COMBAT_GROUPS,AutoCategories.Preset.RAID_MEGA_RARES));
         for(AutoCategories.Preset preset:matching)
             for(AutoCategories.Item item:AutoCategories.suggest(preset,items).getOrDefault(category,Collections.emptyList()))

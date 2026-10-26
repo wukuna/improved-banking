@@ -28,8 +28,10 @@ public interface WindowMarkersConfig extends Config
     default Color geSecondColour() { return new Color(0,102,170); }
     @ConfigItem(section=tiers,keyName="geThirdColour",name="3rd choice",description="Shared bank and GE colour for Wiki column 3 in the matching setup.",position=3)
     default Color geThirdColour() { return new Color(0,119,68); }
-    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Tools. Empty uses all matching guide setups.",hidden=true,position=5)
+    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Views. Empty uses all matching guide setups.",hidden=true,position=5)
     default String geGuideContext() { return ""; }
+    @ConfigItem(keyName="bankInventoryContext",name="Bank inventory example",description="Inventory example chosen in Views.",hidden=true)
+    default String bankInventoryContext() { return ""; }
     @ConfigItem(keyName="screenshotButton",name="Button beside bank close",description="Show a screenshot button next to the bank close button. Saves the full current tab locally.",section=screenshots,position=0)
     default boolean screenshotButton() { return true; }
 
@@ -42,7 +44,7 @@ public interface WindowMarkersConfig extends Config
     default boolean hoverHighlight() { return true; }
     @ConfigItem(section=appearance,keyName="improvedBankSearch",name="Enable Improved Banking search",description="Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.",position=8)
     default boolean improvedBankSearch() { return false; }
-    @ConfigItem(section=appearance,keyName="setupSearchLayout",name="Group setup searches by slot",description="Temporarily arrange activity and gear-setup search results by equipment slot, then tools and supplies. Ordinary searches and existing Bank Tag layouts keep their order.",position=9)
+    @ConfigItem(section=appearance,keyName="setupSearchLayout",name="Equipment and inventory search layout",description="Show an eight-column equipment and inventory view for activity searches, with alternatives and supplies below. Ordinary searches and existing Bank Tag layouts keep their order.",position=9)
     default boolean setupSearchLayout() { return true; }
     @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="Bank category picker",description="Show a searchable category and preset dropdown beside the bank screenshot button.",position=10)
     default boolean bankCatalogueButton() { return true; }

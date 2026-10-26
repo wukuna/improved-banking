@@ -669,12 +669,16 @@ public final class BankLayoutController
             && nativeSearch!=null && nativeSearch.groupBySlot();
     }
 
+    private final java.util.List<SetupItemLayout.Heading> searchHeadings=new java.util.ArrayList<>();
+    java.util.List<SetupItemLayout.Heading> searchHeadings() { return groupedSearch()?searchHeadings:java.util.Collections.emptyList(); }
     private int[] layoutSearch(Widget items)
     {
         int usable=items.getWidth()-LEFT_INSET-RIGHT_INSET;
-        int count=config.bankLayoutEnabled()?columns(usable):VANILLA_COLUMNS;
-        int pitch=config.bankLayoutEnabled() && count>1 ? CELL_WIDTH+(usable-count*CELL_WIDTH)/(count-1) : CELL_WIDTH+VANILLA_GAP;
-        return SetupItemLayout.apply(items,itemManager,count,pitch,config.bankLayoutEnabled()?4:0);
+        int count=Math.max(3,Math.min(8,(usable+VANILLA_GAP)/(CELL_WIDTH+VANILLA_GAP)));
+        int pitch=CELL_WIDTH+VANILLA_GAP;
+        boolean view=searchView!=null && searchView.isActive();
+        return SetupItemLayout.apply(items,itemManager,count,pitch,4,view?searchView.loadout():nativeSearch.loadout(),
+            view?searchView.ranks():nativeSearch.ranks(),searchHeadings);
     }
 
 	private void restore()

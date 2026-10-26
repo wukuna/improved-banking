@@ -83,7 +83,12 @@ public class WindowMarkersPlugin extends Plugin
     private NavigationButton navigation;
     private DefaultListModel<String> rows;
     private JLabel status;
-    private JLabel geContextLabel;
+    private JLabel geContextLabel, viewLabel;
+    private String viewSummary="";
+    private JTextField viewSearch;
+    private long viewRequest;
+    @Inject net.runelite.client.plugins.banktags.TagManager bankTagManager;
+    @Inject net.runelite.client.plugins.bank.BankSearch nativeBankLayout;
     private String legendTierKey="";
     private MarkerLegend legend;
     private List<MarkerLegend.Entry> legendEntries;
@@ -128,9 +133,12 @@ public class WindowMarkersPlugin extends Plugin
                 panel.setLayout(new BorderLayout(0, 10));
                 JPanel controls = new MarkerForm();
                 JPanel toolsPanel = new MarkerForm();
+                JPanel viewsPanel = new MarkerForm();
+                JPanel guidePanel = new MarkerForm();guidePanel.setVisible(false);
                 controls.add(new JLabel("Improved Banking"));
-                controls.add(new JLabel("<html>Saved per character + RuneLite profile.<br>Markers in the item area scroll<br>with the bank contents.</html>"));
+                controls.add(new JLabel("<html>Saved per character and RuneLite profile.</html>"));
                 status = new JLabel("Open your bank to begin.");
+                status.setPreferredSize(new Dimension(210,48));
                 controls.add(status);
                 layoutPicker=new JComboBox<>();
                 layoutPicker.addActionListener(e -> { if (!refreshingLayouts) { switchNamedLayout(layoutPicker.getSelectedIndex()); } });
@@ -164,12 +172,26 @@ public class WindowMarkersPlugin extends Plugin
                 addButton(customPanel,"Cancel drawing",this::cancel);
                 JCheckBox snap=new JCheckBox("Snap areas to item grid",config.snapToGrid());
                 snap.addActionListener(e -> configs.setConfiguration("windowmarkers","snapToGrid",snap.isSelected())); customPanel.add(snap);
-                customPanel.add(new JLabel("<html>Custom presets<br>This account and RuneLite profile</html>"));
-                customPicker=new JComboBox<>(); customPanel.add(customPicker);
-                addButton(customPanel,"Save selected as preset…",this::saveCustomPreset);
-                addButton(customPanel,"Save current bank view…",this::saveCurrentBankView);
-                addButton(customPanel,"Apply preset…",() -> applyCustomPreset((CustomPresets.Preset)customPicker.getSelectedItem()));
-                customPanel.add(new JLabel("<html>Save selected Legend groups or the current bank view.<br>Presets retain item IDs, appearance and slot grouping.<br>The underlying bank order stays unchanged.</html>"));
+                addButton(customPanel,"Save selected groups…",this::saveCustomPreset);
+                viewsPanel.add(new JLabel("Search bank items and categories"));
+                viewSearch=new JTextField(); viewSearch.setToolTipText("Try toa, toa top, toa magic head 1st, or mining tools");
+                viewsPanel.add(viewSearch); viewSearch.addActionListener(e -> openQueryView(viewSearch.getText(),config.geGuideContext()));
+                addButton(viewsPanel,"Show search in bank",() -> openQueryView(viewSearch.getText(),config.geGuideContext()));
+                addButton(viewsPanel,"Browse categories…",() -> {
+                    BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),catalogueChoices,viewSearch.getText(),c -> false);
+                    if(choice!=null) chooseCatalogue(choice,true);
+                });
+                viewLabel=new JLabel("All bank items");viewLabel.setPreferredSize(new Dimension(210,80));viewsPanel.add(viewLabel);
+                addButton(viewsPanel,"Show all bank items",this::clearBankView);
+                addButton(viewsPanel,"Save current view…",this::saveCurrentBankView);
+                addButton(viewsPanel,"Add view to Legend",this::addViewToLegend);
+                viewsPanel.add(new JLabel("Saved views and presets"));
+                customPicker=new JComboBox<>();viewsPanel.add(customPicker);
+                addButton(viewsPanel,"Open saved view",() -> {
+                    CustomPresets.Preset saved=(CustomPresets.Preset)customPicker.getSelectedItem();
+                    if(saved!=null) chooseCatalogue(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,saved.name,saved),true);
+                });
+                addButton(viewsPanel,"Add tag to item…",this::addBankTag);
                 JButton copyAccount = new JButton("Copy earlier account markers");
                 copyAccount.addActionListener(e -> copyAccountMarkers());
                 toolsPanel.add(new JLabel("Copy older markers")); toolsPanel.add(copyAccount);
@@ -182,7 +204,7 @@ public class WindowMarkersPlugin extends Plugin
                 toolsPanel.add(new JLabel("Default border style"));
                 toolsPanel.add(styles);
                 geContextLabel=new JLabel();
-                toolsPanel.add(geContextLabel);
+                guidePanel.add(geContextLabel);
                 refreshGeContext();
                 JButton geGuide=new JButton("Choose bank / GE guide");
                 geGuide.addActionListener(e -> {
@@ -190,17 +212,25 @@ public class WindowMarkersPlugin extends Plugin
                     if(setup!=null) {
                         configs.setConfiguration("windowmarkers","geGuideContext",setup.id);
                         refreshGeContext();
-                        setStatus("Bank / GE guide: "+setup.activity+" / "+setup.label+". Search again to apply.");
+                        setStatus("Bank / GE guide selected."); refreshOpenView();
                     }
                 });
-                toolsPanel.add(geGuide);
+                guidePanel.add(geGuide);
                 JButton clearGeGuide=new JButton("Clear bank / GE guide");
                 clearGeGuide.addActionListener(e -> {
                     configs.unsetConfiguration("windowmarkers","geGuideContext");
                     refreshGeContext();
-                    setStatus("Bank / GE search uses all matching setups. Search again to apply.");
+                    setStatus("Using matching guides."); refreshOpenView();
                 });
-                toolsPanel.add(clearGeGuide);
+                guidePanel.add(clearGeGuide);
+                addButton(guidePanel,"Choose inventory example…",() -> {
+                    ActivitySetups.Setup setup=ActivitySetupPicker.chooseInventory(panel);
+                    if(setup!=null) { configs.setConfiguration("windowmarkers","bankInventoryContext",setup.id); refreshOpenView(); }
+                });
+                addButton(guidePanel,"Automatic inventory example",() -> { configs.unsetConfiguration("windowmarkers","bankInventoryContext");refreshOpenView(); });
+                JToggleButton guideOptions=new JToggleButton("Guide choices…");
+                guideOptions.addActionListener(e -> { guidePanel.setVisible(guideOptions.isSelected());viewsPanel.revalidate(); });
+                viewsPanel.add(guideOptions);viewsPanel.add(guidePanel);
                 rows=new DefaultListModel<>();
                 legend=new MarkerLegend(m -> legendHover=m,m -> { legendPinned=m; if(m!=null) lookupHighlight=null; },new MarkerLegend.Actions() {
                     public void edit(Marker m) { editMarker(m); }
@@ -221,7 +251,7 @@ public class WindowMarkersPlugin extends Plugin
                 });
                 JPanel legendPanel=new JPanel(new BorderLayout(0,6)); legendPanel.add(categorize,BorderLayout.NORTH); legendPanel.add(legend,BorderLayout.CENTER);
                 JTabbedPane tabs=new JTabbedPane();
-                tabs.addTab("Legend",legendPanel); tabs.addTab("Custom",customPanel); tabs.addTab("Tools",toolsPanel);
+                tabs.addTab("Views",viewsPanel); tabs.addTab("Legend",legendPanel); tabs.addTab("Custom",customPanel); tabs.addTab("Tools",toolsPanel);
                 tabs.addChangeListener(e -> { legendHover=null; });
                 panel.add(controls,BorderLayout.NORTH); panel.add(tabs,BorderLayout.CENTER);
                 BufferedImage icon = new BufferedImage(24,24,BufferedImage.TYPE_INT_ARGB);
@@ -661,6 +691,11 @@ public class WindowMarkersPlugin extends Plugin
     {
         final String owner,layout;
         synchronized(this) { if(!currentLayout()) { setStatus("Log in first."); return; } owner=accountKey; layout=layoutKey; }
+        if(showView) {
+            if(choice.kind==BankCatalogue.Kind.CUSTOM_PRESET) { CustomPresets.Preset saved=(CustomPresets.Preset)choice.value; showBankView(saved.name,saved.groups,saved.groupBySlot,owner,layout);return; }
+            if(choice.kind==BankCatalogue.Kind.WIKI_SETUP) { ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;openQueryView(setup.activity,setup.id);return; }
+            if(choice.kind==BankCatalogue.Kind.CATEGORY || choice.kind==BankCatalogue.Kind.PRESET) { openQueryView(choice.name.split(" — ",2)[0],config.geGuideContext());return; }
+        }
         switch(choice.kind) {
             case PRESET: autoCategorize((AutoCategories.Preset)choice.value,showView); break;
             case WIKI_SETUP: categorize(AutoCategories.Preset.WIKI_ACTIVITY_SETUP,(ActivitySetups.Setup)choice.value,false,showView); break;
@@ -871,7 +906,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void resetBankContext(boolean stopping)
     {
-        rankingIndex=null;
+        rankingIndex=null;viewRequest++;
         // RuneLite starts/stops plugins on EDT; layout/profile changes may also
         // arrive there. Confine all game-widget and Bank Tags cleanup to client.
         if(clientThread!=null) clientThread.invoke(() -> {
@@ -892,11 +927,103 @@ public class WindowMarkersPlugin extends Plugin
         if(searchView==null) return;
         List<Marker> snapshot=new ArrayList<>();
         for(Marker group:groups) snapshot.add(gson.fromJson(gson.toJson(group),Marker.class));
-        clientThread.invokeLater(() -> {
-            synchronized(WindowMarkersPlugin.this) {
-                if(!context(owner,layout) || bank==null) return;
-                searchView.show(name,snapshot,slots);
+        BankSearchIndex index=rankingIndex; final long request=++viewRequest;
+        new SwingWorker<BankSearchIndex.Match,Void>() {
+            protected BankSearchIndex.Match doInBackground() {
+                if(index==null || snapshot.isEmpty()) return null;
+                Marker first=snapshot.get(0);
+                return index.search(first.guideQuery==null?name:first.guideQuery,first.guideContext==null?"":first.guideContext,
+                    first.inventoryContext==null?"":first.inventoryContext);
             }
+            protected void done() { try {
+                BankSearchIndex.Match match=get();
+                clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
+                    if(request!=viewRequest || !context(owner,layout) || bank==null) return;
+                    nativeSearch.closeSearch();
+                    searchView.show(name,snapshot,slots,match==null?null:match.loadout,match==null?java.util.Collections.emptyMap():match.ranks);
+                }});
+            } catch(Exception ex) { setStatus("Could not open the saved view. Try again."); } }
+        }.execute();
+    }
+
+    private void openQueryView(String text,String guide)
+    {
+        final String owner,layout,inventory;final BankSearchIndex index;final long request;
+        synchronized(this) {
+            if(!currentLayout() || bank==null || rankingIndex==null) { setStatus("Open your bank and wait for the catalogue.");return; }
+            owner=accountKey;layout=layoutKey;inventory=config.bankInventoryContext();index=rankingIndex;request=++viewRequest;
+        }
+        new SwingWorker<BankSearchIndex.Match,Void>() {
+            protected BankSearchIndex.Match doInBackground() { return index.search(text,guide,inventory); }
+            protected void done() { try {
+                BankSearchIndex.Match match=get();
+                if(match.ids.isEmpty()) { setStatus("No owned items match that search.");return; }
+                Marker group=new Marker(0,0,48,36);styleGroup(group,text);group.scrollWithItems=true;
+                group.linkedItemIds=match.ids.stream().sorted().mapToInt(Integer::intValue).toArray();
+                group.guideQuery=text;group.guideContext=guide;group.inventoryContext=inventory;
+                clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
+                    if(request!=viewRequest || !context(owner,layout) || bank==null) return;
+                    nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks);
+                    setStatus("View open. Save it to reopen later, or add it to Legend.");
+                }});
+            } catch(Exception ex) { setStatus("Could not open that search. Your saved groups are unchanged."); } }
+        }.execute();
+    }
+    private void clearBankView() {
+        synchronized(this) { viewRequest++; }
+        clientThread.invokeLater(() -> { synchronized(this) {
+            if(!active) return;
+            if(searchView!=null) searchView.clear();if(nativeSearch!=null) nativeSearch.closeSearch();
+            setStatus("Showing all bank items.");
+        }});
+    }
+    private void refreshOpenView() {
+        clientThread.invokeLater(() -> { synchronized(this) {
+            if(searchView!=null && searchView.isActive()) {
+                String name=searchView.name();SwingUtilities.invokeLater(() -> openQueryView(name,config.geGuideContext()));
+            }
+        }});
+    }
+    private void addViewToLegend() {
+        clientThread.invokeLater(() -> { synchronized(this) {
+            if(!active || !currentLayout()) return;
+            List<Marker> groups=new ArrayList<>(searchView.groups());
+            if(groups.isEmpty() && !nativeSearch.matches().isEmpty()) {
+                Marker group=new Marker(0,0,48,36);styleGroup(group,nativeSearch.query());group.scrollWithItems=true;
+                group.linkedItemIds=nativeSearch.matches().stream().mapToInt(Integer::intValue).toArray();
+                group.guideQuery=nativeSearch.query();group.guideContext=config.geGuideContext();group.inventoryContext=config.bankInventoryContext();groups.add(group);
+            }
+            if(groups.isEmpty()) { setStatus("Open a search or saved view first.");return; }
+            int added=0;
+            for(Marker group:groups) {
+                if(markers.size()>=MAX_MARKERS) break;
+                if(markers.stream().anyMatch(m -> m.labelText().equals(group.labelText()) && java.util.Arrays.equals(m.linkedItemIds,group.linkedItemIds))) continue;
+                markers.add(gson.fromJson(gson.toJson(group),Marker.class));added++;
+            }
+            if(added>0) save();setStatus(added+" groups added to Legend. Undo restores the previous groups.");
+        }});
+    }
+    private void addBankTag() {
+        final String owner,layout;
+        synchronized(this) { if(!currentLayout() || bank==null) { setStatus("Open your bank first.");return; } owner=accountKey;layout=layoutKey; }
+        paletteInputs(new int[0],(owned,selected) -> {
+            synchronized(this) { if(!context(owner,layout)) return; }
+            ItemPalette palette=new ItemPalette(itemSearch,owned,selected,4000);
+            JTextField tag=new JTextField();JCheckBox variations=new JCheckBox("Include Bank Tags item variations",false);
+            JPanel form=new JPanel(new BorderLayout(0,8));JPanel heading=new MarkerForm();
+            heading.add(new JLabel("Bank Tags tag name"));heading.add(tag);heading.add(variations);
+            heading.add(new JLabel("<html>Saves a real Bank Tags tag in this RuneLite profile.<br>Use that tag in Bank Tags and Bank Tag layouts.<br>Existing tags are retained.</html>"));
+            form.add(heading,BorderLayout.NORTH);form.add(palette,BorderLayout.CENTER);
+            boolean accepted;try { accepted=MarkerDialogs.confirm(parent(),form,"Add tag to item",740,680); } finally { palette.close(); }
+            if(!accepted) return;
+            String name=net.runelite.client.util.Text.standardize(tag.getText());int[] ids=palette.ids();boolean all=variations.isSelected();
+            if(name.isEmpty() || name.length()>60 || name.matches(".*[,<>:].*") || ids.length==0) { setStatus("Choose items and enter one tag name (up to 60 characters; no commas, colons or angle brackets).");return; }
+            clientThread.invokeLater(() -> { synchronized(this) {
+                if(!context(owner,layout)) return;
+                // Bank Tags' public user-data API preserves existing tags and handles variations.
+                for(int id:ids) bankTagManager.addTag(id,name,all);
+                nativeBankLayout.layoutBank();setStatus("Added Bank Tags tag '"+name+"' to "+ids.length+" item types.");
+            }});
         });
     }
 
@@ -915,7 +1042,7 @@ public class WindowMarkersPlugin extends Plugin
                     Marker group=new Marker(0,0,48,36);
                     styleGroup(group,nativeSearch.query()); group.scrollWithItems=true;
                     group.linkedItemIds=nativeSearch.matches().stream().sorted().mapToInt(Integer::intValue).toArray();
-                    group.guideQuery=nativeSearch.query(); group.guideContext=config.geGuideContext();
+                    group.guideQuery=nativeSearch.query(); group.guideContext=config.geGuideContext();group.inventoryContext=config.bankInventoryContext();
                     template.groups.add(group); template.name=nativeSearch.query(); template.groupBySlot=nativeSearch.groupBySlot() && config.setupSearchLayout();
                 }
                 if(template.groups.isEmpty()) { setStatus("No Improved Banking search results to save."); return; }
@@ -929,7 +1056,7 @@ public class WindowMarkersPlugin extends Plugin
                     if(customPresets.presets.size()>=CustomPresets.LIMIT) { setStatus("50-preset limit reached."); return; }
                     if(customPresets.presets.stream().anyMatch(p -> p.name.equalsIgnoreCase(name))) { setStatus("That preset name already exists. Choose a different name."); return; }
                     template.name=name; customPresets.presets.add(template); savePresets();
-                    setStatus("Bank view saved for this account and RuneLite profile. Find it in Custom presets.");
+                    setStatus("Bank view saved for this account and RuneLite profile. Reopen it under Views → Saved views.");
                 }
             });
         });
@@ -1049,7 +1176,7 @@ public class WindowMarkersPlugin extends Plugin
         legendEntries=null; updateLegend(legendCells); reloadCatalogue();
     }
 
-    private void setStatus(String text) { SwingUtilities.invokeLater(() -> { if (status != null) { status.setText("<html>" + text + "</html>"); } }); }
+    private void setStatus(String text) { SwingUtilities.invokeLater(() -> { if (status != null) { status.setText("<html>" + text.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;") + "</html>"); } }); }
 
     synchronized void arm()
     {
@@ -1165,6 +1292,14 @@ public class WindowMarkersPlugin extends Plugin
 
     @Subscribe public synchronized void onBeforeRender(BeforeRender event)
     {
+        if(viewLabel!=null) {
+            SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();
+            String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
+            if(plan!=null) current+="\nEquipment: "+plan.equipmentName+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
+            if(!current.equals(viewSummary)) { viewSummary=current;String summary=current;JLabel target=viewLabel;
+                SwingUtilities.invokeLater(() -> { if(target==viewLabel) { target.setText("<html>"+summary.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\n","<br>")+"</html>");target.setToolTipText(summary); } });
+            }
+        }
         if(nativeSearch!=null) nativeSearch.update();
         if(searchView!=null) searchView.update();
         if (client.getGameState() != GameState.LOGGED_IN)
@@ -1421,6 +1556,11 @@ public class WindowMarkersPlugin extends Plugin
         return null;
     }
 
+    private List<Marker> renderedMarkers() {
+        if(searchView==null || !searchView.isActive()) return markers;
+        List<Marker> rendered=new ArrayList<>(markers);rendered.addAll(searchView.groups());return rendered;
+    }
+
     final class MarkerOverlay extends Overlay
     {
         MarkerOverlay()
@@ -1444,7 +1584,7 @@ public class WindowMarkersPlugin extends Plugin
                     { tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(hovered.labelText()))); }
                     if (config.visible())
                     {
-                        for (Marker marker : markers)
+                        for (Marker marker : renderedMarkers())
                         {
                           for (Rectangle r : markerRegions(marker))
                           {
@@ -1464,7 +1604,7 @@ public class WindowMarkersPlugin extends Plugin
                     {
                         List<Rectangle> occupiedLabels=new ArrayList<>();
                         for (ItemAnchors.Cell cell : itemCells) { occupiedLabels.add(new Rectangle(cell.grid)); }
-                        for (Marker marker : markers)
+                        for (Marker marker : renderedMarkers())
                         {
                             Rectangle clip=markerClip(marker);
                             if (clip==null || marker.labelText().isEmpty() || config.bankLabels()==WindowMarkersConfig.BankLabels.OFF || (focused!=null && focused!=marker)) { continue; }
@@ -1495,6 +1635,12 @@ public class WindowMarkersPlugin extends Plugin
                                 if (drawn && (config.bankLabels()==WindowMarkersConfig.BankLabels.MINI || Boolean.TRUE.equals(marker.labelOnce))) { break; }
                             }
                         }
+                    }
+                    if(itemArea!=null && bankLayout!=null) {
+                        Graphics2D headings=(Graphics2D)g.create();
+                        try { headings.clip(itemArea);headings.setFont(new Font("Arial",Font.PLAIN,11));headings.setColor(new Color(230,205,145));
+                            for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) headings.drawString(heading.text,itemArea.x+heading.x,itemArea.y+heading.y-itemScroll);
+                        } finally { headings.dispose(); }
                     }
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
                     if(itemHighlight!=null && itemArea!=null)
@@ -1542,7 +1688,7 @@ public class WindowMarkersPlugin extends Plugin
     {
         if(nativeSearch!=null && nativeSearch.searching()) return nativeSearch.ranks();
         if(rankingIndex==null) return java.util.Collections.emptyMap();
-        if(searchView!=null && searchView.isActive()) return rankingIndex.ranks(searchView.groups());
+        if(searchView!=null && searchView.isActive()) return searchView.ranks().isEmpty()?rankingIndex.ranks(searchView.groups()):searchView.ranks();
         Marker selected=highlightedMarker();
         return rankingIndex.ranks(selected==null?markers:java.util.Collections.singletonList(selected));
     }
@@ -1566,7 +1712,7 @@ public class WindowMarkersPlugin extends Plugin
                 {
                     g.clip(bank);
                     Marker focused=highlightedMarker();
-                    for (Marker marker : markers)
+                    for (Marker marker : renderedMarkers())
                     {
                         if (marker.backgroundArgb == null) { continue; }
                       for (Rectangle r : markerRegions(marker))
