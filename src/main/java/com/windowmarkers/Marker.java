@@ -8,6 +8,9 @@ final class Marker
     int x, y, width, height;
     String label;
     String category, preset;
+    String guideQuery, guideContext;
+    String rankKey() { return (guideQuery==null?"":guideQuery)+"\n"+(guideContext==null?"":guideContext); }
+    void clearGuide() { guideQuery=null; guideContext=null; }
     Integer borderArgb;
     Integer backgroundArgb;
     WindowMarkersConfig.BorderStyle style;

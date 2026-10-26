@@ -52,6 +52,26 @@ final class ItemVariantState
         return needsActivityReview(item);
     }
 
+    static boolean needsRankReview(AutoCategories.Item item,String activity,String setup)
+    {
+        ItemVariantState known=STATES.get(item.id);
+        if(known==null || known.state!=State.REDUCED) return false;
+        // These tools remain usable at dragon tier. Do not copy a charged
+        // tool's guide rank when its processing or gathering effect is gone.
+        if(known.note.startsWith("dragon")) {
+            if(known.family.equals("infernal axe") && activity.equals("Wintertodt")) return false;
+            if(known.family.endsWith("pickaxe") && activity.startsWith("Chambers of Xeric")
+                && setup.startsWith("Guardians")) return false;
+            return true;
+        }
+        // A passive bonus is not proof that a guide's additional charge-based
+        // benefit is available. Keep these items searchable with state notes.
+        if(known.family.startsWith("celestial ")) return !activity.equals("Tempoross");
+        if(known.family.startsWith("ring of suffering")) return activity.equals("Zulrah");
+        if(known.family.startsWith("amulet of glory")) return activity.equals("Mining");
+        return known.family.equals("horn of plenty");
+    }
+
     static String reviewGroup(AutoCategories.Item item)
     {
         if (identityNeedsReview(item)) { return "Unverified item identity — review"; }

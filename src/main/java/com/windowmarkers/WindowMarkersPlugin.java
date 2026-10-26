@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description="Beta bank groups, searchable Wiki categories, bank picker and saved setup views", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description="Beta bank groups, Wiki categories, saved setup views and optional GE gear search", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
@@ -60,6 +60,7 @@ public class WindowMarkersPlugin extends Plugin
     @Inject NativeBankSearch nativeSearch;
     @Inject BankSearchView searchView;
     @Inject BankCataloguePicker bankPicker;
+    @Inject GeCatalogueSearch geSearch;
     private List<ItemAnchors.Cell> itemCells = new ArrayList<>();
     private final List<Marker> markers = new ArrayList<>();
     private Rectangle bank;
@@ -82,11 +83,14 @@ public class WindowMarkersPlugin extends Plugin
     private NavigationButton navigation;
     private DefaultListModel<String> rows;
     private JLabel status;
+    private JLabel geContextLabel;
+    private String legendTierKey="";
     private MarkerLegend legend;
     private List<MarkerLegend.Entry> legendEntries;
     private volatile long legendRevision;
     private volatile Marker legendHover, legendPinned;
     private volatile Marker lookupHighlight;
+    private BankSearchIndex rankingIndex;
     @Inject net.runelite.client.ui.overlay.tooltip.TooltipManager tooltipManager;
     private final MarkerMouse mouse = new MarkerMouse();
     private final MarkerOverlay overlay = new MarkerOverlay();
@@ -112,6 +116,7 @@ public class WindowMarkersPlugin extends Plugin
             bankLayout.startUp();
         }
         load();
+        if(geSearch!=null) geSearch.start();
         overlayManager.add(overlay);
         overlayManager.add(backgroundOverlay);
         mouseManager.registerMouseListener(mouse);
@@ -176,6 +181,26 @@ public class WindowMarkersPlugin extends Plugin
                 styles.addActionListener(e -> configs.setConfiguration("windowmarkers", "style", styles.getSelectedItem()));
                 toolsPanel.add(new JLabel("Default border style"));
                 toolsPanel.add(styles);
+                geContextLabel=new JLabel();
+                toolsPanel.add(geContextLabel);
+                refreshGeContext();
+                JButton geGuide=new JButton("Choose bank / GE guide");
+                geGuide.addActionListener(e -> {
+                    ActivitySetups.Setup setup=ActivitySetupPicker.choose(panel,true);
+                    if(setup!=null) {
+                        configs.setConfiguration("windowmarkers","geGuideContext",setup.id);
+                        refreshGeContext();
+                        setStatus("Bank / GE guide: "+setup.activity+" / "+setup.label+". Search again to apply.");
+                    }
+                });
+                toolsPanel.add(geGuide);
+                JButton clearGeGuide=new JButton("Clear bank / GE guide");
+                clearGeGuide.addActionListener(e -> {
+                    configs.unsetConfiguration("windowmarkers","geGuideContext");
+                    refreshGeContext();
+                    setStatus("Bank / GE search uses all matching setups. Search again to apply.");
+                });
+                toolsPanel.add(clearGeGuide);
                 rows=new DefaultListModel<>();
                 legend=new MarkerLegend(m -> legendHover=m,m -> { legendPinned=m; if(m!=null) lookupHighlight=null; },new MarkerLegend.Actions() {
                     public void edit(Marker m) { editMarker(m); }
@@ -212,6 +237,7 @@ public class WindowMarkersPlugin extends Plugin
     @Override protected synchronized void shutDown()
     {
         active = false; lifecycle++; catalogueRevision++;
+        if(geSearch!=null) geSearch.stop();
         lookupHighlight=null;
         resetBankContext(true);
         if(legend!=null) SwingUtilities.invokeLater(legend::close);
@@ -232,8 +258,20 @@ public class WindowMarkersPlugin extends Plugin
         cancel(); bank = null; load();
     }
 
+    private void refreshGeContext()
+    {
+        if(config==null || geContextLabel==null) return;
+        String chosen=config.geGuideContext();
+        String name=ActivitySetups.all().stream().filter(s->s.id.equals(chosen))
+            .map(s->s.activity+" / "+s.label).findFirst().orElse("All matching setups");
+        String text="<html>Bank / GE guide: "+name.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")+"</html>";
+        JLabel label=geContextLabel;
+        SwingUtilities.invokeLater(() -> { if(geContextLabel==label) label.setText(text); });
+    }
+
     private void load()
     {
+        refreshGeContext();
         resetBankContext(false);
         legendHover=null; legendPinned=null; lookupHighlight=null; legendCells.clear(); catalogueRevision++;
         if(legend!=null) SwingUtilities.invokeLater(legend::resetContext);
@@ -519,7 +557,14 @@ public class WindowMarkersPlugin extends Plugin
             choices.forEach((box,items) -> { if(box.isSelected()) selected.put(box.getText(),items); });
             String presetName=setup==null?preset.toString():setup.activity+" — "+setup.label;
             CategoryGroups.Result result=CategoryGroups.add(markers,selected,presetName,includeGrouped.isSelected(),config.color(),MAX_MARKERS);
-            if(result.added>0 || replaced>0) save();
+            boolean guideChanged=false;
+            for(Marker group:result.selected) {
+                String previous=group.rankKey();
+                if(setup!=null) { group.guideQuery=setup.activity; group.guideContext=setup.id; }
+                else if(SetupItemLayout.activityPreset(preset)) { group.guideQuery=preset.toString().split(" — ",2)[0]; group.guideContext=""; }
+                guideChanged|=!previous.equals(group.rankKey());
+            }
+            if(result.added>0 || replaced>0 || guideChanged) save();
             if(showView.isSelected()) {
                 // Keep the exact colours/labels the reviewed groups use in Legend.
                 // Skipped groups are not silently saved under different colours.
@@ -546,7 +591,8 @@ public class WindowMarkersPlugin extends Plugin
         var stats=itemManager.getItemStats(id); var eq=stats==null?null:stats.getEquipment();
         return new AutoCategories.Item(id,definition.getName(),stats!=null && stats.isEquipable(),definition.getInventoryActions(),
             eq==null?0:Math.max(eq.getAstab(),Math.max(eq.getAslash(),eq.getAcrush()))+eq.getStr(),
-            eq==null?0:eq.getArange()+eq.getRstr(),eq==null?0:eq.getAmagic()+(int)eq.getMdmg());
+            eq==null?0:eq.getArange()+eq.getRstr(),eq==null?0:eq.getAmagic()+(int)eq.getMdmg(),
+            eq==null?-2:eq.getSlot());
     }
 
     private List<AutoCategories.Item> bankFacts()
@@ -590,7 +636,7 @@ public class WindowMarkersPlugin extends Plugin
                         choices.removeIf(c -> c.kind==BankCatalogue.Kind.SAVED_GROUP || c.kind==BankCatalogue.Kind.CUSTOM_PRESET);
                         for(Marker m:markers) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.SAVED_GROUP,m.labelText().isEmpty()?"Unnamed group":m.labelText(),m));
                         for(CustomPresets.Preset p:customPresets.presets) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,p.name,p));
-                        catalogueChoices=choices; if(legend!=null) legend.catalogue(choices);
+                        catalogueChoices=choices; rankingIndex=searchIndex; if(legend!=null) legend.catalogue(choices);
                         if(nativeSearch!=null) nativeSearch.index(searchIndex);
                     }} catch(Exception ex) { setStatus("Catalogue search could not be loaded. Reopen the bank to retry."); }
                 }
@@ -700,7 +746,7 @@ public class WindowMarkersPlugin extends Plugin
             if(!context(owner,layout) || !markers.containsAll(selected)) return;
             Marker merged=gson.fromJson(gson.toJson(selected.get(0)),Marker.class); merged.linkedItemIds=GroupEdits.union(selected);
             if(merged.linkedItemIds.length>4000) { setStatus("A group can contain up to 4,000 item types."); return; }
-            merged.label=name; merged.category=null; merged.preset="Custom";
+            merged.label=name; merged.category=null; merged.preset="Custom"; merged.clearGuide();
             int index=selected.stream().mapToInt(markers::indexOf).min().getAsInt();
             cancel(); markers.removeAll(selected); markers.add(index,merged); save(); setStatus("Groups merged. Undo restores the separate groups.");
         }
@@ -741,7 +787,7 @@ public class WindowMarkersPlugin extends Plugin
                 cancel(); Marker group=target==null?new Marker(0,0,48,36):target;
                 if(target==null) { styleGroup(group,name); markers.add(group); }
                 group.label=name.substring(0,Math.min(60,name.length())); group.scrollWithItems=true; group.linkedItemIds=ids;
-                group.category=null; group.preset="Custom"; save(); setStatus("Item group saved. Manage its appearance in Legend.");
+                group.category=null; group.preset="Custom"; group.clearGuide(); save(); setStatus("Item group saved. Manage its appearance in Legend.");
             }
         });
     }
@@ -825,6 +871,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void resetBankContext(boolean stopping)
     {
+        rankingIndex=null;
         // RuneLite starts/stops plugins on EDT; layout/profile changes may also
         // arrive there. Confine all game-widget and Bank Tags cleanup to client.
         if(clientThread!=null) clientThread.invoke(() -> {
@@ -868,6 +915,7 @@ public class WindowMarkersPlugin extends Plugin
                     Marker group=new Marker(0,0,48,36);
                     styleGroup(group,nativeSearch.query()); group.scrollWithItems=true;
                     group.linkedItemIds=nativeSearch.matches().stream().sorted().mapToInt(Integer::intValue).toArray();
+                    group.guideQuery=nativeSearch.query(); group.guideContext=config.geGuideContext();
                     template.groups.add(group); template.name=nativeSearch.query(); template.groupBySlot=nativeSearch.groupBySlot() && config.setupSearchLayout();
                 }
                 if(template.groups.isEmpty()) { setStatus("No Improved Banking search results to save."); return; }
@@ -1181,7 +1229,9 @@ public class WindowMarkersPlugin extends Plugin
     private void updateLegend(List<ItemAnchors.Cell> tabCells)
     {
         List<MarkerLegend.Entry> entries=MarkerLegend.forTab(markers,tabCells,bank,itemArea,itemScroll,config.color());
-        if(MarkerLegend.same(legendEntries,entries)) { return; }
+        String tierKey=config.geTierColours()?TierPresentation.key(config):"";
+        if(MarkerLegend.same(legendEntries,entries) && tierKey.equals(legendTierKey)) { return; }
+        legendTierKey=tierKey;
         legendEntries=entries;
         if(entries.stream().noneMatch(e -> e.marker==legendHover)) { legendHover=null; }
         if(entries.stream().noneMatch(e -> e.marker==legendPinned)) { legendPinned=null; }
@@ -1192,7 +1242,7 @@ public class WindowMarkersPlugin extends Plugin
         }
         long revision=++legendRevision;
         SwingUtilities.invokeLater(() -> {
-            if(active && legend!=null && revision==legendRevision) { legend.replace(entries,all); }
+            if(active && legend!=null && revision==legendRevision) { legend.replace(entries,all); legend.tiers(tierKey); }
         });
     }
 
@@ -1327,7 +1377,7 @@ public class WindowMarkersPlugin extends Plugin
                         if(markers.contains(append)) {
                             int[] joined=GroupEdits.union(java.util.Arrays.asList(append,drawn));
                             if(joined.length>4000) { setStatus("A group can contain up to 4,000 item types."); return e; }
-                            append.linkedItemIds=joined; append.category=null; append.preset="Custom";
+                            append.linkedItemIds=joined; append.category=null; append.preset="Custom"; append.clearGuide();
                             save(); setStatus("Items added to "+append.labelText()+". Undo restores the group.");
                         }
                         return e;
@@ -1455,6 +1505,23 @@ public class WindowMarkersPlugin extends Plugin
                             for(Rectangle r:markerRegions(itemHighlight)) if(r!=null) BorderRenderer.plain(highlight,r,Color.YELLOW);
                         } finally { highlight.dispose(); }
                     }
+                    if(config.visible() && config.geTierColours() && itemArea!=null) {
+                        java.util.Map<Integer,ItemCatalogueIndex.Rank> tiers=bankRanks();
+                        Graphics2D ranked=(Graphics2D)g.create();
+                        try {
+                            ranked.clip(itemArea);
+                            net.runelite.api.Point mouse=client.getMouseCanvasPosition();
+                            for(ItemAnchors.Cell cell:itemCells) {
+                                ItemCatalogueIndex.Rank rank=tiers.get(cell.id);
+                                if(rank==null || !cell.grid.intersects(itemArea)) continue;
+                                TierPresentation.draw(ranked,cell.grid,rank.tier,config);
+                                if(mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
+                                    String explanation=rank.explanation.length()>850?rank.explanation.substring(0,847)+"...":rank.explanation;
+                                    tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(explanation).replace("\n","<br>")));
+                                }
+                            }
+                        } finally { ranked.dispose(); }
+                    }
                     if (preview != null && markerClip(preview) != null)
                     { g.clip(markerClip(preview)); BorderRenderer.plain(g, preview.onScreen(bank,itemArea,itemScroll), config.color()); }
                 }
@@ -1469,6 +1536,15 @@ public class WindowMarkersPlugin extends Plugin
         if (marker.labelPlacement == Marker.LabelPlacement.ABOVE) { return r.y-4-metrics.getDescent(); }
         if (marker.labelPlacement == Marker.LabelPlacement.BELOW) { return r.y+r.height+4+metrics.getAscent(); }
         return r.y+4+metrics.getAscent();
+    }
+
+    private java.util.Map<Integer,ItemCatalogueIndex.Rank> bankRanks()
+    {
+        if(nativeSearch!=null && nativeSearch.searching()) return nativeSearch.ranks();
+        if(rankingIndex==null) return java.util.Collections.emptyMap();
+        if(searchView!=null && searchView.isActive()) return rankingIndex.ranks(searchView.groups());
+        Marker selected=highlightedMarker();
+        return rankingIndex.ranks(selected==null?markers:java.util.Collections.singletonList(selected));
     }
 
     final class BackgroundOverlay extends Overlay

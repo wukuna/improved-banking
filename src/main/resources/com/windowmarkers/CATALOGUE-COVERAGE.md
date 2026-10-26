@@ -26,13 +26,13 @@ Exclude worse items retains its conservative, supported CoX/ToB/ToA comparisons 
 
 ## Activity guides
 
-887 equipment tables, example inventories and rune-pouch examples from 106 activities are available through the searchable Wiki activity/setup choice. Each is kept separate, with source tab/column names, a pinned revision link and conditional notes. All start unchecked. Generic or unresolved references remain visible in the notes instead of being filled from broad categories. All 167 previously unresolved markup/condition fields now have revision-bound interpretations. Ordinary linked alternatives, named footnotes, skill requirements and page variables are resolved; weapon/set dependencies and cross-section choices remain explicit conditions, not a universal ranking.
+888 equipment tables, example inventories and rune-pouch examples from 106 activities are available through the searchable Wiki activity/setup choice. Each is kept separate, with source tab/column names, a pinned revision link and conditional notes. All start unchecked. Generic or unresolved references remain visible in the notes instead of being filled from broad categories. All 167 previously unresolved markup/condition fields now have revision-bound interpretations. Ordinary linked alternatives, named footnotes, skill requirements and page variables are resolved; weapon/set dependencies and cross-section choices remain explicit conditions, not a universal ranking.
 
 CoX/ToB/ToA retain their main presets and separate specialist roles. Additional covered guide contexts include Tekton crush, Vasa stab, Vespula fire-spell conditions, ToB Entry alternatives and Verzik P1 multi-hit weapons, and ToA Kephri/core roles. These now have explicit memberships without replacing the main-role comparisons. The Fractured Archive source is under construction and remains provisional and unchecked. No raid admits supplies merely because an item has an Eat or Drink action.
 
 ## 25 October refresh and remaining work
 
-All 12,521 item-page revisions and category lists were checked again, separately. There were 89 revised articles, 11 changed category lists and no new or removed pages in this direct-category inventory. None of the changed item articles altered the exact identity, variant-name or bankability fields used by the identity ledger. Of 114 source guide pages, 14 changed; their setup tables and conditions were rebuilt. The 887 setup choices contain 57,094 exact-ID memberships across 2,385 distinct items.
+All 12,521 item-page revisions and category lists were checked again, separately. There were 89 revised articles, 11 changed category lists and no new or removed pages in this direct-category inventory. None of the changed item articles altered the exact identity, variant-name or bankability fields used by the identity ledger. Of 114 source guide pages, 14 changed; their setup tables and conditions were rebuilt. The current 888 setup choices contain 58,833 exact-ID memberships across 2,432 distinct items after the functional-variant and Tempoross follow-up.
 
 Reviewed role additions cover the diving pair, conditional prayer-book poison curing, quest digging, decorative Wyrmscraig boots, Deadman currency and the new crossbow/crush weapons. Eleven explicit reference-group definitions cover books, capes, halos, blessings, shields and specialist weapons without turning their effects into universal equivalence. Kraken damage and sustain setups stay separate, with the sustain shield requirement visible. See WIKI-ROLE-UPDATES.md and ACTIVITY-SETUP-SOURCES.md.
 
@@ -169,3 +169,7 @@ Bundled data adapts OSRS Wiki contributors' lists under CC BY-NC-SA 3.0; see TAX
 - [Woodcutting](https://oldschool.runescape.wiki/w/Woodcutting?oldid=15352501) — revision 15352501
 - [Zealot's robes](https://oldschool.runescape.wiki/w/Zealot%27s_robes?oldid=15367907) — revision 15367907
 
+
+## Shared bank / GE follow-up
+
+All 169 remaining family candidates across 30 families now have an explicit disposition. The 104 accepted directed alternatives and reduced-function ranking safeguards are documented in [FUNCTIONAL-VARIANT-SOURCES.md](FUNCTIONAL-VARIANT-SOURCES.md). Bank and GE search use one classification/ranking index, including preset subcategory labels and complete-word typo correction. This completes the flagged snapshot reconciliation; unknown live-state/charge counters and the deliberately guarded identities above remain review cases rather than fabricated facts.

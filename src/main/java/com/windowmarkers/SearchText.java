@@ -14,6 +14,28 @@ final class SearchText
     }
     static int score(String text,String query)
     { return normalizedScore(normalize(text),normalize(query)); }
+    static boolean containsWords(String text,String query) {
+        for(String word:query.split(" +")) if(!text.contains(word)) return false;
+        return true;
+    }
+    static String correctWholeWords(java.util.Set<String> vocabulary,String terms) {
+        java.util.List<String> corrected=new java.util.ArrayList<>();
+        for(String term:terms.split(" +")) {
+            String replacement=term;
+            if(term.length()>=4 && !vocabulary.contains(term)) {
+                int allowed=term.length()<8?1:2,best=allowed+1; boolean tied=false;
+                for(String candidate:vocabulary) {
+                    if(Math.abs(candidate.length()-term.length())>allowed) continue;
+                    int cost=distance(candidate,term);
+                    if(cost<best) { best=cost;replacement=candidate;tied=false; }
+                    else if(cost==best) tied=true;
+                }
+                if(best>allowed || tied) replacement=term;
+            }
+            corrected.add(replacement);
+        }
+        return String.join(" ",corrected);
+    }
     static int normalizedScore(String text,String query)
     {
         if(query.isEmpty() || text.equals(query)) return 0;
@@ -43,7 +65,7 @@ final class SearchText
             if(distance(word.substring(0,length),needle)<=allowed) return true;
         return false;
     }
-    private static int distance(String a,String b)
+    static int distance(String a,String b)
     {
         int[][] d=new int[a.length()+1][b.length()+1];
         for(int i=0;i<=a.length();i++) d[i][0]=i;

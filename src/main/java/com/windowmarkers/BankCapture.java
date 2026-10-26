@@ -63,7 +63,8 @@ final class BankCapture
                 for(Widget child:widgets)
                 {
                     BufferedImage icon=items.getImage(child.getItemId(),child.getItemQuantity(),true);
-                    if(items.getItemComposition(child.getItemId()).getPlaceholderTemplateId()>0) { icon=net.runelite.client.util.ImageUtil.alphaOffset(icon,0.5f); }
+                    var definition=items.getItemComposition(child.getItemId());
+                    if(icon!=null && definition!=null && definition.getPlaceholderTemplateId()>0) { icon=net.runelite.client.util.ImageUtil.alphaOffset(icon,0.5f); }
                     content.drawImage(icon,child.getRelativeX(),child.getRelativeY(),null);
                 }
                 for(int i=0;i<visible.size();i++)

@@ -34,7 +34,9 @@ final class BankItemSearch
             int end=Math.min(cursor+256,size);
             while(cursor<end)
             {
-                int id=cursor++; var item=items.getItemComposition(id); String name=item.getName();
+                int id=cursor++; var item=items.getItemComposition(id);
+                if(item==null) continue;
+                String name=item.getName();
                 if(name!=null && !name.isBlank() && !name.equalsIgnoreCase("null") && item.getNote()==-1 && item.getPlaceholderTemplateId()==-1)
                     catalogue.add(new Choice(id,name));
             }

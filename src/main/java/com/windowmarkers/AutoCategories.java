@@ -22,9 +22,12 @@ final class AutoCategories
     static final class Item
     {
         final int id; final String name; final boolean equipment; final String[] actions;
+        final int slot;
         final int melee, ranged, magic;
         Item(int id,String name,boolean equipment,String[] actions,int melee,int ranged,int magic)
-        { this.id=id; this.name=name.toLowerCase(Locale.ROOT); this.equipment=equipment; this.actions=actions; this.melee=melee; this.ranged=ranged; this.magic=magic; }
+        { this(id,name,equipment,actions,melee,ranged,magic,-2); }
+        Item(int id,String name,boolean equipment,String[] actions,int melee,int ranged,int magic,int slot)
+        { this.id=id; this.name=name.toLowerCase(Locale.ROOT); this.equipment=equipment; this.actions=actions; this.melee=melee; this.ranged=ranged; this.magic=magic; this.slot=slot; }
         boolean action(String action) { return actions!=null && Arrays.stream(actions).anyMatch(action::equalsIgnoreCase); }
     }
     static Map<String,List<Item>> suggest(Preset preset,List<Item> items)

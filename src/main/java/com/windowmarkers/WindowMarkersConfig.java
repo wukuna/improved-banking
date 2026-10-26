@@ -14,6 +14,22 @@ public interface WindowMarkersConfig extends Config
     String bankLayout="bankLayout";
     @ConfigSection(name="Screenshots",description="Local bank image captures",position=3,closedByDefault=true)
     String screenshots="screenshots";
+    @ConfigSection(name="Grand Exchange search",description="Optional category and Wiki setup searches in the GE",position=4,closedByDefault=true)
+    String ge="ge";
+    @ConfigItem(section=ge,keyName="geCatalogueSearch",name="Enable Grand Exchange search",description="Search activities, equipment slots and categories, e.g. toa head, vorkath ranged or mining tools. Only GE-tradeable items appear. The catalogue takes a moment to load when enabled.",position=0)
+    default boolean geCatalogueSearch() { return false; }
+    @ConfigSection(name="Gear guide tiers",description="Shared bank and GE colours and ordinal tags",position=5,closedByDefault=true)
+    String tiers="tiers";
+    @ConfigItem(section=tiers,keyName="geTierColours",name="Show Wiki gear tiers",description="Shared bank and GE colours with 1st/2nd/3rd tags mark the first three guide columns. Conflicting ranks, examples and items needing preparation stay neutral. Hover for context. These are not universal BIS ratings.",position=0)
+    default boolean geTierColours() { return true; }
+    @ConfigItem(section=tiers,keyName="geFirstColour",name="1st — setup BIS",description="Shared bank and GE colour for Wiki column 1 in the matching setup and role. Requirements and set bonuses still apply.",position=1)
+    default Color geFirstColour() { return new Color(138,43,226); }
+    @ConfigItem(section=tiers,keyName="geSecondColour",name="2nd choice",description="Shared bank and GE colour for Wiki column 2. Unavailable higher choices do not promote this tier.",position=2)
+    default Color geSecondColour() { return new Color(0,102,170); }
+    @ConfigItem(section=tiers,keyName="geThirdColour",name="3rd choice",description="Shared bank and GE colour for Wiki column 3 in the matching setup.",position=3)
+    default Color geThirdColour() { return new Color(0,119,68); }
+    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Tools. Empty uses all matching guide setups.",hidden=true,position=5)
+    default String geGuideContext() { return ""; }
     @ConfigItem(keyName="screenshotButton",name="Button beside bank close",description="Show a screenshot button next to the bank close button. Saves the full current tab locally.",section=screenshots,position=0)
     default boolean screenshotButton() { return true; }
 

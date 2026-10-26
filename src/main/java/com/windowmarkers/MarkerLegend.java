@@ -69,6 +69,8 @@ final class MarkerLegend extends JPanel
         default void clearHighlight() { }
     }
     final JTextField search=new JTextField();
+    private final JLabel tierKey=new JLabel();
+    void tiers(String text) { tierKey.setText(text); tierKey.setVisible(!text.isEmpty()); }
     final JComboBox<String> scope=new JComboBox<>(new String[]{"Current bank tab","All saved groups"});
     final JComboBox<String> preset=new JComboBox<>();
     final DefaultListModel<Entry> rows=new DefaultListModel<>();
@@ -90,6 +92,8 @@ final class MarkerLegend extends JPanel
     {
         super(new BorderLayout(0,8)); this.hover=hover; this.pin=pin; this.actions=actions;
         JPanel header=new MarkerForm();
+        tierKey.setToolTipText("Guide-specific equipment columns. Neutral items have no agreed tier or need preparation. Colours are shared with Grand Exchange search.");
+        header.add(tierKey);
         header.add(new JLabel("Search categories and groups")); header.add(search);
         search.setToolTipText("Approximate spelling works. Suggestions search all categories, including groups not added yet.");
         suggestionList.setVisibleRowCount(3); suggestionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

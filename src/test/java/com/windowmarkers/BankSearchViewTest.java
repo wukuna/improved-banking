@@ -11,27 +11,23 @@ import static org.mockito.Mockito.*;
 public class BankSearchViewTest
 {
     @Test public void temporaryViewRetainsExactStatesAndDoesNotCloseAnotherPluginsTab() {
-        BankSearchView view=new BankSearchView(); view.tags=mock(TagManager.class); view.bankTags=mock(BankTagsService.class); view.items=mock(ItemManager.class); view.configs=mock(net.runelite.client.config.ConfigManager.class);
+        BankSearchView view=new BankSearchView(); view.tags=mock(TagManager.class); view.bankTags=mock(BankTagsService.class); view.items=mock(ItemManager.class);
         AtomicReference<BankTag> registered=new AtomicReference<>(),active=new AtomicReference<>();
-        AtomicReference<String> name=new AtomicReference<>(),remembered=new AtomicReference<>("My existing tab");
-        when(view.configs.getConfiguration("banktags","tab")).thenAnswer(i -> remembered.get());
-        doAnswer(i -> {remembered.set(i.getArgument(2)); return null;}).when(view.configs).setConfiguration(eq("banktags"),eq("tab"),anyString());
+        AtomicReference<String> name=new AtomicReference<>();
         doAnswer(i -> {registered.set(i.getArgument(1));return null;}).when(view.tags).registerTag(anyString(),any());
-        doAnswer(i -> { BankTag custom=registered.get(); active.set(id -> custom.contains(id)); name.set(i.getArgument(0)); remembered.set(name.get()); return null;}).when(view.bankTags).openBankTag(anyString(),anyInt());
-        doAnswer(i -> {name.set(null); remembered.set("");return null;}).when(view.bankTags).closeBankTag();
+        doAnswer(i -> { BankTag custom=registered.get(); active.set(id -> custom.contains(id)); name.set(i.getArgument(0)); return null;}).when(view.bankTags).openBankTag(anyString(),anyInt());
+        doAnswer(i -> {name.set(null);return null;}).when(view.bankTags).closeBankTag();
         when(view.bankTags.getActiveBankTag()).thenAnswer(i -> active.get());
         when(view.bankTags.getActiveTag()).thenAnswer(i -> name.get());
         when(view.items.canonicalize(anyInt())).thenAnswer(i -> i.getArgument(0));
         Marker charged=new Marker(0,0,48,36); charged.linkedItemIds=new int[]{25731};
         view.show("ToB",Collections.singletonList(charged),true);
         assertTrue(view.isActive()); assertTrue(view.bySlot());
-        assertEquals("My existing tab",remembered.get());
         assertTrue(active.get().contains(25731)); assertFalse(active.get().contains(25733));
         verify(view.bankTags).openBankTag(anyString(),eq(BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME));
         active.set(mock(BankTag.class)); name.set("Different tab"); view.clear();
         verify(view.bankTags,never()).closeBankTag(); verify(view.tags).unregisterTag(anyString()); assertTrue(view.groups().isEmpty());
         view.show("ToB",Collections.singletonList(charged),true); view.clear(); verify(view.bankTags).closeBankTag();
-        assertEquals("My existing tab",remembered.get());
     }
     @Test public void olderCustomPresetsKeepTheirOriginalBehavior() {
         CustomPresets presets=new com.google.gson.Gson().fromJson("{\"presets\":[{\"name\":\"Food\",\"groups\":[{\"x\":0,\"y\":0,\"width\":48,\"height\":36,\"linkedItemIds\":[385]}]}]}",CustomPresets.class);

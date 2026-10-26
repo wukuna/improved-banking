@@ -52,9 +52,20 @@ final class BankCatalogue
     static List<Choice> search(List<Choice> choices,String query,int limit)
     {
         String needle=SearchText.normalize(query);
+        if(needle.length()>100) return Collections.emptyList();
+        final String original=needle;
+        boolean exact=choices.stream().anyMatch(c->SearchText.containsWords(c.search,original));
+        if(!exact) {
+            Set<String> vocabulary=new HashSet<>();
+            for(Choice choice:choices) Collections.addAll(vocabulary,choice.search.split(" +"));
+            needle=SearchText.correctWholeWords(vocabulary,needle);
+            final String corrected=needle;
+            exact=choices.stream().anyMatch(c->SearchText.containsWords(c.search,corrected));
+        }
         Map<Choice,Integer> scores=new IdentityHashMap<>();
         for(Choice choice:choices)
         {
+            if(exact && !SearchText.containsWords(choice.search,needle)) continue;
             int score=SearchText.normalizedScore(choice.search,needle);
             if(score!=Integer.MAX_VALUE) scores.put(choice,score);
         }

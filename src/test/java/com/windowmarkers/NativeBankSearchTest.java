@@ -87,6 +87,24 @@ public class NativeBankSearchTest
         assertTrue(search.matches().isEmpty());
     }
 
+    @Test public void ranksDisappearWhenGuideQueryToggleBankOrProfileChanges() throws Exception {
+        NativeBankSearch search=ready();
+        set(search,"highlight",new Marker(0,0,48,36));
+        set(search,"ranks",Collections.singletonMap(5331,new ItemCatalogueIndex.Rank(1,"test guide")));
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        assertEquals(1,search.ranks().size());
+        when(search.config.geGuideContext()).thenReturn("new guide");assertTrue(search.ranks().isEmpty());
+        filter(search); assertEquals(0,search.client.getIntStack()[0]);
+        when(search.config.geGuideContext()).thenReturn("");assertEquals(1,search.ranks().size());
+        when(search.config.improvedBankSearch()).thenReturn(false);assertTrue(search.ranks().isEmpty());
+        when(search.config.improvedBankSearch()).thenReturn(true);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa");assertTrue(search.ranks().isEmpty());
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        when(search.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(null);assertTrue(search.ranks().isEmpty());
+        when(search.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
+        search.reset();assertTrue(search.ranks().isEmpty());
+    }
+
     @Test public void disabledOrChangedSearchCannotKeepOldHighlightAndResetRemovesListener() throws Exception {
         NativeBankSearch search=ready(); Marker marker=new Marker(0,0,48,36);
         set(search,"highlight",marker);
@@ -139,5 +157,23 @@ public class NativeBankSearchTest
         search.index(index); // A refresh of identical data must not cause repeated bank-tab rebuilds.
         javax.swing.SwingUtilities.invokeAndWait(() -> {});
         verify(search.bankSearch,after(200).never()).layoutBank();
+    }
+
+    @Test public void failedRefreshDropsOldOptionalResultsAndRestoresNativeSearch() throws Exception {
+        NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
+        search.clientThread=mock(ClientThread.class);
+        java.util.concurrent.CountDownLatch applied=new java.util.concurrent.CountDownLatch(2);
+        doAnswer(call -> { ((Runnable)call.getArgument(0)).run(); applied.countDown(); return null; })
+            .when(search.clientThread).invokeLater(any(Runnable.class));
+        set(search,"highlight",new Marker(0,0,48,36)); set(search,"slots",true);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        BankSearchIndex broken=new BankSearchIndex(Collections.emptyList(),Collections.emptyList(),new CustomPresets());
+        // Simulate an index failure after a previous successful query.
+        set(broken,"catalogue",null);
+        search.index(broken);
+        assertTrue(applied.await(10,java.util.concurrent.TimeUnit.SECONDS));
+        assertTrue(search.matches().isEmpty()); assertNull(search.highlight()); assertFalse(search.groupBySlot());
+        filter(search); assertEquals(0,search.client.getIntStack()[0]);
+        verify(search.bankSearch).layoutBank();
     }
 }

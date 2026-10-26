@@ -16,7 +16,6 @@ final class BankSearchView
     @Inject BankTagsService bankTags;
     @Inject TagManager tags;
     @Inject ItemManager items;
-    @Inject net.runelite.client.config.ConfigManager configs;
     private final String tagName="improved banking "+UUID.randomUUID();
     private BankTag tag;
     private String name;
@@ -32,11 +31,7 @@ final class BankSearchView
         if(ids.isEmpty()) { this.groups=Collections.emptyList(); return; }
         tag=id -> ids.contains(items.canonicalize(id));
         tags.registerTag(tagName,tag);
-        String remembered=configs.getConfiguration("banktags","tab");
         bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
-        // The public API also remembers its active name. Do not leave an
-        // ephemeral UUID in another plugin's persistent last-tab preference.
-        if(tagName.equals(configs.getConfiguration("banktags","tab"))) remember(remembered);
     }
     boolean isActive() { return tag!=null && tagName.equals(bankTags.getActiveTag()); }
     boolean bySlot() { return slots; }
@@ -51,15 +46,9 @@ final class BankSearchView
     }
     void clear() {
         if(isActive()) {
-            String remembered=configs.getConfiguration("banktags","tab");
             bankTags.closeBankTag();
-            if("".equals(configs.getConfiguration("banktags","tab"))) remember(remembered);
         }
         forget();
-    }
-    private void remember(String name) {
-        if(name==null) configs.unsetConfiguration("banktags","tab");
-        else configs.setConfiguration("banktags","tab",name);
     }
     private void forget() { if(tag!=null) tags.unregisterTag(tagName); tag=null; name=null; slots=false; groups=Collections.emptyList(); }
 }

@@ -9,6 +9,8 @@ import javax.swing.event.DocumentListener;
 final class ActivitySetupPicker
 {
     static ActivitySetups.Setup choose(Component parent)
+    { return choose(parent,false); }
+    static ActivitySetups.Setup choose(Component parent,boolean ge)
     {
         JTextField search=new JTextField(32);
         JComboBox<String> activities=new JComboBox<>();
@@ -19,7 +21,9 @@ final class ActivitySetupPicker
         JPanel panel=new MarkerForm();
         panel.add(new JLabel("Search activity")); panel.add(search);
         panel.add(activities); panel.add(new JLabel("Choose a setup")); panel.add(setups);
-        panel.add(new JLabel("<html>One Wiki table or example at a time.<br>Review its conditions; quantities and a complete loadout are not assumed.<br>These setups keep all alternatives and start unchecked.</html>"));
+        panel.add(new JLabel(ge
+            ? "<html>Bank and GE tiers follow one equipment table and its conditions.<br>Selecting it narrows searches for that activity.<br>Example tables provide matches without tier colours.</html>"
+            : "<html>One Wiki table or example at a time.<br>Review its conditions; quantities and a complete loadout are not assumed.<br>These setups keep all alternatives and start unchecked.</html>"));
         panel.add(notes);
         JButton source=new JButton("Open this Wiki setup source");
         source.addActionListener(e -> {
@@ -52,7 +56,7 @@ final class ActivitySetupPicker
             public void changedUpdate(DocumentEvent e) { refresh.run(); }
         });
         refresh.run();
-        if (!MarkerDialogs.confirm(parent,panel,"Choose a Wiki activity setup",680,520)) { return null; }
+        if (!MarkerDialogs.confirm(parent,panel,ge?"Choose bank / GE guide":"Choose a Wiki activity setup",680,520)) { return null; }
         return (ActivitySetups.Setup)setups.getSelectedItem();
     }
 }
