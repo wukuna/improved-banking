@@ -11,6 +11,16 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void damagedPouchRemainsUsableButInventoryShowsItsReducedCapacity() {
+        Widget pouch=cell(5513,"Large pouch",-1,"Fill",51,0);
+        var item=GeSearchIndexTest.item(5513,"Large pouch",-1);
+        var plan=SetupLoadout.build(Collections.singletonList(ActivitySetups.byId("102334:1")),Collections.singletonMap(5513,item),Collections.singleton(5513),"102334:3");
+        assertTrue(plan.inventory.containsValue(5513));
+        Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{pouch});
+        var notes=new ArrayList<SetupItemLayout.InventoryNote>();
+        SetupItemLayout.apply(container,manager,8,48,4,plan,Collections.emptyMap(),new ArrayList<>(),null,notes);
+        assertTrue(notes.stream().anyMatch(n->n.text.contains("capacity") && n.text.contains("repair")));
+    }
     @Test public void inventoryOnlyGuideStartsAtLeftAndUnbankableSeedHasNoActions() {
         for(int columns:new int[]{4,6,8}) {
             Widget unrelated=cell(995,"Coins",-1,"",51,0);

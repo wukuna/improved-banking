@@ -79,6 +79,14 @@ final class SetupItemLayout
                 if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
             }
             else if(!note.isEmpty()) note="Showing an owned alternative; live prices are not compared. "+note;
+            if(source!=null) {
+                var definition=manager.getItemComposition(id);
+                if(definition!=null) {
+                    String state=ItemVariantState.annotate("Item state",new AutoCategories.Item(id,definition.getName(),false,
+                        definition.getInventoryActions(),0,0,0));
+                    if(!state.equals("Item state")) note+=(note.isEmpty()?"":" ")+state;
+                }
+            }
             if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
         }
         int y=Math.max(showEquipment?gearY+5*36:inventoryY,inventoryEnd)+8;

@@ -298,7 +298,8 @@ final class ItemCatalogueIndex
                 // Wiki's ammo/spell row can contain ingredients or spell links.
                 // Those remain searchable, but are not ranked equipment.
                 if(item.slot<0 || !fitsSlot(item,sourceSlot) || wantedSlot>=0 && sourceSlot!=wantedSlot) continue;
-                boolean reduced=ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
+                boolean reduced=ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label)
+                    || !SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();
                 int value=reduced ? 0 : field.tier;
                 tiers.add(value); roles.add(field.slot.equals("special") ? "special attack"
                     :field.slot.equals("ammo")?"ammunition":field.slot.equals("shield")?"shield":"equipment");

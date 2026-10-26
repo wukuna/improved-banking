@@ -320,7 +320,7 @@
 297887:8	recommended equipment	Inventory	Ranged
 297887:9	inventory	Inventory	Ranged
 305955:1	recommended equipment	Equipment	Melee
-305955:2	inventory	Inventory	|-| Melee
+305955:2	inventory	Inventory	Melee
 305955:3	recommended equipment	Inventory	Ranged
 305955:4	inventory	Inventory	Ranged
 305955:5	recommended equipment	Inventory	Magic - Tumeken's Shadow
@@ -354,8 +354,8 @@
 341884:9	recommended equipment	Equipment	Hybrid
 346655:1	inventory	Basic strategy	Basic strategy
 351891:1	recommended equipment	Recommended equipment	Runecrafting
-351891:2	inventory	Recommended equipment / Inventory	|-|Entry-level
-351891:3	rune pouch	Recommended equipment / Inventory	|-|Entry-level
+351891:2	inventory	Recommended equipment / Inventory	Entry-level
+351891:3	rune pouch	Recommended equipment / Inventory	Entry-level
 351891:4	inventory	Recommended equipment / Inventory	Combination runes
 351891:5	rune pouch	Recommended equipment / Inventory	Combination runes
 351891:6	inventory	Recommended equipment / Inventory / Rune choice	Colossal pouch
@@ -418,8 +418,8 @@
 373815:8	inventory	Equipment	Melee
 373815:9	rune pouch	Equipment	Melee
 379451:1	recommended equipment	Equipment	Ranged
-379451:2	equipment	Inventory	|-| Ranged
-379451:3	inventory	Inventory	|-| Ranged
+379451:2	equipment	Inventory	Ranged
+379451:3	inventory	Inventory	Ranged
 379451:4	recommended equipment	Inventory	Magic
 379451:5	inventory	Inventory	Blood Barrage
 382059:1	recommended equipment	Equipment	Melee

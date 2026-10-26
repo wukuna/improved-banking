@@ -16,8 +16,8 @@ final class SetupLoadout
         boolean inventoryChoice() { return !guideOnly && (note.isEmpty() || note.startsWith("The Wiki chooses ") || note.startsWith("The Vale Totems magiclog variable ")); }
     }
     static final class Table {
-        final String kind,style; final List<Field> fields=new ArrayList<>();
-        Table(String[] row) { kind=row[1];style=row[3]; }
+        final String kind,context,style; final List<Field> fields=new ArrayList<>();
+        Table(String[] row) { kind=row[1];context=row[2];style=row[3]; }
     }
     private static final Map<String,Table> TABLES=new LinkedHashMap<>();
     private static final Map<String,String> INVENTORY_PAIRS=new HashMap<>();
@@ -47,6 +47,9 @@ final class SetupLoadout
     private static boolean inventoryReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
         return ready(item) && SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();
     }
+    private static boolean equipmentReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
+        return inventoryReady(setup,item) && !ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
+    }
     static SetupLoadout build(List<ActivitySetups.Setup> matched,Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,String inventoryContext)
     {
         ActivitySetups.Setup gear=null; int best=-1;
@@ -55,7 +58,7 @@ final class SetupLoadout
             Set<Integer> slots=new HashSet<>(),available=new HashSet<>();
             for(Field field:table.fields) if(field.slot()>=0) {
                 slots.add(field.slot());
-                if(field.ids.stream().anyMatch(id->visible.contains(id) && ready(owned.get(id)) && owned.get(id).slot==field.slot())) available.add(field.slot());
+                if(field.ids.stream().anyMatch(id->visible.contains(id) && equipmentReady(setup,owned.get(id)) && owned.get(id).slot==field.slot())) available.add(field.slot());
             }
             // A boss-phase weapon list is not a complete equipment guide.
             if(slots.size()<3) continue;
@@ -74,8 +77,7 @@ final class SetupLoadout
             if(!field.unconditional()) continue;
             for(int id:field.ids) {
                 ItemCatalogueIndex.Item item=owned.get(id);
-                if(!visible.contains(id) || !ready(item) || item.slot!=slot
-                    || ItemVariantState.needsRankReview(item.fact,gear.activity,gear.label)) continue;
+                if(!visible.contains(id) || !equipmentReady(gear,item) || item.slot!=slot) continue;
                 List<Integer> options=equipment.computeIfAbsent(slot,k->new ArrayList<>());
                 if(!options.contains(id)) options.add(id);
             }
@@ -93,9 +95,12 @@ final class SetupLoadout
                     available=Math.max(available,owned.get(id).slot>=0?20:1);
                 score+=available;
             }
-            boolean paired=gear!=null && (setup.id.equals(INVENTORY_PAIRS.get(gear.id))
-                || !table.style.isEmpty() && candidate.style.equalsIgnoreCase(table.style));
-            int preference=setup.id.equals(inventoryContext)?3:paired?2:matched.contains(setup)?1:0;
+            boolean paired=gear!=null && setup.id.equals(INVENTORY_PAIRS.get(gear.id));
+            boolean sameStyle=gear!=null && !table.style.isEmpty() && candidate.style.equalsIgnoreCase(table.style);
+            boolean sameContext=sameStyle && !table.context.isEmpty() && candidate.context.equalsIgnoreCase(table.context);
+            // Different methods can reuse labels such as "Best in slot".
+            // Prefer the source pairing/context before comparing owned items.
+            int preference=setup.id.equals(inventoryContext)?5:paired?4:sameContext?3:sameStyle?2:matched.contains(setup)?1:0;
             if(preference>bestPreference || preference==bestPreference && score>best)
             { inventory=setup;best=score;bestPreference=preference; }
         }

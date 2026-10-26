@@ -1,5 +1,7 @@
 # OSRS Wiki contributors; CC BY-NC-SA 3.0. Role-specific requirements verified 2026-10-25.
 # setup_id	item_id	expected_name	review_reason	wiki_source
+102334:1	1704	Amulet of glory	Charge before using the equipped amulet to teleport back to Edgeville; combat stats alone do not fulfill this setup's transport role	https://oldschool.runescape.wiki/w/Special:Redirect/revision/15371537
+102334:2	1704	Amulet of glory	Charge before using the equipped amulet to teleport back to Edgeville; combat stats alone do not fulfill this setup's transport role	https://oldschool.runescape.wiki/w/Special:Redirect/revision/15371537
 108241:2	2572	Ring of Wealth	Charge before using this inventory teleport	https://oldschool.runescape.wiki/w/Special:Redirect/revision/15361945
 108241:8	2572	Ring of Wealth	Charge before using this inventory teleport	https://oldschool.runescape.wiki/w/Special:Redirect/revision/15361945
 108241:11	2572	Ring of Wealth	Charge before using this inventory teleport	https://oldschool.runescape.wiki/w/Special:Redirect/revision/15361945
