@@ -51,9 +51,11 @@ final class SetupItemLayout
             var stats=manager.getItemStats(manager.canonicalize(weapon.getItemId()));
             if(stats!=null && stats.getEquipment()!=null && stats.getEquipment().isTwoHanded()) chosen.remove(5);
         }
-        int gearY=padding+18, inventoryY=columns>=8?gearY:gearY+5*36+18;
-        headings.add(new Heading("Equipment",51,padding+12));
-        headings.add(new Heading("Recommended inventory",51+(columns>=8?4*pitch:0),inventoryY-6));
+        boolean showEquipment=!plan.equipmentName.isEmpty();
+        int gearY=padding+18, inventoryY=showEquipment && columns<8?gearY+5*36+18:gearY;
+        int inventoryX=51+(showEquipment && columns>=8?4*pitch:0);
+        if(showEquipment) headings.add(new Heading("Equipment",51,padding+12));
+        headings.add(new Heading("Recommended inventory",inventoryX,inventoryY-6));
         for(int[] position:EQUIPMENT) {
             Widget cell=chosen.get(position[0]);
             if(cell!=null) {
@@ -69,15 +71,17 @@ final class SetupItemLayout
                 if(copies==null) continue;
                 cell=copies.add(container,source,entry.getValue().ids.get(0),manager);
             }
-            int position=entry.getKey(),x=51+(columns>=8?4*pitch:0)+(position%inventoryColumns)*pitch;
+            int position=entry.getKey(),x=inventoryX+(position%inventoryColumns)*pitch;
             int y=inventoryY+(position/inventoryColumns)*36;
             place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
             String note=entry.getValue().note;
-            if(source==null) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
+            if(source==null) {
+                if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
+            }
             else if(!note.isEmpty()) note="Showing an owned alternative; live prices are not compared. "+note;
             if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
         }
-        int y=Math.max(gearY+5*36,inventoryEnd)+8;
+        int y=Math.max(showEquipment?gearY+5*36:inventoryY,inventoryEnd)+8;
         Map<String,List<Widget>> extras=new TreeMap<>();
         for(Widget cell:cells) if(!placed.contains(cell)) {
             int id=manager.canonicalize(cell.getItemId()),bucket=bucket(id,manager);

@@ -1297,7 +1297,7 @@ public class WindowMarkersPlugin extends Plugin
         if(viewLabel!=null) {
             SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();
             String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
-            if(plan!=null) current+="\nEquipment: "+plan.equipmentName+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
+            if(plan!=null) current+=(plan.equipmentName.isEmpty()?"":"\nEquipment: "+plan.equipmentName)+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
             if(!current.equals(viewSummary)) { viewSummary=current;String summary=current;JLabel target=viewLabel;
                 SwingUtilities.invokeLater(() -> { if(target==viewLabel) { target.setText("<html>"+summary.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\n","<br>")+"</html>");target.setToolTipText(summary); } });
             }

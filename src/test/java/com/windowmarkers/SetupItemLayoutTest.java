@@ -11,6 +11,29 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void inventoryOnlyGuideStartsAtLeftAndUnbankableSeedHasNoActions() {
+        for(int columns:new int[]{4,6,8}) {
+            Widget unrelated=cell(995,"Coins",-1,"",51,0);
+            var plan=SetupLoadout.build(ActivitySetups.forActivity("Tithe Farm"),Collections.emptyMap(),Collections.emptySet(),"");
+            Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{unrelated});
+            List<Widget> made=new ArrayList<>();
+            when(container.createChild(anyInt(),anyInt())).thenAnswer(invocation -> {
+                Widget copy=cell(-1,"Preview",-1,"",0,0);made.add(copy);return copy;
+            });
+            var notes=new ArrayList<SetupItemLayout.InventoryNote>();
+            var headings=new ArrayList<SetupItemLayout.Heading>();
+            SetupItemLayout.apply(container,manager,columns,48,4,plan,Collections.emptyMap(),headings,new SetupInventoryWidgets(),notes);
+            assertEquals(11,made.size());
+            assertEquals("Recommended inventory",headings.get(0).text);
+            assertFalse(headings.stream().anyMatch(h->h.text.equals("Equipment")));
+            Widget seed=made.get(0);
+            assertEquals(51,seed.getOriginalX());assertEquals(22,seed.getOriginalY());
+            verify(seed).setItemId(13425);verify(seed).setClickMask(0);
+            verify(seed,never()).setAction(anyInt(),anyString());
+            assertTrue(notes.stream().anyMatch(n->n.x==51 && n.y==22 && n.text.startsWith("Cannot be banked.")));
+            for(Widget preview:made) assertTrue(preview.getOriginalX()+36<=51+4*48);
+        }
+    }
     @Test public void repeatedAndMissingInventoryPositionsRenderAtBothBankWidths() {
         for(int columns:new int[]{8,6}) {
             Widget brew=cell(6685,"Saradomin brew(4)",-1,"Drink",51,0);

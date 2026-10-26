@@ -1,0 +1,16 @@
+# OSRS Wiki contributors; CC BY-NC-SA 3.0. Guide-only unbankable items; never search memberships or withdrawable bank items.
+# setup ID, one-based inventory position, exact item ID, expected item name, preparation note, item source (setup source in activity-setups.tsv)
+269949:2	28	23184	Mimic	Cannot be banked. Obtain a Mimic from an eligible elite or master reward casket and carry it to the encounter.	https://oldschool.runescape.wiki/w/Mimic?oldid=15303530
+269949:4	28	23184	Mimic	Cannot be banked. Obtain a Mimic from an eligible elite or master reward casket and carry it to the encounter.	https://oldschool.runescape.wiki/w/Mimic?oldid=15303530
+269949:6	28	23184	Mimic	Cannot be banked. Obtain a Mimic from an eligible elite or master reward casket and carry it to the encounter.	https://oldschool.runescape.wiki/w/Mimic?oldid=15303530
+346655:1	1	13425	Logavano seed	Cannot be banked. Collect these seeds inside Tithe Farm; they require 74 Farming, which can be boosted.	https://oldschool.runescape.wiki/w/Logavano_seed?oldid=15221754
+460329:6	5	29080	Moonlight potion(4)	Cannot be banked. Make these potions inside Neypotzli; they cannot be carried outside the activity.	https://oldschool.runescape.wiki/w/Moonlight_potion?oldid=15192474
+460329:6	6	29080	Moonlight potion(4)	Cannot be banked. Make these potions inside Neypotzli; they cannot be carried outside the activity.	https://oldschool.runescape.wiki/w/Moonlight_potion?oldid=15192474
+460329:6	7	29080	Moonlight potion(4)	Cannot be banked. Make these potions inside Neypotzli; they cannot be carried outside the activity.	https://oldschool.runescape.wiki/w/Moonlight_potion?oldid=15192474
+460329:6	8	29080	Moonlight potion(4)	Cannot be banked. Make these potions inside Neypotzli; they cannot be carried outside the activity.	https://oldschool.runescape.wiki/w/Moonlight_potion?oldid=15192474
+469947:4	26	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
+469947:4	27	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
+469947:4	28	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
+469947:5	25	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
+469947:5	26	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
+469947:5	27	2875	Bloated toad	Cannot be banked. Inflate toads near the hunting area with gas-filled ogre bellows; carry up to three.	https://oldschool.runescape.wiki/w/Bloated_toad?oldid=15349998
