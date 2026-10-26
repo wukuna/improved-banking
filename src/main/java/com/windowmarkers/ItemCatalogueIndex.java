@@ -30,8 +30,11 @@ final class ItemCatalogueIndex
         final Map<Integer,Rank> ranks;
         final boolean activity;
         final SetupLoadout loadout;
+        final List<ActivitySetups.Setup> setups;
         Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity) { this(items,ranks,activity,null); }
-        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity,SetupLoadout loadout) { this.items=items; this.ranks=ranks; this.activity=activity; this.loadout=loadout; }
+        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity,SetupLoadout loadout) { this(items,ranks,activity,loadout,Collections.emptyList()); }
+        Result(List<Item> items,Map<Integer,Rank> ranks,boolean activity,SetupLoadout loadout,List<ActivitySetups.Setup> setups)
+        { this.items=items; this.ranks=ranks; this.activity=activity; this.loadout=loadout; this.setups=Collections.unmodifiableList(new ArrayList<>(setups)); }
         short[] ids() { short[] ids=new short[items.size()]; for(int i=0;i<ids.length;i++) ids[i]=(short)items.get(i).id; return ids; }
     }
     private static final class Field
@@ -251,7 +254,7 @@ final class ItemCatalogueIndex
             .filter(i->filterSlot<0 || fitsSlot(i,filterSlot) || i.search.contains(ordinary))
             .sorted(Comparator.comparing((Item i)->i.name,String.CASE_INSENSITIVE_ORDER).thenComparingInt(i->i.id)).collect(Collectors.toList());
         Map<Integer,Rank> ranks=new HashMap<>();
-        if(!ge || result.size()<=LIMIT || !qualifiers.tiers.isEmpty()) for(Item item:result) ranks.put(item.id,rank(item,matched,wantedSlot));
+        if(!ge || result.size()<=LIMIT || !matched.isEmpty() || !qualifiers.tiers.isEmpty()) for(Item item:result) ranks.put(item.id,rank(item,matched,wantedSlot));
         if(!qualifiers.tiers.isEmpty()) {
             result.removeIf(item->!qualifiers.accepts(ranks.get(item.id)));
             Set<Integer> retained=result.stream().map(item->item.id).collect(Collectors.toSet());
@@ -263,7 +266,7 @@ final class ItemCatalogueIndex
             Set<Integer> included=result.stream().map(i->i.id).collect(Collectors.toSet());
             for(int id:loadout.inventory.values()) if(included.add(id)) result.add(items.get(id));
         }
-        return new Result(result,ranks,!matched.isEmpty(),loadout);
+        return new Result(result,ranks,!matched.isEmpty(),loadout,matched);
     }
     Map<Integer,Rank> guideRanks(String query,String context)
     { return guideRanks(query,context,99); }

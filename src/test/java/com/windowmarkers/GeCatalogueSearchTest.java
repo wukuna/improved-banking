@@ -133,4 +133,79 @@ public class GeCatalogueSearchTest
         clearInvocations(label); search.onWidgetClosed(new WidgetClosed(InterfaceID.GE_OFFERS,0,true));
         verify(label).setText("Ancestral hat"); verify(label).setTextColor(123);
     }
+    @Test public void pricesAndLockedTagsAreIndependentOfGearColoursAndRestoreCleanly() throws Exception
+    {
+        GeCatalogueSearch search=ready();search.config=new WindowMarkersConfig() {
+            public boolean geCatalogueSearch() {return true;}public boolean geTierColours() {return false;}
+            public boolean geShowPrices() {return true;}public boolean geMarkLocked() {return true;}
+        };
+        search.itemManager=mock(net.runelite.client.game.ItemManager.class);search.playerItems=owned(search,new Item(995,100));
+        when(search.itemManager.getItemPrice(21018)).thenReturn(1_000_000L);
+        search.onGrandExchangeSearched(new GrandExchangeSearched());
+        Widget container=mock(Widget.class),icon=mock(Widget.class),label=mock(Widget.class);
+        when(icon.getItemId()).thenReturn(21018);when(label.getText()).thenReturn("Ancestral hat");when(label.getTextColor()).thenReturn(123);
+        when(container.getDynamicChildren()).thenReturn(new Widget[]{icon,label,null});when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
+        search.onScriptPostFired(new ScriptPostFired(ScriptID.GE_ITEM_SEARCH));
+        String annotated="<col=ff7777>[Locked]</col> Ancestral hat <col=ff7777>~1m gp</col>";
+        verify(label).setText(annotated);verify(label,never()).setTextColor(anyInt());
+        when(label.getText()).thenReturn(annotated);clearInvocations(label);search.clear();verify(label).setText("Ancestral hat");
+        verify(search.client,never()).setVarcStrValue(anyInt(),anyString());
+    }
+    @Test public void ownershipSuffixUsesTheRegularPluginWithoutWritingNativeInput() throws Exception
+    {
+        GeCatalogueSearch search=ready();search.playerItems=owned(search,new Item(21018,1));
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("toa magic head owned");
+        GrandExchangeSearched event=new GrandExchangeSearched();search.onGrandExchangeSearched(event);assertTrue(event.isConsumed());
+        verify(search.client).setGeSearchResultIds(new short[]{21018});verify(search.client,never()).setVarcStrValue(anyInt(),anyString());
+    }
+    @Test public void requirementChecksNeverRunNestedScriptsInsideGeCallbacks() throws Exception
+    {
+        GeCatalogueSearch search=ready();search.config=new WindowMarkersConfig() {
+            public boolean geCatalogueSearch() {return true;}public boolean geMarkLocked() {return true;}
+            public GeActivityFilter.Mode geActivityFilter() {return GeActivityFilter.Mode.UNOWNED;}
+        };
+        search.playerItems=owned(search,new Item(21018,1));
+        search.onGrandExchangeSearched(new GrandExchangeSearched());
+        Widget container=mock(Widget.class),icon=mock(Widget.class),label=mock(Widget.class);
+        when(icon.getItemId()).thenReturn(4708);when(label.getText()).thenReturn("Ahrim's hood");
+        when(container.getDynamicChildren()).thenReturn(new Widget[]{icon,label,null});
+        when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER_SCROLLCONTENTS)).thenReturn(container);
+        search.onScriptPostFired(new ScriptPostFired(ScriptID.GE_ITEM_SEARCH));
+        verify(search.client,never()).runScript(any(Object[].class));
+    }
+    @Test public void hintsReuseOneOwnedWidgetAndDisappearOnClose() throws Exception
+    {
+        GeCatalogueSearch search=ready();set(search,"shopping",new GeCategorySearch(Collections.emptyList()));
+        Widget parent=mock(Widget.class),hint=mock(Widget.class);
+        when(parent.getWidth()).thenReturn(500);when(parent.getHeight()).thenReturn(150);when(parent.getChildren()).thenReturn(new Widget[]{hint});
+        when(parent.createChild(eq(-1),anyInt())).thenReturn(hint);when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER)).thenReturn(parent);
+        for(String query:Arrays.asList("toa","toa head","toa top","toa")) {
+            when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn(query);
+            search.onGrandExchangeSearched(new GrandExchangeSearched());search.onBeforeRender(new BeforeRender());
+        }
+        verify(parent,times(1)).createChild(eq(-1),anyInt());
+        clearInvocations(hint);search.onWidgetClosed(new WidgetClosed(InterfaceID.GE_OFFERS,0,true));verify(hint).setHidden(true);
+        search.onBeforeRender(new BeforeRender());verify(hint,never()).setHidden(false);
+    }
+    @Test public void specialSearchSyntaxNeverGetsNormalizedIntoAShoppingQuery() throws Exception
+    {
+        GeCatalogueSearch search=ready();set(search,"shopping",new GeCategorySearch(Collections.emptyList()));
+        for(String query:Arrays.asList("tag:tools","tools > 1","toa:owned")) {
+            when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn(query);GrandExchangeSearched event=new GrandExchangeSearched();
+            search.onGrandExchangeSearched(event);assertFalse(event.isConsumed());
+        }
+    }
+    private GePlayerItems owned(GeCatalogueSearch search,Item... items)
+    {
+        GePlayerItems tracker=new GePlayerItems();tracker.client=search.client;tracker.itemManager=mock(net.runelite.client.game.ItemManager.class);
+        when(search.client.getAccountHash()).thenReturn(77L);
+        ItemContainer empty=mock(ItemContainer.class);when(empty.getItems()).thenReturn(new Item[0]);
+        when(search.client.getItemContainer(net.runelite.api.gameval.InventoryID.INV)).thenReturn(empty);
+        when(search.client.getItemContainer(net.runelite.api.gameval.InventoryID.WORN)).thenReturn(empty);
+        for(Item item:items) {
+            ItemComposition def=mock(ItemComposition.class);when(def.getNote()).thenReturn(-1);when(def.getPlaceholderTemplateId()).thenReturn(-1);
+            when(def.getName()).thenReturn(item.getId()==995?"Coins":"Ancestral hat");when(tracker.itemManager.getItemComposition(item.getId())).thenReturn(def);
+        }
+        ItemContainer bank=mock(ItemContainer.class);when(bank.getItems()).thenReturn(items);tracker.bankChanged(bank);return tracker;
+    }
 }

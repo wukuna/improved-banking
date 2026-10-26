@@ -18,6 +18,20 @@ public interface WindowMarkersConfig extends Config
     String ge="ge";
     @ConfigItem(section=ge,keyName="geCatalogueSearch",name="Enable Grand Exchange search",description="Search activities, equipment slots and categories, e.g. toa head, vorkath ranged or mining tools. Only GE-tradeable items appear. The catalogue takes a moment to load when enabled.",position=0)
     default boolean geCatalogueSearch() { return false; }
+    @ConfigItem(section=ge,keyName="geActivityFilter",name="Activity items",description="All, Owned, Not owned or Next guide upgrade. Applies only to activity queries. Open your bank once this login; inventory and equipped items are included. You can also append owned, unowned or next upgrade to an activity search.",position=1)
+    default GeActivityFilter.Mode geActivityFilter() { return GeActivityFilter.Mode.ALL; }
+    @ConfigItem(section=ge,keyName="geHideWorseOwned",name="Hide worse than owned",description="Hide verified lower guide choices when usable owned equipment covers every matching role. Preserves conditional, set, specialist and unranked alternatives. Requires a bank snapshot this login.",position=2)
+    default boolean geHideWorseOwned() { return false; }
+    @ConfigItem(section=ge,keyName="geMarkOwned",name="Mark owned activity items",description="Add Owned or Owned variant to activity results using bank, inventory and equipment. Equivalent gear is checked without treating broken/empty equipment as usable.",position=3)
+    default boolean geMarkOwned() { return false; }
+    @ConfigItem(section=ge,keyName="geShowPrices",name="Show guide prices",description="Add the cached RuneLite price for one item beside its name. Respects RuneLite's Wiki-price setting. A guide price is not a guaranteed offer price.",position=6)
+    default boolean geShowPrices() { return false; }
+    @ConfigItem(section=ge,keyName="gePriceAffordability",name="Colour prices by funds",description="With prices enabled: green means observed inventory/bank coins and platinum cover one item at guide price; red means insufficient observed funds; neutral means balance or price is unknown. Excludes uncollected offers and item resale value.",position=7)
+    default boolean gePriceAffordability() { return true; }
+    @ConfigItem(section=ge,keyName="geMarkLocked",name="Mark unmet requirements",description="Add Locked for verified unmet skill or quest requirements. Hover for details. Coverage is partial; no tag does not prove every requirement is met. Items remain searchable and purchasable.",position=8)
+    default boolean geMarkLocked() { return false; }
+    @ConfigItem(section=ge,keyName="geSearchTips",name="Show search tips",description="Show a small Search tips hint in the GE chatbox for broad searches. Hover for more specific queries. Bank search is unchanged.",position=9)
+    default boolean geSearchTips() { return true; }
     @ConfigSection(name="Gear guide tiers",description="Shared bank and GE colours and ordinal tags",position=5,closedByDefault=true)
     String tiers="tiers";
     @ConfigItem(section=tiers,keyName="geTierColours",name="Show Wiki gear tiers",description="Shared bank and GE colours with 1st/2nd/3rd tags mark the first three guide columns. Conflicting ranks, examples and items needing preparation stay neutral. Hover for context. These are not universal BIS ratings.",position=0)
