@@ -99,6 +99,7 @@ final class MarkerLegend extends JPanel
     MarkerLegend(Consumer<Marker> hover,Consumer<Marker> pin,Actions actions)
     {
         super(new BorderLayout(0,8)); this.hover=hover; this.pin=pin; this.actions=actions;
+        preset.setRenderer(PlainText.renderer());
         tierKey.setToolTipText("Guide-specific equipment columns. Neutral items have no agreed tier or need preparation. Colours are shared with Grand Exchange search.");
         header.add(tierKey);
         header.add(new JLabel("Find items, categories or groups")); header.add(search);

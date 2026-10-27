@@ -2,13 +2,13 @@
 
 ![Improved Banking](icon.png)
 
-Find and organize bank items with a searchable legend and bank-window picker, Wiki categories and activity setups, saveable equipment-and-inventory views, custom groups, flexible layouts and full-tab screenshots. Search food by healing and eating behaviour, potions by effect, and ammunition by compatible weapon. Optional Grand Exchange search finds purchasable items using the same categories, with matching guide colours and tier tags across bank and GE searches.
+Find what you need, build a useful bank view and make it your own. Search Wiki categories, activities and item uses; preview gear and inventory setups; then save editable views with named, coloured groups. Add item-linked markers, review junk with explanations, adjust the bank layout and capture full-tab screenshots. Optional Grand Exchange search uses the same categories and guide tiers, with owned-item, upgrade and price information where supported.
 
 **Beta — rapidly updated.** Improved Banking is being rapidly updated with up-to-date Old School RuneScape Wiki information and item categorizations. Categories and recommendations are still being refined. All requests, corrections and information are considered and appreciated: please [open an issue](https://github.com/wukuna/improved-banking/issues).
 
 The Wiki-based catalogue ships with the plugin; it does not fetch updates during gameplay or send your bank contents to the Wiki. New information arrives through plugin updates. General classifications are organizational groups, not a claim that every item is suitable for every activity or that a group forms a complete best-in-slot loadout.
 
-[Features](#features) · [Getting started](#getting-started) · [Usage](#usage) · [Saved settings](#saved-settings) · [Compatibility](#compatibility) · [Related plugins and sources](#related-plugins-and-sources) · [Development](#development) · [Support](#support) · [License and attribution](#license-and-attribution)
+[Features](#features) · [Getting started](#getting-started) · [Usage](#usage) · [Saved settings](#saved-settings) · [Compatibility](#compatibility) · [Inspiration and recipe](#inspiration-and-recipe) · [Development](#development) · [Support](#support) · [License and attribution](#license-and-attribution)
 
 ## Features
 
@@ -179,17 +179,26 @@ Improved Banking replaces the separate **Flexible Bank** and **Bank Screenshot**
 
 The screenshot button can be disabled independently in **Screenshots** settings. Bank controls, menus and character actions remain under your control. Slot grouping changes the displayed search layout only; it never rearranges the stored bank, withdraws or equips items.
 
-## Related plugins and sources
+## Inspiration and recipe
 
-| Project | Relationship | Relevant features and limits |
+The recipe is searchable categories, recognisable gear layouts, clear markers and editable personal groups. Flexible Bank supplies adapted layout code. Bank Tags, Bank Tag Layouts, Screen Markers and the other tools below illustrate the focused workflows that this combination brings together or complements.
+
+| Project | Connection | What it contributes or complements |
 | --- | --- | --- |
-| [Flexible Bank](https://github.com/TheLeon0/flexible-bank) | Adapted source and overlapping alternative | Bank dimensions and layout. Improved Banking combines this with markers, a legend and screenshots; the plugins declare a conflict. |
-| Bank Screenshot | Overlapping alternative | Standalone bank captures. Improved Banking provides its own current-tab export with marker artwork and a legend; the plugins declare a conflict. |
-| Bank Tags | Companion | Tab organization and custom layouts. Improved Banking retains custom layouts' designed grid rather than replacing their organization. |
-| Resource Packs / Interface Styles | Companion | Active-theme marker borders can use already-loaded sprite overrides, with vanilla fallback. Pack artwork is not bundled. |
-| [Old School RuneScape Wiki](https://oldschool.runescape.wiki/) | Category and recommendation data source | The bundled catalogue uses attributed Wiki information. It does not fetch updates during gameplay or upload bank contents. |
+| [Flexible Bank](https://github.com/TheLeon0/flexible-bank) | Adapted foundation | Bank sizing, columns and deposit-button layout; credit to TheLeon0. Declared conflict because both plugins manage the bank geometry. |
+| [Bank Screenshot](https://github.com/raiyni/example-plugin/tree/f96b865927366f1c19b9ec46483d9d0f503f57c7) | Feature reference | Bank captures. Improved Banking adds its own marker artwork and legend to current-tab exports. Declared conflict. |
+| [Bank Tags (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/banktags) | Integrated companion | Persistent tags and tab layouts. Our Add Bank Tags tool uses real tags and respects the active tag's item membership. |
+| [Bank Tag Layouts](https://github.com/geheur/bank-tag-custom-layouts) | Layout inspiration and alternative | Arranged item positions and layout placeholders. Our guide views use an equipment/inventory shape; Bank Tags' core layouts remain a separate workflow. |
+| [Inventory Setups](https://github.com/dillydill123/inventory-setups) | Related setup workflow | Records personal gear, inventories and setup details. Our editable Wiki views do not import or replace its saved setups; choose one active bank-layout workflow at a time. |
+| [Screen Markers (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/screenmarkers) | Marker inspiration | Visual boxes over the client. Improved Banking's markers instead belong to the bank contents or follow linked items. |
+| [Wasted Bank Space](https://github.com/mcgeer/WastedBankSpace) | Complementary cleanup approach | Shows items that can be stored elsewhere. Our initial Junk review explains reviewed niche uses; it does not reproduce the complete storage-location catalogue. |
+| [Bank Tag Generation](https://github.com/MitchBarnett/wiki-bank-tag-integration) | Related category workflow | Creates bank tags from Wiki categories or monster drops. Our catalogue is bundled and reviewed, with category search inside the plugin. |
+| [Bank Tab Names](https://github.com/Psyda/bank-tab-names) | Optional tab presentation tool | Styled names and icons for bank tabs. Legend group labels identify collections of items, a different layer from tab names. |
+| [Grand Exchange (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/grandexchange) | Built-in companion | Price information and ordinary GE search. Improved Banking optionally adds category/activity queries to the in-game Buy-item search; the price-lookup sidebar remains separate. |
+| [Resource Packs](https://github.com/melkypie/resource-packs) | Optional appearance tool | Active-theme marker borders can use already-loaded pack sprites. No pack artwork is bundled. |
+| [Interface Styles (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/interfacestyles) | Optional appearance tool | Loaded interface sprites can also supply themed marker borders, with a vanilla fallback. |
 
-Feature overlap does not imply every option of another plugin is reproduced. Java code attribution and Wiki-data licensing are documented below.
+The [Old School RuneScape Wiki](https://oldschool.runescape.wiki/) supplies attributed category and strategy-guide information. It is credited as a data source, with pinned references and its own license, rather than presented as a plugin dependency. Catalogue updates arrive with plugin releases; bank contents are not uploaded. See [License and attribution](#license-and-attribution) for code and data credits.
 
 ## Development
 

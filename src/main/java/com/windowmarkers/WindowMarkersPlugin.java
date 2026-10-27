@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description="Beta Wiki bank groups, editable views, cleanup review and optional GE gear search", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description = "Beta bank organization with Wiki categories, editable gear views, custom groups, junk-use notes and screenshots. Optional GE search and prices. Rapid Wiki updates; feedback welcome.", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
@@ -142,6 +142,7 @@ public class WindowMarkersPlugin extends Plugin
                 status.setPreferredSize(new Dimension(210,48));
                 controls.add(status);
                 layoutPicker=new JComboBox<>();
+                layoutPicker.setRenderer(PlainText.renderer());
                 layoutPicker.addActionListener(e -> { if (!refreshingLayouts) { switchNamedLayout(layoutPicker.getSelectedIndex()); } });
                 JPanel namedLayouts=new MarkerForm();
                 namedLayouts.add(new JLabel("<html>Switch the whole collection of Legend groups.<br>Search views are saved in Legend.</html>"));
@@ -176,7 +177,7 @@ public class WindowMarkersPlugin extends Plugin
                 JPanel savedViews=new MarkerForm();
                 saveViewButton=addButton(savedViews,"Save as custom view…",this::saveCurrentBankView);
                 addViewButton.setEnabled(false);clearViewButton.setEnabled(false);saveViewButton.setEnabled(false);
-                customPicker=new JComboBox<>();savedViews.add(customPicker);
+                customPicker=new JComboBox<>();customPicker.setRenderer(PlainText.renderer());savedViews.add(customPicker);
                 addButton(savedViews,"Open saved view",() -> {
                     CustomPresets.Preset saved=(CustomPresets.Preset)customPicker.getSelectedItem();
                     if(saved!=null) chooseCatalogue(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,saved.name,saved),true);
