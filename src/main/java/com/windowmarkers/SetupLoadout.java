@@ -8,11 +8,11 @@ final class SetupLoadout
     static final class Field {
         final String name, note; final List<Integer> ids=new ArrayList<>();
         final boolean guideOnly;
+        final Map<Integer,String> itemNotes=new HashMap<>();
         Field(String[] row) { this(row,false); }
         Field(String[] row,boolean guideOnly) { name=row[1]; note=row[3];this.guideOnly=guideOnly; for(String id:row[2].split(",")) if(!id.isEmpty()) ids.add(Integer.parseInt(id)); }
         int slot() { return name.matches("2h[0-9]*")?3:ItemCatalogueIndex.slot(name.replaceAll("[0-9]+$","")); }
         int order() { String number=name.replaceFirst("^2h","weapon").replaceAll("[^0-9]",""); return number.isEmpty()?0:Integer.parseInt(number); }
-        boolean unconditional() { return note.isEmpty() || note.equals("Can function as hybrid armour, saving inventory space"); }
         boolean inventoryChoice() { return !guideOnly && (note.isEmpty() || note.startsWith("The Wiki chooses ") || note.startsWith("The Vale Totems magiclog variable ")); }
     }
     static final class Table {
@@ -26,6 +26,15 @@ final class SetupLoadout
         for(String[] row:ItemTaxonomy.readRows("setup-layout-fields.tsv",4)) {
             Table table=TABLES.get(row[0]); if(table!=null) table.fields.add(new Field(row));
         }
+        Map<String,List<String[]>> choices=new LinkedHashMap<>();
+        for(String[] row:ItemTaxonomy.readRows("setup-layout-options.tsv",5))
+            choices.computeIfAbsent(row[0]+"/"+row[1],key->new ArrayList<>()).add(row);
+        for(Map.Entry<String,Table> entry:TABLES.entrySet()) for(Field field:entry.getValue().fields) {
+            List<String[]> rows=choices.get(entry.getKey()+"/"+field.name);
+            if(rows==null) continue;
+            field.ids.clear();
+            for(String[] row:rows) { int id=Integer.parseInt(row[2]);field.ids.add(id);field.itemNotes.put(id,row[4]); }
+        }
         for(String[] row:ItemTaxonomy.readRows("setup-inventory-previews.tsv",6)) {
             Table table=TABLES.get(row[0]);
             if(table!=null && table.kind.equals("inventory")) table.fields.add(new Field(new String[]{row[0],row[1],row[2],row[4]},true));
@@ -37,6 +46,7 @@ final class SetupLoadout
     final Map<Integer,List<Integer>> equipment;
     final Map<Integer,Integer> inventory;
     final Map<Integer,Field> inventoryExample;
+    final Map<Integer,String> equipmentNotes=new HashMap<>();
     private SetupLoadout(String activity,String equipmentName,String inventoryName,Map<Integer,List<Integer>> equipment,Map<Integer,Integer> inventory,Map<Integer,Field> inventoryExample) {
         this.activity=activity;
         this.equipmentName=equipmentName;this.inventoryName=inventoryName;
@@ -50,7 +60,9 @@ final class SetupLoadout
         equipment.forEach((slot,ids)-> { List<Integer> kept=new ArrayList<>();for(int id:ids) if(allowed.contains(id)) kept.add(id);if(!kept.isEmpty()) gear.put(slot,kept); });
         Map<Integer,Integer> bag=new LinkedHashMap<>();inventory.forEach((slot,id)-> { if(allowed.contains(id)) bag.put(slot,id); });
         Map<Integer,Field> example=new LinkedHashMap<>();inventoryExample.forEach((slot,field)-> { if(bag.containsKey(slot)) example.put(slot,field); });
-        return new SetupLoadout(activity,equipmentName,inventoryName,gear,bag,example);
+        SetupLoadout result=new SetupLoadout(activity,equipmentName,inventoryName,gear,bag,example);
+        equipmentNotes.forEach((id,note)-> { if(allowed.contains(id)) result.equipmentNotes.put(id,note); });
+        return result;
     }
     private static boolean ready(ItemCatalogueIndex.Item item) { return item!=null && !ItemVariantState.needsActivityReview(item.fact); }
     private static boolean inventoryReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
@@ -80,16 +92,18 @@ final class SetupLoadout
         Table table=TABLES.get(anchor.id);
         Map<Integer,List<Integer>> equipment=new LinkedHashMap<>();
         List<Field> fields=gear==null?new ArrayList<>():new ArrayList<>(table.fields); fields.sort(Comparator.comparingInt(Field::order));
-        for(Field field:fields) {
-            int slot=field.slot(); if(slot<0) continue;
-            // Conditional alternatives remain below the equipment diagram.
-            if(!field.unconditional()) continue;
-            for(int id:field.ids) {
-                ItemCatalogueIndex.Item item=owned.get(id);
-                if(!visible.contains(id) || !equipmentReady(gear,item) || item.slot!=slot) continue;
-                List<Integer> options=equipment.computeIfAbsent(slot,k->new ArrayList<>());
-                if(!options.contains(id)) options.add(id);
-            }
+        // Resolve the main weapon first, then select compatible ammunition and
+        // dependent equipment using that exact guide choice.
+        fields.sort(Comparator.comparingInt((Field f)->f.slot()==3?0:1).thenComparingInt(Field::order));
+        Map<Integer,String> equipmentNotes=new HashMap<>();
+        Collection<ItemCatalogueIndex.Item> requirements=owned.values();
+        for(int pass=0;pass<4;pass++) {
+            Map<Integer,List<Integer>> selected=chooseEquipment(fields,gear,owned,visible,requirements,equipmentNotes);
+            if(selected.equals(equipment)) break;
+            equipment=selected;
+            List<ItemCatalogueIndex.Item> wearing=new ArrayList<>();
+            for(List<Integer> options:equipment.values()) if(!options.isEmpty()) wearing.add(owned.get(options.get(0)));
+            requirements=wearing;
         }
         ActivitySetups.Setup inventory=null;best=-1;int bestPreference=-1;
         for(ActivitySetups.Setup setup:ActivitySetups.forActivity(anchor.activity)) {
@@ -120,8 +134,32 @@ final class SetupLoadout
             if(!(field.name.matches("[0-9]+") || field.name.startsWith("inventory")) || position<0 || position>=28 || field.ids.isEmpty()) continue;
             inventoryExample.put(position,field);
             if(!field.inventoryChoice()) continue;
-            for(int id:field.ids) if(inventoryReady(inventory,owned.get(id))) { inventoryItems.put(position,id);break; }
+            for(int id:SetupEquipmentChoice.inventoryAlternatives(field.ids))
+                if(inventoryReady(inventory,owned.get(id))) { inventoryItems.put(position,id);break; }
         }
-        return new SetupLoadout(anchor.activity,gear==null?"":gear.activity+" / "+gear.label,inventory==null?"No inventory example":inventory.label,equipment,inventoryItems,inventoryExample);
+        SetupLoadout result=new SetupLoadout(anchor.activity,gear==null?"":gear.activity+" / "+gear.label,inventory==null?"No inventory example":inventory.label,equipment,inventoryItems,inventoryExample);
+        result.equipmentNotes.putAll(equipmentNotes);
+        return result;
     }
+    private static Map<Integer,List<Integer>> chooseEquipment(List<Field> fields,ActivitySetups.Setup gear,
+        Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,Collection<ItemCatalogueIndex.Item> requirements,
+        Map<Integer,String> equipmentNotes)
+    {
+        Map<Integer,List<Integer>> equipment=new LinkedHashMap<>();equipmentNotes.clear();
+        ItemCatalogueIndex.Item weapon=null;
+        for(Field field:fields) {
+            int slot=field.slot();if(slot<0) continue;
+            for(int id:field.ids) {
+                ItemCatalogueIndex.Item item=owned.get(id);
+                if(!visible.contains(id) || !equipmentReady(gear,item) || item.slot!=slot) continue;
+                String note=field.itemNotes.getOrDefault(id,field.note);
+                if(!SetupEquipmentChoice.allowed(item,note,weapon,requirements)) continue;
+                List<Integer> options=equipment.computeIfAbsent(slot,k->new ArrayList<>());
+                if(!options.contains(id)) { options.add(id);equipmentNotes.put(id,note); }
+                if(slot==3 && weapon==null) weapon=item;
+            }
+        }
+        return equipment;
+    }
+
 }

@@ -18,6 +18,34 @@ import static org.mockito.Mockito.*;
 
 public class BankLayoutTest
 {
+    @Test public void viewportHeightChangesDoNotRepeatedlyRebuildTheBankButWidthChangesDo() throws Exception {
+        BankLayoutController c=controller();Widget items=mock(Widget.class);
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+        when(items.getWidth()).thenReturn(478);when(items.getHeight()).thenReturn(250);
+        java.lang.reflect.Field signature=BankLayoutController.class.getDeclaredField("appliedSignature");signature.setAccessible(true);signature.set(c,new int[12]);
+        java.lang.reflect.Field width=BankLayoutController.class.getDeclaredField("reflowedWidth");width.setAccessible(true);width.set(c,478);
+        clearInvocations(c.clientThread);
+        for(int i=0;i<30;i++) { when(items.getHeight()).thenReturn(250+i);c.onClientTick(new ClientTick()); }
+        verifyNoInteractions(c.clientThread);
+        when(items.getWidth()).thenReturn(600);c.onClientTick(new ClientTick());
+        verify(c.clientThread,times(1)).invokeLater(any(Runnable.class));
+    }
+    @Test public void aCustomViewUsesNativeSingleSectionBuildAndRestoresOrdinaryTabs() {
+        BankLayoutController c=controller();c.searchView=new BankSearchView();
+        c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=mock(ItemManager.class);
+        doAnswer(call -> { when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null; })
+            .when(c.searchView.bankTags).openBankTag(anyString(),anyInt());
+        Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
+        c.searchView.show("Food",Collections.singletonList(group),false);
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(mock(Widget.class));
+        int[] stack={9};when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(1);
+        ScriptCallbackEvent event=new ScriptCallbackEvent();event.setEventName("bankBuildTab");
+        c.onScriptCallbackEvent(event);assertEquals(1,stack[0]);
+        stack[0]=9;c.searchView.clear();c.onScriptCallbackEvent(event);assertEquals(9,stack[0]);
+        c.searchView.show("Food",Collections.singletonList(group),false);
+        event.setEventName("differentCallback");c.onScriptCallbackEvent(event);assertEquals(9,stack[0]);
+    }
     private Widget cell(int x,int y)
     {
         Widget widget=mock(Widget.class);AtomicInteger px=new AtomicInteger(x),py=new AtomicInteger(y);

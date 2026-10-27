@@ -61,6 +61,8 @@ final class SetupItemLayout
             if(cell!=null) {
                 int col=position[1]%columns,row=position[2]+position[1]/columns;
                 place(cell,51+col*pitch,gearY+row*36);placed.add(cell);
+                String note=plan.equipmentNotes.getOrDefault(manager.canonicalize(cell.getItemId()),"");
+                if(!note.isEmpty()) notes.add(new InventoryNote(note,51+col*pitch,gearY+row*36));
             }
         }
         int inventoryColumns=Math.min(4,columns),inventoryEnd=inventoryY;
@@ -75,6 +77,8 @@ final class SetupItemLayout
             int y=inventoryY+(position/inventoryColumns)*36;
             place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
             String note=entry.getValue().note;
+            if(id!=null && !entry.getValue().ids.contains(id))
+                note=SetupEquipmentChoice.inventoryAlternativeNote(entry.getValue().ids);
             if(source==null) {
                 if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
             }

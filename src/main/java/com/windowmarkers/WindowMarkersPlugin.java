@@ -1404,7 +1404,8 @@ public class WindowMarkersPlugin extends Plugin
     @Subscribe(priority=-1) public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     { if(active && nativeSearch!=null) nativeSearch.filter(event); }
 
-    @Subscribe public synchronized void onBeforeRender(BeforeRender event)
+    // Snapshot item bounds after BankLayoutController has restored the final frame.
+    @Subscribe(priority=-30) public synchronized void onBeforeRender(BeforeRender event)
     {
         if(viewLabel!=null) {
             SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();

@@ -132,7 +132,6 @@ public final class BankLayoutController
 	private int[] appliedSignature;
 	private int rebuildCooldown;
 	private int reflowedWidth;
-	private int reflowedHeight;
 
 	private static final class Track
 	{
@@ -258,7 +257,6 @@ public final class BankLayoutController
         if(!config.bankLayoutEnabled() && !grouped) return;
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
 		reflowedWidth = items.getWidth();
-		reflowedHeight = items.getHeight();
 		if (ends == null || ends[0] == ends[1])
 		{
 			return;
@@ -302,15 +300,29 @@ public final class BankLayoutController
 
 		reapplyFrame();
 
-		// the items only have to be laid out again if their area really ended up different
+		// Only width changes affect item wrapping. Finishbuilding may adjust the
+		// viewport height after our hook; using that height here causes a rebuild loop.
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
 		if (appliedSignature != null && items != null && rebuildCooldown == 0
-			&& (items.getWidth() != reflowedWidth || items.getHeight() != reflowedHeight))
+			&& items.getWidth() != reflowedWidth)
 		{
 			rebuildCooldown = REBUILD_COOLDOWN_TICKS;
 			clientThread.invokeLater(this::rebuildBank);
 		}
 	}
+
+    @Subscribe(priority=-20)
+    public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
+    {
+        // Ask the native builder for a single section, as Bank Tags does. The
+        // next ordinary build restores native tab headings without hidden-widget state.
+        if(active && "bankBuildTab".equals(event.getEventName())
+            && client.getWidget(InterfaceID.Bankmain.ITEMS)!=null
+            && (groupedSearch() || searchView!=null && searchView.isActive())) {
+            int size=client.getIntStackSize();
+            if(size>0) client.getIntStack()[size-1]=1;
+        }
+    }
 
 	/**
 	 * The game puts the bank and the modal back to their own sizes whenever the size of either changes,
