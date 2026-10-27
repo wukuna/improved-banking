@@ -46,7 +46,7 @@ final class ItemLookupPanel extends JPanel
         add(new JScrollPane(list),BorderLayout.CENTER);
         JPanel buttons=new JPanel(new GridLayout(0,1,0,5));
         buttons.add(send); buttons.add(highlight);
-        buttons.add(new JLabel(rows.isEmpty()?"No recorded memberships. You can still highlight the selected items.":"Highlighting is temporary. Use Legend → Unpin to clear it."));
+        buttons.add(new JLabel(rows.isEmpty()?"No recorded memberships. You can still highlight the selected items.":"Highlighting is temporary. Use Legend → Clear highlight to clear it."));
         add(buttons,BorderLayout.SOUTH); send.setEnabled(false);
         list.addListSelectionListener(e -> send.setEnabled(list.getSelectedValue()!=null && !list.getSelectedValue().membership.startsWith("Review: ")));
         send.addActionListener(e -> { Row row=list.getSelectedValue(); if(row!=null) { membership=row.membership; filter=filterText(membership); close(); } });

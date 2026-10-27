@@ -24,7 +24,8 @@ final class ItemPalette extends JPanel
         super(new BorderLayout(8,8)); this.limit=limit;
         JPanel header=new JPanel(new BorderLayout(0,4));
         query.setToolTipText("Item name, including approximate spelling. Same-name variants retain separate IDs.");
-        header.add(query,BorderLayout.NORTH); header.add(bankOnly,BorderLayout.SOUTH); add(header,BorderLayout.NORTH);
+        header.add(new JLabel("Search items by name"),BorderLayout.NORTH);header.add(query,BorderLayout.CENTER);
+        header.add(bankOnly,BorderLayout.SOUTH); add(header,BorderLayout.NORTH);
         for(BankItemSearch.Choice choice:initial) selected.addElement(choice);
         tiles.setLayoutOrientation(JList.HORIZONTAL_WRAP); tiles.setVisibleRowCount(-1);
         tiles.setFixedCellWidth(125); tiles.setFixedCellHeight(68);
@@ -44,10 +45,21 @@ final class ItemPalette extends JPanel
         tiles.getActionMap().put("add",new AbstractAction() { public void actionPerformed(ActionEvent e) { addSelected(); } });
         add(middle,BorderLayout.CENTER);
         picked.setVisibleRowCount(3); picked.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        picked.setCellRenderer((list,choice,index,isSelected,focus) -> {
+            JLabel label=new JLabel(choice.toString(),choice.image==null?null:new ImageIcon(choice.image),SwingConstants.LEFT);
+            label.setOpaque(true);label.setBackground(isSelected?list.getSelectionBackground():list.getBackground());
+            label.setForeground(isSelected?list.getSelectionForeground():list.getForeground());
+            label.setBorder(BorderFactory.createEmptyBorder(2,4,2,4));return label;
+        });
+        picked.setFixedCellHeight(36);
+        for(BankItemSearch.Choice choice:initial) repaintWhenReady(choice,picked);
         JPanel footer=new JPanel(new BorderLayout(0,4)); footer.add(new JScrollPane(picked),BorderLayout.CENTER);
+        footer.add(new JLabel("Items in this group — select one or several to remove"),BorderLayout.NORTH);
         JButton remove=new JButton("Remove selected items"); remove.addActionListener(e -> {
             for(BankItemSearch.Choice choice:picked.getSelectedValuesList()) selected.removeElement(choice); count();
         });
+        picked.getInputMap().put(KeyStroke.getKeyStroke("DELETE"),"remove");
+        picked.getActionMap().put("remove",new AbstractAction() { public void actionPerformed(ActionEvent e) { remove.doClick(); } });
         JPanel bottom=new JPanel(new GridLayout(0,1,0,4)); bottom.add(remove); bottom.add(hint); footer.add(bottom,BorderLayout.SOUTH); add(footer,BorderLayout.SOUTH);
         debounce=new javax.swing.Timer(180,e -> {
             int version=revision; String text=query.getText();
@@ -75,10 +87,15 @@ final class ItemPalette extends JPanel
         for(BankItemSearch.Choice choice:tiles.getSelectedValuesList())
         {
             boolean exists=false; for(int i=0;i<selected.size();i++) if(selected.get(i).id==choice.id) exists=true;
-            if(!exists && selected.size()<limit) selected.addElement(choice);
+            if(!exists && selected.size()<limit) { selected.addElement(choice);repaintWhenReady(choice,picked); }
         }
         count();
     }
     int[] ids() { return Collections.list(selected.elements()).stream().mapToInt(c -> c.id).toArray(); }
+    List<BankItemSearch.Choice> choices() { return Collections.list(selected.elements()); }
+    private void repaintWhenReady(BankItemSearch.Choice choice,JComponent target) {
+        if(choice.image instanceof net.runelite.client.util.AsyncBufferedImage)
+            ((net.runelite.client.util.AsyncBufferedImage)choice.image).onLoaded(() -> SwingUtilities.invokeLater(() -> { if(!closed) target.repaint(); }));
+    }
     void close() { closed=true; revision++; debounce.stop(); }
 }

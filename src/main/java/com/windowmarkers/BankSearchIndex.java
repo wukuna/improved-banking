@@ -9,6 +9,7 @@ final class BankSearchIndex
     private final Map<String,Set<Integer>> customDocuments=new LinkedHashMap<>();
     private final ItemCatalogueIndex catalogue;
     private final int hitpoints;
+    private final BankCleanup cleanup;
     private final Map<String,Map<Integer,ItemCatalogueIndex.Rank>> markerRanks=new HashMap<>();
     private List<String> lastKeys=Collections.emptyList();
     private List<int[]> lastMembers=Collections.emptyList();
@@ -17,8 +18,11 @@ final class BankSearchIndex
     BankSearchIndex(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets)
     { this(owned,markers,presets,99); }
     BankSearchIndex(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets,int hitpoints)
+    { this(owned,markers,presets,hitpoints,Collections.emptySet(),BankCleanup.Progress.unknown()); }
+    BankSearchIndex(List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets presets,int hitpoints,Set<Integer> tradeable,BankCleanup.Progress progress)
     {
         this.hitpoints=Math.max(1,Math.min(99,hitpoints));
+        cleanup=new BankCleanup(owned,tradeable,progress);
         List<ItemCatalogueIndex.Item> facts=new ArrayList<>();
         for(AutoCategories.Item item:owned) facts.add(new ItemCatalogueIndex.Item(item,item.name,
             item.slot==-2?ItemCatalogueIndex.fallbackSlot(item.id,item.name):item.slot));
@@ -53,7 +57,7 @@ final class BankSearchIndex
     }
     private void indexRank(Marker marker) {
         if(marker.guideQuery!=null && !marker.guideQuery.isEmpty()) markerRanks.computeIfAbsent(marker.rankKey(),
-            key->catalogue.guideRanks(marker.guideQuery,marker.guideContext==null?"":marker.guideContext,hitpoints));
+            key->BankCleanup.isQuery(marker.guideQuery)?cleanup.search(marker.guideQuery).ranks:catalogue.guideRanks(marker.guideQuery,marker.guideContext==null?"":marker.guideContext,hitpoints));
     }
     Map<Integer,ItemCatalogueIndex.Rank> ranks(List<Marker> groups) {
         boolean same=groups.size()==lastKeys.size();
@@ -61,6 +65,8 @@ final class BankSearchIndex
         if(same) return lastRanks;
         Map<Integer,ItemCatalogueIndex.Rank> result=new HashMap<>();
         for(Marker marker:groups) if(marker.linked()) {
+            // Cleanup maps are already built from this snapshot; new preview groups need their reasons too.
+            if(BankCleanup.isQuery(marker.guideQuery)) indexRank(marker);
             Map<Integer,ItemCatalogueIndex.Rank> ranks=markerRanks.getOrDefault(marker.rankKey(),Collections.emptyMap());
             for(int id:marker.linkedItemIds) if(ranks.containsKey(id)) result.merge(id,ranks.get(id),TierPresentation::merge);
         }
@@ -103,6 +109,7 @@ final class BankSearchIndex
     {
         Set<Integer> result=new HashSet<>();
         if(!plainQuery(query)) return new Match(result,Collections.emptyMap(),false);
+        Match review=cleanup.search(query);if(review!=null) return review;
         String normalized=SearchText.normalize(query);
         ItemCatalogueIndex.Result common=catalogue.find(query,context,inventoryContext,hitpoints);
         if(common!=null) for(ItemCatalogueIndex.Item item:common.items) result.add(item.id);

@@ -27,3 +27,7 @@ Twelve unstrung wooden bows inherit broad weapon categories on the Wiki, but the
 - [Willow shortbow (u)](https://oldschool.runescape.wiki/w/Willow_shortbow_%28u%29?oldid=15185210) — revision 15185210
 - [Yew longbow (u)](https://oldschool.runescape.wiki/w/Yew_longbow_%28u%29?oldid=15272119) — revision 15272119
 - [Yew shortbow (u)](https://oldschool.runescape.wiki/w/Yew_shortbow_%28u%29?oldid=15184282) — revision 15184282
+
+## Placeholder-reference correction — 27 October 2026
+
+[Spaniel puppy, revision 15344349](https://oldschool.runescape.wiki/w/Spaniel_puppy?oldid=15344349) lists 34566 for its second item variant. In the copied game cache this is a placeholder (template 14401) pointing to inventory item 34565, whose reciprocal placeholder is 34566. The exact inventory item now receives only the Companion pets role. The placeholder is not counted as owned, and no combat or activity benefit is inferred. RuneLite 1.13.4's generated ItemID identifies 34565 as SPANIEL_WHITE_PUPPY_OBJECT. The inconsistent Wiki colour labels are not used to infer further equivalences.

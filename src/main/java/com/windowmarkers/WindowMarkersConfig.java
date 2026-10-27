@@ -50,9 +50,9 @@ public interface WindowMarkersConfig extends Config
     default Color geSecondColour() { return new Color(0,102,170); }
     @ConfigItem(section=tiers,keyName="geThirdColour",name="3rd choice",description="Shared bank and GE colour for Wiki column 3 in the matching setup.",position=3)
     default Color geThirdColour() { return new Color(0,119,68); }
-    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Views. Empty uses all matching guide setups.",hidden=true,position=5)
+    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Legend / Saved views. Empty uses all matching guide setups.",hidden=true,position=5)
     default String geGuideContext() { return ""; }
-    @ConfigItem(keyName="bankInventoryContext",name="Bank inventory example",description="Inventory example chosen in Views.",hidden=true)
+    @ConfigItem(keyName="bankInventoryContext",name="Bank inventory example",description="Inventory example chosen in Legend / Saved views.",hidden=true)
     default String bankInventoryContext() { return ""; }
     @ConfigItem(keyName="screenshotButton",name="Button beside bank close",description="Show a screenshot button next to the bank close button. Saves the full current tab locally.",section=screenshots,position=0)
     default boolean screenshotButton() { return true; }

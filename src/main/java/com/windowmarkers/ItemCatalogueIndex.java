@@ -323,7 +323,7 @@ final class ItemCatalogueIndex
         }
         int tier=tiers.size()==1 && roles.size()==1 ? tiers.iterator().next() : 0;
         String reason=tiers.isEmpty() ? "Category or example match; no ranked recommendation for this search." :
-            tier==0 ? "Ranking differs by setup/role, or needs review. Refine the search or use Views / Guide choices." :
+            tier==0 ? "Ranking differs by setup/role, or needs review. Refine the search or use Legend / Saved views / Guide choices." :
             "Wiki tier "+tier+" for the matching setup(s), not a universal ranking. Requirements and set bonuses still apply.";
         return new Rank(tier,reason+extra+(sources.isEmpty()?"":"\n"+String.join("\n",sources)),roles.size()==1?roles.iterator().next():"");
     }

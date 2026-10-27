@@ -26,6 +26,7 @@ final class BankCatalogue
     }
     static String aliases(String name)
     {
+        if(name.equals(BankCleanup.SELL)) return "sellable";
         return name.contains("Chambers of Xeric") ? "cox" : name.contains("Theatre of Blood") ? "tob"
             : name.contains("Tombs of Amascut") ? "toa" : "";
     }
@@ -33,6 +34,7 @@ final class BankCatalogue
     {
         Set<String> categories=new TreeSet<>(WikiCatalogue.groups());
         categories.addAll(ItemTaxonomy.groups()); categories.addAll(RaidRecommendations.groups());
+        categories.addAll(Arrays.asList(BankCleanup.JUNK,BankCleanup.SELL,BankCleanup.ACTIVE,BankCleanup.FUTURE,BankCleanup.DONE,BankCleanup.UNKNOWN));
         categories.addAll(Arrays.asList("Hybrid equipment","Magic equipment","Ranged equipment","Melee equipment","Equipment",
             "Defensive or utility equipment — review","Health-lowering utility","Restricted-use supplies — blighted",
             "Specialist food — purple sweets","Runes","Food — general, not activity advice","Potions — general, not activity advice",

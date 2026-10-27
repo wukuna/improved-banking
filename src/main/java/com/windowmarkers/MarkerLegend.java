@@ -67,6 +67,11 @@ final class MarkerLegend extends JPanel
         void reorder(List<Marker> visible,List<Marker> selected,int index);
         void transform(Marker marker,boolean resize);
         default void clearHighlight() { }
+        default void search(String query) { browse(query); }
+        default void drawInto(Marker marker) { }
+        default void merge() { }
+        default void saveGroups() { }
+        default void organize() { }
     }
     final JTextField search=new JTextField();
     private final JLabel tierKey=new JLabel();
@@ -78,7 +83,7 @@ final class MarkerLegend extends JPanel
     private final DefaultListModel<BankCatalogue.Choice> suggestions=new DefaultListModel<>();
     private final JList<BankCatalogue.Choice> suggestionList=new JList<>(suggestions);
     private final JScrollPane suggestionScroll=new JScrollPane(suggestionList);
-    private final JButton edit=new JButton("Label / appearance"),remove=new JButton("Delete selected");
+    private final JButton edit=new JButton("Edit label / appearance…"),remove=new JButton("Remove selected groups");
     private final JButton move=new JButton("Move area"),resize=new JButton("Resize area"),items=new JButton("Edit group items…");
     private final Consumer<Marker> hover,pin;
     private final Actions actions;
@@ -87,15 +92,17 @@ final class MarkerLegend extends JPanel
     private boolean refreshing;
     private long revision;
     private final javax.swing.Timer timer;
+    private final JPanel header=new MarkerForm();
+    private final JPanel viewTools=new MarkerForm();
+    void viewControls(JComponent controls) { viewTools.add(controls); }
     MarkerLegend(Consumer<Marker> hover,Consumer<Marker> pin) { this(hover,pin,null); }
     MarkerLegend(Consumer<Marker> hover,Consumer<Marker> pin,Actions actions)
     {
         super(new BorderLayout(0,8)); this.hover=hover; this.pin=pin; this.actions=actions;
-        JPanel header=new MarkerForm();
         tierKey.setToolTipText("Guide-specific equipment columns. Neutral items have no agreed tier or need preparation. Colours are shared with Grand Exchange search.");
         header.add(tierKey);
-        header.add(new JLabel("Search categories and groups")); header.add(search);
-        search.setToolTipText("Approximate spelling works. Suggestions search all categories, including groups not added yet.");
+        header.add(new JLabel("Find items, categories or groups")); header.add(search);
+        search.setToolTipText("Try toa top, food 20 or mining tools. Enter previews bank results; Add to Legend saves the coloured group.");
         suggestionList.setVisibleRowCount(3); suggestionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         suggestionScroll.setPreferredSize(new Dimension(210,75)); suggestionScroll.setVisible(false); header.add(suggestionScroll);
         suggestionList.addMouseListener(new MouseAdapter() { @Override public void mouseClicked(MouseEvent e) {
@@ -106,17 +113,28 @@ final class MarkerLegend extends JPanel
         suggestionList.getActionMap().put("browse",new AbstractAction() { public void actionPerformed(ActionEvent e) {
             if(actions!=null && suggestionList.getSelectedValue()!=null) actions.choose(suggestionList.getSelectedValue());
         }});
-        header.add(scope); header.add(preset); preset.addItem("All presets");
+        JButton show=new JButton("Show in bank");
+        show.setEnabled(false);
+        show.addActionListener(e -> { if(actions!=null) actions.search(search.getText()); });
+        search.addActionListener(e -> show.doClick());
+        header.add(show);
+        header.add(viewTools);
+        JPanel filters=new MarkerForm(); filters.add(scope); filters.add(preset); preset.addItem("All presets");
+        filters.setVisible(false);
+        JToggleButton filterOptions=new JToggleButton("Filter saved groups…");
+        filterOptions.addActionListener(e -> { filters.setVisible(filterOptions.isSelected()); revalidate(); });
+        header.add(filterOptions); header.add(filters);
         scope.setToolTipText("Current bank tab follows tab changes. All saved groups includes absent items and empty area markers.");
-        JButton browse=new JButton("Categories / presets…"),inspect=new JButton("Item lookup / compare…");
+        JButton browse=new JButton("Browse all categories…"),inspect=new JButton("Item lookup / compare…");
         browse.addActionListener(e -> { if(actions!=null) actions.browse(search.getText()); });
         inspect.addActionListener(e -> { if(actions!=null) actions.inspect(); }); header.add(browse); header.add(inspect);
         add(header,BorderLayout.NORTH);
         timer=new javax.swing.Timer(150,e -> filter()); timer.setRepeats(false);
         search.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-            public void insertUpdate(javax.swing.event.DocumentEvent e) { timer.restart(); }
-            public void removeUpdate(javax.swing.event.DocumentEvent e) { timer.restart(); }
-            public void changedUpdate(javax.swing.event.DocumentEvent e) { timer.restart(); }
+            private void changed() { show.setEnabled(!search.getText().trim().isEmpty());timer.restart(); }
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { changed(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { changed(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { changed(); }
         });
         scope.addActionListener(e -> filter()); preset.addActionListener(e -> { if(!refreshing) filter(); });
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -139,6 +157,8 @@ final class MarkerLegend extends JPanel
             List<Marker> selected=selected(); Marker single=selected.size()==1?selected.get(0):null;
             pin.accept(single); edit.setEnabled(single!=null); remove.setEnabled(!selected.isEmpty());
             items.setEnabled(single!=null && single.linked());
+            edit.setVisible(single!=null);items.setVisible(single!=null && single.linked());remove.setVisible(!selected.isEmpty());
+            revalidate();
             move.setEnabled(single!=null && !single.linked()); resize.setEnabled(move.isEnabled());
         }});
         list.setVisibleRowCount(5);
@@ -146,15 +166,34 @@ final class MarkerLegend extends JPanel
         if(!GraphicsEnvironment.isHeadless()) list.setDragEnabled(true);
         add(new JScrollPane(list),BorderLayout.CENTER);
         JPanel footer=new MarkerForm();
-        JPanel manage=new JPanel(new GridLayout(0,2,4,4));
         edit.addActionListener(e -> { if(actions!=null && selected().size()==1) actions.edit(selected().get(0)); });
         items.addActionListener(e -> { if(actions!=null && selected().size()==1) actions.items(selected().get(0)); });
-        footer.add(items);
         remove.addActionListener(e -> { if(actions!=null) actions.delete(selected()); });
         move.addActionListener(e -> { if(actions!=null && selected().size()==1) actions.transform(selected().get(0),false); });
         resize.addActionListener(e -> { if(actions!=null && selected().size()==1) actions.transform(selected().get(0),true); });
-        JButton up=new JButton("Move up"),down=new JButton("Move down"),clearAll=new JButton("Clear all"),clear=new JButton("Unpin");
-        clearAll.setToolTipText("Delete every group in this layout. Undo restores them."); clear.setToolTipText("Clear the pinned group highlight.");
+        JButton clear=new JButton("Clear highlight");
+        JMenuItem up=new JMenuItem("Move up"),down=new JMenuItem("Move down"),clearAll=new JMenuItem("Remove all groups…");
+        JMenuItem moveArea=new JMenuItem("Move area"),resizeArea=new JMenuItem("Resize area");
+        JMenuItem extend=new JMenuItem("Draw more items into group…"),merge=new JMenuItem("Merge selected groups…"),save=new JMenuItem("Save groups as custom view…");
+        JMenuItem organize=new JMenuItem("Auto-group bank…");
+        JButton more=new JButton("More group actions…");
+        JPopupMenu menu=new JPopupMenu();
+        menu.add(extend);menu.add(merge);menu.add(save);menu.addSeparator();
+        menu.add(moveArea);menu.add(resizeArea);menu.add(up);menu.add(down);menu.addSeparator();menu.add(organize);menu.add(clearAll);
+        more.addActionListener(e -> {
+            List<Marker> selected=selected(); boolean single=selected.size()==1,linked=single && selected.get(0).linked();
+            extend.setEnabled(linked);merge.setEnabled(selected.size()>1 && selected.stream().allMatch(Marker::linked));
+            save.setEnabled(!selected.isEmpty() && selected.stream().allMatch(Marker::linked));
+            moveArea.setEnabled(single && !linked);resizeArea.setEnabled(single && !linked);
+            up.setEnabled(!selected.isEmpty());down.setEnabled(!selected.isEmpty());clearAll.setEnabled(!allEntries.isEmpty());
+            menu.show(more,0,more.getHeight());
+        });
+        moveArea.addActionListener(e -> move.doClick());resizeArea.addActionListener(e -> resize.doClick());
+        extend.addActionListener(e -> { if(actions!=null && selected().size()==1) actions.drawInto(selected().get(0)); });
+        merge.addActionListener(e -> { if(actions!=null) actions.merge(); });
+        save.addActionListener(e -> { if(actions!=null) actions.saveGroups(); });
+        organize.addActionListener(e -> { if(actions!=null) actions.organize(); });
+        clearAll.setToolTipText("Delete every group in this layout. Undo restores them."); clear.setToolTipText("Clear the selected group or item-lookup highlight.");
         up.addActionListener(e -> shift(-1)); down.addActionListener(e -> shift(1));
         clearAll.addActionListener(e -> {
             List<Marker> expected=new java.util.ArrayList<>(); for(Entry entry:allEntries) expected.add(entry.marker);
@@ -162,11 +201,10 @@ final class MarkerLegend extends JPanel
         });
         clear.addActionListener(e -> { list.clearSelection(); hover.accept(null); pin.accept(null); if(actions!=null) actions.clearHighlight(); });
         // Full-width actions remain readable in RuneLite's narrow sidebar.
-        footer.add(edit); footer.add(remove);
-        manage.add(move); manage.add(resize); manage.add(up); manage.add(down); manage.add(clearAll); manage.add(clear);
-        for(Component button:manage.getComponents()) ((JButton)button).setMargin(new Insets(3,2,3,2));
-        footer.add(manage); footer.add(new JLabel("<html>Drag to reorder groups. Shift + arrows<br>or Ctrl + click selects several groups.</html>")); add(footer,BorderLayout.SOUTH);
+        footer.add(edit); footer.add(items); footer.add(remove);footer.add(clear);footer.add(more);
+        footer.add(new JLabel("<html>Drag to reorder. Shift + arrows or<br>Ctrl + click selects several groups.</html>")); add(footer,BorderLayout.SOUTH);
         items.setEnabled(false); edit.setEnabled(false); remove.setEnabled(false); move.setEnabled(false); resize.setEnabled(false);
+        items.setVisible(false);edit.setVisible(false);remove.setVisible(false);
         list.getInputMap().put(KeyStroke.getKeyStroke("DELETE"),"delete");
         list.getActionMap().put("delete",new AbstractAction() { public void actionPerformed(ActionEvent e) { remove.doClick(); } });
     }

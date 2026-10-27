@@ -43,6 +43,15 @@ final class SetupLoadout
         this.equipment=equipment;this.inventory=inventory;this.inventoryExample=inventoryExample;
     }
     static boolean inventoryTable(ActivitySetups.Setup setup) { Table table=TABLES.get(setup.id);return table!=null && table.kind.equals("inventory"); }
+    /** A custom view is an explicit item selection; removed items must not return as example icons. */
+    SetupLoadout retainItems(Set<Integer> allowed)
+    {
+        Map<Integer,List<Integer>> gear=new LinkedHashMap<>();
+        equipment.forEach((slot,ids)-> { List<Integer> kept=new ArrayList<>();for(int id:ids) if(allowed.contains(id)) kept.add(id);if(!kept.isEmpty()) gear.put(slot,kept); });
+        Map<Integer,Integer> bag=new LinkedHashMap<>();inventory.forEach((slot,id)-> { if(allowed.contains(id)) bag.put(slot,id); });
+        Map<Integer,Field> example=new LinkedHashMap<>();inventoryExample.forEach((slot,field)-> { if(bag.containsKey(slot)) example.put(slot,field); });
+        return new SetupLoadout(activity,equipmentName,inventoryName,gear,bag,example);
+    }
     private static boolean ready(ItemCatalogueIndex.Item item) { return item!=null && !ItemVariantState.needsActivityReview(item.fact); }
     private static boolean inventoryReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
         return ready(item) && SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();

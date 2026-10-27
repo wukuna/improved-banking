@@ -25,7 +25,48 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
-    @Test public void viewsTabExposesTheSearchSaveReturnAndTagActionsAtSidebarWidth() throws Exception {
+    @Test public void idleBankSearchKeepsSidebarActionsSafeAndDisabled() throws Exception {
+        WindowMarkersPlugin p=plugin();
+        try {
+            p.nativeSearch=new NativeBankSearch();p.nativeSearch.client=p.client;
+            assertNull(p.nativeSearch.query());
+            p.onBeforeRender(new BeforeRender());
+            SwingUtilities.invokeAndWait(() -> {});
+            var captured=org.mockito.ArgumentCaptor.forClass(net.runelite.client.ui.NavigationButton.class);
+            verify(p.toolbar).addNavigation(captured.capture());
+            SwingUtilities.invokeAndWait(() -> {
+                java.util.List<javax.swing.JButton> buttons=new java.util.ArrayList<>();
+                visibleButtons(captured.getValue().getPanel(),buttons);
+                for(var button:buttons) if(button.getText().equals("Add to Legend") || button.getText().equals("Clear bank filter")) assertFalse(button.isEnabled());
+            });
+        } finally { p.shutDown();SwingUtilities.invokeAndWait(() -> {}); }
+    }
+    @Test public void addingPreviewTwiceSelectsTheExistingGroupAndKeepsItsColour() throws Exception {
+        WindowMarkersPlugin p=plugin();
+        try {
+            p.clientThread=mock(net.runelite.client.callback.ClientThread.class);
+            doAnswer(call -> { ((Runnable)call.getArgument(0)).run();return null; }).when(p.clientThread).invokeLater(any(Runnable.class));
+            p.searchView=new BankSearchView();p.searchView.client=p.client;
+            p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
+            p.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+            p.searchView.items=p.itemManager;
+            doAnswer(call -> { when(p.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null; })
+                .when(p.searchView.bankTags).openBankTag(anyString(),anyInt());
+            p.nativeSearch=new NativeBankSearch();p.nativeSearch.client=p.client;
+            Marker group=new Marker(0,0,48,36);group.label="My Food";group.linkedItemIds=new int[]{385,3144};group.borderArgb=Color.CYAN.getRGB();
+            p.searchView.show("My Food",java.util.Collections.singletonList(group),false);
+            var method=WindowMarkersPlugin.class.getDeclaredMethod("addViewToLegend");method.setAccessible(true);
+            method.invoke(p);SwingUtilities.invokeAndWait(() -> {});
+            var field=WindowMarkersPlugin.class.getDeclaredField("legend");field.setAccessible(true);MarkerLegend legend=(MarkerLegend)field.get(p);
+            assertEquals(1,legend.selected().size());Marker saved=legend.selected().get(0);
+            assertEquals(Color.CYAN.getRGB(),saved.borderArgb.intValue());
+            group.linkedItemIds=new int[]{3144,385};group.borderArgb=Color.RED.getRGB();
+            method.invoke(p);SwingUtilities.invokeAndWait(() -> {});
+            assertEquals(1,legend.selected().size());assertSame(saved,legend.selected().get(0));
+            assertEquals(Color.CYAN.getRGB(),saved.borderArgb.intValue());
+        } finally { p.shutDown();SwingUtilities.invokeAndWait(() -> {}); }
+    }
+    @Test public void legendCombinesSearchAndGroupManagementAtSidebarWidth() throws Exception {
         WindowMarkersPlugin p=plugin();
         try {
             var captured=org.mockito.ArgumentCaptor.forClass(net.runelite.client.ui.NavigationButton.class);
@@ -35,20 +76,30 @@ public class WindowMarkersTest
                     Container panel=captured.getValue().getPanel();
                     javax.swing.JTabbedPane tabs=null;
                     for(Component child:panel.getComponents()) if(child instanceof javax.swing.JTabbedPane) tabs=(javax.swing.JTabbedPane)child;
-                    assertNotNull(tabs);assertEquals("Views",tabs.getTitleAt(0));
-                    Container views=(Container)tabs.getComponentAt(0);views.setSize(205,900);views.doLayout();
-                    java.util.Set<String> buttons=new java.util.HashSet<>();
-                    for(Component child:views.getComponents()) if(child instanceof javax.swing.JButton) {
-                        var button=(javax.swing.JButton)child;buttons.add(button.getText());
-                        assertTrue(button.getText(),button.getFontMetrics(button.getFont()).stringWidth(button.getText())<=button.getWidth()-button.getInsets().left-button.getInsets().right);
-                    }
-                    assertTrue(buttons.containsAll(java.util.Arrays.asList("Show search in bank","Show all bank items","Save current view…","Open saved view","Add view to Legend","Add tag to item…")));
-                    BufferedImage image=new BufferedImage(205,views.getPreferredSize().height,BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D graphics=image.createGraphics();views.printAll(graphics);graphics.dispose();
-                    java.io.File file=new java.io.File("build/ui-preview/views.png");file.getParentFile().mkdirs();javax.imageio.ImageIO.write(image,"png",file);
+                    assertNotNull(tabs);assertEquals(3,tabs.getTabCount());assertEquals("Legend",tabs.getTitleAt(0));
+                    assertEquals("Custom",tabs.getTitleAt(1));assertEquals("Tools",tabs.getTitleAt(2));
+                    Container legend=(Container)tabs.getComponentAt(0);legend.setSize(205,700);layoutTree(legend);layoutTree(legend);
+                    java.util.List<javax.swing.JButton> buttons=new java.util.ArrayList<>();visibleButtons(legend,buttons);
+                    var names=buttons.stream().map(javax.swing.JButton::getText).collect(java.util.stream.Collectors.toList());
+                    assertTrue(names.containsAll(java.util.Arrays.asList("Show in bank","Clear bank filter","Add to Legend")));
+                    assertEquals(1,names.stream().filter("Browse all categories…"::equals).count());
+                    assertFalse(names.contains("Open saved view"));assertFalse(names.contains("Remove selected groups"));
+                    for(var button:buttons) assertTrue(button.getText(),button.getFontMetrics(button.getFont()).stringWidth(button.getText())<=button.getWidth()-button.getInsets().left-button.getInsets().right);
+                    BufferedImage image=new BufferedImage(205,700,BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D graphics=image.createGraphics();legend.printAll(graphics);graphics.dispose();
+                    java.io.File file=new java.io.File("build/ui-preview/sidebar.png");file.getParentFile().mkdirs();javax.imageio.ImageIO.write(image,"png",file);
                 } catch(Exception ex) { throw new RuntimeException(ex); }
             });
         } finally { p.shutDown();SwingUtilities.invokeAndWait(() -> {}); }
+    }
+    private void layoutTree(Container parent) {
+        parent.doLayout();for(Component child:parent.getComponents()) if(child instanceof Container && child.isVisible()) layoutTree((Container)child);
+    }
+    private void visibleButtons(Container parent,java.util.List<javax.swing.JButton> buttons) {
+        for(Component child:parent.getComponents()) if(child.isVisible()) {
+            if(child instanceof javax.swing.JButton) buttons.add((javax.swing.JButton)child);
+            if(child instanceof Container) visibleButtons((Container)child,buttons);
+        }
     }
     @Test public void rapidTogglesDoNotCreateDuplicateSidebarButtons() throws Exception
     {
@@ -557,6 +608,7 @@ public class WindowMarkersTest
         when(p.itemManager.canonicalize(anyInt())).thenAnswer(call -> call.getArgument(0));
         Widget bank=mock(Widget.class);
         when(p.client.getGameState()).thenReturn(GameState.LOGGED_IN);
+        when(p.client.getWorldType()).thenReturn(java.util.EnumSet.of(net.runelite.api.WorldType.MEMBERS));
         when(p.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(bank);
         when(bank.getBounds()).thenReturn(new Rectangle(100,100,300,300));
         when(p.configs.getRSProfileKey()).thenReturn("account-a");

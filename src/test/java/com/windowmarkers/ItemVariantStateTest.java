@@ -6,6 +6,25 @@ import static org.junit.Assert.*;
 
 public class ItemVariantStateTest
 {
+    @Test public void retiredForestrySuppliesHaveDocumentedExclusionsRatherThanUnknownUses() {
+        int[] ids={28179,28181,28184,28190,28644,28646,28651,28653,28657,28659,28665,28667};
+        String[] names={"Leprechaun charm","Clover insignia","Bee on a stick","Powdered pollen","Smoker fuel","Smoker canister",
+            "Crystal charm","Petal circlet","Padded spoon","Egg cushion","Trap disarmer","Trap disarmer blueprint"};
+        for(int i=0;i<ids.length;i++) {
+            var retired=item(ids[i],names[i]);
+            assertEquals(names[i],"Unavailable item identity — review",ItemVariantState.reviewGroup(retired));
+            assertTrue(ItemVariantState.identityNeedsReview(retired));
+            assertFalse(ItemVariantState.canRepresentOwnedEquivalent(retired,item(-1,names[i])));
+        }
+    }
+    @Test public void puppyPlaceholderReferenceResolvesOnlyTheInventoryPetsRole() {
+        var puppy=item(34565,"Spaniel puppy");
+        assertFalse(ItemVariantState.identityNeedsReview(puppy));
+        assertEquals("Companion pets",WikiCatalogue.category(puppy,AutoCategories.Preset.COSMETICS));
+        assertNull(WikiCatalogue.category(puppy,AutoCategories.Preset.COMBAT_GROUPS));
+        assertFalse(selected(raid(puppy),34565));
+        assertFalse(WikiCatalogue.entries(item(34566,"Spaniel puppy")).stream().anyMatch(e -> e.group.equals("Companion pets")));
+    }
     @Test public void unavailableNamesakesCannotBecomeRaidGearOrOwnedEquivalents() {
         int[] ids={3147,4178,11696,20782,21060,30302,30303,30304,8280,8283};
         String[] names={"Cooked karambwan","Abyssal whip","Cosmic rune","Bandos godsword","Bandos godsword",

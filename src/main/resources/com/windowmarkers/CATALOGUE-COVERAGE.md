@@ -44,11 +44,19 @@ The 167 conditional fields were reviewed individually: 71 include additional lit
 
 Redirect targets now retain their specific versions (such as lantern fuel, cape trim, poison and doses). Explicit versions only gain reviewed cosmetic alternatives with the same version. Broad family choices retain depleted/broken forms as review items. Three additional ornament relations cover the holy Sanguinesti staff and holy/sanguine Scythes of Vitur: combat roles are shared, but charge state and Saradomin affiliation are separate. This brings reviewed cosmetic combat relations to 181, covering 254 exact IDs.
 
-Reef snake gland's function remains unverified. The 593 named cache entries without matched current literal Wiki identities also remain guarded; those are not 593 proven missing bankable items. Further guide interpretation, new source content and live account-specific readiness remain open work. This audit does not claim every possible item use or every preset's optimality is complete.
+Reef snake gland's function remains unverified. At the 26 October baseline, 593 named cache entries without matched current literal Wiki identities were guarded; those are not 593 proven missing bankable items. Further guide interpretation, new source content and live account-specific readiness remain open work. This audit does not claim every possible item use or every preset's optimality is complete.
+
+## Held-record follow-up — 27 October 2026
+
+All 594 baseline holds have a separate evidence entry, including copied cache properties, versioned RuneLite item symbols and current exact-title Wiki lookups. Two hundred have concrete dispositions: 180 exact interface/unobtainable identities, twelve removed Forestry objects, seven additional deferred pet-form references omitted from shipped resources, and one Spaniel puppy identity corrected through its reciprocal placeholder link. The remaining 394 still require exact identity/availability or functional evidence. They include 177 guide/display-purpose clues, 82 legacy alias/reuse clues, 63 mode/test-copy clues, 28 activity-specific clues, 43 individual availability cases and Reef snake gland's undocumented function. Symbol names alone are not proof, and none are silently promoted to usable equipment.
+
+The follow-up also searched the Wiki main namespace for each still-held numeric ID and inspected matching pages. Numeric matches to scenery, NPCs, sounds or unrelated templates are not item identity evidence. The held count describes an evidence limit, not a claim that 394 obtainable bank items are missing.
+
+This is progress on the remaining evidence queue, not completion of every possible item use. The follow-up records and sources are retained in `outputs/banking-held-records-2026-10-27` outside the shipped plugin.
 
 ## Identity exceptions and safe handling
 
-The cache contains 34,732 definitions, including notes, placeholders, interface icons, obsolete and internal entries. 593 named entries have no matching current literal Wiki identity even after exact-title article checks. They remain explicitly unverified, not declared unbankable. If encountered with that identity and name, they cannot become automatically selected raid gear or normal broad-category items merely by sharing a familiar name.
+The cache contains 34,732 definitions, including notes, placeholders, interface icons, obsolete and internal entries. At that baseline, 593 named entries lacked a matching current literal Wiki identity even after exact-title article checks. Unresolved records remain explicitly unverified, not declared unbankable. If encountered with that identity and name, they cannot become automatically selected raid gear or normal broad-category items merely by sharing a familiar name.
 
 All 4,331 earlier exact catalogue IDs were reconciled. 39 stale, unbankable or conflicting identities are prevented from regaining memberships through old name aliases. Other shared display names use exact-ID evidence. Notes/placeholders are not imported as ordinary identities. An interface-page ID typo cannot override a verified inventory identity.
 

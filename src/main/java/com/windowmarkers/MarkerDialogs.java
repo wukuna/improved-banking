@@ -13,15 +13,21 @@ final class MarkerDialogs
         return confirm(parent,chooser,title,700,540) ? chooser.getColor() : null;
     }
     static boolean confirm(Component parent,JComponent content,String title,int width,int height)
+    { return confirm(parent,content,title,width,height,"OK",()->true); }
+    static boolean confirm(Component parent,JComponent content,String title,int width,int height,String action,java.util.function.BooleanSupplier valid)
+    { return open(parent,content,title,width,height,action,valid,true); }
+    static void show(Component parent,JComponent content,String title,int width,int height)
+    { open(parent,content,title,width,height,"Close",()->true,false); }
+    private static boolean open(Component parent,JComponent content,String title,int width,int height,String action,java.util.function.BooleanSupplier valid,boolean cancellable)
     {
         Window owner=parent==null ? null : SwingUtilities.getWindowAncestor(parent);
         JDialog dialog=new JDialog(owner,title,Dialog.ModalityType.APPLICATION_MODAL);
         boolean[] accepted={false};
-        JButton ok=new JButton("OK"),cancel=new JButton("Cancel");
-        ok.addActionListener(e -> { accepted[0]=true; dialog.dispose(); });
+        JButton ok=new JButton(action),cancel=new JButton("Cancel");
+        ok.addActionListener(e -> { if(valid.getAsBoolean()) { accepted[0]=true; dialog.dispose(); } });
         cancel.addActionListener(e -> dialog.dispose());
         JPanel buttons=new JPanel(new FlowLayout(FlowLayout.RIGHT,8,0));
-        buttons.add(ok); buttons.add(cancel);
+        buttons.add(ok); if(cancellable) buttons.add(cancel);
         JScrollPane scroll=new JScrollPane(content,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         scroll.setMinimumSize(new Dimension(0,0));

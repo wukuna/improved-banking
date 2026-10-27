@@ -4,6 +4,18 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class SetupLoadoutTest {
+    @Test public void customViewDoesNotRestoreRemovedGearOrInventoryExamples() {
+        SetupLoadout original=catalogue().find("toa magic","364045:3","364045:9").loadout;
+        assertNotNull(original);
+        Set<Integer> allowed=new HashSet<>(Arrays.asList(4712,6685,3024));
+        SetupLoadout edited=original.retainItems(allowed);
+        assertTrue(original.equipment.get(0).contains(21018));
+        assertFalse(edited.equipment.containsKey(0));
+        assertTrue(edited.equipment.values().stream().allMatch(allowed::containsAll));
+        assertTrue(edited.inventory.values().stream().allMatch(allowed::contains));
+        assertTrue(edited.inventory.keySet().containsAll(edited.inventoryExample.keySet()));
+        assertTrue(original.inventoryExample.size()>=edited.inventoryExample.size());
+    }
     static ItemCatalogueIndex catalogue() {
         return new ItemCatalogueIndex(Arrays.asList(
             GeSearchIndexTest.item(21018,"Ancestral hat",0),GeSearchIndexTest.item(4708,"Ahrim's hood",0),

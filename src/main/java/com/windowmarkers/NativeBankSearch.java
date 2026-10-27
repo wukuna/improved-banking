@@ -94,13 +94,15 @@ final class NativeBankSearch
                     if(!running || token!=revision || !currentContext() || !searching() || !config.improvedBankSearch()
                         || !Objects.equals(guide,config.geGuideContext()==null?"":config.geGuideContext())
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
-                    matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;exactSupply=SupplySearch.parse(text)!=null;
+                    matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;exactSupply=SupplySearch.parse(text)!=null || BankCleanup.isQuery(text);
                     // A tab's own membership must not be expanded by category search.
                     if(tag!=null) matches.removeIf(id -> !tag.contains(id));
                     ranks=new HashMap<>(found.ranks); ranks.keySet().retainAll(matches);
                     highlight=null;
                     if(!matches.isEmpty()) {
                         highlight=new Marker(0,0,48,36); highlight.scrollWithItems=true;
+                        highlight.guideQuery=text;
+                        if(BankCleanup.isQuery(text)) BankCleanup.style(highlight);
                         highlight.linkedItemIds=matches.stream().mapToInt(Integer::intValue).toArray();
                     }
                     if(!matches.equals(previous) || slots!=previousSlots || (queryChanged && !matches.isEmpty())) bankSearch.layoutBank();
