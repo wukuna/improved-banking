@@ -46,7 +46,8 @@ final class GePlayerItems
             if(item.getId()<0 || item.getQuantity()<=0 || item.getId()==6512) continue;
             ItemComposition definition=itemManager.getItemComposition(item.getId());
             if(definition==null || definition.getPlaceholderTemplateId()!=-1) continue;
-            // Only unwrap banknotes. Generic variation/canonical maps also merge depleted states.
+            // Only unwrap banknotes here. Variation families can include depleted states;
+            // canonicalize also unwraps placeholders and worn variants, not usability.
             int id=definition.getNote()!=-1?definition.getLinkedNoteId():item.getId();
             if(id>=0) result.merge(id,item.getQuantity(),(a,b)->(int)Math.min(Integer.MAX_VALUE,(long)a+b));
         }
@@ -83,9 +84,9 @@ final class GePlayerItems
         ItemCatalogueIndex.Item owned(ItemCatalogueIndex.Item candidate)
         {
             for(ItemCatalogueIndex.Item item:items) if(item.id==candidate.id) return item;
-            // Equivalent equipment only: a broken/empty copy never proves a usable equivalent.
+            // Equivalent equipment only: readiness and retained benefits are directional.
             if(candidate.slot>=0) for(ItemCatalogueIndex.Item item:items)
-                if(item.slot==candidate.slot && !ItemVariantState.needsActivityReview(item.fact)
+                if(item.slot==candidate.slot && ItemVariantState.canRepresentOwnedEquivalent(item.fact,candidate.fact)
                     && ItemTaxonomy.baseName(CombatEquivalence.familyName(item.fact)).equals(ItemTaxonomy.baseName(CombatEquivalence.familyName(candidate.fact)))) return item;
             return null;
         }

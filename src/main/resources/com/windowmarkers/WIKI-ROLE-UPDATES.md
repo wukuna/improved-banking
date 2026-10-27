@@ -8,9 +8,22 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. These exact-ID additions supplement the
 - [Wyrmscraig boots, revision 15380555](https://oldschool.runescape.wiki/w/Wyrmscraig_boots?oldid=15380555): decorative clothing; no combat recommendation is inferred from the equipment slot.
 
 - [Blood money, revision 15380671](https://oldschool.runescape.wiki/w/Blood_money?oldid=15380671): retain currency membership and add the explicit Deadman restriction. Fairy tale quest lamp is explicitly unbankable and is not added.
-- [Ascension crossbows, revision 15381701](https://oldschool.runescape.wiki/w/Ascension_crossbows?oldid=15381701): add the now-explicit ranged/crossbow category.
-- [Obligator, revision 15381428](https://oldschool.runescape.wiki/w/Obligator?oldid=15381428): exact charged and uncharged IDs retain melee/crush organization; the existing state policy keeps charge requirements visible and prevents empty-state activity readiness.
 
 The refresh checked revisions and category membership for all 12,521 item pages in the prior inventory. An unchanged article revision alone does not prove unchanged categories, because templates can add or remove categories. New item and guide evidence is retained in the development audit at `outputs/banking-reliability-audit-2026-10-25`.
 
-Archive key's purpose is now documented, but its infobox explicitly says it cannot be banked, so it is not added to bank presets. The new Horn of Bran and elemental-fragment unlock categories agree with their existing explicit unlock roles. Deadman quest lamps remain restricted to their game mode. No bank data is uploaded and the plugin performs no runtime Wiki requests.
+## Unstrung bow correction — 26 October 2026
+
+Twelve unstrung wooden bows inherit broad weapon categories on the Wiki, but their item pages explicitly mark them as unequipable Fletching inputs. Exact-ID role exclusions remove the combat and weapon-equipment labels while retaining Fletching, recipes and the Vale Totems decoration examples. This does not apply to upgraded Iban’s staff or uncharged Wilderness weapons merely because their names also end in `(u)`. Bank and GE searches share the correction.
+
+- [Longbow (u)](https://oldschool.runescape.wiki/w/Longbow_%28u%29?oldid=15272110) — revision 15272110
+- [Magic longbow (u)](https://oldschool.runescape.wiki/w/Magic_longbow_%28u%29?oldid=15272120) — revision 15272120
+- [Magic shortbow (u)](https://oldschool.runescape.wiki/w/Magic_shortbow_%28u%29?oldid=15185211) — revision 15185211
+- [Maple longbow (u)](https://oldschool.runescape.wiki/w/Maple_longbow_%28u%29?oldid=15272118) — revision 15272118
+- [Maple shortbow (u)](https://oldschool.runescape.wiki/w/Maple_shortbow_%28u%29?oldid=15184137) — revision 15184137
+- [Oak longbow (u)](https://oldschool.runescape.wiki/w/Oak_longbow_%28u%29?oldid=15272112) — revision 15272112
+- [Oak shortbow (u)](https://oldschool.runescape.wiki/w/Oak_shortbow_%28u%29?oldid=15183291) — revision 15183291
+- [Shortbow (u)](https://oldschool.runescape.wiki/w/Shortbow_%28u%29?oldid=15184949) — revision 15184949
+- [Willow longbow (u)](https://oldschool.runescape.wiki/w/Willow_longbow_%28u%29?oldid=15272117) — revision 15272117
+- [Willow shortbow (u)](https://oldschool.runescape.wiki/w/Willow_shortbow_%28u%29?oldid=15185210) — revision 15185210
+- [Yew longbow (u)](https://oldschool.runescape.wiki/w/Yew_longbow_%28u%29?oldid=15272119) — revision 15272119
+- [Yew shortbow (u)](https://oldschool.runescape.wiki/w/Yew_shortbow_%28u%29?oldid=15184282) — revision 15184282

@@ -6,6 +6,35 @@ import static org.junit.Assert.*;
 
 public class GeSearchIndexTest
 {
+    @Test public void explicitlySelectedActivityIsNotBlockedByAnIdenticalItemName() {
+        for(boolean ge:new boolean[]{false,true}) {
+            ItemCatalogueIndex index=new ItemCatalogueIndex(Arrays.asList(item(6311,"Gout tuber",-1),item(975,"Machete",3)),ge);
+            assertNull(index.find("Gout tuber",""));
+            assertNotNull(index.find("Gout tuber","291214:1"));
+            assertTrue(index.find("Gout tuber","291214:1").activity);
+            assertNull(index.find("Gout tuber","41794:1"));
+        }
+    }
+
+    @Test public void refreshedGuideColumnsAgreeInBankAndGeWithoutPromotingMissingTopTier() {
+        List<ItemCatalogueIndex.Item> items=Arrays.asList(item(12817,"Elysian spirit shield",5),item(3839,"Damaged book",5),
+            item(22325,"Scythe of vitur",3),item(22486,"Scythe of vitur (uncharged)",3),item(26219,"Osmumten's fang",3),
+            item(26374,"Zaryte crossbow",3),item(11785,"Armadyl crossbow",3));
+        for(boolean ge:new boolean[]{false,true}) {
+            ItemCatalogueIndex index=new ItemCatalogueIndex(items,ge);
+            ItemCatalogueIndex.Result z=index.find("zalcano shield","227925:1");
+            assertEquals(2,z.ranks.get(12817).tier);
+            assertEquals(4,z.ranks.get(3839).tier);
+            ItemCatalogueIndex.Result melee=index.find("graardor weapon","41794:13");
+            assertEquals(1,melee.ranks.get(22325).tier);
+            assertEquals(0,melee.ranks.get(22486).tier);
+            assertEquals(2,melee.ranks.get(26219).tier);
+            ItemCatalogueIndex.Result ranged=index.find("graardor weapon","41794:15");
+            assertEquals(0,ranged.ranks.get(26374).tier);
+            assertEquals(0,ranged.ranks.get(11785).tier);
+        }
+    }
+
     static ItemCatalogueIndex.Item item(int id,String name,int slot)
     { return new ItemCatalogueIndex.Item(id,name,slot,new String[0]); }
     static ItemCatalogueIndex index()
@@ -15,6 +44,26 @@ public class GeSearchIndexTest
         item(11832,"Bandos chestplate",4),item(561,"Nature rune",-1))); }
     private Set<Integer> ids(ItemCatalogueIndex.Result result)
     { assertNotNull(result); Set<Integer> ids=new HashSet<>(); result.items.forEach(i->ids.add(i.id)); return ids; }
+
+    @Test public void unstrungBowsRemainFletchingInputsInBankAndGeNotCombatWeapons()
+    {
+        int[] unstrungIds={48,50,54,56,58,60,62,64,66,68,70,72};
+        String[] names={"Longbow (u)","Shortbow (u)","Oak shortbow (u)","Oak longbow (u)",
+            "Willow longbow (u)","Willow shortbow (u)","Maple longbow (u)","Maple shortbow (u)",
+            "Yew longbow (u)","Yew shortbow (u)","Magic longbow (u)","Magic shortbow (u)"};
+        List<ItemCatalogueIndex.Item> catalogue=new ArrayList<>();
+        for(int n=0;n<unstrungIds.length;n++) catalogue.add(item(unstrungIds[n],names[n],-1));
+        catalogue.add(item(859,"Magic longbow",3));
+        catalogue.add(item(12658,"Iban's staff (u)",3)); // Here (u) means upgraded, not unstrung.
+        for(boolean ge:new boolean[]{false,true}) {
+            ItemCatalogueIndex index=new ItemCatalogueIndex(catalogue,ge);
+            Set<Integer> combat=ids(index.find("general combat",""));
+            Set<Integer> fletching=ids(index.find("fletching",""));
+            assertTrue(combat.contains(859));assertTrue(combat.contains(12658));
+            for(int id:unstrungIds) { assertFalse("Unstrung ID "+id,combat.contains(id));assertTrue(fletching.contains(id)); }
+            assertTrue(ids(index.find("vale totems","")).contains(70));
+        }
+    }
 
     @Test public void activityAliasesAndSlotsCoverMoreThanToa()
     {

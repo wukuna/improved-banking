@@ -1593,9 +1593,3 @@
 34633	imbued ancient cape	AVAILABLE	false	
 34635	imbued ancient cape	REPAIR	true	repair required
 34637	imbued ancient cape	AVAILABLE	false	
-34715	obligator	AVAILABLE	false	
-34717	obligator	CHECK	true	uncharged weapon; verify attack functionality before activity use
-34722	archivist's folio	EMPTY	true	charge with ascension shards before teleporting
-34723	archivist's folio	AVAILABLE	false	
-34725	zorya's tome	AVAILABLE	false	
-34727	zorya's tome	CHARGE	true	charge required

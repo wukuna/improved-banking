@@ -53,4 +53,34 @@ public class GePlayerItemsTest
         assertEquals("c0c0c0",GeCatalogueSearch.priceColour(0,s));assertEquals("ff7777",GeCatalogueSearch.priceColour(1,s));
         assertEquals("3b",GeCatalogueSearch.compactPrice(3_000_000_000L));assertEquals("2.1t",GeCatalogueSearch.compactPrice(2_149_631_130_647L));
     }
+    @Test public void reducedEquipmentDoesNotProveOwnershipOfItsChargedBenefits() {
+        int[][] pairs={{1704,1712,2},{19550,20655,12},{25539,25541,12},{13244,13243,3},{23682,23680,3}};
+        String[][] names={{"Amulet of glory","Amulet of glory(4)"},{"Ring of suffering","Ring of suffering (r)"},
+            {"Celestial ring (uncharged)","Celestial ring"},{"Infernal pickaxe (uncharged)","Infernal pickaxe"},
+            {"Crystal pickaxe (inactive)","Crystal pickaxe"}};
+        for(int n=0;n<pairs.length;n++) {
+            var reduced=GeSearchIndexTest.item(pairs[n][0],names[n][0],pairs[n][2]);
+            var charged=GeSearchIndexTest.item(pairs[n][1],names[n][1],pairs[n][2]);
+            var owned=new GePlayerItems.Snapshot(true,Collections.singletonList(reduced),0,true);
+            assertSame("Exact ownership is still factual",reduced,owned.owned(reduced));
+            assertNull("Missing benefit: "+charged.name,owned.owned(charged));
+        }
+    }
+    @Test public void healthyCosmeticsAndPartialDurabilityStillCountAsUsableEquivalents() {
+        var partial=GeSearchIndexTest.item(4859,"Ahrim's hood 25",0);
+        var cosmetic=GeSearchIndexTest.item(24666,"Twisted ancestral robe top",4);
+        var owned=new GePlayerItems.Snapshot(true,Arrays.asList(partial,cosmetic),0,true);
+        assertSame(partial,owned.owned(GeSearchIndexTest.item(4708,"Ahrim's hood",0)));
+        assertSame(cosmetic,owned.owned(GeSearchIndexTest.item(21021,"Ancestral robe top",4)));
+        assertNull(new GePlayerItems.Snapshot(true,Collections.singletonList(
+            GeSearchIndexTest.item(4860,"Ahrim's hood 0",0)),0,true).owned(GeSearchIndexTest.item(4708,"Ahrim's hood",0)));
+    }
+    @Test public void ordinaryTridentDoesNotHideTheEnhancedCapacityPurchase() {
+        var basic=GeSearchIndexTest.item(12899,"Trident of the Swamp",3);
+        var enhanced=GeSearchIndexTest.item(22292,"Trident of the Swamp (e)",3);
+        var purchase=GeSearchIndexTest.item(22294,"Uncharged toxic trident (e)",3);
+        assertNull(new GePlayerItems.Snapshot(true,Collections.singletonList(basic),0,true).owned(purchase));
+        assertSame(enhanced,new GePlayerItems.Snapshot(true,Collections.singletonList(enhanced),0,true).owned(purchase));
+        assertSame(enhanced,new GePlayerItems.Snapshot(true,Collections.singletonList(enhanced),0,true).owned(basic));
+    }
 }

@@ -12,7 +12,7 @@ The other reviewed family variants remain distinct: teleport charge counts, lant
 
 Inactive crystal tools and uncharged infernal tools remain organizationally useful at their documented dragon tier, but do not inherit ranks for lost processing or gathering bonuses. The reviewed exceptions are the infernal axe's Wintertodt role and pickaxes in the CoX Guardians source tables, where the documented charge-dependent processing/gathering effect is irrelevant. The original guide conditions still apply.
 
-Uncharged celestial rings/signets retain the Mining boost but do not inherit charged Mining recommendations; the celestial signet can retain its separate crystal-tool charge-saving role at Tempoross. Uncharged suffering rings do not establish recoil availability at Zulrah. Uncharged glories do not establish the gem-mining boost. Empty horns of plenty do not establish double catches. These cases stay searchable with neutral guide ranks and explicit state notes.
+Uncharged celestial rings/signets retain the Mining boost but do not inherit charged Mining recommendations; the celestial signet can retain its separate crystal-tool charge-saving role at Tempoross. Uncharged suffering rings do not establish recoil availability at Zulrah or Kalphite Queen. Uncharged glories do not establish the gem-mining boost. Empty horns of plenty do not establish double catches. These cases stay searchable with neutral guide ranks and explicit state notes.
 
 Damaged god books retain their expressly listed Prayer role; they do not acquire completed-book combat bonuses. An uncharged Ring of shadows retains its combat stats, not teleports. Those legitimate recommendations are not removed merely because the name contains damaged or uncharged.
 

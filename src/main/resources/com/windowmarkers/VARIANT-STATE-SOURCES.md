@@ -526,14 +526,11 @@ Broad organization retains depleted items. Activity suggestions put broken, unus
 - [Broken armour](https://oldschool.runescape.wiki/w/Special:Redirect/page/65866?oldid=15221226) — revision 15221226
 - [Gem satchel](https://oldschool.runescape.wiki/w/Special:Redirect/page/658831?oldid=15357197) — revision 15357197
 - [Fire max cape](https://oldschool.runescape.wiki/w/Special:Redirect/page/67032?oldid=15300375) — revision 15300375
-- [Obligator](https://oldschool.runescape.wiki/w/Special:Redirect/page/672067?oldid=15379822) — revision 15379822
 - [Broken shield](https://oldschool.runescape.wiki/w/Special:Redirect/page/67260?oldid=15221167) — revision 15221167
 - [Vial of tears](https://oldschool.runescape.wiki/w/Special:Redirect/page/67545?oldid=15187166) — revision 15187166
-- [Zorya's tome](https://oldschool.runescape.wiki/w/Special:Redirect/page/679256?oldid=15379800) — revision 15379800
 - [Crystal halberd (i)](https://oldschool.runescape.wiki/w/Special:Redirect/page/68334?oldid=15211397) — revision 15211397
 - [Xeric's talisman](https://oldschool.runescape.wiki/w/Special:Redirect/page/68389?oldid=15367913) — revision 15367913
 - [Gricoller's can](https://oldschool.runescape.wiki/w/Special:Redirect/page/68470?oldid=15359226) — revision 15359226
-- [Archivist's folio](https://oldschool.runescape.wiki/w/Special:Redirect/page/692231?oldid=15379434) — revision 15379434
 - [Imbued ancient cape](https://oldschool.runescape.wiki/w/Special:Redirect/page/692406?oldid=15371842) — revision 15371842
 - [Imbued ancient max cape](https://oldschool.runescape.wiki/w/Special:Redirect/page/692415?oldid=15368152) — revision 15368152
 - [Seed box](https://oldschool.runescape.wiki/w/Special:Redirect/page/70561?oldid=15366103) — revision 15366103
@@ -575,3 +572,7 @@ Broad organization retains depleted items. Activity suggestions put broken, unus
 - [Black defender](https://oldschool.runescape.wiki/w/Special:Redirect/page/9997?oldid=15353909) — revision 15353909
 
 The 2026-10-25 inventory review separates a retained passive effect from a teleport requirement. `setup-item-requirements.tsv` pins the individual guide revisions: Giant Mole's Ring of wealth and the Ring of shadows inventory uses require charges. Combat-stat and Calvar'ion clue-switch uses stay available. The [cowbell amulet](https://oldschool.runescape.wiki/w/Cowbell_amulet?oldid=15358637) retains its Brutus respawn Ring action without teleport charges. Degraded essence pouches retain reduced capacity rather than being treated as wholly unusable.
+
+The 2026-10-26 follow-up verifies [Kalphite Queen recoil use](https://oldschool.runescape.wiki/w/Kalphite_Queen/Strategies?oldid=15369627) and [Duke crystal-tool gathering](https://oldschool.runescape.wiki/w/Duke_Sucellus/Strategies?oldid=15381755). Exact role requirements keep depleted equipment out of those inventory slots without removing retained defensive or dragon-tier tool functions. Ownership equivalence does not add the missing charge-dependent benefit; enhanced trident capacity remains a separate feature despite equal combat stats.
+
+The uncharged Ring of shadows has the exact cache name `Ring of shadows (uncharged)`. All eight teleport inventory requirements now use that identity/name pair, so the readiness guard actually applies. Its retained combat stats remain available outside those teleport slots.

@@ -199,7 +199,12 @@ final class ItemCatalogueIndex
         SupplySearch.Query supply=SupplySearch.parse(raw);
         if(supply!=null) return SupplySearch.find(supply,items.values(),hitpoints);
         String query=normalize(raw);
-        if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query)) return null;
+        ActivitySetups.Setup chosen=setups.stream().filter(s->s.id.equals(context)).findFirst().orElse(null);
+        // Explicit guide selection disambiguates activities that are also item
+        // names (for example Gout tuber or a boss pet). Ordinary item searches
+        // still pass through when no matching guide has been selected.
+        boolean selectedActivity=chosen!=null && mentionsActivity(query,chosen.activity,false);
+        if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query) && !selectedActivity) return null;
         SearchQuery qualifiers=SearchQuery.parse(raw);
         query=normalize(qualifiers.text);
         int wantedSlot=-1;
@@ -221,7 +226,6 @@ final class ItemCatalogueIndex
         }
         Set<Integer> found=new HashSet<>();
         List<ActivitySetups.Setup> matched=new ArrayList<>();
-        ActivitySetups.Setup chosen=setups.stream().filter(s->s.id.equals(context)).findFirst().orElse(null);
         boolean useContext=chosen!=null && mentionsActivity(terms,chosen.activity,fuzzy);
         boolean recognized=terms.isEmpty() && wantedSlot>=0;
         if(recognized) found.addAll(items.keySet());

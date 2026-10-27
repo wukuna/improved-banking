@@ -16,6 +16,7 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.bank.BankSearch;
+import net.runelite.client.plugins.banktags.BankTag;
 import net.runelite.client.plugins.banktags.BankTagsService;
 
 /** Adds only owned search UI and optional matches; native/tag restrictions remain authoritative. */
@@ -36,6 +37,8 @@ final class NativeBankSearch
     private Set<Integer> matches=Collections.emptySet();
     private Map<Integer,ItemCatalogueIndex.Rank> ranks=Collections.emptyMap();
     private String guideContext="", inventoryContext="";
+    private String tagName;
+    private BankTag tag;
     private SetupLoadout loadout;
     private Marker highlight;
     private boolean slots;
@@ -47,7 +50,7 @@ final class NativeBankSearch
 
     void start() { running=true; }
     void stop() { boolean restore=searching(); running=false; reset(); if(restore) bankSearch.layoutBank(); }
-    void reset() { context++; revision++; query=null; index=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; exactSupply=false; loadout=null; clearWidget(); }
+    void reset() { context++; revision++; query=null; index=null; tagName=null;tag=null;matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; exactSupply=false; loadout=null; clearWidget(); }
     void index(BankSearchIndex next)
     { final long owner=context; clientThread.invokeLater(() -> { if(running && owner==context) { index=next; update(true); } }); }
     boolean searching()
@@ -69,11 +72,13 @@ final class NativeBankSearch
         String nextContext=config.geGuideContext()==null?"":config.geGuideContext();
         String nextInventory=config.bankInventoryContext()==null?"":config.bankInventoryContext();
         int nextHitpoints=client.getRealSkillLevel(net.runelite.api.Skill.HITPOINTS);
+        String nextTagName=bankTags.getActiveTag();BankTag nextTag=bankTags.getActiveBankTag();
         boolean queryChanged=!Objects.equals(query,next) || !Objects.equals(guideContext,nextContext) || !Objects.equals(inventoryContext,nextInventory)
-            || hitpoints!=nextHitpoints;
+            || hitpoints!=nextHitpoints || !Objects.equals(tagName,nextTagName) || tag!=nextTag;
         if(!queryChanged && !indexChanged) return;
         Set<Integer> previous=new HashSet<>(matches); boolean previousSlots=slots;
         query=next; guideContext=nextContext; inventoryContext=nextInventory; hitpoints=nextHitpoints;exactSupply=false;
+        tagName=nextTagName;tag=nextTag;
         if(queryChanged) { matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
         final long token=++revision;
         final BankSearchIndex snapshot=index; final String text=next,guide=nextContext,inventory=nextInventory;
@@ -86,12 +91,12 @@ final class NativeBankSearch
             protected void done() { try {
                 final BankSearchIndex.Match found=get();
                 clientThread.invokeLater(() -> {
-                    if(!running || token!=revision || !currentGuide() || !searching() || !config.improvedBankSearch()
+                    if(!running || token!=revision || !currentContext() || !searching() || !config.improvedBankSearch()
                         || !Objects.equals(guide,config.geGuideContext()==null?"":config.geGuideContext())
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
                     matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;exactSupply=SupplySearch.parse(text)!=null;
                     // A tab's own membership must not be expanded by category search.
-                    if(bankTags.getActiveBankTag()!=null) matches.removeIf(id -> !bankTags.getActiveBankTag().contains(id));
+                    if(tag!=null) matches.removeIf(id -> !tag.contains(id));
                     ranks=new HashMap<>(found.ranks); ranks.keySet().retainAll(matches);
                     highlight=null;
                     if(!matches.isEmpty()) {
@@ -112,7 +117,7 @@ final class NativeBankSearch
     }
     void filter(ScriptCallbackEvent event)
     {
-        if(!"bankSearchFilter".equals(event.getEventName()) || !searching() || !config.improvedBankSearch() || !currentGuide()) return;
+        if(!"bankSearchFilter".equals(event.getEventName()) || !searching() || !config.improvedBankSearch() || !currentContext()) return;
         int size=client.getIntStackSize(),strings=client.getObjectStackSize();
         if(size<2 || strings<1) return;
         Object raw=client.getObjectStack()[strings-1];
@@ -122,16 +127,18 @@ final class NativeBankSearch
         if(exactSupply) client.getIntStack()[size-2]=matches.contains(itemManager.canonicalize(id))?1:0;
         else if(matches.contains(itemManager.canonicalize(id))) client.getIntStack()[size-2]=1;
     }
-    private boolean currentGuide() { return Objects.equals(guideContext,config.geGuideContext()==null?"":config.geGuideContext()) && Objects.equals(inventoryContext,config.bankInventoryContext()==null?"":config.bankInventoryContext()); }
+    private boolean currentContext() { return Objects.equals(guideContext,config.geGuideContext()==null?"":config.geGuideContext())
+        && Objects.equals(inventoryContext,config.bankInventoryContext()==null?"":config.bankInventoryContext())
+        && Objects.equals(tagName,bankTags.getActiveTag()) && tag==bankTags.getActiveBankTag(); }
     SetupLoadout loadout() { return groupBySlot()?loadout:null; }
-    Marker highlight() { return searching() && config.improvedBankSearch() && currentGuide()
+    Marker highlight() { return searching() && config.improvedBankSearch() && currentContext()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?highlight:null; }
     void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
     Map<Integer,ItemCatalogueIndex.Rank> ranks() { return highlight()==null?Collections.emptyMap():Collections.unmodifiableMap(ranks); }
-    boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentGuide() && slots && !matches.isEmpty()
+    boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentContext() && slots && !matches.isEmpty()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
     String query() { return query; }
-    Set<Integer> matches() { return searching() && config.improvedBankSearch() && currentGuide()
+    Set<Integer> matches() { return searching() && config.improvedBankSearch() && currentContext()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?new HashSet<>(matches):Collections.emptySet(); }
     private void updateCheckbox()
     {

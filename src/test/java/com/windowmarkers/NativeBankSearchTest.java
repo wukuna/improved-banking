@@ -68,7 +68,7 @@ public class NativeBankSearchTest
         NativeBankSearch search=ready(); filter(search); assertEquals(1,search.client.getIntStack()[0]);
         search.client.getIntStack()[0]=0; BankTag tag=mock(BankTag.class); when(search.bankTags.getActiveBankTag()).thenReturn(tag);
         filter(search); assertEquals(0,search.client.getIntStack()[0]);
-        when(tag.contains(5331)).thenReturn(true); filter(search); assertEquals(1,search.client.getIntStack()[0]);
+        set(search,"tag",tag);when(tag.contains(5331)).thenReturn(true); filter(search); assertEquals(1,search.client.getIntStack()[0]);
         when(search.client.getIntStack()).thenReturn(new int[]{1,385}); filter(search); assertEquals(1,search.client.getIntStack()[0]);
     }
     @Test public void completedSupplyFilterRejectsNativeNamesOutsideThePurposeAndResetClearsIt() throws Exception {
@@ -171,6 +171,38 @@ public class NativeBankSearchTest
         verify(search.bankSearch,after(200).never()).layoutBank();
     }
 
+    @Test public void switchingTagWithTheSameQueryRecomputesMembership() throws Exception {
+        NativeBankSearch search=ready();search.bankSearch=mock(BankSearch.class);search.clientThread=mock(ClientThread.class);
+        var queued=new java.util.concurrent.LinkedBlockingQueue<Runnable>();
+        doAnswer(call -> {queued.add(call.getArgument(0));return null;}).when(search.clientThread).invokeLater(any(Runnable.class));
+        BankSearchIndex index=new BankSearchIndex(Arrays.asList(
+            new AutoCategories.Item(5331,"Watering can",false,null,0,0,0),
+            new AutoCategories.Item(5341,"Rake",false,null,0,0,0)),Collections.emptyList(),new CustomPresets());
+        assertEquals(new HashSet<>(Arrays.asList(5331,5341)),index.find("farming"));
+        set(search,"index",index);set(search,"query",null);
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        BankTag first=id -> id==5331,second=id -> id==5341;
+        when(search.bankTags.getActiveTag()).thenReturn("first");when(search.bankTags.getActiveBankTag()).thenReturn(first);
+        search.update();runQueued(queued);assertEquals(Collections.singleton(5331),search.matches());
+        when(search.bankTags.getActiveTag()).thenReturn("second");when(search.bankTags.getActiveBankTag()).thenReturn(second);
+        assertTrue("Previous tag's results must disappear immediately",search.matches().isEmpty());
+        search.update();runQueued(queued);assertEquals(Collections.singleton(5341),search.matches());
+    }
+    @Test public void delayedCompletionCannotApplyToADifferentTag() throws Exception {
+        NativeBankSearch search=ready();search.bankSearch=mock(BankSearch.class);search.clientThread=mock(ClientThread.class);
+        var queued=new java.util.concurrent.LinkedBlockingQueue<Runnable>();
+        doAnswer(call -> {queued.add(call.getArgument(0));return null;}).when(search.clientThread).invokeLater(any(Runnable.class));
+        set(search,"index",new BankSearchIndex(Collections.singletonList(new AutoCategories.Item(5331,"Watering can",false,null,0,0,0)),Collections.emptyList(),new CustomPresets()));
+        set(search,"query",null);when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        when(search.bankTags.getActiveTag()).thenReturn("first");when(search.bankTags.getActiveBankTag()).thenReturn(id -> true);
+        search.update();
+        Runnable pending=queued.poll(10,java.util.concurrent.TimeUnit.SECONDS);assertNotNull(pending);
+        when(search.bankTags.getActiveTag()).thenReturn("second");
+        pending.run();assertTrue(search.matches().isEmpty());verifyNoInteractions(search.bankSearch);
+    }
+    private static void runQueued(java.util.concurrent.BlockingQueue<Runnable> queued) throws Exception {
+        Runnable pending=queued.poll(10,java.util.concurrent.TimeUnit.SECONDS);assertNotNull("Search must complete",pending);pending.run();
+    }
     @Test public void failedRefreshDropsOldOptionalResultsAndRestoresNativeSearch() throws Exception {
         NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
         search.clientThread=mock(ClientThread.class);

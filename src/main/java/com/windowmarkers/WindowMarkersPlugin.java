@@ -391,8 +391,16 @@ public class WindowMarkersPlugin extends Plugin
     private synchronized void captureBank()
     {
         if(!active || bankCapture==null || bank==null) { return; }
-        boolean saved=bankCapture.save(new ArrayList<>(markers));
-        setStatus(saved ? "Saved to RuneLite screenshots / bank-markers." : "Open a populated bank tab to capture.");
+        final String owner=accountKey,layout=layoutKey;final long started=lifecycle;
+        boolean queued=bankCapture.save(new ArrayList<>(markers),() -> {
+            synchronized(WindowMarkersPlugin.this) { return started==lifecycle && context(owner,layout); }
+        },saved -> {
+            synchronized(WindowMarkersPlugin.this) {
+                if(started==lifecycle && context(owner,layout))
+                    setStatus(saved?"Saved to RuneLite screenshots / bank-markers.":"Screenshot failed: item images could not load. Try again.");
+            }
+        });
+        setStatus(queued ? "Preparing bank screenshot…" : "Open a populated bank tab; wait for any pending screenshot.");
     }
 
     private void editBankLayout()
@@ -912,6 +920,7 @@ public class WindowMarkersPlugin extends Plugin
         // arrive there. Confine all game-widget and Bank Tags cleanup to client.
         if(clientThread!=null) clientThread.invoke(() -> {
             synchronized(WindowMarkersPlugin.this) {
+                if(bankCapture!=null) bankCapture.cancel();
                 if(nativeSearch!=null) {
                     if(stopping) nativeSearch.stop();
                     else { nativeSearch.reset(); nativeSearch.start(); }

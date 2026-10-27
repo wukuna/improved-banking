@@ -68,8 +68,12 @@ public class BankLayoutTest
         when(grid.getDynamicChildren()).thenReturn(new Widget[]{a,b});when(grid.getWidth()).thenReturn(478);
         when(a.getItemId()).thenReturn(100);when(b.getItemId()).thenReturn(101);when(b.getRelativeY()).thenReturn(1000);
         when(c.items.getItemComposition(anyInt())).thenReturn(mock(ItemComposition.class));
-        when(c.items.getImage(anyInt(),anyInt(),eq(true))).thenReturn(new net.runelite.client.util.AsyncBufferedImage(mock(ClientThread.class),36,32,BufferedImage.TYPE_INT_ARGB));
-        assertTrue(c.save(Collections.emptyList()));
+        c.clientThread=mock(ClientThread.class);
+        net.runelite.client.util.AsyncBufferedImage icon=new net.runelite.client.util.AsyncBufferedImage(c.clientThread,36,32,BufferedImage.TYPE_INT_ARGB);
+        when(c.items.getImage(anyInt(),anyInt(),eq(true))).thenReturn(icon);
+        assertTrue(c.save(Collections.emptyList(),() -> true,saved -> assertTrue(saved)));
+        icon.loaded();ArgumentCaptor<java.util.function.BooleanSupplier> task=ArgumentCaptor.forClass(java.util.function.BooleanSupplier.class);
+        verify(c.clientThread).invokeLater(task.capture());assertTrue(task.getValue().getAsBoolean());
         ArgumentCaptor<BufferedImage> image=ArgumentCaptor.forClass(BufferedImage.class);
         verify(c.capture).saveScreenshot(image.capture(),eq("bank"),eq("bank-markers"),eq(true),eq(false));assertTrue(image.getValue().getHeight()>1000);
         verify(grid,never()).setScrollY(anyInt());verify(b,never()).setOriginalY(anyInt());
@@ -78,7 +82,7 @@ public class BankLayoutTest
     { assertFalse(BankCapture.reasonableSize(4096,30000));assertFalse(BankCapture.reasonableSize(0,200));assertTrue(BankCapture.reasonableSize(1000,6000)); }
     @Test public void slotSearchDoesNotOverrideDisabledOptionOrAnotherTagsLayout() throws Exception {
         BankLayoutController c=controller(); c.bankTagsService=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
-        c.nativeSearch=new NativeBankSearch(); c.nativeSearch.client=c.client; c.nativeSearch.config=c.config;
+        c.nativeSearch=new NativeBankSearch(); c.nativeSearch.client=c.client; c.nativeSearch.config=c.config;c.nativeSearch.bankTags=c.bankTagsService;
         when(c.client.getGameState()).thenReturn(GameState.LOGGED_IN);
         when(c.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
         when(c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(11);

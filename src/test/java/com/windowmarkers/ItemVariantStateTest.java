@@ -6,6 +6,27 @@ import static org.junit.Assert.*;
 
 public class ItemVariantStateTest
 {
+    @Test public void unavailableNamesakesCannotBecomeRaidGearOrOwnedEquivalents() {
+        int[] ids={3147,4178,11696,20782,21060,30302,30303,30304,8280,8283};
+        String[] names={"Cooked karambwan","Abyssal whip","Cosmic rune","Bandos godsword","Bandos godsword",
+            "Torva full helm","Torva platebody","Torva platelegs","Excalibur","Amulet of glory"};
+        for(int i=0;i<ids.length;i++) {
+            AutoCategories.Item copy=item(ids[i],names[i]);
+            assertTrue(names[i],ItemVariantState.identityNeedsReview(copy));
+            assertEquals("Unavailable item identity — review",ItemVariantState.reviewGroup(copy));
+            for(AutoCategories.Preset preset:new AutoCategories.Preset[]{AutoCategories.Preset.CHAMBERS_OF_XERIC,
+                AutoCategories.Preset.THEATRE_OF_BLOOD,AutoCategories.Preset.TOMBS_OF_AMASCUT})
+                assertFalse(names[i],selected(AutoCategories.suggest(preset,Collections.singletonList(copy)),ids[i]));
+            assertFalse(ItemVariantState.canRepresentOwnedEquivalent(copy,item(-1,names[i])));
+        }
+        for(AutoCategories.Item real:Arrays.asList(item(3144,"Cooked karambwan"),item(4151,"Abyssal whip"),
+            item(564,"Cosmic rune"),item(11804,"Bandos godsword"),item(26382,"Torva full helm"),
+            item(35,"Excalibur"),item(1704,"Amulet of glory")))
+            assertFalse(real.name,ItemVariantState.identityNeedsReview(real));
+        // An ID reused for a different identity must not silently inherit this guard.
+        assertFalse(ItemVariantState.identityNeedsReview(item(8283,"Different future item")));
+    }
+
     @Test public void unverifiedCacheNamesDoNotAcquireHealthyCrystalOrBarrowsRoles() {
         int[] ids={4211,16888,16889,16890,16891,16892,16893,28651,34609};
         String[] names={"Elf crystal","New crystal bow","New crystal bow (i)","New crystal shield","New crystal shield (i)",

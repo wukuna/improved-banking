@@ -2,7 +2,7 @@
 
 OSRS Wiki contributors, CC BY-NC-SA 3.0. Derived data reviewed 2026-10-25.
 
-The GE index shares the bundled item categories and the 858 activity setups for 105 activities documented in [ACTIVITY-SETUP-SOURCES.md](ACTIVITY-SETUP-SOURCES.md). Only identities reported GE-tradeable by the running client are exposed as purchase results. Notes, placeholders and unavailable variants are excluded. Purchasable alternatives use the explicit, source-backed links below; the index does not guess replacements from similar names or transfer an untradeable item's effects to a tradeable base item.
+The GE index shares the bundled item categories and the 855 activity setups for 105 activities documented in [ACTIVITY-SETUP-SOURCES.md](ACTIVITY-SETUP-SOURCES.md). Only identities reported GE-tradeable by the running client are exposed as purchase results. Notes, placeholders and unavailable variants are excluded. Purchasable alternatives use the explicit, source-backed links below; the index does not guess replacements from similar names or transfer an untradeable item's effects to a tradeable base item.
 
 `activity-setup-ranks.tsv` preserves the equipment slot and numbered column of the same revision-bound fields resolved by the activity compiler. Its 48,547 rows cover 321 recommended-equipment tables in 97 activities. Example inventories, example equipment and ordinary category membership do not supply ranks. Fields beginning with “None”, “N/A” or “No offhand” describe an empty slot; items linked in those conditions are not ranked as equipment for that slot.
 

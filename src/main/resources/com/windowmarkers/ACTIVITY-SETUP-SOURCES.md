@@ -2,7 +2,7 @@
 
 Inventory pairing, repeated positions, unbankable previews and raid room group provenance are documented in [INVENTORY-LAYOUT-SOURCES.md](INVENTORY-LAYOUT-SOURCES.md).
 
-OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices. The remaining 167 conditional fields were individually reviewed against revision-bound raw text: ordinary linked alternatives, named footnotes, skill requirements and the Vale Totems offering variable are preserved. Links to a required weapon, spell, ammunition or set remain conditions rather than being silently classified as another item in that slot. Cross-references between guide sections remain explicit player choices. The directed functional/cosmetic additions and reduced-state guide rules are documented in [FUNCTIONAL-VARIANT-SOURCES.md](FUNCTIONAL-VARIANT-SOURCES.md).
+OSRS Wiki contributors, CC BY-NC-SA 3.0. Source freshness rechecked 2026-10-26; six changed guides reviewed against their new pinned revisions. Each choice preserves one equipment table, example inventory, or rune pouch from a pinned guide revision. Items are resolved through public Wiki redirects and exact cache-checked identities. Quantity, quest completion, charge amounts, active invocations, ammunition compatibility and complete set ownership are not inferred. All setup groups start unchecked for explicit review. Conditional notes and unresolved group references remain visible; unknown references are not replaced with broad guesses. These setups do not participate in lower-tier filtering. Combat-only cape and ornament relations do not apply to skilling guides. Cheap-food and cheap-prayer templates are expanded to their explicit alternative lists, without choosing by live prices. The remaining 167 conditional fields were individually reviewed against revision-bound raw text: ordinary linked alternatives, named footnotes, skill requirements and the Vale Totems offering variable are preserved. Links to a required weapon, spell, ammunition or set remain conditions rather than being silently classified as another item in that slot. Cross-references between guide sections remain explicit player choices. The directed functional/cosmetic additions and reduced-state guide rules are documented in [FUNCTIONAL-VARIANT-SOURCES.md](FUNCTIONAL-VARIANT-SOURCES.md).
 
 - [Abyss/Strategies](https://oldschool.runescape.wiki/w/Abyss/Strategies?oldid=15371537)
 - [Abyssal Sire/Strategies](https://oldschool.runescape.wiki/w/Abyssal_Sire/Strategies?oldid=15366976)
@@ -31,7 +31,7 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Chest (Rogues' Castle)/Strategies](https://oldschool.runescape.wiki/w/Chest_(Rogues'_Castle)/Strategies?oldid=15375914)
 - [Chompy bird hunting/Strategy](https://oldschool.runescape.wiki/w/Chompy_bird_hunting/Strategy?oldid=15355005)
 - [Commander Zilyana/Strategies](https://oldschool.runescape.wiki/w/Commander_Zilyana/Strategies?oldid=15379480)
-- [Corporeal Beast/Strategies](https://oldschool.runescape.wiki/w/Corporeal_Beast/Strategies?oldid=15373688)
+- [Corporeal Beast/Strategies](https://oldschool.runescape.wiki/w/Corporeal_Beast/Strategies?oldid=15383106)
 - [Crazy archaeologist/Strategies](https://oldschool.runescape.wiki/w/Crazy_archaeologist/Strategies?oldid=15318138)
 - [Dagannoth Kings/Strategies](https://oldschool.runescape.wiki/w/Dagannoth_Kings/Strategies?oldid=15381135)
 - [Demonic gorilla/Strategies](https://oldschool.runescape.wiki/w/Demonic_gorilla/Strategies?oldid=15354866)
@@ -42,7 +42,7 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Fortis Colosseum/Strategies](https://oldschool.runescape.wiki/w/Fortis_Colosseum/Strategies?oldid=15373280)
 - [Fossil Island Wyverns/Strategies](https://oldschool.runescape.wiki/w/Fossil_Island_Wyverns/Strategies?oldid=15354860)
 - [Frost dragon/Strategies](https://oldschool.runescape.wiki/w/Frost_dragon/Strategies?oldid=15372322)
-- [General Graardor/Strategies](https://oldschool.runescape.wiki/w/General_Graardor/Strategies?oldid=15353024)
+- [General Graardor/Strategies](https://oldschool.runescape.wiki/w/General_Graardor/Strategies?oldid=15382981)
 - [Giant Mole/Strategies](https://oldschool.runescape.wiki/w/Giant_Mole/Strategies?oldid=15361945)
 - [Giants' Foundry/Strategies](https://oldschool.runescape.wiki/w/Giants'_Foundry/Strategies?oldid=15348854)
 - [Gout tuber/Strategies](https://oldschool.runescape.wiki/w/Gout_tuber/Strategies?oldid=15302543)
@@ -78,7 +78,7 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Scorpia/Strategies](https://oldschool.runescape.wiki/w/Scorpia/Strategies?oldid=15317574)
 - [Shades of Mort'ton (minigame)/Strategies](https://oldschool.runescape.wiki/w/Shades_of_Mort'ton_(minigame)/Strategies?oldid=15368066)
 - [Shellbane gryphon/Strategies](https://oldschool.runescape.wiki/w/Shellbane_gryphon/Strategies?oldid=15380590)
-- [Skeletal Wyvern/Strategies](https://oldschool.runescape.wiki/w/Skeletal_Wyvern/Strategies?oldid=15370340)
+- [Skeletal Wyvern/Strategies](https://oldschool.runescape.wiki/w/Skeletal_Wyvern/Strategies?oldid=15382421)
 - [Skotizo/Strategies](https://oldschool.runescape.wiki/w/Skotizo/Strategies?oldid=15372838)
 - [Slayer task/Dark beast](https://oldschool.runescape.wiki/w/Slayer_task/Dark_beast?oldid=15357079)
 - [Slayer task/Drakes](https://oldschool.runescape.wiki/w/Slayer_task/Drakes?oldid=15369249)
@@ -94,7 +94,7 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [The Nightmare/Strategies](https://oldschool.runescape.wiki/w/The_Nightmare/Strategies?oldid=15379504)
 - [The Whisperer/Strategies](https://oldschool.runescape.wiki/w/The_Whisperer/Strategies?oldid=15381570)
 - [Theatre of Blood/Strategies](https://oldschool.runescape.wiki/w/Theatre_of_Blood/Strategies?oldid=15372089)
-- [Thermonuclear smoke devil/Strategies](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil/Strategies?oldid=15354870)
+- [Thermonuclear smoke devil/Strategies](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil/Strategies?oldid=15383173)
 - [Tithe Farm/Strategies](https://oldschool.runescape.wiki/w/Tithe_Farm/Strategies?oldid=15360267)
 - [Tombs of Amascut/Strategies](https://oldschool.runescape.wiki/w/Tombs_of_Amascut/Strategies?oldid=15373676)
 - [Tormented Demon/Strategies](https://oldschool.runescape.wiki/w/Tormented_Demon/Strategies?oldid=15372901)
@@ -106,8 +106,8 @@ OSRS Wiki contributors, CC BY-NC-SA 3.0. Reviewed 2026-10-25. Each choice preser
 - [Vet'ion/Strategies](https://oldschool.runescape.wiki/w/Vet'ion/Strategies?oldid=15313276)
 - [Vorkath/Strategies](https://oldschool.runescape.wiki/w/Vorkath/Strategies?oldid=15368595)
 - [Vyrewatch Sentinel/Strategies](https://oldschool.runescape.wiki/w/Vyrewatch_Sentinel/Strategies?oldid=15373607)
-- [Wintertodt/Strategies](https://oldschool.runescape.wiki/w/Wintertodt/Strategies?oldid=15358528)
-- [Zalcano/Strategies](https://oldschool.runescape.wiki/w/Zalcano/Strategies?oldid=15343394)
+- [Wintertodt/Strategies](https://oldschool.runescape.wiki/w/Wintertodt/Strategies?oldid=15382910)
+- [Zalcano/Strategies](https://oldschool.runescape.wiki/w/Zalcano/Strategies?oldid=15382731)
 - [Zulrah/Strategies](https://oldschool.runescape.wiki/w/Zulrah/Strategies?oldid=15356843)
 
 ## Reviewed group references
@@ -194,9 +194,9 @@ Sources: [1](https://oldschool.runescape.wiki/w/Barrows_equipment?oldid=15365992
 
 ### crossbows-akkha
 
-The guide gives a generic crossbow alternative for Akkha alongside a separate magic weapon. These crossbows are not equally effective or interchangeable with the same ammunition: bolt racks, antler bolts, Ascension bolts and metal bolts have different weapon requirements. No best-owned ranking is inferred.
+The guide gives a generic crossbow alternative for Akkha alongside a separate magic weapon. These crossbows are not equally effective or interchangeable with the same ammunition: bolt racks, antler bolts and metal bolts have different weapon requirements. No best-owned ranking is inferred.
 
-Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Armadyl crossbow, Ascension crossbows, Zaryte crossbow.
+Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Armadyl crossbow, Zaryte crossbow.
 
 Sources: [1](https://oldschool.runescape.wiki/w/Crossbow_(weapon)?oldid=15377841).
 
@@ -204,7 +204,7 @@ Sources: [1](https://oldschool.runescape.wiki/w/Crossbow_(weapon)?oldid=15377841
 
 Grapple-capable crossbows only; the guide explicitly excludes Armadyl. Equip the appropriate grapple. Zaryte is also a non-Saradomin god item: check god affiliation before using an energy obelisk. Ballistae and the love crossbow cannot grapple. Broken crossbows need repair.
 
-Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Ascension crossbows, Zaryte crossbow.
+Alternatives: Crossbow, Phoenix crossbow, Bronze crossbow, Blurite crossbow, Iron crossbow, Steel crossbow, Mithril crossbow, Adamant crossbow, Rune crossbow, Dragon crossbow, Dorgeshuun crossbow, Hunters' crossbow, Hunters' sunlight crossbow, Karil's crossbow, Dragon hunter crossbow, Zaryte crossbow.
 
 Sources: [1](https://oldschool.runescape.wiki/w/Crossbow_(weapon)?oldid=15377841), [2](https://oldschool.runescape.wiki/w/Mith_grapple?oldid=15374224), [3](https://oldschool.runescape.wiki/w/Hallowed_Sepulchre?oldid=15376258).
 

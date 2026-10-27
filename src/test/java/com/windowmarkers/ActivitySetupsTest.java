@@ -6,6 +6,14 @@ import static org.junit.Assert.*;
 
 public class ActivitySetupsTest
 {
+    @Test public void refreshedZalcanoPrayerOptionsKeepUnfinishedBooksSeparateFromCombatBooks() {
+        ActivitySetups.Setup z=setup("227925:1");
+        assertTrue(z.itemIds.containsAll(Arrays.asList(3839,3841,3843,12607,12609,12611)));
+        assertTrue(z.notes.contains("do not inherit completed-book combat bonuses"));
+        assertFalse(z.itemIds.contains(25818)); // No longer a listed offhand in this source table.
+        assertFalse(z.itemIds.contains(34719)); // Deferred content remains absent.
+    }
+
     @Test public void ordinaryWikiLinksRestoreAlternativesWithoutIgnoringTheirStates() {
         for(String key:Arrays.asList("110044:5","305955:8","635395:3")) {
             ActivitySetups.Setup s=setup(key);
@@ -100,15 +108,14 @@ public class ActivitySetupsTest
         assertTrue(sepulchre.notes.contains("Zaryte"));
     }
 
-    @Test public void refreshedKrakenSustainAndDpsSetupsStaySeparateAndKeepRequiredShield() {
-        ActivitySetups.Setup sustain=ActivitySetups.forActivity("Kraken").stream()
-            .filter(s -> s.label.equals("Mage (AFK, Sustain) — Equipment alternatives")).findFirst().get();
+    @Test public void deferredShieldDependentSetupIsOmittedWithoutChangingKrakenDps() {
+        assertFalse(ActivitySetups.forActivity("Kraken").stream()
+            .anyMatch(s -> s.label.startsWith("Mage (AFK, Sustain)")));
         ActivitySetups.Setup dps=ActivitySetups.forActivity("Kraken").stream()
             .filter(s -> s.label.equals("Magic (DPS) — Equipment alternatives")).findFirst().get();
-        assertNotEquals(sustain.id,dps.id);
-        assertTrue(sustain.notes.contains("requires a Rondache"));
-        assertFalse(dps.notes.contains("requires a Rondache"));
-        assertTrue(sustain.source.contains("oldid="));
+        assertTrue(dps.source.contains("oldid="));
+        assertFalse(dps.itemIds.contains(34719));
+        assertFalse(dps.itemIds.isEmpty());
     }
 
     @Test public void reviewedGenericReferencesHaveExactAlternativesWithoutMixingCompletedAndDamagedBooks() {

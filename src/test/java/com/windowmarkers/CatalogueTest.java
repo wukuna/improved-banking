@@ -6,6 +6,25 @@ import static org.junit.Assert.*;
 
 public class CatalogueTest
 {
+    @Test public void ammunitionAndTemporaryQuestModelsDoNotBecomeWearableGear() {
+        for(int id:new int[]{2,21728}) {
+            AutoCategories.Item ammo=item(id,id==2?"Steel cannonball":"Granite cannonball");
+            assertTrue(WikiCatalogue.entries(ammo).stream().anyMatch(e -> e.group.equals("Ammo — cannon")));
+            assertFalse(WikiCatalogue.entries(ammo).stream().anyMatch(e -> e.group.equals("Ranged weapons") || e.group.equals("Equipment — weapons")));
+        }
+        AutoCategories.Item quest=item(24265,"V's shield");
+        assertFalse(WikiCatalogue.entries(quest).stream().anyMatch(e -> e.group.contains("equipment — shield") || e.group.equals("Equipment — shield")));
+        assertEquals(-1,ItemCatalogueIndex.fallbackSlot(24265,"V's shield"));
+        assertEquals(5,ItemCatalogueIndex.fallbackSlot(24266,"V's shield"));
+        String[] pieces={"head","body","legs","tail","gloves","feet"};
+        for(int n=0;n<pieces.length;n++) {
+            String name="Snow imp costume "+pieces[n];
+            assertFalse(WikiCatalogue.entries(item(21841+n,name)).stream().anyMatch(e -> e.group.startsWith("Equipment — ")));
+            assertEquals(-1,ItemCatalogueIndex.fallbackSlot(21841+n,name));
+            assertTrue(WikiCatalogue.entries(item(21847+2*n,name)).stream().anyMatch(e -> e.group.startsWith("Equipment — ")));
+        }
+    }
+
     @Test public void refreshedUtilityRolesPreservePartnersAndDoNotBecomeRaidSupplies() {
         for(int id:new int[]{10890,1718,24725}) {
             AutoCategories.Item i=item(id,"test");
@@ -177,13 +196,11 @@ public class CatalogueTest
         assertTrue(WikiCatalogue.entries(item(9143,"Adamant bolts")).stream()
             .anyMatch(e -> e.group.equals("Ammunition — bolts (match weapon)")));
     }
-    @Test public void refreshedWeaponCategoriesPreserveChargesAndModeRestrictions() {
+    @Test public void deferredWeaponCategoriesAreAbsentAndModeRestrictionsRemain() {
         assertTrue(WikiCatalogue.hasFacet(item(13307,"Blood money"),"restricted"));
-        assertTrue(WikiCatalogue.entries(item(34681,"Ascension crossbows")).stream().anyMatch(e -> e.group.equals("Ranged weapons — crossbows")));
+        assertTrue(WikiCatalogue.entries(item(34681,"Ascension crossbows")).isEmpty());
         for(int id:new int[]{34715,34717})
-            assertTrue(WikiCatalogue.entries(item(id,id==34715?"Obligator":"Obligator (uncharged)")).stream().anyMatch(e -> e.group.equals("Melee weapons — crush")));
-        assertTrue(ItemVariantState.needsActivityReview(item(34717,"Obligator (uncharged)")));
-        assertFalse(ItemVariantState.needsActivityReview(item(34715,"Obligator")));
+            assertTrue(WikiCatalogue.entries(item(id,id==34715?"Obligator":"Obligator (uncharged)")).isEmpty());
         assertTrue(WikiCatalogue.entries(item(34059,"Fairy tale quest lamp")).isEmpty());
     }
 }

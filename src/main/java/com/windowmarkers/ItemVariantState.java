@@ -1,6 +1,7 @@
 package com.windowmarkers;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /** Exact identity state is separate from category membership and activity suitability. */
@@ -9,10 +10,17 @@ final class ItemVariantState
     private enum State { AVAILABLE, REPAIR, CHARGE, EMPTY, REDUCED, CHECK, PREPARE, CONTENTS, RESTRICTED }
     private static final Map<Integer,ItemVariantState> STATES=new HashMap<>();
     private static final Map<Integer,String> UNVERIFIED_IDENTITIES=new HashMap<>();
+    private static final Map<Integer,String> UNAVAILABLE_IDENTITIES=new HashMap<>();
     static
     {
         for (String[] row:ItemTaxonomy.readRows("identity-review-required.tsv",2))
         { UNVERIFIED_IDENTITIES.put(Integer.parseInt(row[0]),row[1]); }
+        for (String[] row:ItemTaxonomy.readRows("item-availability.tsv",4))
+        {
+            int id=Integer.parseInt(row[0]);
+            if (UNAVAILABLE_IDENTITIES.put(id,row[1].toLowerCase(Locale.ROOT))!=null)
+            { throw new IllegalStateException("Duplicate availability ID: "+id); }
+        }
         for (String[] row : ItemTaxonomy.readRows("item-variant-states.tsv",5))
         {
             int id=Integer.parseInt(row[0]);
@@ -52,6 +60,20 @@ final class ItemVariantState
         return needsActivityReview(item);
     }
 
+    static boolean canRepresentOwnedEquivalent(AutoCategories.Item held,AutoCategories.Item candidate)
+    {
+        if(needsActivityReview(held)) return false;
+        ItemVariantState owned=STATES.get(held.id),wanted=STATES.get(candidate.id);
+        // Equal combat stats do not make the ordinary trident a 20,000-charge
+        // enhanced model. Preserve that separate purchase option.
+        if(wanted!=null && wanted.family.startsWith("trident of the ")
+            && candidate.name.contains("(e)") && !held.name.contains("(e)")) return false;
+        // Retained base stats do not establish the charged version's teleports,
+        // recoil or gathering benefits. Exact ownership is handled separately.
+        return owned==null || owned.state!=State.REDUCED
+            || wanted!=null && wanted.state==State.REDUCED;
+    }
+
     static boolean needsRankReview(AutoCategories.Item item,String activity,String setup)
     {
         ItemVariantState known=STATES.get(item.id);
@@ -67,13 +89,14 @@ final class ItemVariantState
         // A passive bonus is not proof that a guide's additional charge-based
         // benefit is available. Keep these items searchable with state notes.
         if(known.family.startsWith("celestial ")) return !activity.equals("Tempoross");
-        if(known.family.startsWith("ring of suffering")) return activity.equals("Zulrah");
+        if(known.family.startsWith("ring of suffering")) return activity.equals("Zulrah") || activity.equals("Kalphite Queen");
         if(known.family.startsWith("amulet of glory")) return activity.equals("Mining");
         return known.family.equals("horn of plenty");
     }
 
     static String reviewGroup(AutoCategories.Item item)
     {
+        if (item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id))) { return "Unavailable item identity — review"; }
         if (identityNeedsReview(item)) { return "Unverified item identity — review"; }
         if (WikiCatalogue.hasFacet(item,"restricted")) { return "Activity restrictions — review"; }
         ItemVariantState known=STATES.get(item.id);
@@ -97,5 +120,10 @@ final class ItemVariantState
     }
 
     static boolean identityNeedsReview(AutoCategories.Item item)
-    { return item.name.equals(UNVERIFIED_IDENTITIES.get(item.id)); }
+    {
+        // Same-name interface models and unavailable quest/test copies must not
+        // inherit the real inventory item's effects or activity recommendations.
+        return item.name.equals(UNVERIFIED_IDENTITIES.get(item.id))
+            || item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id));
+    }
 }
