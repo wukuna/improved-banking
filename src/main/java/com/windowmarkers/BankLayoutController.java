@@ -45,9 +45,12 @@ import net.runelite.api.events.ScriptPostFired;
 import net.runelite.api.events.ScriptPreFired;
 import net.runelite.api.events.WidgetClosed;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.VarClientID;
+import net.runelite.api.vars.InputType;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
+import net.runelite.api.widgets.WidgetType;
 import net.runelite.api.widgets.WidgetUtil;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -182,6 +185,7 @@ public final class BankLayoutController
 		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
             inventoryWidgets.clear();
+            hiddenSeparators.clear();
 			restoreTabs();
 			// the modal outlives the bank and hosts every other main interface, so it must not stay enlarged
 			restore(positions, true, false);
@@ -195,7 +199,11 @@ public final class BankLayoutController
 
 	private void layoutFrame(ScriptPreFired event)
 	{
-        if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) inventoryWidgets.clear();
+		if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) {
+            inventoryWidgets.clear();
+            // Restore before the native builder establishes visibility for this build.
+            restoreSeparators();
+        }
 		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
 		{
 			applyFrame();
@@ -255,6 +263,7 @@ public final class BankLayoutController
         boolean grouped=groupedSearch();
         inventoryWidgets.clear();
         if(!config.bankLayoutEnabled() && !grouped) return;
+		if(grouped) hideSeparators(items);
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
 		reflowedWidth = items.getWidth();
 		if (ends == null || ends[0] == ends[1])
@@ -314,11 +323,12 @@ public final class BankLayoutController
     @Subscribe(priority=-20)
     public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     {
-        // Ask the native builder for a single section, as Bank Tags does. The
-        // next ordinary build restores native tab headings without hidden-widget state.
+        // Single-tab mode explicitly closes a native search input in BankMainBuild.
+        // Use it only for saved views outside chatbox search, never while typing.
         if(active && "bankBuildTab".equals(event.getEventName())
             && client.getWidget(InterfaceID.Bankmain.ITEMS)!=null
-            && (groupedSearch() || searchView!=null && searchView.isActive())) {
+            && client.getVarcIntValue(VarClientID.MESLAYERMODE)!=InputType.SEARCH.getType()
+            && searchView!=null && searchView.isActive()) {
             int size=client.getIntStackSize();
             if(size>0) client.getIntStack()[size-1]=1;
         }
@@ -703,9 +713,33 @@ public final class BankLayoutController
             view?searchView.ranks():nativeSearch.ranks(),searchHeadings,inventoryWidgets,inventoryNotes);
     }
 
+    private final java.util.Set<Widget> hiddenSeparators=java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+
+    private void hideSeparators(Widget items)
+    {
+        Widget[] children=items.getDynamicChildren();
+        if(children==null) return;
+        for(Widget child:children) {
+            if(child==null || child.isSelfHidden() || child.getItemId()>=0) continue;
+            int type=child.getType();
+            boolean heading=type==WidgetType.TEXT && child.getText()!=null
+                && net.runelite.client.util.Text.removeTags(child.getText()).matches("Tab (?:[1-9]|[IVX]+)");
+            boolean line=(type==WidgetType.LINE || type==WidgetType.RECTANGLE)
+                && child.getOriginalWidth()>=SEPARATOR_MIN_WIDTH && child.getOriginalHeight()<=2;
+            if(heading || line) { hiddenSeparators.add(child);child.setHidden(true); }
+        }
+    }
+
+    private void restoreSeparators()
+    {
+        for(Widget separator:hiddenSeparators) separator.setHidden(false);
+        hiddenSeparators.clear();
+    }
+
 	private void restore()
 	{
         inventoryWidgets.clear();
+        restoreSeparators();
 		restoreTabs();
 		Widget modal = modal();
 		restore(positions, true, true);
