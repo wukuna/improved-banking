@@ -58,11 +58,11 @@ public interface WindowMarkersConfig extends Config
     default boolean screenshotButton() { return true; }
 
     enum BankLabels { MINI, FULL, OFF }
-    @ConfigItem(section=appearance,keyName="bankLabels",name="Bank labels",description="Mini labels show short group names once where they fit. Full uses saved label appearance. Off leaves the sidebar legend and hover names.",position=5)
+    @ConfigItem(section=appearance,keyName="bankLabels",name="Bank labels",description="Mini labels show short group names once where they fit. Full uses saved label appearance. Off leaves the sidebar legend and optional hover tooltips.",position=5)
     default BankLabels bankLabels() { return BankLabels.MINI; }
     @ConfigItem(section=appearance,keyName="quietFills",name="Subtle marker backgrounds",description="Reduce background intensity without changing saved marker colors.",position=6)
     default boolean quietFills() { return true; }
-    @ConfigItem(section=appearance,keyName="hoverHighlight",name="Highlight on hover",description="Highlight groups when hovering bank items or legend entries. Turn off to highlight only by clicking a legend entry. Hover names remain available.",position=7)
+    @ConfigItem(section=appearance,keyName="hoverHighlight",name="Highlight on hover",description="Highlight groups when hovering bank items or legend entries. Turn off to highlight only by clicking a legend entry. Hover tooltips have a separate setting.",position=7)
     default boolean hoverHighlight() { return true; }
     @ConfigItem(section=appearance,keyName="improvedBankSearch",name="Enable Improved Banking search",description="Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.",position=8)
     default boolean improvedBankSearch() { return false; }
@@ -70,6 +70,8 @@ public interface WindowMarkersConfig extends Config
     default boolean setupSearchLayout() { return true; }
     @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="Bank category picker",description="Show a searchable category and preset dropdown beside the bank screenshot button.",position=10)
     default boolean bankCatalogueButton() { return true; }
+    @ConfigItem(section=appearance,keyName="bankTooltips",name="Show category and setup tooltips",description="Show group names, category explanations, gear tiers and inventory notes when hovering bank items. Turning this off keeps colours, labels, highlights and native item actions.",position=11)
+    default boolean bankTooltips() { return true; }
     @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
     default boolean snapToGrid() { return false; }
 

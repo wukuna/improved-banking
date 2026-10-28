@@ -10,6 +10,36 @@ import static org.mockito.Mockito.*;
 
 public class BankSearchViewTest
 {
+    @Test public void pendingViewCannotReopenAfterSearchOrTabChanges() {
+        BankSearchView view=new BankSearchView();view.client=mock(net.runelite.api.Client.class);view.bankTags=mock(BankTagsService.class);
+        var bank=mock(net.runelite.api.widgets.Widget.class);
+        when(view.client.getGameState()).thenReturn(net.runelite.api.GameState.LOGGED_IN);
+        when(view.client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)).thenReturn(bank);
+        when(view.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(11);
+        when(view.client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT)).thenReturn("cox");
+        BankTag original=id -> true;
+        when(view.bankTags.getActiveTag()).thenReturn("raid");when(view.bankTags.getActiveBankTag()).thenReturn(original);
+        var unchanged=view.unchangedContext();assertTrue(unchanged.getAsBoolean());
+        when(view.client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT)).thenReturn("");assertFalse(unchanged.getAsBoolean());
+        when(view.client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT)).thenReturn("cox");
+        when(view.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(0);assertFalse(unchanged.getAsBoolean());
+        when(view.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(11);
+        when(view.client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB)).thenReturn(2);assertFalse(unchanged.getAsBoolean());
+        when(view.client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB)).thenReturn(0);
+        when(view.bankTags.getActiveTag()).thenReturn("supplies");assertFalse(unchanged.getAsBoolean());
+        when(view.bankTags.getActiveTag()).thenReturn("raid");
+        when(view.bankTags.getActiveBankTag()).thenReturn(id -> false);assertFalse(unchanged.getAsBoolean());
+        when(view.bankTags.getActiveBankTag()).thenReturn(original);assertTrue(unchanged.getAsBoolean());
+        when(bank.isHidden()).thenReturn(true);assertFalse(unchanged.getAsBoolean());when(bank.isHidden()).thenReturn(false);
+        when(view.client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(net.runelite.api.widgets.Widget.class));assertFalse(unchanged.getAsBoolean());
+        when(view.client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)).thenReturn(bank);
+        when(view.client.getGameState()).thenReturn(net.runelite.api.GameState.LOGIN_SCREEN);assertFalse(unchanged.getAsBoolean());
+    }
+    @Test public void noViewCanStartWithoutAnOpenBank() {
+        BankSearchView view=new BankSearchView();view.client=mock(net.runelite.api.Client.class);
+        assertFalse(view.unchangedContext().getAsBoolean());
+        verify(view.client,never()).getVarcIntValue(anyInt());
+    }
     @Test public void temporaryViewRetainsExactStatesAndDoesNotCloseAnotherPluginsTab() {
         BankSearchView view=new BankSearchView(); view.tags=mock(TagManager.class); view.bankTags=mock(BankTagsService.class); view.items=mock(ItemManager.class);
         AtomicReference<BankTag> registered=new AtomicReference<>(),active=new AtomicReference<>();

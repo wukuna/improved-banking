@@ -308,7 +308,10 @@ public class WindowMarkersTest
         when(items.getBounds()).thenReturn(new Rectangle(110,150,280,200));
         when(items.getDynamicChildren()).thenReturn(new Widget[]{child});
         when(child.getItemId()).thenReturn(123);
-        when(child.getBounds()).thenReturn(new Rectangle(126,172,36,32));
+        when(child.getRelativeX()).thenReturn(16);when(child.getRelativeY()).thenReturn(22);
+        when(child.getWidth()).thenReturn(36);when(child.getHeight()).thenReturn(32);
+        // Fresh widgets have not acquired a canvas position during BeforeRender.
+        when(child.getBounds()).thenReturn(new Rectangle(0,0,36,32));
         when(p.configs.getConfiguration("windowmarkers","account-a","markersV3_profile_10"))
             .thenReturn("[{\"x\":20,\"y\":20,\"width\":60,\"height\":60,\"scrollWithItems\":true,\"linkedItemIds\":[123],\"backgroundArgb\":-65536}]");
         try
@@ -318,13 +321,17 @@ public class WindowMarkersTest
             BufferedImage canvas=new BufferedImage(500,500,2); Graphics2D g=canvas.createGraphics(); bg.render(g); g.dispose();
             assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(130,180));
             when(items.getBounds()).thenReturn(new Rectangle(110,150,180,200));
-            when(child.getBounds()).thenReturn(new Rectangle(174,244,36,32));
+            when(child.getRelativeX()).thenReturn(64);when(child.getRelativeY()).thenReturn(94);
+            when(child.getBounds()).thenReturn(new Rectangle(126,172,36,32)); // Previous frame, before reflow.
             p.onBeforeRender(new BeforeRender());
             canvas=new BufferedImage(500,500,2); g=canvas.createGraphics(); bg.render(g); g.dispose();
             assertEquals(0,canvas.getRGB(130,180)); assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(180,250));
+            when(items.getScrollY()).thenReturn(36);p.onBeforeRender(new BeforeRender());
+            canvas=new BufferedImage(500,500,2); g=canvas.createGraphics(); bg.render(g); g.dispose();
+            assertEquals(0,canvas.getRGB(180,250));assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(180,214));
             when(child.isHidden()).thenReturn(true); p.onBeforeRender(new BeforeRender());
             canvas=new BufferedImage(500,500,2); g=canvas.createGraphics(); bg.render(g); g.dispose();
-            assertEquals(0,canvas.getRGB(180,250));
+            assertEquals(0,canvas.getRGB(180,214));
         }
         finally { p.shutDown(); }
     }

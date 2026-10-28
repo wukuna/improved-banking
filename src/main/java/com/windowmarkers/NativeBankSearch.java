@@ -155,8 +155,18 @@ final class NativeBankSearch
             checkbox.setAction(0,"Toggle Improved Banking search");
             checkbox.setOnOpListener((JavaScriptCallback)e -> {
                 if(!searching()) return;
-                configs.setConfiguration("windowmarkers","improvedBankSearch",!config.improvedBankSearch());
-                query=null; revision++; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; update(); bankSearch.layoutBank();
+                final long owner=context;
+                final Widget bank=client.getWidget(InterfaceID.Bankmain.UNIVERSE),clicked=checkbox;
+                // layoutBank runs a client script. Never call it from inside a widget script.
+                clientThread.invokeLater(() -> {
+                    if(owner!=context || !searching() || checkbox!=clicked || parent!=layer
+                        || client.getWidget(InterfaceID.Bankmain.UNIVERSE)!=bank
+                        || client.getWidget(InterfaceID.Chatbox.MES_LAYER)!=layer) return;
+                    configs.setConfiguration("windowmarkers","improvedBankSearch",!config.improvedBankSearch());
+                    query=null; revision++; matches=Collections.emptySet(); ranks=Collections.emptyMap();
+                    highlight=null; slots=false; loadout=null; exactSupply=false;
+                    update(); bankSearch.layoutBank();
+                });
             });
             checkbox.setHasListener(true);
         }

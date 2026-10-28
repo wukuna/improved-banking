@@ -203,6 +203,28 @@ public class NativeBankSearchTest
     private static void runQueued(java.util.concurrent.BlockingQueue<Runnable> queued) throws Exception {
         Runnable pending=queued.poll(10,java.util.concurrent.TimeUnit.SECONDS);assertNotNull("Search must complete",pending);pending.run();
     }
+    @Test public void checkboxRefreshWaitsUntilTheWidgetScriptReturnsAndCancelsAfterReset() throws Exception {
+        NativeBankSearch search=ready();search.bankSearch=mock(BankSearch.class);search.clientThread=mock(ClientThread.class);
+        search.configs=mock(ConfigManager.class);
+        Widget layer=mock(Widget.class),checkbox=mock(Widget.class);
+        when(search.client.getWidget(InterfaceID.Chatbox.MES_LAYER)).thenReturn(layer);
+        when(layer.getWidth()).thenReturn(480);when(layer.getHeight()).thenReturn(120);
+        when(layer.createChild(anyInt(),anyInt())).thenReturn(checkbox);when(layer.getChildren()).thenReturn(new Widget[]{checkbox});
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        var queued=new java.util.concurrent.LinkedBlockingQueue<Runnable>();
+        doAnswer(call -> {queued.add(call.getArgument(0));return null;}).when(search.clientThread).invokeLater(any(Runnable.class));
+        Method updateCheckbox=NativeBankSearch.class.getDeclaredMethod("updateCheckbox");updateCheckbox.setAccessible(true);updateCheckbox.invoke(search);
+        var listener=org.mockito.ArgumentCaptor.forClass(net.runelite.api.widgets.JavaScriptCallback.class);
+        verify(checkbox).setOnOpListener(listener.capture());
+        listener.getValue().run(mock(net.runelite.api.ScriptEvent.class));
+        verifyNoInteractions(search.bankSearch,search.configs);
+        runQueued(queued);
+        verify(search.configs).setConfiguration("windowmarkers","improvedBankSearch",false);
+        verify(search.bankSearch).layoutBank();
+        clearInvocations(search.bankSearch,search.configs);
+        listener.getValue().run(mock(net.runelite.api.ScriptEvent.class));
+        search.reset();runQueued(queued);verifyNoInteractions(search.bankSearch,search.configs);
+    }
     @Test public void failedRefreshDropsOldOptionalResultsAndRestoresNativeSearch() throws Exception {
         NativeBankSearch search=ready(); search.bankSearch=mock(BankSearch.class);
         search.clientThread=mock(ClientThread.class);

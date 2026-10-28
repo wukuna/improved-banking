@@ -53,7 +53,7 @@ Item groups follow exact item identities between bank tabs and across width/colu
 
 Select one marker in Legend and choose **Edit label / appearance** to edit its label, color, font, font size, border, background and opacity. Item icons draw above marker backgrounds. Borders support **Plain**, **Vanilla OSRS** and **Active theme**. Active theme uses loaded equipment-frame sprite overrides from Resource Packs or Interface Styles, falling back to vanilla; it does not download or redistribute packs.
 
-Mini-labels show short names once per group, only where they fit without covering item cells. Full names remain in the legend. Plugin settings offer **Bank labels: MINI / FULL / OFF**, **Subtle marker backgrounds** and **Highlight on hover**. Turning off hover highlighting retains click-to-pin and hover names. Saved labels and colors are not rewritten by these display options.
+Mini-labels show short names once per group, only where they fit without covering item cells. Full names remain in the legend. Under **Labels and highlighting**, settings offer **Bank labels: MINI / FULL / OFF**, **Subtle marker backgrounds**, **Highlight on hover** and **Show category and setup tooltips**. Turn off the tooltip setting to hide group names, category explanations, gear tiers and inventory notes on hover while keeping bank colours, labels and native item actions. Turning off hover highlighting retains click-to-pin. Saved labels and colors are not rewritten by these display options.
 
 ### Search, item lookup and custom presets
 

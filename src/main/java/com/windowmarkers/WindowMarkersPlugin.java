@@ -983,6 +983,7 @@ public class WindowMarkersPlugin extends Plugin
         },this::saveCurrentBankView,() -> clientThread.invokeLater(() -> {
             synchronized(WindowMarkersPlugin.this) {
                 if(!context(owner,layout)) return;
+                viewRequest++;
                 if(searchView!=null && searchView.isActive()) searchView.clear();
                 else if(nativeSearch!=null) nativeSearch.closeSearch();
             }
@@ -1008,29 +1009,33 @@ public class WindowMarkersPlugin extends Plugin
         });
     }
 
-    private void showBankView(String name,List<Marker> groups,boolean slots,String owner,String layout)
+    private synchronized void showBankView(String name,List<Marker> groups,boolean slots,String owner,String layout)
     {
         if(searchView==null) return;
         List<Marker> snapshot=new ArrayList<>();
         for(Marker group:groups) snapshot.add(gson.fromJson(gson.toJson(group),Marker.class));
         BankSearchIndex index=rankingIndex; final long request=++viewRequest;
-        new SwingWorker<BankSearchIndex.Match,Void>() {
-            protected BankSearchIndex.Match doInBackground() {
-                if(index==null || snapshot.isEmpty()) return null;
-                Marker first=snapshot.get(0);
-                return index.search(first.guideQuery==null?name:first.guideQuery,first.guideContext==null?"":first.guideContext,
-                    first.inventoryContext==null?"":first.inventoryContext);
-            }
-            protected void done() { try {
-                BankSearchIndex.Match match=get();
-                clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
-                    if(request!=viewRequest || !context(owner,layout) || bank==null) return;
-                    nativeSearch.closeSearch();
-                    java.util.Set<Integer> allowed=java.util.Arrays.stream(GroupEdits.union(snapshot)).boxed().collect(java.util.stream.Collectors.toSet());
-                    searchView.show(name,snapshot,slots,match==null || match.loadout==null?null:match.loadout.retainItems(allowed),match==null?java.util.Collections.emptyMap():match.ranks);
-                }});
-            } catch(Exception ex) { setStatus("Could not open the saved view. Try again."); } }
-        }.execute();
+        clientThread.invokeLater(() -> {
+            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null) return; }
+            final java.util.function.BooleanSupplier unchanged=searchView.unchangedContext();
+            new SwingWorker<BankSearchIndex.Match,Void>() {
+                protected BankSearchIndex.Match doInBackground() {
+                    if(index==null || snapshot.isEmpty()) return null;
+                    Marker first=snapshot.get(0);
+                    return index.search(first.guideQuery==null?name:first.guideQuery,first.guideContext==null?"":first.guideContext,
+                        first.inventoryContext==null?"":first.inventoryContext);
+                }
+                protected void done() { try {
+                    BankSearchIndex.Match match=get();
+                    clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
+                        if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
+                        nativeSearch.closeSearch();
+                        java.util.Set<Integer> allowed=java.util.Arrays.stream(GroupEdits.union(snapshot)).boxed().collect(java.util.stream.Collectors.toSet());
+                        searchView.show(name,snapshot,slots,match==null || match.loadout==null?null:match.loadout.retainItems(allowed),match==null?java.util.Collections.emptyMap():match.ranks);
+                    }});
+                } catch(Exception ex) { setStatus("Could not open the saved view. Try again."); } }
+            }.execute();
+        });
     }
 
     private void openQueryView(String text,String guide)
@@ -1040,24 +1045,28 @@ public class WindowMarkersPlugin extends Plugin
             if(!currentLayout() || bank==null || rankingIndex==null) { setStatus("Open your bank and wait for the catalogue.");return; }
             owner=accountKey;layout=layoutKey;inventory=config.bankInventoryContext();index=rankingIndex;request=++viewRequest;
         }
-        new SwingWorker<BankSearchIndex.Match,Void>() {
-            protected BankSearchIndex.Match doInBackground() { return index.search(text,guide,inventory); }
-            protected void done() { try {
-                BankSearchIndex.Match match=get();
-                clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
-                    if(request!=viewRequest || !context(owner,layout) || bank==null) return;
-                    if(match.ids.isEmpty()) {
-                        nativeSearch.closeSearch();searchView.clear();
-                        setStatus("No owned items match that search. Previous filter cleared; showing all bank items.");return;
-                    }
-                    Marker group=new Marker(0,0,48,36);styleGroup(group,text);group.scrollWithItems=true;
-                    group.linkedItemIds=match.ids.stream().sorted().mapToInt(Integer::intValue).toArray();
-                    group.guideQuery=text;group.guideContext=guide;group.inventoryContext=inventory;
-                    nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks);
-                    setStatus(BankCleanup.isQuery(text)?"Cleanup review: open Item uses and reasons for details. Nothing is discarded or sold.":"View open. Save it to reopen later, or add it to Legend.");
-                }});
-            } catch(Exception ex) { setStatus("Could not open that search. Your saved groups are unchanged."); } }
-        }.execute();
+        clientThread.invokeLater(() -> {
+            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null) return; }
+            final java.util.function.BooleanSupplier unchanged=searchView.unchangedContext();
+            new SwingWorker<BankSearchIndex.Match,Void>() {
+                protected BankSearchIndex.Match doInBackground() { return index.search(text,guide,inventory); }
+                protected void done() { try {
+                    BankSearchIndex.Match match=get();
+                    clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
+                        if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
+                        if(match.ids.isEmpty()) {
+                            nativeSearch.closeSearch();searchView.clear();
+                            setStatus("No owned items match that search. Previous filter cleared; showing all bank items.");return;
+                        }
+                        Marker group=new Marker(0,0,48,36);styleGroup(group,text);group.scrollWithItems=true;
+                        group.linkedItemIds=match.ids.stream().sorted().mapToInt(Integer::intValue).toArray();
+                        group.guideQuery=text;group.guideContext=guide;group.inventoryContext=inventory;
+                        nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks);
+                        setStatus(BankCleanup.isQuery(text)?"Cleanup review: open Item uses and reasons for details. Nothing is discarded or sold.":"View open. Save it to reopen later, or add it to Legend.");
+                    }});
+                } catch(Exception ex) { setStatus("Could not open that search. Your saved groups are unchanged."); } }
+            }.execute();
+        });
     }
     private void clearBankView() {
         final String owner,layout;
@@ -1471,7 +1480,7 @@ public class WindowMarkersPlugin extends Plugin
                 if (child == null || child.isSelfHidden() || child.getItemId() < 0 || child.getItemId() == 6512
                     || child.getRelativeX()<0 || child.getRelativeY()<0) { continue; }
                 if(bankLayout!=null && bankLayout.inventoryPreview(child)) continue;
-                Rectangle bounds=child.getBounds();
+                Rectangle bounds=BankItemBounds.of(items,child);
                 if(!bounds.isEmpty()) { tabCells.add(new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds)); }
                 if(child.isHidden()) { continue; }
                 if (bounds.isEmpty() || !bounds.intersects(itemArea)) { continue; }
@@ -1710,7 +1719,7 @@ public class WindowMarkersPlugin extends Plugin
                     g.clip(bank);
                     Marker focused=highlightedMarker();
                     Marker hovered=hoveredBankMarker();
-                    if(config.visible() && hovered!=null && tooltipManager!=null)
+                    if(config.bankTooltips() && config.visible() && hovered!=null && tooltipManager!=null)
                     { tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(hovered.labelText()))); }
                     if (config.visible())
                     {
@@ -1771,7 +1780,7 @@ public class WindowMarkersPlugin extends Plugin
                         try { headings.clip(itemArea);headings.setFont(new Font("Arial",Font.PLAIN,11));headings.setColor(new Color(230,205,145));
                             for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) headings.drawString(heading.text,itemArea.x+heading.x,itemArea.y+heading.y-itemScroll);
                             net.runelite.api.Point mouse=client.getMouseCanvasPosition();
-                            if(mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null)
+                            if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null)
                                 for(SetupItemLayout.InventoryNote note:bankLayout.inventoryNotes())
                                     if(new Rectangle(itemArea.x+note.x,itemArea.y+note.y-itemScroll,36,32).contains(mouse.getX(),mouse.getY()))
                                         tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(note.text)));
@@ -1802,7 +1811,7 @@ public class WindowMarkersPlugin extends Plugin
                                     if(!config.geTierColours()) continue;
                                     TierPresentation.draw(ranked,cell.grid,rank.tier,config);
                                 }
-                                if(mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
+                                if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
                                     String explanation=rank.explanation.length()>850?rank.explanation.substring(0,847)+"...":rank.explanation;
                                     tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(explanation).replace("\n","<br>")));
                                 }

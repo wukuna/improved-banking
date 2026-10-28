@@ -43,6 +43,22 @@ final class BankSearchView
     boolean bySlot() { return slots; }
     String name() { return name; }
     List<Marker> groups() { return isActive()?new ArrayList<>(groups):Collections.emptyList(); }
+    /** Capture on the client thread before starting a background view calculation. */
+    java.util.function.BooleanSupplier unchangedContext()
+    {
+        var bank=client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE);
+        if(client.getGameState()!=net.runelite.api.GameState.LOGGED_IN || bank==null || bank.isHidden()) return () -> false;
+        String activeName=bankTags.getActiveTag();BankTag activeTag=bankTags.getActiveBankTag();
+        int nativeTab=client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB);
+        int inputMode=client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE);
+        String input=client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT);
+        return () -> client.getGameState()==net.runelite.api.GameState.LOGGED_IN && bank!=null && !bank.isHidden()
+            && client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)==bank
+            && nativeTab==client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB)
+            && Objects.equals(activeName,bankTags.getActiveTag()) && activeTag==bankTags.getActiveBankTag()
+            && inputMode==client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)
+            && Objects.equals(input,client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT));
+    }
     void update() {
         if(tag!=null && !isActive()) forget();
         if(isActive()) {
