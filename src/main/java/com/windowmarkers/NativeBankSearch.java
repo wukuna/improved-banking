@@ -140,8 +140,10 @@ final class NativeBankSearch
     boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentContext() && slots && !matches.isEmpty()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
     String query() { return query; }
-    Set<Integer> matches() { return searching() && config.improvedBankSearch() && currentContext()
-        && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?new HashSet<>(matches):Collections.emptySet(); }
+    private boolean matchesCurrentInput() { return searching() && config.improvedBankSearch() && currentContext()
+        && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
+    boolean hasMatches() { return matchesCurrentInput() && !matches.isEmpty(); }
+    Set<Integer> matches() { return matchesCurrentInput()?new HashSet<>(matches):Collections.emptySet(); }
     private void updateCheckbox()
     {
         Widget layer=client.getWidget(InterfaceID.Chatbox.MES_LAYER);

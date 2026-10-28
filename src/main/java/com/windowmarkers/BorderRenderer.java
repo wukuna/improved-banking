@@ -15,8 +15,10 @@ final class BorderRenderer
     @Inject SpriteManager sprites;
     private final SpritePixels[] previous = new SpritePixels[8];
     private final BufferedImage[] themed = new BufferedImage[8];
-    private final java.util.Map<BufferedImage, java.util.Map<Integer, BufferedImage>> tinted = new java.util.IdentityHashMap<>();
-    private int tintCount;
+    private static final int MAX_TINTS = 2048;
+    private static final long MAX_TINT_PIXELS = 2L * 1024 * 1024; // 8 MiB of ARGB pixels.
+    private final java.util.Map<TintKey, BufferedImage> tinted = new java.util.LinkedHashMap<>(64, 0.75f, true);
+    private long tintPixels;
 
     BufferedImage image(int index, boolean theme)
     {
@@ -34,14 +36,14 @@ final class BorderRenderer
     {
         java.util.Arrays.fill(previous, null);
         java.util.Arrays.fill(themed, null);
-        tinted.clear(); tintCount = 0;
+        tinted.clear(); tintPixels = 0;
     }
 
     void draw(Graphics2D g, Rectangle r, WindowMarkersConfig.BorderStyle style, Color color, boolean tint)
     {
-        BufferedImage[] parts = new BufferedImage[8];
         if (style != WindowMarkersConfig.BorderStyle.PLAIN)
         {
+            BufferedImage[] parts = new BufferedImage[8];
             for (int i=0; i<8; i++)
             {
                 parts[i] = image(i, style == WindowMarkersConfig.BorderStyle.ACTIVE_THEME);
@@ -55,9 +57,8 @@ final class BorderRenderer
 
     BufferedImage tint(BufferedImage source, Color color)
     {
-        if (tintCount >= 256) { tinted.clear(); tintCount = 0; }
-        java.util.Map<Integer,BufferedImage> colors = tinted.computeIfAbsent(source, key -> new java.util.HashMap<>());
-        BufferedImage result = colors.get(color.getRGB());
+        TintKey key = new TintKey(source, color.getRGB());
+        BufferedImage result = tinted.get(key);
         if (result != null) { return result; }
         result = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_INT_ARGB);
         for (int y=0;y<source.getHeight();y++) for (int x=0;x<source.getWidth();x++)
@@ -67,8 +68,31 @@ final class BorderRenderer
             int alpha=(pixel >>> 24)*color.getAlpha()/255;
             result.setRGB(x,y,(alpha<<24) | ((color.getRed()*light/255)<<16) | ((color.getGreen()*light/255)<<8) | (color.getBlue()*light/255));
         }
-        colors.put(color.getRGB(),result); tintCount++;
+        long pixels = (long) result.getWidth() * result.getHeight();
+        if (pixels <= MAX_TINT_PIXELS)
+        {
+            // Do not drop every colour at capacity: that makes the next render pass
+            // recolour the same borders again. Evict only the least recently used.
+            java.util.Iterator<BufferedImage> oldest = tinted.values().iterator();
+            while (tinted.size() >= MAX_TINTS || tintPixels + pixels > MAX_TINT_PIXELS)
+            {
+                BufferedImage removed = oldest.next();
+                tintPixels -= (long) removed.getWidth() * removed.getHeight();
+                oldest.remove();
+            }
+            tinted.put(key, result); tintPixels += pixels;
+        }
         return result;
+    }
+
+    private static final class TintKey
+    {
+        final BufferedImage source;
+        final int colour;
+        TintKey(BufferedImage source, int colour) { this.source = source; this.colour = colour; }
+        @Override public int hashCode() { return 31 * System.identityHashCode(source) + colour; }
+        @Override public boolean equals(Object other)
+        { return other instanceof TintKey && source == ((TintKey) other).source && colour == ((TintKey) other).colour; }
     }
 
     static void plain(Graphics2D g, Rectangle r, Color color)

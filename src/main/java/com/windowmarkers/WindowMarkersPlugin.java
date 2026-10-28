@@ -49,6 +49,7 @@ public class WindowMarkersPlugin extends Plugin
     private JComboBox<CustomPresets.Preset> customPicker;
     private List<BankCatalogue.Choice> catalogueChoices=java.util.Collections.emptyList();
     private long catalogueRevision;
+    private final CatalogueWorkQueue catalogueWork = new CatalogueWorkQueue();
     private List<ItemAnchors.Cell> legendCells=new ArrayList<>();
     private Boolean forceLink;
     private Marker appendTarget;
@@ -61,7 +62,9 @@ public class WindowMarkersPlugin extends Plugin
     @Inject BankSearchView searchView;
     @Inject BankCataloguePicker bankPicker;
     @Inject GeCatalogueSearch geSearch;
+    @Inject ReleaseNotesNotice releaseNotes;
     private List<ItemAnchors.Cell> itemCells = new ArrayList<>();
+    private final LinkedMarkerRegions linkedRegions = new LinkedMarkerRegions();
     private final List<Marker> markers = new ArrayList<>();
     private Rectangle bank;
     private Rectangle itemArea;
@@ -123,6 +126,7 @@ public class WindowMarkersPlugin extends Plugin
         }
         load();
         if(geSearch!=null) geSearch.start();
+        if(releaseNotes!=null) releaseNotes.start();
         overlayManager.add(overlay);
         overlayManager.add(backgroundOverlay);
         mouseManager.registerMouseListener(mouse);
@@ -272,6 +276,7 @@ public class WindowMarkersPlugin extends Plugin
 
     @Override protected synchronized void shutDown()
     {
+        if(releaseNotes!=null) releaseNotes.stop();
         active = false; lifecycle++; catalogueRevision++;
         if(geSearch!=null) geSearch.stop();
         lookupHighlight=null;
@@ -282,7 +287,7 @@ public class WindowMarkersPlugin extends Plugin
         mouseManager.unregisterMouseListener(mouse);
         overlayManager.remove(overlay);
         overlayManager.remove(backgroundOverlay);
-        borders.clear(); markers.clear();
+        borders.clear(); markers.clear(); linkedRegions.clear();
         NavigationButton old = navigation;
         navigation = null;
         if (old != null) { SwingUtilities.invokeLater(() -> toolbar.removeNavigation(old)); }
@@ -307,6 +312,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void load()
     {
+        linkedRegions.clear();
         refreshGeContext();
         resetBankContext(false);
         legendHover=null; legendPinned=null; lookupHighlight=null; legendCells.clear(); catalogueRevision++;
@@ -679,7 +685,7 @@ public class WindowMarkersPlugin extends Plugin
             final BankCleanup.Progress progress=BankCleanup.Progress.capture(client);
             final java.util.Set<Integer> tradeable=new java.util.HashSet<>();
             for(AutoCategories.Item item:owned) if(itemManager.getItemComposition(item.id).isGeTradeable()) tradeable.add(item.id);
-            new SwingWorker<List<BankCatalogue.Choice>,Void>() {
+            catalogueWork.submit(new SwingWorker<List<BankCatalogue.Choice>,Void>() {
                 private BankSearchIndex searchIndex;
                 protected List<BankCatalogue.Choice> doInBackground() {
                     searchIndex=new BankSearchIndex(owned,saved,templates,baseHitpoints,tradeable,progress);
@@ -699,9 +705,13 @@ public class WindowMarkersPlugin extends Plugin
                                 && searchView.isActive() && BankCleanup.isQuery(searchView.name()))
                                 openQueryView(searchView.name(),"");
                         }});
-                    }} catch(Exception ex) { setStatus("Catalogue search could not be loaded. Reopen the bank to retry."); }
+                    }} catch(Exception ex) {
+                        synchronized(WindowMarkersPlugin.this) {
+                            if(active && revision==catalogueRevision) setStatus("Catalogue search could not be loaded. Reopen the bank to retry.");
+                        }
+                    } finally { catalogueWork.finished(this); }
                 }
-            }.execute();
+            });
         });
     }
 
@@ -992,6 +1002,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private void resetBankContext(boolean stopping)
     {
+        catalogueWork.clearPending();
         rankingIndex=null;viewRequest++;
         // RuneLite starts/stops plugins on EDT; layout/profile changes may also
         // arrive there. Confine all game-widget and Bank Tags cleanup to client.
@@ -1422,7 +1433,7 @@ public class WindowMarkersPlugin extends Plugin
             String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
             if(plan!=null) current+=(plan.equipmentName.isEmpty()?"":"\nEquipment: "+plan.equipmentName)+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
             boolean hasView=searchView!=null && searchView.isActive();
-            boolean hasMatches=hasView || nativeSearch!=null && !nativeSearch.matches().isEmpty();
+            boolean hasMatches=hasView || nativeSearch!=null && nativeSearch.hasMatches();
             boolean canClear=hasView || nativeSearch!=null && nativeSearch.query()!=null && !nativeSearch.query().isEmpty();
             boolean review=bank!=null && bankRanks().values().stream().anyMatch(BankCleanup::isReview);
             String key=current+"/"+hasMatches+"/"+canClear+"/"+review;
@@ -1440,6 +1451,8 @@ public class WindowMarkersPlugin extends Plugin
         if(searchView!=null) searchView.update();
         if (client.getGameState() != GameState.LOGGED_IN)
         {
+            linkedRegions.clear();
+            catalogueWork.clearPending();
             if(screenshotButton!=null) { screenshotButton.clear(); }
             if(bankPicker!=null) bankPicker.clear();
             if(searchView!=null) searchView.clear();
@@ -1472,19 +1485,23 @@ public class WindowMarkersPlugin extends Plugin
         if (start != null && (!java.util.Objects.equals(itemArea,nextItems) || itemScroll != nextScroll)) { cancel(); }
         itemArea=nextItems; itemScroll=nextScroll;
         itemCells=new ArrayList<>();
+        linkedRegions.clear();
         List<ItemAnchors.Cell> tabCells=new ArrayList<>();
-        if (itemArea != null && items.getDynamicChildren() != null)
+        Widget[] itemChildren=itemArea==null?null:items.getDynamicChildren();
+        if (itemChildren != null)
         {
-            for (Widget child : items.getDynamicChildren())
+            for (Widget child : itemChildren)
             {
                 if (child == null || child.isSelfHidden() || child.getItemId() < 0 || child.getItemId() == 6512
                     || child.getRelativeX()<0 || child.getRelativeY()<0) { continue; }
                 if(bankLayout!=null && bankLayout.inventoryPreview(child)) continue;
                 Rectangle bounds=BankItemBounds.of(items,child);
-                if(!bounds.isEmpty()) { tabCells.add(new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds)); }
+                if(bounds.isEmpty()) continue;
+                ItemAnchors.Cell cell=new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds);
+                tabCells.add(cell);
                 if(child.isHidden()) { continue; }
-                if (bounds.isEmpty() || !bounds.intersects(itemArea)) { continue; }
-                itemCells.add(new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds));
+                if (!bounds.intersects(itemArea)) { continue; }
+                itemCells.add(cell);
             }
         }
         if (itemArea != null && currentLayout() && markers.stream().anyMatch(m -> m.scrollWithItems == null))
@@ -1571,7 +1588,7 @@ public class WindowMarkersPlugin extends Plugin
 
     private List<Rectangle> markerRegions(Marker marker)
     {
-        if (marker.linked()) { return ItemAnchors.regions(marker.linkedItemIds,itemCells); }
+        if (marker.linked()) { return linkedRegions.get(marker,itemCells); }
         Rectangle bounds=marker.onScreen(bank,itemArea,itemScroll);
         return bounds == null ? java.util.Collections.emptyList() : java.util.Collections.singletonList(bounds);
     }

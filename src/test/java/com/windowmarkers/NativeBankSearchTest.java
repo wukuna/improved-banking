@@ -25,6 +25,22 @@ import static org.mockito.Mockito.*;
 
 public class NativeBankSearchTest
 {
+    @Test public void hasMatchesNeverOffersSavingResultsFromAnOldSearchOrTab() throws Exception {
+        NativeBankSearch search=ready();
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        assertTrue(search.hasMatches());
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("food");
+        assertFalse(search.hasMatches());
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
+        when(search.bankTags.getActiveTag()).thenReturn("gear");
+        assertFalse(search.hasMatches());
+        when(search.bankTags.getActiveTag()).thenReturn(null);
+        when(search.config.improvedBankSearch()).thenReturn(false);
+        assertFalse(search.hasMatches());
+        when(search.config.improvedBankSearch()).thenReturn(true);
+        when(search.client.getVarcIntValue(VarClientID.MESLAYERMODE)).thenReturn(0);
+        assertFalse(search.hasMatches());
+    }
     @Test public void initializesUsingTheActualBankTagsPublicModule() throws Exception {
         BankTagsPlugin existingBankTags=new BankTagsPlugin();
         net.runelite.client.plugins.banktags.TagManager tagManager=mock(net.runelite.client.plugins.banktags.TagManager.class);

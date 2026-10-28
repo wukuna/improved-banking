@@ -12,6 +12,7 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 
 ## Features
 
+- **Recent updates:** up to five bundled change notes appear in the chatbox once per update in each RuneLite profile.
 - **Searchable Legend:** find categories, presets and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
 - **Item lookup and comparison:** inspect one or two items, send a classification to Legend, or temporarily highlight the selected items without creating a group.
 - **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
