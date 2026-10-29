@@ -18,6 +18,32 @@ import static org.mockito.Mockito.*;
 
 public class BankLayoutTest
 {
+    @Test public void temporaryViewKeepsLayoutAndScrollRangeAfterAnotherLayoutSubscriber() {
+        BankLayoutController c=controller();when(c.config.setupSearchLayout()).thenReturn(true);
+        c.searchView=new BankSearchView();c.itemManager=mock(ItemManager.class);
+        c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=c.itemManager;
+        doAnswer(call -> {when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null;})
+            .when(c.searchView.bankTags).openBankTag(anyString(),anyInt());
+        Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
+        c.searchView.show("Food",Collections.singletonList(group),true);
+        Widget items=mock(Widget.class),item=cell(51,360);
+        when(item.getIndex()).thenReturn(0);when(item.getItemId()).thenReturn(385);
+        when(c.itemManager.canonicalize(385)).thenReturn(385);
+        when(items.getWidth()).thenReturn(478);when(items.getDynamicChildren()).thenReturn(new Widget[]{item});
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+        int[] stack=new int[9];stack[0]=9000; // Height already changed by the competing layout.
+        when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        int x=item.getOriginalX(),y=item.getOriginalY();assertEquals(48,stack[0]);
+        item.setOriginalX(300);item.setOriginalY(800);
+        c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
+        assertEquals(x,item.getOriginalX());assertEquals(y,item.getOriginalY());
+        c.searchView.clear();item.setOriginalY(500);
+        c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
+        assertEquals("Switching away releases ownership",500,item.getOriginalY());
+        verify(c.client,never()).runScript(any(Object[].class));
+    }
     @Test public void typingAnActivityFilterMustNotSelectTheInputClosingSingleTabMode() throws Exception {
         BankLayoutController c=controller();
         c.nativeSearch=new NativeBankSearch();c.nativeSearch.client=c.client;c.nativeSearch.config=c.config;

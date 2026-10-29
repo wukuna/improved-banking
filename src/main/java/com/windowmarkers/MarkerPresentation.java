@@ -62,6 +62,34 @@ final class MarkerPresentation
             if(!clip.contains(candidate)) { continue; }
             if(occupied.stream().noneMatch(candidate::intersects)) { occupied.add(candidate); return candidate; }
         }
+        // Look beside the group and in nearby empty bands. A dense row must not
+        // silently lose its label merely because above/inside/below are occupied.
+        java.util.Set<Integer> bands=new java.util.TreeSet<>();
+        bands.add(clip.y);bands.add(clip.y+clip.height-height);
+        bands.add(Math.max(clip.y,Math.min(region.y,clip.y+clip.height-height)));
+        for(Rectangle obstacle:occupied) {
+            if(obstacle.y-height-2>=clip.y) bands.add(obstacle.y-height-2);
+            if(obstacle.y+obstacle.height+2<=clip.y+clip.height-height) bands.add(obstacle.y+obstacle.height+2);
+        }
+        java.util.List<Integer> sorted=new java.util.ArrayList<>(bands);
+        sorted.sort(java.util.Comparator.comparingInt(y -> Math.abs(y-region.y)));
+        for(int y:sorted) {
+            if(y<clip.y || y+height>clip.y+clip.height) continue;
+            java.util.List<Rectangle> row=new java.util.ArrayList<>();
+            for(Rectangle obstacle:occupied) if(obstacle.y<y+height && obstacle.y+obstacle.height>y) row.add(obstacle);
+            row.sort(java.util.Comparator.comparingInt(r -> r.x));
+            int left=clip.x;Rectangle best=null;int distance=Integer.MAX_VALUE;
+            for(int i=0;i<=row.size();i++) {
+                int right=i==row.size()?clip.x+clip.width:Math.min(clip.x+clip.width,row.get(i).x-2);
+                if(right-left>=width) {
+                    int candidateX=Math.max(left,Math.min(x,right-width));
+                    int d=Math.abs(candidateX-x);
+                    if(d<distance) { best=new Rectangle(candidateX,y,width,height);distance=d; }
+                }
+                if(i<row.size()) left=Math.max(left,row.get(i).x+row.get(i).width+2);
+            }
+            if(best!=null) { occupied.add(best); return best; }
+        }
         return null;
     }
 }

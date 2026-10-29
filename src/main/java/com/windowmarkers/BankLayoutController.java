@@ -122,6 +122,7 @@ public final class BankLayoutController
     @Inject BankSearchView searchView;
     @Inject net.runelite.client.game.ItemManager itemManager;
     private final SetupInventoryWidgets inventoryWidgets=new SetupInventoryWidgets();
+    private final BankViewGeometry viewGeometry=new BankViewGeometry();
 
 	@com.google.inject.Inject(optional = true)
 	BankTagsService bankTagsService;
@@ -186,6 +187,7 @@ public final class BankLayoutController
 		{
             inventoryWidgets.clear();
             hiddenSeparators.clear();
+            viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
 			restoreTabs();
 			// the modal outlives the bank and hosts every other main interface, so it must not stay enlarged
 			restore(positions, true, false);
@@ -200,6 +202,7 @@ public final class BankLayoutController
 	private void layoutFrame(ScriptPreFired event)
 	{
 		if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) {
+            viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
             inventoryWidgets.clear();
             // Restore before the native builder establishes visibility for this build.
             restoreSeparators();
@@ -265,14 +268,22 @@ public final class BankLayoutController
         if(!config.bankLayoutEnabled() && !grouped) return;
 		if(grouped) hideSeparators(items);
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
+        if(searchView!=null && searchView.isActive()) viewGeometry.capture(items);
 		reflowedWidth = items.getWidth();
-		if (ends == null || ends[0] == ends[1])
+		if (ends == null)
 		{
 			return;
 		}
 
 		int[] stack = client.getIntStack();
 		int idx = client.getIntStackSize() - FINISHBUILDING_HEIGHT_ARG;
+		// The temporary view owns the whole displayed layout. A tag-layout
+        // subscriber may already have replaced the native height argument.
+        if (searchView!=null && searchView.isActive() && idx>=0)
+        {
+            stack[idx]=Math.max(1,ends[1]+8);
+            return;
+        }
 		// only touch the argument if it looks like the height of the layout we just replaced
 		if (idx >= 0 && stack[idx] > 0 && Math.abs(stack[idx] - ends[0]) <= 2 * ROW_HEIGHT)
 		{
@@ -280,7 +291,7 @@ public final class BankLayoutController
 		}
 	}
 
-	@Subscribe
+	@Subscribe(priority=-20)
 	public void onScriptPostFired(ScriptPostFired event)
 	{
 		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_SIZE_CHECK)
@@ -288,6 +299,10 @@ public final class BankLayoutController
 			reapplyFrame();
 		}
         if(active && config.bankLayoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
+        // Bank Tag Layouts can auto-layout a temporary tag after finishbuilding.
+        // Restore only our current view's positions; never touch another tag's layout.
+        if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && searchView!=null && searchView.isActive())
+            viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}
 
     // Search refresh rebuilds the native tabs after ClientTick. Apply their final
@@ -642,7 +657,10 @@ public final class BankLayoutController
 				end++;
 			}
 
-			int newStart = newEnd + Math.max(0, oldY[start] - oldEnd);
+			// Native tab gaps can include a spare eight-column row. It is no longer
+            // needed after wrapping to a wider bank; retain room for the tab heading.
+            int gap=Math.max(0,oldY[start]-oldEnd);
+			int newStart = newEnd + (start==0?gap:Math.min(24,gap));
 			shifts.add(new int[]{oldY[start], newStart - oldY[start]});
 			for (int i = start; i < end; i++)
 			{
@@ -738,6 +756,7 @@ public final class BankLayoutController
 
 	private void restore()
 	{
+        viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
         inventoryWidgets.clear();
         restoreSeparators();
 		restoreTabs();

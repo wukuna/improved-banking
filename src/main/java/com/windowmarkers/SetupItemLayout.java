@@ -54,7 +54,7 @@ final class SetupItemLayout
         boolean showEquipment=!plan.equipmentName.isEmpty();
         int gearY=padding+18, inventoryY=showEquipment && columns<8?gearY+5*36+18:gearY;
         int inventoryX=51+(showEquipment && columns>=8?4*pitch:0);
-        if(showEquipment) headings.add(new Heading("Equipment",51,padding+12));
+        if(showEquipment) headings.add(new Heading(plan.equipmentNote.isEmpty()?"Equipment":"Equipment switches",51,padding+12));
         headings.add(new Heading("Recommended inventory",inventoryX,inventoryY-6));
         for(int[] position:EQUIPMENT) {
             Widget cell=chosen.get(position[0]);

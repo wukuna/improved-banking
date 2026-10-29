@@ -21,6 +21,7 @@ final class SetupLoadout
     }
     private static final Map<String,Table> TABLES=new LinkedHashMap<>();
     private static final Map<String,String> INVENTORY_PAIRS=new HashMap<>();
+    private static final Map<String,String> SWITCH_NOTES=new HashMap<>();
     static {
         for(String[] row:ItemTaxonomy.readRows("setup-layout-tables.tsv",4)) TABLES.put(row[0],new Table(row));
         for(String[] row:ItemTaxonomy.readRows("setup-layout-fields.tsv",4)) {
@@ -40,6 +41,7 @@ final class SetupLoadout
             if(table!=null && table.kind.equals("inventory")) table.fields.add(new Field(new String[]{row[0],row[1],row[2],row[4]},true));
         }
         for(String[] row:ItemTaxonomy.readRows("setup-inventory-pairs.tsv",2)) INVENTORY_PAIRS.put(row[0],row[1]);
+        for(String[] row:ItemTaxonomy.readRows("setup-switch-notes.tsv",2)) SWITCH_NOTES.put(row[0],row[1]);
     }
     final String equipmentName,inventoryName;
     final String activity;
@@ -47,6 +49,7 @@ final class SetupLoadout
     final Map<Integer,Integer> inventory;
     final Map<Integer,Field> inventoryExample;
     final Map<Integer,String> equipmentNotes=new HashMap<>();
+    String equipmentNote="";
     private SetupLoadout(String activity,String equipmentName,String inventoryName,Map<Integer,List<Integer>> equipment,Map<Integer,Integer> inventory,Map<Integer,Field> inventoryExample) {
         this.activity=activity;
         this.equipmentName=equipmentName;this.inventoryName=inventoryName;
@@ -62,6 +65,7 @@ final class SetupLoadout
         Map<Integer,Field> example=new LinkedHashMap<>();inventoryExample.forEach((slot,field)-> { if(bag.containsKey(slot)) example.put(slot,field); });
         SetupLoadout result=new SetupLoadout(activity,equipmentName,inventoryName,gear,bag,example);
         equipmentNotes.forEach((id,note)-> { if(allowed.contains(id)) result.equipmentNotes.put(id,note); });
+        result.equipmentNote=equipmentNote;
         return result;
     }
     private static boolean ready(ItemCatalogueIndex.Item item) { return item!=null && !ItemVariantState.needsActivityReview(item.fact); }
@@ -83,7 +87,7 @@ final class SetupLoadout
             }
             // A boss-phase weapon list is not a complete equipment guide.
             if(slots.size()<3) continue;
-            int score=available.size()*100+(table.kind.equals("recommended equipment")?10:0);
+            int score=available.size()*100+(table.kind.equals("recommended equipment")?20:0)+slots.size();
             if(score>best) { gear=setup;best=score; }
         }
         ActivitySetups.Setup anchor=gear;
@@ -139,6 +143,7 @@ final class SetupLoadout
         }
         SetupLoadout result=new SetupLoadout(anchor.activity,gear==null?"":gear.activity+" / "+gear.label,inventory==null?"No inventory example":inventory.label,equipment,inventoryItems,inventoryExample);
         result.equipmentNotes.putAll(equipmentNotes);
+        result.equipmentNote=gear==null?"":SWITCH_NOTES.getOrDefault(gear.id,"");
         return result;
     }
     private static Map<Integer,List<Integer>> chooseEquipment(List<Field> fields,ActivitySetups.Setup gear,

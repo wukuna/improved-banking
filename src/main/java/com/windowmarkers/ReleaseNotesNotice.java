@@ -22,11 +22,11 @@ final class ReleaseNotesNotice
     static final String RELEASE = "2026-10-28-performance";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
+        "Temporary bank views keep their gear layout when Bank Tag Layouts is enabled.",
+        "Custom labels use nearby free space; drawn borders follow the visible item grid.",
+        "Updated guide choices and style-specific Avernic treads alternatives; partial Sire setups are labelled as switches.",
         "Reduced marker drawing overhead and overlapping catalogue rebuilds.",
-        "Marker borders stay aligned while searching, scrolling and rebuilding the bank.",
-        "Searches and saved views discard outdated results after changing tabs or clearing filters.",
-        "Choose whether category and gear-setup tooltips appear in the bank.",
-        "Junk reviews explain niche quest and activity uses before you remove items."
+        "Searches and saved views discard outdated results after changing tabs or clearing filters."
     };
 
     @Inject private Client client;

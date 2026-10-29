@@ -26,15 +26,34 @@ final class ItemAnchors
             && selection.contains(c.icon.getCenterX(),c.icon.getCenterY())).mapToInt(c -> c.id).distinct().toArray();
     }
 
+    static void fitGrid(List<Cell> cells)
+    {
+        Map<Integer,List<Cell>> rows=new TreeMap<>();
+        for(Cell cell:cells) rows.computeIfAbsent(cell.icon.y,y -> new ArrayList<>()).add(cell);
+        for(List<Cell> row:rows.values()) {
+            row.sort(Comparator.comparingInt(c -> c.icon.x));
+            for(int i=0;i<row.size();i++) {
+                Cell cell=row.get(i);
+                int left=i>0?cell.icon.x-row.get(i-1).icon.x-row.get(i-1).icon.width:-1;
+                int right=i+1<row.size()?row.get(i+1).icon.x-cell.icon.x-cell.icon.width:-1;
+                // Larger gaps are equipment-diagram spaces, not slot padding.
+                if(left<0 || left>24) left=right>=0 && right<=24?right:12;
+                if(right<0 || right>24) right=left;
+                int before=left-left/2,after=right/2;
+                cell.grid.x=cell.icon.x-before;cell.grid.width=cell.icon.width+before+after;
+            }
+        }
+    }
+
     static Rectangle snap(Rectangle selection, List<Cell> cells)
     {
         if (cells.isEmpty()) { return selection; }
-        Rectangle grid=cells.get(0).grid;
-        int x=grid.x+Math.floorDiv(selection.x-grid.x,grid.width)*grid.width;
-        int y=grid.y+Math.floorDiv(selection.y-grid.y,grid.height)*grid.height;
-        int right=grid.x+Math.floorDiv(selection.x+selection.width-1-grid.x,grid.width)*grid.width+grid.width;
-        int bottom=grid.y+Math.floorDiv(selection.y+selection.height-1-grid.y,grid.height)*grid.height+grid.height;
-        return new Rectangle(x,y,right-x,bottom-y);
+        // Tab separators and setup sections do not share the first row's origin.
+        // Snap to the actual cells touched by the drag, not an invented global grid.
+        Rectangle snapped=null;
+        for(Cell cell:cells) if(selection.intersects(cell.icon))
+            snapped=snapped==null?new Rectangle(cell.grid):snapped.union(cell.grid);
+        return snapped==null?new Rectangle(selection):snapped;
     }
 
     static List<Rectangle> regions(int[] ids, List<Cell> cells)

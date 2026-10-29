@@ -270,6 +270,9 @@
 101880:1	30545	body	0	
 101880:1	30547	legs	0	
 101880:1	31097	feet	1	
+101880:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 101880:1	31106	hands	1	Only when using elite void, and if the player does not have a tormented bracelet.
 101880:1	31290	cape	4	
 101880:1	33002	feet	2	
@@ -558,6 +561,9 @@
 101880:3	30545	body	0	
 101880:3	30547	legs	0	
 101880:3	31097	feet	1	
+101880:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 101880:3	31106	hands	1	Only when using elite void, and if the player does not have a tormented bracelet.
 101880:3	31290	cape	4	
 101880:3	33002	feet	2	
@@ -775,6 +781,9 @@
 101880:5	28329	ring	3	
 101880:5	31081	shield	3	Better than Odium only if Odium does not give a max hit.
 101880:5	31097	feet	3	
+101880:5	31092	feet	3	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:5	31094	feet	3	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:5	31096	feet	3	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 101880:5	31290	cape	4	
 101880:5	33002	feet	2	
 101880:5	33472	head	1	Void knight equipment requires the full set to be effective.
@@ -899,6 +908,9 @@
 101880:7	30753	body	2	
 101880:7	30756	legs	2	
 101880:7	31097	feet	1	
+101880:7	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+101880:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 101880:7	33002	feet	2	
 101880:7	33496	cape	1	
 101880:7	33498	cape	1	
@@ -1530,6 +1542,9 @@
 103703:1	30753	body	1	With a slash weapon
 103703:1	30756	legs	1	With a slash weapon
 103703:1	31097	feet	2	
+103703:1	31091	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:1	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:1	31095	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 103703:1	31290	cape	5	
 103703:1	33068	head	1	Only on Fossil island wyvern task With a slash weapon
 103703:1	33070	head	1	Only on Fossil island wyvern task With a slash weapon
@@ -1995,6 +2010,9 @@
 103703:5	30547	legs	3	
 103703:5	30634	weapon	5	
 103703:5	31097	feet	1	
+103703:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 103703:5	31106	hands	1	
 103703:5	31113	weapon	1	
 103703:5	31115	weapon	1	
@@ -2232,6 +2250,9 @@
 103703:7	29820	head	1	
 103703:7	29822	head	1	
 103703:7	31097	feet	1	
+103703:7	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+103703:7	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 103703:7	33068	head	1	
 103703:7	33070	head	1	
 103703:7	33072	head	1	
@@ -2814,6 +2835,9 @@
 105525:1	30753	body	1	With a slash weapon
 105525:1	30756	legs	1	With a slash weapon
 105525:1	31097	feet	1	
+105525:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+105525:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+105525:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 105525:1	33068	head	1	
 105525:1	33070	head	1	
 105525:1	33072	head	1	
@@ -3005,6 +3029,9 @@
 105525:2	30434	weapon	1	
 105525:2	30436	weapon	1	
 105525:2	31097	feet	1	
+105525:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+105525:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+105525:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 105525:2	33021	weapon	2	
 105525:2	33023	body	2	With bow of Faerdhinen
 105525:2	33025	body	2	With bow of Faerdhinen
@@ -3894,6 +3921,9 @@
 108241:1	29820	head	1	When assigned as a slayer task
 108241:1	29822	head	1	When assigned as a slayer task
 108241:1	31097	feet	1	
+108241:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 108241:1	33021	weapon	2	Only with Crystal armour
 108241:1	33023	body	3	
 108241:1	33025	body	3	
@@ -4394,6 +4424,9 @@
 108241:4	30574	weapon	5	Only if using Earth Wave/Earth Surge.
 108241:4	30634	weapon	0	Only if using Earth Wave/Earth Surge. Only below 95 Magic. Twice as likely to cause mole to burrow since the staff hits twice per successful hit.
 108241:4	31097	feet	1	
+108241:4	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 108241:4	31106	hands	1	
 108241:4	33068	head	1	When assigned as a slayer task
 108241:4	33070	head	1	When assigned as a slayer task
@@ -4590,6 +4623,9 @@
 108241:7	30756	legs	2	
 108241:7	30955	special	4	
 108241:7	31097	feet	1	
+108241:7	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108241:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 108241:7	31248	weapon	0	
 108241:7	33068	head	1	When assigned as a slayer task
 108241:7	33070	head	1	When assigned as a slayer task
@@ -4820,6 +4856,9 @@
 108966:1	30076	body	4	
 108966:1	30079	legs	4	
 108966:1	31097	feet	1	
+108966:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108966:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108966:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 108966:1	33021	weapon	3	Only with crystal armour. Loses some anti-fire protection. You must pray protect from magic. Cannot safely attack during the acid phase
 108966:1	33023	body	3	
 108966:1	33025	body	3	
@@ -5051,6 +5090,9 @@
 108966:2	30753	body	2	
 108966:2	30756	legs	2	
 108966:2	31097	feet	1	
+108966:2	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108966:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+108966:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 108966:2	31248	weapon	0	
 108966:2	33068	head	1	DPS is slightly higher in max melee gear with slayer helm (i) and amulet of rancour or torture compared to salve amulet (ei) with torva full helm, but can vary with your individual setup. Only on a blue dragon, zombie, or Vorkath slayer task.
 108966:2	33070	head	1	DPS is slightly higher in max melee gear with slayer helm (i) and amulet of rancour or torture compared to salve amulet (ei) with torva full helm, but can vary with your individual setup. Only on a blue dragon, zombie, or Vorkath slayer task.
@@ -5280,6 +5322,9 @@
 110044:1	29820	head	1	
 110044:1	29822	head	1	
 110044:1	31097	feet	2	
+110044:1	31091	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:1	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:1	31095	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 110044:1	31248	weapon	5	
 110044:1	31290	cape	5	
 110044:1	33068	head	1	
@@ -5525,6 +5570,9 @@
 110044:3	29820	head	1	
 110044:3	29822	head	1	
 110044:3	31097	feet	2	
+110044:3	31092	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:3	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:3	31096	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 110044:3	33021	weapon	3	with Super antifire potions only
 110044:3	33023	body	1	with bow of Faerdhinen
 110044:3	33025	body	1	with bow of Faerdhinen
@@ -5758,6 +5806,9 @@
 110044:5	30547	legs	3	
 110044:5	30634	weapon	0	weapon4: Trident of the Seas/swamp > Twinflame staff. The ordinary linked swamp trident is an alternative to the seas trident; charge states still require review.
 110044:5	31097	feet	2	
+110044:5	31093	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:5	31095	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+110044:5	31096	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 110044:5	31106	hands	1	
 110044:5	31113	weapon	2	With saturated heart
 110044:5	31115	weapon	2	With saturated heart
@@ -6073,6 +6124,9 @@
 111819:1	29820	head	1	
 111819:1	29822	head	1	
 111819:1	31097	feet	1	
+111819:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+111819:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+111819:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 111819:1	31583	weapon	4	Similar performance to Atlatl/Sunlight crossbow using Adamant darts, with significantly cheaper ammunition.
 111819:1	31585	weapon	4	Similar performance to Atlatl/Sunlight crossbow using Adamant darts, with significantly cheaper ammunition.
 111819:1	33021	weapon	2	Use with Crystal armour
@@ -6530,6 +6584,9 @@
 112003:1	28585	weapon	4	
 112003:1	29806	feet	5	
 112003:1	31097	feet	1	
+112003:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+112003:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+112003:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 112003:1	31106	hands	1	
 112003:1	31113	weapon	1	
 112003:1	31115	weapon	1	
@@ -7005,6 +7062,9 @@
 117586:5	30753	body	1	Assuming best-in-slot gear in all other slots, the best combination for slash accuracy while maintaining a scythe max hit of 50 is Torva helm with Oathplate chest + legs, though any combination of 2 Oathplate pieces and 1 Torva piece will suffice.
 117586:5	30756	legs	1	Assuming best-in-slot gear in all other slots, the best combination for slash accuracy while maintaining a scythe max hit of 50 is Torva helm with Oathplate chest + legs, though any combination of 2 Oathplate pieces and 1 Torva piece will suffice.
 117586:5	31097	feet	1	
+117586:5	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 117586:5	33464	head	4	With full void in all styles
 117586:5	33466	head	4	With full void in all styles
 117586:5	33480	body	4	With full void in all styles
@@ -7100,6 +7160,9 @@
 117586:7	28922	special	1	
 117586:7	30070	weapon	3	
 117586:7	31097	feet	1	
+117586:7	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:7	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 117586:7	31106	hands	1	
 117586:7	31113	weapon	1	
 117586:7	31115	weapon	1	
@@ -7187,6 +7250,9 @@
 117586:8	28951	cape	1	
 117586:8	28953	cape	1	
 117586:8	31097	feet	1	
+117586:8	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:8	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+117586:8	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 117586:8	33472	head	1	With full void
 117586:8	33474	head	1	With full void
 117586:8	33480	body	1	With elite void ranged
@@ -7414,6 +7480,9 @@
 119426:1	30753	body	1	Using equipment in the body slot to boost magic defence instead of strength bonus can be helpful if protecting from melee due to Skotizo's accurate magic attack.
 119426:1	30756	legs	0	
 119426:1	31097	feet	1	
+119426:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+119426:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+119426:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 119426:1	33068	head	1	
 119426:1	33070	head	1	
 119426:1	33072	head	1	
@@ -7669,6 +7738,9 @@
 119426:4	29822	head	1	
 119426:4	30305	special	0	
 119426:4	31097	feet	1	
+119426:4	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+119426:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+119426:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 119426:4	33021	weapon	3	
 119426:4	33023	body	2	body2: Armadyl chestplate /Crystal body (with Bow of Faerdhinen).
 119426:4	33025	body	2	body2: Armadyl chestplate /Crystal body (with Bow of Faerdhinen).
@@ -8655,6 +8727,9 @@
 210427:3	28945	feet	2	
 210427:3	30756	legs	1	
 210427:3	31097	feet	1	
+210427:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+210427:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+210427:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 210427:3	31106	hands	1	
 210427:3	31113	special	1	
 210427:3	31113	weapon	1	
@@ -9123,6 +9198,9 @@
 224363:9	29820	head	1	Only if on a Slayer task.
 224363:9	29822	head	1	Only if on a Slayer task.
 224363:9	31097	feet	1	
+224363:9	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+224363:9	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+224363:9	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 224363:9	31106	hands	1	
 224363:9	33068	head	1	Only if on a Slayer task.
 224363:9	33070	head	1	Only if on a Slayer task.
@@ -9585,12 +9663,6 @@
 227925:1	1275	weapon	3	
 227925:1	1718	neck	3	Maximises prayer bonus
 227925:1	1724	neck	3	Maximises prayer bonus
-227925:1	3839	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	3840	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	3841	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	3842	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	3843	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	3844	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
 227925:1	9768	cape	0	Increases health regen
 227925:1	9769	cape	0	Increases health regen
 227925:1	9771	cape	4	Each piece of the Graceful outfit increases run energy restoration rate by 3-4% depending on the item. Highest weight reduction
@@ -9632,19 +9704,11 @@
 227925:1	12269	neck	2	Maximises prayer bonus
 227925:1	12271	head	3	Maximises prayer bonus
 227925:1	12598	feet	3	Maximises prayer bonus
-227925:1	12607	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	12608	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	12609	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	12610	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	12611	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
-227925:1	12612	shield	4	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
 227925:1	12797	weapon	2	
-227925:1	12817	shield	2	
 227925:1	13104	body	3	
 227925:1	13105	body	3	
 227925:1	13106	body	2	Gives a chance to mine two tephra at once
 227925:1	13107	body	1	Gives a chance to mine two tephra at once
-227925:1	13120	shield	5	Maximises prayer bonus
 227925:1	13125	ring	5	Maximises prayer bonus
 227925:1	13126	ring	5	Maximises prayer bonus
 227925:1	13127	ring	5	Maximises prayer bonus
@@ -9839,7 +9903,6 @@
 227925:1	30345	weapon	2	
 227925:1	30346	weapon	2	
 227925:1	30351	weapon	2	
-227925:1	31081	shield	3	Maximises prayer bonus
 227925:1	33002	feet	3	Maximises prayer bonus
 24889:1	1704	neck	4	
 24889:1	1706	neck	4	
@@ -9877,7 +9940,6 @@
 24889:1	10386	body	6	
 24889:1	10388	legs	6	
 24889:1	10499	cape	4	
-24889:1	11212	ammo	2	
 24889:1	11664	head	5	
 24889:1	11771	ring	3	
 24889:1	11826	head	3	
@@ -9913,7 +9975,6 @@
 24889:1	19930	feet	5	
 24889:1	19933	feet	5	
 24889:1	19936	feet	5	
-24889:1	20223	ammo	4	
 24889:1	20467	body	5	
 24889:1	20471	legs	5	
 24889:1	20475	hands	4	
@@ -9921,7 +9982,6 @@
 24889:1	20657	ring	4	
 24889:1	20997	weapon	2	
 24889:1	21266	head	1	
-24889:1	21326	ammo	3	
 24889:1	21890	head	1	
 24889:1	21898	cape	2	
 24889:1	21914	cape	2	
@@ -10057,6 +10117,9 @@
 24889:1	30076	body	4	
 24889:1	30079	legs	4	
 24889:1	31097	feet	1	
+24889:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24889:1	33021	weapon	3	With Bow of Faerdhinen and full crystal armour
 24889:1	33023	body	3	With Bow of Faerdhinen and full crystal armour
 24889:1	33025	body	3	With Bow of Faerdhinen and full crystal armour
@@ -10083,7 +10146,6 @@
 24889:1	33494	hands	4	
 24889:1	33532	cape	1	
 24889:1	33533	cape	1	
-24889:1	33595	ammo	1	
 24889:1	33639	neck	1	
 24889:10	1704	neck	5	
 24889:10	1706	neck	5	
@@ -10284,6 +10346,9 @@
 24889:10	30305	special	4	
 24889:10	30305	weapon	2	
 24889:10	31097	feet	1	
+24889:10	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:10	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:10	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24889:10	31290	cape	4	
 24889:10	33068	head	1	
 24889:10	33070	head	1	
@@ -10405,6 +10470,9 @@
 24889:13	30545	body	3	
 24889:13	30547	legs	3	
 24889:13	31097	feet	1	
+24889:13	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:13	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:13	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24889:13	31106	hands	1	
 24889:13	33068	head	1	
 24889:13	33070	head	1	
@@ -10615,6 +10683,9 @@
 24889:4	30305	special	5	
 24889:4	30305	weapon	3	
 24889:4	31097	feet	1	
+24889:4	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24889:4	33023	body	3	
 24889:4	33025	body	3	
 24889:4	33027	legs	2	
@@ -10790,6 +10861,9 @@
 24889:7	30305	special	5	
 24889:7	30305	weapon	2	
 24889:7	31097	feet	1	
+24889:7	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24889:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24889:7	33068	head	1	
 24889:7	33070	head	1	
 24889:7	33072	head	1	
@@ -10875,6 +10949,9 @@
 24892:1	29820	head	1	
 24892:1	29822	head	1	
 24892:1	31097	feet	1	
+24892:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24892:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24892:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24892:1	31106	hands	1	
 24892:1	31113	special	2	
 24892:1	31113	weapon	2	
@@ -11085,6 +11162,9 @@
 24892:4	29820	head	1	
 24892:4	29822	head	1	
 24892:4	31097	feet	1	
+24892:4	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24892:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+24892:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 24892:4	33021	weapon	0	Only use with crystal armour
 24892:4	33023	body	2	
 24892:4	33025	body	2	
@@ -11238,6 +11318,9 @@
 251022:4	29804	neck	1	
 251022:4	30321	head	5	
 251022:4	31097	feet	1	
+251022:4	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+251022:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+251022:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 251022:4	33496	cape	1	
 251022:4	33498	cape	1	
 251022:4	33500	cape	1	
@@ -11345,6 +11428,9 @@
 251022:5	30547	legs	3	
 251022:5	30634	weapon	3	When using fire wave. You will also be unable to use Thralls
 251022:5	31097	feet	1	
+251022:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+251022:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+251022:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 251022:5	31106	hands	1	
 251022:5	31113	weapon	1	When using fire surge. You will also be unable to use Thralls
 251022:5	31115	weapon	1	When using fire surge. You will also be unable to use Thralls
@@ -12079,6 +12165,9 @@
 25401:2	30547	legs	2	Guthan's equipment should be brought if you plan to bring the whole set for its set effect. Otherwise, Any barrows piece will work.
 25401:2	30634	weapon	0	When casting Earth wave.
 25401:2	31097	feet	1	
+25401:2	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+25401:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+25401:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 25401:2	31106	hands	1	
 25401:2	31113	weapon	1	
 25401:2	31115	weapon	1	
@@ -12492,6 +12581,9 @@
 25401:3	30545	body	2	With the full crystal set and a Bow of Faerdhinen or Crystal bow Guthan's equipment should be brought if you plan to bring the whole set for its set effect. Otherwise, Any barrows piece will work.
 25401:3	30547	legs	2	With the full crystal set and a Bow of Faerdhinen or Crystal bow Guthan's equipment should be brought if you plan to bring the whole set for its set effect. Otherwise, Any barrows piece will work.
 25401:3	31097	feet	1	
+25401:3	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+25401:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+25401:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 25401:3	33021	weapon	1	With the full crystal set and a Bow of Faerdhinen or Crystal bow
 25401:3	33023	body	2	With the full crystal set and a Bow of Faerdhinen or Crystal bow Guthan's equipment should be brought if you plan to bring the whole set for its set effect. Otherwise, Any barrows piece will work.
 25401:3	33025	body	2	With the full crystal set and a Bow of Faerdhinen or Crystal bow Guthan's equipment should be brought if you plan to bring the whole set for its set effect. Otherwise, Any barrows piece will work.
@@ -12627,6 +12719,9 @@
 256152:12	30545	body	3	
 256152:12	30547	legs	3	
 256152:12	31097	feet	1	
+256152:12	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:12	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:12	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 256152:12	31106	hands	1	Downgrades not recommended
 256152:12	31113	special	1	
 256152:12	31113	weapon	1	Downgrades not recommended
@@ -12860,6 +12955,9 @@
 256152:4	30076	body	0	
 256152:4	30079	legs	0	
 256152:4	31097	feet	1	
+256152:4	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 256152:4	33023	body	0	
 256152:4	33025	body	0	
 256152:4	33027	legs	0	
@@ -13066,6 +13164,9 @@
 256152:8	30756	legs	2	
 256152:8	30955	special	2	
 256152:8	31097	feet	1	
+256152:8	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:8	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+256152:8	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 256152:8	33068	head	1	head1: Slayer helmet (i) (if on a Slayer task).
 256152:8	33070	head	1	head1: Slayer helmet (i) (if on a Slayer task).
 256152:8	33072	head	1	head1: Slayer helmet (i) (if on a Slayer task).
@@ -14291,6 +14392,9 @@
 269949:1	30545	body	4	
 269949:1	30547	legs	4	
 269949:1	31097	feet	1	
+269949:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+269949:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+269949:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 269949:1	31106	hands	1	
 269949:1	31113	weapon	2	
 269949:1	31115	weapon	2	
@@ -14347,7 +14451,6 @@
 269949:3	8839	body	3	body3: Elite void top / Void knight top (if using Void Knight equipment).
 269949:3	8840	legs	3	legs3: Elite void robe / Void knight robe (if using Void Knight equipment).
 269949:3	8842	hands	3	hands3: Void knight gloves (if using Void Knight equipment).
-269949:3	9185	weapon	0	
 269949:3	9243	ammo	0	
 269949:3	9757	cape	0	
 269949:3	10354	neck	5	
@@ -14372,7 +14475,6 @@
 269949:3	11212	ammo	0	Depending on accuracy, seeking amethyst arrows can be better than regular dragon arrows
 269949:3	11664	head	3	head3: Void ranger helm (if using Void Knight equipment).
 269949:3	11771	ring	2	
-269949:3	11785	weapon	0	
 269949:3	11826	head	2	Use with Bow of Faerdhinen
 269949:3	11828	body	2	Use with Bow of Faerdhinen
 269949:3	11830	legs	2	Use with Bow of Faerdhinen
@@ -14394,10 +14496,6 @@
 269949:3	12510	legs	5	
 269949:3	12512	head	4	
 269949:3	12610	shield	4	
-269949:3	12924	weapon	2	weapon2: Toxic blowpipe (with amethyst or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
-269949:3	12924	weapon	4	weapon4: Toxic blowpipe (with adamant or better darts).
-269949:3	12926	weapon	2	weapon2: Toxic blowpipe (with amethyst or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
-269949:3	12926	weapon	4	weapon4: Toxic blowpipe (with adamant or better darts).
 269949:3	13072	body	3	body3: Elite void top / Void knight top (if using Void Knight equipment).
 269949:3	13073	legs	3	legs3: Elite void robe / Void knight robe (if using Void Knight equipment).
 269949:3	13202	ring	5	
@@ -14426,11 +14524,9 @@
 269949:3	20475	hands	3	hands3: Void knight gloves (if using Void Knight equipment).
 269949:3	20479	head	3	head3: Void ranger helm (if using Void Knight equipment).
 269949:3	20657	ring	3	
-269949:3	20997	weapon	1	weapon1: Twisted bow (with rune or better arrows).
 269949:3	21000	shield	1	
 269949:3	21326	ammo	0	Depending on accuracy, seeking amethyst arrows can be better than regular dragon arrows
 269949:3	21898	cape	2	
-269949:3	21902	weapon	0	
 269949:3	21914	cape	2	
 269949:3	21916	cape	2	
 269949:3	21946	ammo	0	
@@ -14457,17 +14553,7 @@
 269949:3	25248	ring	3	
 269949:3	25252	ring	5	
 269949:3	25260	ring	2	
-269949:3	25862	weapon	3	Only if using full Crystal armour
-269949:3	25865	weapon	3	Only if using full Crystal armour
-269949:3	25884	weapon	3	Only if using full Crystal armour
-269949:3	25886	weapon	3	Only if using full Crystal armour
-269949:3	25888	weapon	3	Only if using full Crystal armour
-269949:3	25890	weapon	3	Only if using full Crystal armour
-269949:3	25892	weapon	3	Only if using full Crystal armour
-269949:3	25894	weapon	3	Only if using full Crystal armour
-269949:3	25896	weapon	3	Only if using full Crystal armour
 269949:3	26235	hands	1	
-269949:3	26374	weapon	0	
 269949:3	26762	ring	3	
 269949:3	26764	ring	5	
 269949:3	26768	ring	2	
@@ -14525,14 +14611,9 @@
 269949:3	27779	head	2	Use with Bow of Faerdhinen
 269949:3	28025	special	3	
 269949:3	28039	special	2	
-269949:3	28053	weapon	0	
 269949:3	28310	ring	1	
 269949:3	28327	ring	3	
 269949:3	28329	ring	3	
-269949:3	28687	weapon	2	weapon2: Toxic blowpipe (with amethyst or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
-269949:3	28687	weapon	4	weapon4: Toxic blowpipe (with adamant or better darts).
-269949:3	28688	weapon	2	weapon2: Toxic blowpipe (with amethyst or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
-269949:3	28688	weapon	4	weapon4: Toxic blowpipe (with adamant or better darts).
 269949:3	28830	cape	1	
 269949:3	28902	cape	1	
 269949:3	28906	cape	1	
@@ -14543,7 +14624,9 @@
 269949:3	29577	special	2	
 269949:3	29806	feet	5	
 269949:3	31097	feet	1	
-269949:3	33021	weapon	3	Only if using full Crystal armour
+269949:3	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+269949:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+269949:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 269949:3	33023	body	2	Use with Bow of Faerdhinen
 269949:3	33025	body	2	Use with Bow of Faerdhinen
 269949:3	33027	legs	2	Use with Bow of Faerdhinen
@@ -14747,6 +14830,9 @@
 271073:1	30753	body	1	
 271073:1	30756	legs	1	
 271073:1	31097	feet	1	
+271073:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 271073:1	33496	cape	1	
 271073:1	33498	cape	1	
 271073:1	33500	cape	1	
@@ -14934,6 +15020,9 @@
 271073:2	28951	cape	1	
 271073:2	28953	cape	1	
 271073:2	31097	feet	1	
+271073:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 271073:2	33021	weapon	2	
 271073:2	33023	body	2	Though the crystal pickaxe is lighter, the difference is negligible and is often irrelevant due to the weight cap.
 271073:2	33025	body	2	Though the crystal pickaxe is lighter, the difference is negligible and is often irrelevant due to the weight cap.
@@ -15047,6 +15136,9 @@
 271073:3	30545	body	3	
 271073:3	30547	legs	3	
 271073:3	31097	feet	1	
+271073:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+271073:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 271073:3	31106	hands	1	
 271073:3	31113	weapon	2	Coordinate with your team when bringing this into group raids, as you cannot be the "Melee hand" role while using this due to the shorter attack range.
 271073:3	31115	weapon	2	Coordinate with your team when bringing this into group raids, as you cannot be the "Melee hand" role while using this due to the shorter attack range.
@@ -15466,6 +15558,9 @@
 27247:5	30574	weapon	5	When casting Wind surge With full Ahrim's, Amulet of the Damned, and casting Wind surge
 27247:5	30634	weapon	4	When casting Wind surge When below 95 magic or when without access to wrath runes
 27247:5	31097	feet	1	
+27247:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+27247:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+27247:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 27247:5	31106	hands	1	
 27247:5	31113	weapon	1	
 27247:5	31115	weapon	1	
@@ -16269,6 +16364,9 @@
 28467:10	29820	head	1	
 28467:10	29822	head	1	
 28467:10	31097	feet	1	
+28467:10	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28467:10	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28467:10	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28467:10	33068	head	1	
 28467:10	33070	head	1	
 28467:10	33072	head	1	
@@ -16815,6 +16913,9 @@
 28467:6	30547	legs	4	
 28467:6	30634	weapon	2	Using water spells
 28467:6	31097	feet	1	
+28467:6	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28467:6	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28467:6	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28467:6	31106	hands	1	
 28467:6	31113	weapon	1	
 28467:6	31115	weapon	1	
@@ -17389,6 +17490,9 @@
 28775:14	28953	cape	1	
 28775:14	29806	feet	5	
 28775:14	31097	feet	1	
+28775:14	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:14	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:14	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28775:14	33472	head	1	
 28775:14	33474	head	1	
 28775:14	33476	body	2	
@@ -17587,6 +17691,9 @@
 28775:19	30545	body	3	
 28775:19	30547	legs	3	
 28775:19	31097	feet	1	
+28775:19	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:19	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:19	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28775:19	31106	hands	1	
 28775:19	33035	weapon	3	
 28775:19	33036	weapon	3	
@@ -17815,6 +17922,9 @@
 28775:4	30753	body	1	
 28775:4	30756	legs	1	
 28775:4	31097	feet	1	
+28775:4	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28775:4	33068	head	1	head1: Torva full helm / Slayer helmet (i) (if on a Slayer task).
 28775:4	33070	head	1	head1: Torva full helm / Slayer helmet (i) (if on a Slayer task).
 28775:4	33072	head	1	head1: Torva full helm / Slayer helmet (i) (if on a Slayer task).
@@ -18076,6 +18186,9 @@
 28775:9	29820	head	1	head1: Masori mask (f) / Slayer helmet (i) (if on a Slayer task).
 28775:9	29822	head	1	head1: Masori mask (f) / Slayer helmet (i) (if on a Slayer task).
 28775:9	31097	feet	1	
+28775:9	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:9	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+28775:9	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 28775:9	33021	weapon	0	
 28775:9	33023	body	3	
 28775:9	33025	body	3	
@@ -18552,6 +18665,9 @@
 297887:1	30756	legs	0	
 297887:1	30955	special	3	Use at start of kills to maximise damage over time effect
 297887:1	31097	feet	2	
+297887:1	31091	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:1	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:1	31095	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 297887:1	31290	cape	5	
 297887:1	33068	head	1	Only on Fossil island wyvern task
 297887:1	33070	head	1	Only on Fossil island wyvern task
@@ -19041,6 +19157,9 @@
 297887:5	30545	body	3	
 297887:5	30547	legs	3	
 297887:5	31097	feet	1	
+297887:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 297887:5	31106	hands	1	If the player wishes to complete the task as quickly as possible, swap to just before finishing each kill.
 297887:5	31113	special	1	
 297887:5	31113	weapon	0	Using wind surge, is better than comparable powered staves if one does not own an Imbued heart or is not using Forgotten brews
@@ -19293,6 +19412,9 @@
 297887:8	30079	legs	0	
 297887:8	30082	hands	3	
 297887:8	31097	feet	1	
+297887:8	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:8	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+297887:8	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 297887:8	33068	head	1	Only on Fossil island wyvern task
 297887:8	33070	head	1	Only on Fossil island wyvern task
 297887:8	33072	head	1	Only on Fossil island wyvern task
@@ -19521,6 +19643,9 @@
 305955:1	29820	head	1	When assigned as a slayer task
 305955:1	29822	head	1	When assigned as a slayer task
 305955:1	31097	feet	1	
+305955:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 305955:1	31290	cape	5	
 305955:1	33068	head	1	When assigned as a slayer task
 305955:1	33070	head	1	When assigned as a slayer task
@@ -19764,6 +19889,9 @@
 305955:3	29820	head	1	
 305955:3	29822	head	1	
 305955:3	31097	feet	2	
+305955:3	31092	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:3	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:3	31096	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 305955:3	33021	weapon	3	with Super antifire potions only
 305955:3	33023	body	1	with bow of Faerdhinen
 305955:3	33025	body	1	with bow of Faerdhinen
@@ -19962,6 +20090,9 @@
 305955:5	30545	body	3	
 305955:5	30547	legs	3	
 305955:5	31097	feet	1	
+305955:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 305955:5	31106	hands	1	
 305955:5	33068	head	1	
 305955:5	33070	head	1	
@@ -20193,6 +20324,9 @@
 305955:8	30574	weapon	0	
 305955:8	30634	weapon	0	
 305955:8	31097	feet	1	
+305955:8	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:8	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+305955:8	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 305955:8	31106	hands	1	
 305955:8	31113	weapon	1	With saturated heart
 305955:8	31115	weapon	1	With saturated heart
@@ -20233,11 +20367,8 @@
 306436:1	21033	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
 306436:1	23762	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
 306436:1	23764	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
-306436:1	23943	ring	2	If using a crystal harpoon
 306436:1	25059	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
 306436:1	25367	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
-306436:1	25543	ring	2	If using a crystal harpoon
-306436:1	25545	ring	2	If using a crystal harpoon
 306436:1	25592	head	1	Without the full Spirit Angler set, is interchangeable with a piece of the Angler outfit.
 306436:1	25592	head	2	
 306436:1	25594	body	1	Without the full Spirit Angler set, is interchangeable with a piece of the Angler outfit.
@@ -20246,7 +20377,6 @@
 306436:1	25596	legs	2	
 306436:1	25598	feet	1	Without the full Spirit Angler set, is interchangeable with a piece of the Angler outfit.
 306436:1	25598	feet	2	
-306436:1	25975	ring	1	If below the minimum fishing level to guarantee a 100% catch rate while equipping a harpoon with a special attack that boosts your fishing level
 306436:1	29775	shield	1	
 306436:1	30342	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
 306436:1	30343	weapon	1	If maximum fishing experience is desired If maximum reward permits are desired
@@ -20418,6 +20548,9 @@
 317992:1	29804	neck	1	
 317992:1	30321	head	3	Beats faceguard when using Scythe of Vitur or Soulreaper axe. Otherwise, only better than higher strength bonus options when it does not lose a max hit.
 317992:1	31097	feet	1	
+317992:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+317992:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+317992:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 317992:1	33496	cape	1	
 317992:1	33498	cape	1	
 317992:1	33500	cape	1	
@@ -20494,6 +20627,9 @@
 317992:4	27277	weapon	1	Eye of Ayak and Tumeken's shadow share a similar damage output in spite of their different attack speeds and max hit.
 317992:4	28313	ring	1	
 317992:4	31097	feet	1	
+317992:4	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+317992:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+317992:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 317992:4	31106	hands	1	
 317992:4	31113	weapon	1	Eye of Ayak and Tumeken's shadow share a similar damage output in spite of their different attack speeds and max hit.
 317992:4	31115	weapon	1	Eye of Ayak and Tumeken's shadow share a similar damage output in spite of their different attack speeds and max hit.
@@ -20809,6 +20945,9 @@
 341884:5	29820	head	3	
 341884:5	29822	head	3	
 341884:5	31097	feet	1	
+341884:5	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+341884:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+341884:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 341884:5	33068	head	3	
 341884:5	33070	head	3	
 341884:5	33072	head	3	
@@ -21325,6 +21464,9 @@
 364045:1	30891	weapon	2	
 364045:1	30955	weapon	5	
 364045:1	31097	feet	1	
+364045:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 364045:1	31248	weapon	4	
 364045:1	33496	cape	1	
 364045:1	33498	cape	1	
@@ -21510,6 +21652,9 @@
 364045:2	29280	body	3	Can function as hybrid armour, saving inventory space
 364045:2	29283	legs	3	Can function as hybrid armour, saving inventory space
 364045:2	31097	feet	1	
+364045:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 364045:2	33021	weapon	2	Only if bringing full crystal armour and the bow of Faerdhinen.
 364045:2	33023	body	2	Only if bringing full crystal armour and the bow of Faerdhinen.
 364045:2	33025	body	2	Only if bringing full crystal armour and the bow of Faerdhinen.
@@ -21860,6 +22005,9 @@
 364045:3	30545	body	3	Can function as hybrid armour, saving inventory space
 364045:3	30547	legs	3	Can function as hybrid armour, saving inventory space
 364045:3	31097	feet	1	
+364045:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+364045:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 364045:3	31106	hands	1	
 364045:3	31113	special	1	Reduces magic defence. Effective in high invocation raids, and in groups when multiple players using this special attack. Can significantly increase magic damage output and even make max mage setup outperform max ranged and melee setups against Zebak and Baba respectively
 364045:3	31113	weapon	2	
@@ -22155,6 +22303,9 @@
 36771:15	29820	head	1	head1: Masori mask (f) /Slayer helmet (i) (if on task).
 36771:15	29822	head	1	head1: Masori mask (f) /Slayer helmet (i) (if on task).
 36771:15	31097	feet	1	
+36771:15	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+36771:15	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+36771:15	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 36771:15	33068	head	1	head1: Masori mask (f) /Slayer helmet (i) (if on task).
 36771:15	33070	head	1	head1: Masori mask (f) /Slayer helmet (i) (if on task).
 36771:15	33072	head	1	head1: Masori mask (f) /Slayer helmet (i) (if on task).
@@ -22550,6 +22701,9 @@
 36771:6	29822	head	1	If on a Slayer task
 36771:6	30955	special	2	
 36771:6	31097	feet	1	
+36771:6	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+36771:6	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+36771:6	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 36771:6	31290	cape	4	
 36771:6	33068	head	1	If on a Slayer task
 36771:6	33070	head	1	If on a Slayer task
@@ -22910,6 +23064,9 @@
 373815:1	30547	legs	3	
 373815:1	30634	weapon	3	When casting Wind Surge. When casting Wind Wave. May be better than other staves before 95 Magic or without access to wrath runes.
 373815:1	31097	feet	1	
+373815:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 373815:1	31106	hands	1	
 373815:1	31113	special	1	
 373815:1	31115	special	1	
@@ -23178,6 +23335,9 @@
 373815:2	30079	legs	3	
 373815:2	31081	shield	0	
 373815:2	31097	feet	1	
+373815:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 373815:2	32879	shield	4	
 373815:2	33021	weapon	2	Only use with crystal armour Against ranged phase Blowpipe outperforms full crystal + bow of Faerdhinen setup only with full masori and amethyst or dragon darts.
 373815:2	33023	body	2	
@@ -23310,6 +23470,9 @@
 373815:3	30753	body	1	If using a slash weapon
 373815:3	30756	legs	1	If using a slash weapon
 373815:3	31097	feet	1	
+373815:3	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+373815:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 373815:3	33068	head	1	Only use with a Slayer task. If using a slash weapon
 373815:3	33070	head	1	Only use with a Slayer task. If using a slash weapon
 373815:3	33072	head	1	Only use with a Slayer task. If using a slash weapon
@@ -24148,6 +24311,9 @@
 38706:1	29820	head	1	
 38706:1	29822	head	1	
 38706:1	31097	feet	1	
+38706:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 38706:1	31248	weapon	5	
 38706:1	31288	cape	5	
 38706:1	33068	head	1	
@@ -24367,6 +24533,9 @@
 38706:3	30574	weapon	0	High level earth spells may be better DPS than powered staves depending on equipment and Magic level.
 38706:3	30634	weapon	0	High level earth spells may be better DPS than powered staves depending on equipment and Magic level.
 38706:3	31097	feet	1	
+38706:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 38706:3	31106	hands	1	
 38706:3	31113	weapon	2	High level earth spells may be better DPS than powered staves depending on equipment and Magic level.
 38706:3	31115	weapon	2	High level earth spells may be better DPS than powered staves depending on equipment and Magic level.
@@ -24577,6 +24746,9 @@
 38706:5	29820	head	1	
 38706:5	29822	head	1	
 38706:5	31097	feet	1	
+38706:5	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 38706:5	33068	head	1	
 38706:5	33070	head	1	
 38706:5	33072	head	1	
@@ -24757,6 +24929,9 @@
 38706:7	29820	head	2	
 38706:7	29822	head	2	
 38706:7	31097	feet	2	
+38706:7	31091	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:7	31094	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+38706:7	31095	feet	2	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 38706:7	31288	cape	3	
 38706:7	33068	head	2	
 38706:7	33070	head	2	
@@ -24954,6 +25129,9 @@
 390886:1	30547	legs	0	
 390886:1	30634	weapon	4	Using earth spells, a tome of Earth, and elemental amulet. Cannot use Thralls on the standard spellbook.
 390886:1	31097	feet	1	
+390886:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+390886:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+390886:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 390886:1	31106	hands	1	
 390886:1	31113	special	0	Optional, as only requires a hit of 10 as Whisperer has +10 magic defence, however Whisperer cannot reset magic defence.
 390886:1	31113	weapon	0	Using earth spells, a tome of Earth, and elemental amulet. Cannot use Thralls on the standard spellbook.
@@ -25307,6 +25485,9 @@
 391169:1	30082	hands	4	
 391169:1	31081	shield	4	If using a 1-handed weapon
 391169:1	31097	feet	1	
+391169:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391169:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391169:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 391169:1	31583	special	4	Use on enrage phase
 391169:1	31585	special	4	Use on enrage phase
 391169:1	33021	weapon	0	With full crystal and Bow of Faerdhinen Comparable to higher tier crossbows without additional ranged strength equipment
@@ -25468,6 +25649,9 @@
 391169:2	30545	body	3	
 391169:2	30547	legs	3	
 391169:2	31097	feet	1	
+391169:2	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391169:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391169:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 391169:2	31106	hands	1	
 391169:2	33068	head	1	
 391169:2	33070	head	1	
@@ -25673,6 +25857,9 @@
 391177:1	30756	legs	1	
 391177:1	30955	special	4	
 391177:1	31097	feet	1	
+391177:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391177:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391177:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 391177:1	33068	head	0	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight. If it does not lose max hits to Torva. Deals extra poison damage: [DPS Calculator]
 391177:1	33070	head	0	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight. If it does not lose max hits to Torva. Deals extra poison damage: [DPS Calculator]
 391177:1	33072	head	0	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight. If it does not lose max hits to Torva. Deals extra poison damage: [DPS Calculator]
@@ -25898,6 +26085,9 @@
 391188:1	30756	legs	1	
 391188:1	30955	special	3	Can perform similarly to special attacks that have higher damage output, but only when you would otherwise have to eat during the kill, which is most often relevant when using gear with lower defence bonuses. Arkan blade has a high accuracy roll on Slash defence, making this a low budget alternative to a Voidwaker.
 391188:1	31097	feet	1	
+391188:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391188:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+391188:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 391188:1	33068	head	1	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight.
 391188:1	33070	head	1	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight.
 391188:1	33072	head	1	Only while on a Slayer task. Accuracy and damage bonuses will not be applied in the awakened fight.
@@ -26374,7 +26564,6 @@
 40453:1	10551	body	3	
 40453:1	10828	head	4	
 40453:1	11773	ring	2	
-40453:1	11804	special	3	
 40453:1	11832	body	2	
 40453:1	11834	legs	2	
 40453:1	11840	feet	4	
@@ -26388,8 +26577,6 @@
 40453:1	13199	head	3	
 40453:1	13239	feet	2	
 40453:1	13329	cape	3	
-40453:1	13576	special	2	If using Magic for phase 2
-40453:1	13652	special	2	If using Magic for phase 2
 40453:1	19553	neck	2	
 40453:1	19641	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	19645	head	1	head1: Slayer helmet (i) (on kalphite task only).
@@ -26405,7 +26592,6 @@
 40453:1	20463	shield	2	
 40453:1	20513	body	3	
 40453:1	20657	ring	1	Ring of suffering's recoil effect is often higher DPS compared to strength rings, even in the melee phase If not resetting special attack every kill with the elite desert diary
-40453:1	21003	special	1	If using Magic for phase 2
 40453:1	21266	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	21285	cape	1	
 40453:1	21287	cape	1	
@@ -26478,10 +26664,6 @@
 40453:1	26684	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	26762	ring	1	Ring of suffering's recoil effect is often higher DPS compared to strength rings, even in the melee phase If not resetting special attack every kill with the elite desert diary
 40453:1	26770	ring	2	
-40453:1	27100	special	1	If using Magic for phase 2
-40453:1	27690	special	2	If using Magic for phase 2
-40453:1	28035	special	2	If using Magic for phase 2
-40453:1	28039	special	2	If using Magic for phase 2
 40453:1	28055	feet	4	
 40453:1	28067	body	3	
 40453:1	28069	body	3	
@@ -26504,6 +26686,9 @@
 40453:1	29820	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	29822	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	31097	feet	1	
+40453:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 40453:1	33068	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	33070	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:1	33072	head	1	head1: Slayer helmet (i) (on kalphite task only).
@@ -26519,7 +26704,6 @@
 40453:1	33502	cape	1	
 40453:1	33520	body	3	
 40453:1	33522	body	3	
-40453:1	33631	special	1	If using Magic for phase 2
 40453:2	6585	neck	3	
 40453:2	7462	hands	2	
 40453:2	9185	weapon	4	
@@ -26686,6 +26870,9 @@
 40453:2	30076	body	4	
 40453:2	30079	legs	4	
 40453:2	31097	feet	1	
+40453:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 40453:2	33021	weapon	3	
 40453:2	33023	body	3	
 40453:2	33025	body	3	
@@ -26804,6 +26991,9 @@
 40453:3	29820	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:3	29822	head	1	head1: Slayer helmet (i) (on kalphite task only).
 40453:3	31097	feet	1	
+40453:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+40453:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 40453:3	31106	hands	1	
 40453:3	31113	special	1	
 40453:3	31113	weapon	2	
@@ -27184,6 +27374,9 @@
 41793:1	29820	head	1	Only on a Slayer task.
 41793:1	29822	head	1	Only on a Slayer task.
 41793:1	31097	feet	1	
+41793:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41793:1	31106	hands	1	
 41793:1	33068	head	1	Only on a Slayer task.
 41793:1	33070	head	1	Only on a Slayer task.
@@ -27284,6 +27477,9 @@
 41793:12	30756	legs	0	
 41793:12	30759	special	1	
 41793:12	31097	feet	1	
+41793:12	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:12	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:12	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41793:12	33068	head	1	Only on a Slayer task.
 41793:12	33070	head	1	Only on a Slayer task.
 41793:12	33072	head	1	Only on a Slayer task.
@@ -27575,6 +27771,9 @@
 41793:7	29820	head	1	Only on a Slayer task.
 41793:7	29822	head	1	Only on a Slayer task.
 41793:7	31097	feet	1	
+41793:7	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41793:7	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41793:7	33068	head	1	Only on a Slayer task.
 41793:7	33070	head	1	Only on a Slayer task.
 41793:7	33072	head	1	Only on a Slayer task.
@@ -28011,6 +28210,9 @@
 41794:1	29801	neck	2	
 41794:1	29804	neck	2	
 41794:1	31097	feet	1	
+41794:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:1	31290	cape	5	
 41794:1	33496	cape	1	
 41794:1	33498	cape	1	
@@ -28142,6 +28344,9 @@
 41794:11	28951	cape	3	
 41794:11	28953	cape	3	
 41794:11	31097	feet	1	
+41794:11	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:11	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:11	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:11	33532	cape	3	
 41794:11	33533	cape	3	
 41794:11	33639	neck	2	
@@ -28355,6 +28560,9 @@
 41794:13	29820	head	1	
 41794:13	29822	head	1	
 41794:13	31097	feet	1	
+41794:13	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:13	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:13	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:13	33068	head	1	
 41794:13	33070	head	1	
 41794:13	33072	head	1	
@@ -28615,6 +28823,9 @@
 41794:15	29820	head	1	Only while on a Slayer task.
 41794:15	29822	head	1	Only while on a Slayer task.
 41794:15	31097	feet	1	
+41794:15	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:15	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:15	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:15	33021	weapon	1	With full crystal and a bow of Faerdhinen.
 41794:15	33023	body	1	With full crystal and a bow of Faerdhinen.
 41794:15	33025	body	1	With full crystal and a bow of Faerdhinen.
@@ -28773,6 +28984,9 @@
 41794:17	30547	legs	3	
 41794:17	30634	weapon	4	
 41794:17	31097	feet	1	
+41794:17	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:17	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:17	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:17	31106	hands	1	
 41794:17	31113	special	2	
 41794:17	31113	weapon	2	
@@ -28919,6 +29133,9 @@
 41794:3	30545	body	3	
 41794:3	30547	legs	3	
 41794:3	31097	feet	1	
+41794:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:3	31106	hands	1	
 41794:3	31113	special	2	
 41794:3	31113	weapon	2	
@@ -29125,6 +29342,9 @@
 41794:6	29820	head	1	With Bow of Faerdhinen and full crystal armour
 41794:6	29822	head	1	With Bow of Faerdhinen and full crystal armour
 41794:6	31097	feet	1	
+41794:6	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:6	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41794:6	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41794:6	33021	weapon	1	With Bow of Faerdhinen and full crystal armour
 41794:6	33023	body	1	With Bow of Faerdhinen and full crystal armour
 41794:6	33025	body	1	With Bow of Faerdhinen and full crystal armour
@@ -29675,6 +29895,9 @@
 41977:20	29801	neck	1	
 41977:20	29804	neck	1	
 41977:20	31097	feet	1	
+41977:20	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41977:20	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41977:20	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41977:20	33464	head	3	With full elite void
 41977:20	33466	head	3	With full elite void
 41977:20	33476	body	3	With full elite void
@@ -29809,6 +30032,9 @@
 41977:23	29801	neck	1	
 41977:23	29804	neck	1	
 41977:23	31097	feet	1	
+41977:23	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41977:23	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+41977:23	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 41977:23	33464	head	3	With full elite void
 41977:23	33466	head	3	With full elite void
 41977:23	33480	body	3	With full elite void
@@ -30228,6 +30454,9 @@
 43753:1	29806	feet	3	
 43753:1	30955	weapon	5	
 43753:1	31097	feet	1	
+43753:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:1	31290	cape	4	
 43753:1	33496	cape	1	
 43753:1	33498	cape	1	
@@ -30381,6 +30610,9 @@
 43753:11	30434	weapon	1	
 43753:11	30436	weapon	1	
 43753:11	31097	feet	1	
+43753:11	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:11	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:11	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:11	33496	cape	5	
 43753:11	33498	cape	5	
 43753:11	33500	cape	5	
@@ -30551,6 +30783,9 @@
 43753:3	29801	neck	1	
 43753:3	29804	neck	1	
 43753:3	31097	feet	1	
+43753:3	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:3	33496	cape	1	
 43753:3	33498	cape	1	
 43753:3	33500	cape	1	
@@ -30763,6 +30998,9 @@
 43753:5	30434	weapon	1	
 43753:5	30436	weapon	1	
 43753:5	31097	feet	1	
+43753:5	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:5	31583	special	1	
 43753:5	31583	weapon	0	
 43753:5	31585	special	1	
@@ -31024,6 +31262,9 @@
 43753:7	30573	weapon	4	
 43753:7	30574	weapon	4	
 43753:7	31097	feet	1	
+43753:7	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:7	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:7	31106	hands	1	
 43753:7	31290	cape	5	
 43753:7	33468	head	4	Only with full void, better than 1% magic damage bonus gear without Tormented Bracelet.
@@ -31208,6 +31449,9 @@
 43753:9	29801	neck	1	
 43753:9	29804	neck	1	
 43753:9	31097	feet	1	
+43753:9	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:9	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+43753:9	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 43753:9	31290	cape	4	
 43753:9	33496	cape	1	
 43753:9	33498	cape	1	
@@ -31416,6 +31660,9 @@
 44459:1	30547	legs	3	
 44459:1	30634	weapon	3	
 44459:1	31097	feet	1	
+44459:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44459:1	31106	hands	1	
 44459:1	31113	weapon	1	
 44459:1	31115	weapon	1	
@@ -31704,6 +31951,9 @@
 44459:2	30076	body	3	
 44459:2	30079	legs	3	
 44459:2	31097	feet	1	
+44459:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44459:2	31583	weapon	5	With rune darts
 44459:2	31585	weapon	5	With rune darts
 44459:2	33021	weapon	2	With full crystal armour and Bow of Faerdhinen
@@ -31892,6 +32142,9 @@
 44459:3	30753	body	1	
 44459:3	30756	legs	1	
 44459:3	31097	feet	1	
+44459:3	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44459:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44459:3	33068	head	1	Only if on a Zulrah boss slayer task
 44459:3	33070	head	1	Only if on a Zulrah boss slayer task
 44459:3	33072	head	1	Only if on a Zulrah boss slayer task
@@ -32305,6 +32558,9 @@
 44881:1	30753	body	2	
 44881:1	30756	legs	2	
 44881:1	31097	feet	1	
+44881:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44881:1	31290	cape	4	
 44881:1	33068	head	1	When assigned as a Slayer task
 44881:1	33070	head	1	When assigned as a Slayer task
@@ -32490,6 +32746,9 @@
 44881:3	29820	head	1	When assigned as a Slayer task
 44881:3	29822	head	1	When assigned as a Slayer task
 44881:3	31097	feet	1	
+44881:3	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44881:3	33068	head	1	When assigned as a Slayer task
 44881:3	33070	head	1	When assigned as a Slayer task
 44881:3	33072	head	1	When assigned as a Slayer task
@@ -32505,13 +32764,6 @@
 44881:5	1409	weapon	5	
 44881:5	1410	weapon	5	
 44881:5	1540	shield	4	
-44881:5	1704	neck	3	
-44881:5	1706	neck	3	
-44881:5	1708	neck	3	
-44881:5	1710	neck	3	
-44881:5	1712	neck	3	
-44881:5	1727	neck	4	
-44881:5	1731	neck	5	
 44881:5	2412	cape	2	
 44881:5	2413	cape	2	
 44881:5	2414	cape	2	
@@ -32537,7 +32789,6 @@
 44881:5	4877	legs	3	
 44881:5	4878	legs	3	
 44881:5	6111	cape	5	
-44881:5	6585	neck	2	
 44881:5	6889	shield	0	shield3: Ancient wyvern shield > Mage's book. Requires super antifire potion or extended super antifire potion
 44881:5	6920	feet	3	
 44881:5	7462	hands	3	
@@ -32545,11 +32796,6 @@
 44881:5	8840	legs	4	
 44881:5	8842	hands	5	
 44881:5	9104	ring	5	
-44881:5	10354	neck	3	
-44881:5	10356	neck	3	
-44881:5	10358	neck	3	
-44881:5	10360	neck	3	
-44881:5	10362	neck	3	
 44881:5	10446	cape	4	
 44881:5	10448	cape	4	
 44881:5	10450	cape	4	
@@ -32557,12 +32803,7 @@
 44881:5	11663	head	5	
 44881:5	11770	ring	2	
 44881:5	11865	head	1	When assigned as a Slayer task
-44881:5	11964	neck	3	
-44881:5	11966	neck	3	
-44881:5	11976	neck	3	
-44881:5	11978	neck	3	
 44881:5	11998	weapon	3	weapon3: Twinflame staff / Smoke battlestaff. With earth spells
-44881:5	12002	neck	1	
 44881:5	12197	cape	4	
 44881:5	12261	cape	4	
 44881:5	12273	cape	4	
@@ -32579,7 +32820,6 @@
 44881:5	19641	head	1	When assigned as a Slayer task
 44881:5	19645	head	1	When assigned as a Slayer task
 44881:5	19649	head	1	When assigned as a Slayer task
-44881:5	19707	neck	3	
 44881:5	20220	ammo	2	
 44881:5	20223	ammo	2	
 44881:5	20226	ammo	2	
@@ -32614,7 +32854,6 @@
 44881:5	22947	ammo	1	
 44881:5	22975	ring	2	
 44881:5	23075	head	1	When assigned as a Slayer task
-44881:5	23354	neck	5	
 44881:5	24177	body	4	
 44881:5	24179	legs	4	
 44881:5	24182	hands	5	
@@ -32716,6 +32955,9 @@
 44881:5	30547	legs	3	
 44881:5	30634	weapon	3	weapon3: Twinflame staff / Smoke battlestaff. With earth spells
 44881:5	31097	feet	1	
+44881:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+44881:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 44881:5	31106	hands	1	
 44881:5	31113	weapon	1	Requires super antifire potion or extended super antifire potion With saturated heart
 44881:5	31115	weapon	1	Requires super antifire potion or extended super antifire potion With saturated heart
@@ -33003,6 +33245,9 @@
 459948:1	30753	body	2	For a first quiver, the defence from Torva is more useful than the offensive stats from Oathplate.
 459948:1	30756	legs	2	For a first quiver, the defence from Torva is more useful than the offensive stats from Oathplate.
 459948:1	31097	feet	1	
+459948:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 459948:1	31113	weapon	2	
 459948:1	31115	weapon	2	
 459948:1	33021	weapon	2	
@@ -33143,6 +33388,9 @@
 459948:13	30753	body	2	
 459948:13	30756	legs	2	
 459948:13	31097	feet	1	
+459948:13	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:13	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:13	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 459948:13	33314	weapon	3	In Bandos-tier gear, the Fang outperforms even a blade of Saeldor on every NPC except Sol Heredit. Makes the Sol fight significantly more difficult due to its range if Myopia is not taken.
 459948:13	33316	weapon	3	In Bandos-tier gear, the Fang outperforms even a blade of Saeldor on every NPC except Sol Heredit. Makes the Sol fight significantly more difficult due to its range if Myopia is not taken.
 459948:13	33318	weapon	3	In Bandos-tier gear, the Fang outperforms even a blade of Saeldor on every NPC except Sol Heredit. Makes the Sol fight significantly more difficult due to its range if Myopia is not taken.
@@ -33560,6 +33808,9 @@
 459948:5	30753	body	2	For a first quiver, the defence from Torva is more useful than the offensive stats from Oathplate.
 459948:5	30756	legs	2	For a first quiver, the defence from Torva is more useful than the offensive stats from Oathplate.
 459948:5	31097	feet	1	
+459948:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+459948:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 459948:5	31106	hands	1	
 459948:5	33496	cape	1	
 459948:5	33498	cape	1	
@@ -34721,6 +34972,9 @@
 499345:1	30076	body	3	
 499345:1	30079	legs	3	
 499345:1	31097	feet	1	
+499345:1	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+499345:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+499345:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 499345:1	33021	weapon	3	
 499345:1	33023	body	2	
 499345:1	33025	body	2	
@@ -34962,6 +35216,9 @@
 499345:4	30547	legs	3	
 499345:4	30634	weapon	0	In specific circumstances, the Eye of Ayak can be an excellent weapon at brutal black dragons. The DPS of the Eye of Ayak is higher than listed in DPS calculators; it triggers confliction gauntlets much more often than any other weapon. This is because despite the DPS being high, the accuracy is low and the attack speed is fast, meaning it triggers a higher share of the hits and more often. High level water spells will be better DPS than powered staves depending on equipment and Magic level, especially with a tome of water.
 499345:4	31097	feet	1	
+499345:4	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+499345:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+499345:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 499345:4	31106	hands	1	
 499345:4	31113	weapon	0	In specific circumstances, the Eye of Ayak can be an excellent weapon at brutal black dragons. The DPS of the Eye of Ayak is higher than listed in DPS calculators; it triggers confliction gauntlets much more often than any other weapon. This is because despite the DPS being high, the accuracy is low and the attack speed is fast, meaning it triggers a higher share of the hits and more often. High level water spells will be better DPS than powered staves depending on equipment and Magic level, especially with a tome of water.
 499345:4	31115	weapon	0	In specific circumstances, the Eye of Ayak can be an excellent weapon at brutal black dragons. The DPS of the Eye of Ayak is higher than listed in DPS calculators; it triggers confliction gauntlets much more often than any other weapon. This is because despite the DPS being high, the accuracy is low and the attack speed is fast, meaning it triggers a higher share of the hits and more often. High level water spells will be better DPS than powered staves depending on equipment and Magic level, especially with a tome of water.
@@ -35158,6 +35415,9 @@
 516379:1	30756	legs	2	With a slash weapon. With a crush weapon.
 516379:1	30955	special	3	Only during the defenceless phase (when attacks are 100% accurate).
 516379:1	31097	feet	1	
+516379:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 516379:1	33068	head	1	When on a greater demon Slayer task.
 516379:1	33070	head	1	When on a greater demon Slayer task.
 516379:1	33072	head	1	When on a greater demon Slayer task.
@@ -35399,6 +35659,9 @@
 516379:3	29822	head	1	When on a greater demon Slayer task. With full Elite Void. Performs better off-task than Masori with the exception of the toxic blowpipe and twisted bow
 516379:3	31081	shield	4	Only if bringing a crossbow.
 516379:3	31097	feet	1	
+516379:3	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 516379:3	33021	weapon	3	Only if bringing full crystal armour and the bow of Faerdhinen.
 516379:3	33023	body	3	Only if bringing full crystal armour and the bow of Faerdhinen.
 516379:3	33025	body	3	Only if bringing full crystal armour and the bow of Faerdhinen.
@@ -35612,6 +35875,9 @@
 516379:5	30573	weapon	0	Using demonbane spells and Mark of Darkness
 516379:5	30574	weapon	0	Using demonbane spells and Mark of Darkness
 516379:5	31097	feet	1	
+516379:5	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+516379:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 516379:5	31106	hands	1	
 516379:5	33035	weapon	0	Using demonbane spells and Mark of Darkness
 516379:5	33036	weapon	0	Using demonbane spells and Mark of Darkness
@@ -36213,6 +36479,9 @@
 52699:3	30434	weapon	1	Only when 2 mobs are in range for bounces.
 52699:3	30436	weapon	1	Only when 2 mobs are in range for bounces.
 52699:3	31097	feet	1	
+52699:3	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+52699:3	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+52699:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 52699:3	33472	head	1	Only when using full Void Knight equipment.
 52699:3	33474	head	1	Only when using full Void Knight equipment.
 52699:3	33476	body	1	Only when using full Void Knight equipment.
@@ -36447,6 +36716,9 @@
 52699:9	30756	legs	2	
 52699:9	30955	weapon	3	
 52699:9	31097	feet	1	
+52699:9	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+52699:9	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+52699:9	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 52699:9	31290	cape	3	
 52699:9	33496	cape	1	
 52699:9	33498	cape	1	
@@ -36619,6 +36891,9 @@
 529623:2	30753	body	3	
 529623:2	30756	legs	3	
 529623:2	31097	feet	1	
+529623:2	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+529623:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+529623:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 529623:2	33068	head	1	
 529623:2	33070	head	1	
 529623:2	33072	head	1	
@@ -36734,6 +37009,9 @@
 529623:5	29820	head	1	
 529623:5	29822	head	1	
 529623:5	31097	feet	1	
+529623:5	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+529623:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+529623:5	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 529623:5	33068	head	1	
 529623:5	33070	head	1	
 529623:5	33072	head	1	
@@ -36907,6 +37185,9 @@
 538236:1	30321	head	4	
 538236:1	30955	special	5	
 538236:1	31097	feet	1	
+538236:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+538236:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+538236:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 538236:1	33496	cape	1	
 538236:1	33498	cape	1	
 538236:1	33500	cape	1	
@@ -37153,6 +37434,9 @@
 538484:1	30756	legs	0	When using Scythe of Vitur
 538484:1	30955	special	4	
 538484:1	31097	feet	1	
+538484:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+538484:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+538484:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 538484:1	31290	cape	5	
 538484:1	33068	head	0	When on a lesser nagua slayer task
 538484:1	33070	head	0	When on a lesser nagua slayer task
@@ -37440,6 +37724,9 @@
 55446:1	30547	legs	0	
 55446:1	30634	weapon	4	
 55446:1	31097	feet	1	
+55446:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+55446:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+55446:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 55446:1	31106	hands	1	Optional switch used before the Kraken dies to extend trip length.
 55446:1	31113	special	4	
 55446:1	31113	weapon	1	
@@ -37830,6 +38117,9 @@
 569290:9	30574	weapon	0	
 569290:9	30634	weapon	0	
 569290:9	31097	feet	1	
+569290:9	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+569290:9	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+569290:9	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 569290:9	31106	hands	1	
 569290:9	33035	weapon	2	
 569290:9	33036	weapon	2	
@@ -39135,6 +39425,9 @@
 624960:1	30955	special	3	
 624960:1	30955	weapon	0	Extremely heavy, allows to freely equip any type of item in other slots On slash
 624960:1	31097	feet	1	
+624960:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+624960:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+624960:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 624960:1	31248	weapon	4	On slash
 624960:1	31398	cape	1	
 624960:1	33068	head	2	
@@ -39329,6 +39622,9 @@
 624960:4	30756	legs	1	
 624960:4	30955	special	4	
 624960:4	31097	feet	1	
+624960:4	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+624960:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+624960:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 624960:4	31398	cape	4	
 624960:4	33068	head	1	
 624960:4	33070	head	1	
@@ -39477,6 +39773,9 @@
 631042:2	29822	head	1	
 631042:2	30750	head	2	
 631042:2	31097	feet	1	
+631042:2	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+631042:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+631042:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 631042:2	33068	head	1	
 631042:2	33070	head	1	
 631042:2	33072	head	1	
@@ -39667,6 +39966,9 @@
 635395:1	30756	legs	2	
 635395:1	30955	special	0	
 635395:1	31097	feet	1	
+635395:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 635395:1	31248	weapon	5	
 635395:1	33068	head	0	
 635395:1	33070	head	0	
@@ -39916,6 +40218,9 @@
 635395:2	30079	legs	3	
 635395:2	31081	shield	3	
 635395:2	31097	feet	1	
+635395:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 635395:2	32879	shield	4	
 635395:2	33021	weapon	2	
 635395:2	33023	body	2	
@@ -40174,6 +40479,9 @@
 635395:3	30574	weapon	0	
 635395:3	30634	weapon	2	
 635395:3	31097	feet	1	
+635395:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+635395:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 635395:3	31106	hands	1	
 635395:3	31113	weapon	0	
 635395:3	31115	weapon	0	
@@ -40476,6 +40784,9 @@
 646739:7	30756	legs	2	
 646739:7	31081	shield	3	
 646739:7	31097	feet	1	
+646739:7	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+646739:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+646739:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 646739:7	33464	head	3	Only when using full Void Knight equipment.
 646739:7	33466	head	3	Only when using full Void Knight equipment.
 646739:7	33480	body	3	Only when using full Void Knight equipment.
@@ -40696,6 +41007,9 @@
 674843:1	30895	ring	5	
 674843:1	30955	special	2	These are the best special attack option if used exclusively during the magic special punish
 674843:1	31097	feet	1	
+674843:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+674843:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+674843:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 674843:1	33496	cape	1	
 674843:1	33498	cape	1	
 674843:1	33500	cape	1	
@@ -41422,6 +41736,9 @@
 68335:1	30753	body	3	
 68335:1	30756	legs	3	
 68335:1	31097	feet	1	
+68335:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+68335:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+68335:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 68335:1	33068	head	1	
 68335:1	33070	head	1	
 68335:1	33072	head	1	
@@ -41662,6 +41979,9 @@
 68335:4	29820	head	1	
 68335:4	29822	head	1	
 68335:4	31097	feet	1	
+68335:4	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+68335:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+68335:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 68335:4	33021	weapon	3	
 68335:4	33023	body	3	
 68335:4	33025	body	3	
@@ -41862,6 +42182,9 @@
 72120:1	30753	body	1	
 72120:1	30756	legs	1	
 72120:1	31097	feet	1	
+72120:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+72120:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+72120:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 72120:1	31290	cape	5	
 72120:1	33068	head	1	
 72120:1	33070	head	1	
@@ -42082,6 +42405,9 @@
 72120:2	29822	head	1	
 72120:2	31081	shield	3	
 72120:2	31097	feet	1	
+72120:2	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+72120:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+72120:2	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 72120:2	31290	cape	5	
 72120:2	33068	head	1	
 72120:2	33070	head	1	
@@ -42282,6 +42608,9 @@
 73909:1	30753	body	1	
 73909:1	30756	legs	1	
 73909:1	31097	feet	1	
+73909:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+73909:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+73909:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 73909:1	33068	head	1	
 73909:1	33070	head	1	
 73909:1	33072	head	1	
@@ -42493,6 +42822,9 @@
 73909:2	29820	head	1	
 73909:2	29822	head	1	
 73909:2	31097	feet	1	
+73909:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+73909:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+73909:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 73909:2	33021	weapon	2	Can use melee cape
 73909:2	33023	body	2	With full crystal and bow of Faerdhinen
 73909:2	33025	body	2	With full crystal and bow of Faerdhinen
@@ -42683,6 +43015,9 @@
 74025:1	29820	head	1	
 74025:1	29822	head	1	
 74025:1	31097	feet	1	
+74025:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:1	33068	head	1	
 74025:1	33070	head	1	
 74025:1	33072	head	1	
@@ -43210,6 +43545,9 @@
 74025:4	29820	head	1	
 74025:4	29822	head	1	
 74025:4	31097	feet	1	
+74025:4	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:4	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:4	33068	head	1	
 74025:4	33070	head	1	
 74025:4	33072	head	1	
@@ -43435,6 +43773,9 @@
 74025:5	30753	body	0	
 74025:5	30756	legs	0	
 74025:5	31097	feet	1	
+74025:5	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:5	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:5	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:5	33068	head	1	
 74025:5	33070	head	1	
 74025:5	33072	head	1	
@@ -43693,6 +44034,9 @@
 74025:6	30753	body	1	
 74025:6	30756	legs	1	
 74025:6	31097	feet	1	
+74025:6	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:6	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:6	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:6	33068	head	1	
 74025:6	33070	head	1	
 74025:6	33072	head	1	
@@ -43717,7 +44061,6 @@
 74025:7	2413	cape	2	
 74025:7	2414	cape	2	
 74025:7	6585	neck	2	
-74025:7	6889	shield	3	For special attack
 74025:7	10354	neck	3	
 74025:7	10356	neck	3	
 74025:7	10358	neck	3	
@@ -43736,7 +44079,6 @@
 74025:7	11783	head	2	
 74025:7	11784	head	2	
 74025:7	11865	head	1	
-74025:7	11924	shield	3	For special attack
 74025:7	11964	neck	3	
 74025:7	11966	neck	3	
 74025:7	11976	neck	3	
@@ -43760,8 +44102,6 @@
 74025:7	21287	cape	4	
 74025:7	21289	cape	4	
 74025:7	21295	cape	4	
-74025:7	21633	shield	3	For special attack
-74025:7	21634	shield	3	For special attack
 74025:7	21733	feet	4	
 74025:7	21776	cape	1	
 74025:7	21780	cape	1	
@@ -43816,7 +44156,6 @@
 74025:7	25912	head	1	
 74025:7	25914	head	1	
 74025:7	25975	ring	1	
-74025:7	25985	shield	2	For special attack
 74025:7	26243	body	2	
 74025:7	26245	legs	2	
 74025:7	26674	head	1	
@@ -43842,8 +44181,6 @@
 74025:7	26779	head	2	
 74025:7	26780	head	2	
 74025:7	26781	head	2	
-74025:7	27251	shield	1	For special attack
-74025:7	27253	shield	1	For special attack
 74025:7	27275	weapon	1	
 74025:7	27277	weapon	1	
 74025:7	27662	special	2	
@@ -43854,6 +44191,9 @@
 74025:7	29820	head	1	
 74025:7	29822	head	1	
 74025:7	31097	feet	1	
+74025:7	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:7	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:7	31106	hands	1	
 74025:7	33068	head	1	
 74025:7	33070	head	1	
@@ -44113,6 +44453,9 @@
 74025:8	29820	head	1	
 74025:8	29822	head	1	
 74025:8	31097	feet	1	
+74025:8	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:8	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+74025:8	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 74025:8	33021	weapon	4	weapon4: Bow of Faerdhinen (With Crystal armour).
 74025:8	33023	body	3	
 74025:8	33025	body	3	
@@ -44136,12 +44479,6 @@
 74025:8	33589	ammo	0	
 74025:8	33595	ammo	1	
 74025:8	33639	neck	1	
-80411:1	1704	neck	3	
-80411:1	1706	neck	3	
-80411:1	1708	neck	3	
-80411:1	1710	neck	3	
-80411:1	1712	neck	3	
-80411:1	1727	neck	4	
 80411:1	2412	cape	2	
 80411:1	2413	cape	2	
 80411:1	2414	cape	2	
@@ -44159,7 +44496,6 @@
 80411:1	4876	legs	3	
 80411:1	4877	legs	3	
 80411:1	4878	legs	3	
-80411:1	6585	neck	2	
 80411:1	6889	shield	4	
 80411:1	6916	body	5	
 80411:1	6920	feet	3	
@@ -44167,19 +44503,9 @@
 80411:1	6924	legs	5	
 80411:1	7460	hands	5	
 80411:1	7462	hands	3	
-80411:1	10354	neck	3	
-80411:1	10356	neck	3	
-80411:1	10358	neck	3	
-80411:1	10360	neck	3	
-80411:1	10362	neck	3	
 80411:1	11770	ring	4	
 80411:1	11865	head	1	
 80411:1	11924	shield	4	
-80411:1	11964	neck	3	
-80411:1	11966	neck	3	
-80411:1	11976	neck	3	
-80411:1	11978	neck	3	
-80411:1	12002	neck	1	
 80411:1	12612	shield	5	
 80411:1	12825	shield	2	
 80411:1	12899	weapon	0	
@@ -44195,7 +44521,6 @@
 80411:1	19641	head	1	
 80411:1	19645	head	1	
 80411:1	19649	head	1	
-80411:1	19707	neck	3	
 80411:1	20220	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
 80411:1	20223	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
 80411:1	20226	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
@@ -44303,6 +44628,9 @@
 80411:1	30545	body	3	
 80411:1	30547	legs	3	
 80411:1	31097	feet	1	
+80411:1	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:1	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 80411:1	31106	hands	1	
 80411:1	31113	weapon	2	Cannot be used to safespot
 80411:1	31115	weapon	2	Cannot be used to safespot
@@ -44517,6 +44845,9 @@
 80411:10	30756	legs	2	If using a slash weapon.
 80411:10	30955	special	3	
 80411:10	31097	feet	1	
+80411:10	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:10	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:10	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 80411:10	33068	head	1	
 80411:10	33070	head	1	
 80411:10	33072	head	1	
@@ -44533,12 +44864,6 @@
 80411:10	33500	cape	1	
 80411:10	33502	cape	1	
 80411:10	33631	special	2	
-80411:4	1704	neck	3	
-80411:4	1706	neck	3	
-80411:4	1708	neck	3	
-80411:4	1710	neck	3	
-80411:4	1712	neck	3	
-80411:4	1727	neck	4	
 80411:4	2412	cape	2	
 80411:4	2413	cape	2	
 80411:4	2414	cape	2	
@@ -44556,7 +44881,6 @@
 80411:4	4876	legs	3	
 80411:4	4877	legs	3	
 80411:4	4878	legs	3	
-80411:4	6585	neck	2	
 80411:4	6889	shield	4	
 80411:4	6916	body	5	
 80411:4	6920	feet	3	
@@ -44564,19 +44888,9 @@
 80411:4	6924	legs	5	
 80411:4	7460	hands	5	
 80411:4	7462	hands	3	
-80411:4	10354	neck	3	
-80411:4	10356	neck	3	
-80411:4	10358	neck	3	
-80411:4	10360	neck	3	
-80411:4	10362	neck	3	
 80411:4	11770	ring	4	
 80411:4	11865	head	1	
 80411:4	11924	shield	4	
-80411:4	11964	neck	3	
-80411:4	11966	neck	3	
-80411:4	11976	neck	3	
-80411:4	11978	neck	3	
-80411:4	12002	neck	1	
 80411:4	12612	shield	5	
 80411:4	12825	shield	2	
 80411:4	12899	weapon	0	
@@ -44592,7 +44906,6 @@
 80411:4	19641	head	1	
 80411:4	19645	head	1	
 80411:4	19649	head	1	
-80411:4	19707	neck	3	
 80411:4	20220	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
 80411:4	20223	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
 80411:4	20226	ammo	2	ammo2: God blessing / Rada's blessing 3/2. Rada's blessing 2 is explicitly included in this guide field.
@@ -44700,6 +45013,9 @@
 80411:4	30545	body	3	
 80411:4	30547	legs	3	
 80411:4	31097	feet	1	
+80411:4	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:4	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:4	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 80411:4	31106	hands	1	
 80411:4	31113	weapon	2	
 80411:4	31115	weapon	2	
@@ -44914,6 +45230,9 @@
 80411:7	30756	legs	2	If using a slash weapon.
 80411:7	30955	special	3	
 80411:7	31097	feet	1	
+80411:7	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:7	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+80411:7	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 80411:7	33068	head	1	
 80411:7	33070	head	1	
 80411:7	33072	head	1	
@@ -45724,7 +46043,6 @@
 81998:1	7459	hands	4	
 81998:1	7460	hands	4	
 81998:1	7462	hands	1	
-81998:1	9756	cape	3	
 81998:1	10354	neck	3	
 81998:1	10356	neck	3	
 81998:1	10358	neck	3	
@@ -45739,7 +46057,6 @@
 81998:1	10384	hands	2	
 81998:1	10386	body	3	
 81998:1	10390	head	2	
-81998:1	10499	cape	1	
 81998:1	11212	ammo	2	
 81998:1	11865	head	1	If on a Chaos Fanatic slayer task
 81998:1	11964	neck	3	
@@ -45756,9 +46073,7 @@
 81998:1	12508	body	3	
 81998:1	12512	head	2	
 81998:1	12788	weapon	4	
-81998:1	13124	cape	2	If using a bow that doesn't require arrows
 81998:1	13128	ring	2	
-81998:1	13337	cape	1	
 81998:1	13378	feet	2	
 81998:1	19547	neck	2	
 81998:1	19641	head	1	If on a Chaos Fanatic slayer task
@@ -45771,15 +46086,10 @@
 81998:1	20229	ammo	0	If using a weapon that doesn't require the ammo slot
 81998:1	20232	ammo	0	If using a weapon that doesn't require the ammo slot
 81998:1	20235	ammo	0	If using a weapon that doesn't require the ammo slot
-81998:1	20760	cape	2	If using a bow that doesn't require arrows
 81998:1	20997	weapon	0	With Crystal armour and Bow of Faerdhinen
 81998:1	21266	head	1	If on a Chaos Fanatic slayer task
 81998:1	21326	ammo	2	
 81998:1	21890	head	1	If on a Chaos Fanatic slayer task
-81998:1	21898	cape	1	
-81998:1	21914	cape	1	
-81998:1	21916	cape	1	
-81998:1	22109	cape	1	
 81998:1	22111	neck	3	
 81998:1	22547	weapon	1	
 81998:1	22550	weapon	1	
@@ -45793,8 +46103,6 @@
 81998:1	23983	weapon	4	
 81998:1	23985	weapon	4	
 81998:1	24123	weapon	4	
-81998:1	24135	cape	1	
-81998:1	24222	cape	1	
 81998:1	24444	head	1	If on a Chaos Fanatic slayer task
 81998:1	25177	head	1	If on a Chaos Fanatic slayer task
 81998:1	25179	head	1	If on a Chaos Fanatic slayer task
@@ -45833,12 +46141,6 @@
 81998:1	26684	head	1	If on a Chaos Fanatic slayer task
 81998:1	27232	legs	1	
 81998:1	27238	body	1	
-81998:1	27359	cape	1	
-81998:1	27361	cape	1	
-81998:1	27363	cape	1	
-81998:1	27365	cape	1	
-81998:1	27374	cape	1	
-81998:1	27376	cape	1	
 81998:1	27652	weapon	1	
 81998:1	27655	weapon	1	
 81998:1	27697	body	2	With Crystal armour and Bow of Faerdhinen
@@ -45871,15 +46173,7 @@
 81998:1	27775	legs	2	With Crystal armour and Bow of Faerdhinen
 81998:1	28327	ring	1	
 81998:1	28329	ring	1	
-81998:1	28830	cape	1	
-81998:1	28902	cape	1	
-81998:1	28906	cape	1	
-81998:1	28947	cape	1	
-81998:1	28949	cape	1	
-81998:1	28951	cape	1	
-81998:1	28953	cape	1	
 81998:1	29286	feet	1	
-81998:1	29289	cape	2	If using a bow that doesn't require arrows
 81998:1	29591	weapon	3	
 81998:1	29818	head	1	If on a Chaos Fanatic slayer task
 81998:1	29820	head	1	If on a Chaos Fanatic slayer task
@@ -45898,8 +46192,6 @@
 81998:1	33445	head	1	If on a Chaos Fanatic slayer task
 81998:1	33447	head	1	If on a Chaos Fanatic slayer task
 81998:1	33449	head	1	If on a Chaos Fanatic slayer task
-81998:1	33532	cape	1	
-81998:1	33533	cape	1	
 81998:1	33639	neck	1	
 81998:1	34401	neck	4	
 82921:1	1073	legs	5	Low-risk option
@@ -46211,14 +46503,6 @@
 82921:5	544	body	5	
 82921:5	777	hands	5	if you are using water bolt]
 82921:5	1540	shield	5	If not using antifire potions
-82921:5	1704	neck	3	
-82921:5	1706	neck	3	
-82921:5	1708	neck	3	
-82921:5	1710	neck	3	
-82921:5	1712	neck	3	
-82921:5	1724	neck	5	
-82921:5	1727	neck	3	
-82921:5	1731	neck	4	
 82921:5	2412	cape	2	
 82921:5	2413	cape	2	
 82921:5	2414	cape	2	
@@ -46263,11 +46547,6 @@
 82921:5	9808	cape	4	
 82921:5	9811	cape	4	
 82921:5	9949	cape	4	
-82921:5	10354	neck	3	
-82921:5	10356	neck	3	
-82921:5	10358	neck	3	
-82921:5	10360	neck	3	
-82921:5	10362	neck	3	
 82921:5	11014	ring	4	
 82921:5	11770	ring	0	
 82921:5	11865	head	1	If on a slayer task
@@ -46275,11 +46554,6 @@
 82921:5	11907	weapon	0	Using water spells
 82921:5	11908	weapon	0	Using water spells
 82921:5	11924	shield	4	
-82921:5	11964	neck	3	
-82921:5	11966	neck	3	
-82921:5	11976	neck	3	
-82921:5	11978	neck	3	
-82921:5	12002	neck	1	
 82921:5	12608	shield	5	If not using antifire potions
 82921:5	12610	shield	5	If not using antifire potions
 82921:5	12612	shield	5	If not using antifire potions
@@ -46302,7 +46576,6 @@
 82921:5	19641	head	1	If on a slayer task
 82921:5	19645	head	1	If on a slayer task
 82921:5	19649	head	1	If on a slayer task
-82921:5	19707	neck	3	
 82921:5	20760	cape	3	
 82921:5	21018	head	0	
 82921:5	21021	body	1	
@@ -46315,16 +46588,13 @@
 82921:5	21793	cape	1	
 82921:5	21795	cape	1	
 82921:5	21890	head	1	If on a slayer task
-82921:5	22111	neck	0	
 82921:5	22288	weapon	0	Using water spells
 82921:5	22290	weapon	0	Using water spells
 82921:5	22292	weapon	4	
 82921:5	22294	weapon	4	
 82921:5	22323	weapon	4	
 82921:5	22481	weapon	4	
-82921:5	22986	neck	0	
 82921:5	23075	head	1	If on a slayer task
-82921:5	23354	neck	4	
 82921:5	24232	cape	1	
 82921:5	24233	cape	1	
 82921:5	24234	cape	1	
@@ -46740,6 +47010,9 @@
 82925:2	27652	weapon	1	
 82925:2	27655	weapon	1	
 82925:2	31097	feet	1	
+82925:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+82925:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+82925:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 82925:2	31290	cape	3	
 82925:2	33639	neck	1	
 82925:3	1540	shield	4	
@@ -47000,6 +47273,9 @@
 94147:1	30753	body	1	
 94147:1	30756	legs	1	
 94147:1	31097	feet	1	
+94147:1	31091	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:1	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:1	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 94147:1	33496	cape	1	
 94147:1	33498	cape	1	
 94147:1	33500	cape	1	
@@ -47251,6 +47527,9 @@
 94147:2	29052	legs	4	Can function as hybrid armour, saving inventory space
 94147:2	29055	head	4	Can function as hybrid armour, saving inventory space
 94147:2	31097	feet	1	
+94147:2	31092	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:2	31094	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:2	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 94147:2	33021	weapon	3	With full Crystal armour and Bow of Faerdhinen Only used on high defence monsters; Shamans, Vespula, Vasa, Mystics, Olm Head
 94147:2	33023	body	3	With full Crystal armour and Bow of Faerdhinen
 94147:2	33025	body	3	With full Crystal armour and Bow of Faerdhinen
@@ -47497,6 +47776,9 @@
 94147:3	30545	body	3	
 94147:3	30547	legs	3	
 94147:3	31097	feet	1	
+94147:3	31093	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:3	31095	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
+94147:3	31096	feet	1	Same upgraded combat bonus for this guide style as max treads; other combat-style bonuses differ.
 94147:3	31106	hands	1	
 94147:3	31113	weapon	2	
 94147:3	31115	weapon	2	
@@ -48250,3 +48532,175 @@
 97339:4	33530	cape	1	Ensure it is protected over 20 wilderness with a Trouver parchment
 97339:4	33532	cape	1	Ensure it is protected over 20 wilderness with a Trouver parchment
 97339:4	33533	cape	1	Ensure it is protected over 20 wilderness with a Trouver parchment
+227925:1	3839	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	3840	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	3841	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	3842	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	3843	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	3844	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12607	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12608	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12609	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12610	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12611	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12612	shield	3	Prayer-bonus alternatives. The guide explicitly permits damaged books here; their unfinished state does not grant completed-book combat bonuses.
+227925:1	12817	shield	1	
+227925:1	13120	shield	5	Maximises prayer bonus
+227925:1	31081	shield	2	Maximises prayer bonus
+24889:1	11212	ammo	3	
+24889:1	20223	ammo	5	
+24889:1	21326	ammo	4	
+24889:1	33589	ammo	2	
+24889:1	33595	ammo	1	
+269949:3	9185	weapon	0	
+269949:3	11785	weapon	0	
+269949:3	12924	weapon	2	weapon2: Toxic blowpipe (with rune or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
+269949:3	12926	weapon	2	weapon2: Toxic blowpipe (with rune or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
+269949:3	20997	weapon	1	weapon1: Twisted bow (with rune or better arrows).
+269949:3	21902	weapon	0	
+269949:3	25862	weapon	3	Only if using full Crystal armour
+269949:3	25865	weapon	3	Only if using full Crystal armour
+269949:3	25884	weapon	3	Only if using full Crystal armour
+269949:3	25886	weapon	3	Only if using full Crystal armour
+269949:3	25888	weapon	3	Only if using full Crystal armour
+269949:3	25890	weapon	3	Only if using full Crystal armour
+269949:3	25892	weapon	3	Only if using full Crystal armour
+269949:3	25894	weapon	3	Only if using full Crystal armour
+269949:3	25896	weapon	3	Only if using full Crystal armour
+269949:3	26374	weapon	0	
+269949:3	28053	weapon	0	
+269949:3	28687	weapon	2	weapon2: Toxic blowpipe (with rune or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
+269949:3	28688	weapon	2	weapon2: Toxic blowpipe (with rune or better darts). Surpasses Bow of Faerdhinen only with at least 2 Masori armour pieces
+269949:3	33021	weapon	3	Only if using full Crystal armour
+306436:1	23943	ring	2	If using a crystal harpoon
+306436:1	25543	ring	2	If using a crystal harpoon
+306436:1	25545	ring	2	If using a crystal harpoon
+306436:1	25975	ring	1	If below the minimum fishing level to guarantee a 100% catch rate while equipping a harpoon with a special attack that boosts your fishing level
+306436:10	23943	ring	1	If using a crystal harpoon
+40453:1	11804	special	3	
+40453:1	13576	special	0	
+40453:1	13652	special	0	
+40453:1	21003	special	0	
+40453:1	27100	special	0	
+40453:1	27690	special	0	Voidwaker beats defense lowering special attacks on monsters with less than ~1000 hp
+40453:1	28035	special	0	
+40453:1	28039	special	0	
+40453:1	33631	special	0	Voidwaker beats defense lowering special attacks on monsters with less than ~1000 hp
+44881:5	1704	neck	3	
+44881:5	1706	neck	3	
+44881:5	1708	neck	3	
+44881:5	1710	neck	3	
+44881:5	1712	neck	3	
+44881:5	1727	neck	4	
+44881:5	1731	neck	5	
+44881:5	6585	neck	3	
+44881:5	10354	neck	3	
+44881:5	10356	neck	3	
+44881:5	10358	neck	3	
+44881:5	10360	neck	3	
+44881:5	10362	neck	3	
+44881:5	11964	neck	3	
+44881:5	11966	neck	3	
+44881:5	11976	neck	3	
+44881:5	11978	neck	3	
+44881:5	12002	neck	1	
+44881:5	19707	neck	3	
+44881:5	23354	neck	5	
+44881:5	34428	neck	2	
+74025:7	6889	shield	3	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	11924	shield	3	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	21633	shield	3	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	21634	shield	3	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	25985	shield	2	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	27251	shield	1	For Eldritch Nightmare staff/Accursed sceptre
+74025:7	27253	shield	1	For Eldritch Nightmare staff/Accursed sceptre
+80411:1	1704	neck	3	
+80411:1	1706	neck	3	
+80411:1	1708	neck	3	
+80411:1	1710	neck	3	
+80411:1	1712	neck	3	
+80411:1	1727	neck	4	
+80411:1	6585	neck	3	
+80411:1	10354	neck	3	
+80411:1	10356	neck	3	
+80411:1	10358	neck	3	
+80411:1	10360	neck	3	
+80411:1	10362	neck	3	
+80411:1	11964	neck	3	
+80411:1	11966	neck	3	
+80411:1	11976	neck	3	
+80411:1	11978	neck	3	
+80411:1	12002	neck	1	
+80411:1	19707	neck	3	
+80411:1	34428	neck	2	Use with wind spells.
+80411:4	1704	neck	3	
+80411:4	1706	neck	3	
+80411:4	1708	neck	3	
+80411:4	1710	neck	3	
+80411:4	1712	neck	3	
+80411:4	1727	neck	4	
+80411:4	6585	neck	3	
+80411:4	10354	neck	3	
+80411:4	10356	neck	3	
+80411:4	10358	neck	3	
+80411:4	10360	neck	3	
+80411:4	10362	neck	3	
+80411:4	11964	neck	3	
+80411:4	11966	neck	3	
+80411:4	11976	neck	3	
+80411:4	11978	neck	3	
+80411:4	12002	neck	1	
+80411:4	19707	neck	3	
+80411:4	34428	neck	2	Use with wind spells.
+81998:1	9757	cape	3	After using vorkaths head has the ammo saving effect of an assembler and +4 prayer bonus without any risk (on PvP death) at the cost of the range bonus.
+81998:1	10499	cape	1	
+81998:1	13124	cape	2	If using a bow that doesn't require arrows
+81998:1	13280	cape	3	After using vorkaths head has the ammo saving effect of an assembler and +4 prayer bonus without any risk (on PvP death) at the cost of the range bonus.
+81998:1	13337	cape	1	
+81998:1	13342	cape	3	After using vorkaths head has the ammo saving effect of an assembler and +4 prayer bonus without any risk (on PvP death) at the cost of the range bonus.
+81998:1	20760	cape	2	If using a bow that doesn't require arrows
+81998:1	21898	cape	1	
+81998:1	21914	cape	1	
+81998:1	21916	cape	1	
+81998:1	22109	cape	1	
+81998:1	24135	cape	1	
+81998:1	24222	cape	1	
+81998:1	27359	cape	1	
+81998:1	27361	cape	1	
+81998:1	27363	cape	1	
+81998:1	27365	cape	1	
+81998:1	27374	cape	1	
+81998:1	27376	cape	1	
+81998:1	28830	cape	1	
+81998:1	28902	cape	1	
+81998:1	28906	cape	1	
+81998:1	28947	cape	1	
+81998:1	28949	cape	1	
+81998:1	28951	cape	1	
+81998:1	28953	cape	1	
+81998:1	29289	cape	2	If using a bow that doesn't require arrows
+81998:1	33532	cape	1	
+81998:1	33533	cape	1	
+82921:5	1704	neck	4	
+82921:5	1706	neck	4	
+82921:5	1708	neck	4	
+82921:5	1710	neck	4	
+82921:5	1712	neck	4	
+82921:5	1724	neck	5	
+82921:5	1727	neck	4	
+82921:5	1731	neck	5	
+82921:5	10354	neck	4	
+82921:5	10356	neck	4	
+82921:5	10358	neck	4	
+82921:5	10360	neck	4	
+82921:5	10362	neck	4	
+82921:5	11964	neck	4	
+82921:5	11966	neck	4	
+82921:5	11976	neck	4	
+82921:5	11978	neck	4	
+82921:5	12002	neck	2	
+82921:5	19707	neck	4	
+82921:5	22111	neck	0	
+82921:5	22986	neck	0	
+82921:5	23354	neck	5	
+82921:5	34428	neck	1	Using water spells

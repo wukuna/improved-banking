@@ -41,7 +41,8 @@ public class PresentationTest
         Rectangle first=MarkerPresentation.place(region,clip,100,18,Marker.LabelPlacement.ABOVE,occupied);
         Rectangle second=MarkerPresentation.place(region,clip,100,18,Marker.LabelPlacement.ABOVE,occupied);
         assertNotNull(first); assertNotNull(second); assertTrue(clip.contains(first)); assertTrue(clip.contains(second)); assertFalse(first.intersects(second));
-        assertNull(MarkerPresentation.place(region,clip,100,18,Marker.LabelPlacement.ABOVE,occupied));
+        Rectangle third=MarkerPresentation.place(region,clip,100,18,Marker.LabelPlacement.ABOVE,occupied);
+        assertNotNull(third); assertTrue(clip.contains(third)); assertFalse(first.intersects(third));assertFalse(second.intersects(third));
         Graphics2D g=new BufferedImage(200,100,BufferedImage.TYPE_INT_ARGB).createGraphics();
         try { String label=MarkerPresentation.fit("A very long category description",g.getFontMetrics(),80); assertTrue(g.getFontMetrics().stringWidth(label)<=80); }
         finally { g.dispose(); }
@@ -51,6 +52,21 @@ public class PresentationTest
         Rectangle clip=new Rectangle(0,0,200,100),region=new Rectangle(20,30,100,32);
         List<Rectangle> protectedItems=new ArrayList<>(Collections.singletonList(new Rectangle(clip)));
         assertNull(MarkerPresentation.place(region,clip,90,18,Marker.LabelPlacement.ABOVE,protectedItems));
+    }
+    @Test public void crowdedCustomRowsUseFreeGutterAndCacheInvalidatesAfterScroll() {
+        Rectangle clip=new Rectangle(0,0,500,250),region=new Rectangle(45,72,288,36);
+        List<Rectangle> items=new ArrayList<>();
+        for(int row=0;row<7;row++) for(int col=0;col<6;col++) items.add(new Rectangle(45+col*48,row*36,48,36));
+        MarkerLabelCache cache=new MarkerLabelCache();cache.begin(items);
+        List<Rectangle> occupied=new ArrayList<>(items);
+        Rectangle badge=cache.place(region,clip,90,18,Marker.LabelPlacement.ABOVE,occupied);
+        assertNotNull(badge);assertTrue(clip.contains(badge));assertTrue(badge.x>=333);
+        assertTrue(items.stream().noneMatch(badge::intersects));
+        cache.begin(items);occupied=new ArrayList<>(items);
+        assertSame(badge,cache.place(region,clip,90,18,Marker.LabelPlacement.ABOVE,occupied));
+        assertEquals(items.size()+1,occupied.size());
+        List<Rectangle> full=Collections.singletonList(new Rectangle(clip));cache.begin(full);
+        assertNull(cache.place(region,clip,90,18,Marker.LabelPlacement.ABOVE,new ArrayList<>(full)));
     }
     @Test public void dialogsFitSmallAndOffsetMonitorWorkAreas()
     {

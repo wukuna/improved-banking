@@ -64,6 +64,7 @@ public class WindowMarkersPlugin extends Plugin
     @Inject GeCatalogueSearch geSearch;
     @Inject ReleaseNotesNotice releaseNotes;
     private List<ItemAnchors.Cell> itemCells = new ArrayList<>();
+    private final List<Rectangle> previewLabelObstacles=new ArrayList<>();
     private final LinkedMarkerRegions linkedRegions = new LinkedMarkerRegions();
     private final List<Marker> markers = new ArrayList<>();
     private Rectangle bank;
@@ -1432,6 +1433,7 @@ public class WindowMarkersPlugin extends Plugin
             SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();
             String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
             if(plan!=null) current+=(plan.equipmentName.isEmpty()?"":"\nEquipment: "+plan.equipmentName)+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
+            if(plan!=null && !plan.equipmentNote.isEmpty()) current+="\n"+plan.equipmentNote;
             boolean hasView=searchView!=null && searchView.isActive();
             boolean hasMatches=hasView || nativeSearch!=null && nativeSearch.hasMatches();
             boolean canClear=hasView || nativeSearch!=null && nativeSearch.query()!=null && !nativeSearch.query().isEmpty();
@@ -1485,6 +1487,7 @@ public class WindowMarkersPlugin extends Plugin
         if (start != null && (!java.util.Objects.equals(itemArea,nextItems) || itemScroll != nextScroll)) { cancel(); }
         itemArea=nextItems; itemScroll=nextScroll;
         itemCells=new ArrayList<>();
+        previewLabelObstacles.clear();
         linkedRegions.clear();
         List<ItemAnchors.Cell> tabCells=new ArrayList<>();
         Widget[] itemChildren=itemArea==null?null:items.getDynamicChildren();
@@ -1494,9 +1497,12 @@ public class WindowMarkersPlugin extends Plugin
             {
                 if (child == null || child.isSelfHidden() || child.getItemId() < 0 || child.getItemId() == 6512
                     || child.getRelativeX()<0 || child.getRelativeY()<0) { continue; }
-                if(bankLayout!=null && bankLayout.inventoryPreview(child)) continue;
                 Rectangle bounds=BankItemBounds.of(items,child);
                 if(bounds.isEmpty()) continue;
+                if(bankLayout!=null && bankLayout.inventoryPreview(child)) {
+                    if(!child.isHidden() && bounds.intersects(itemArea)) previewLabelObstacles.add(bounds);
+                    continue;
+                }
                 ItemAnchors.Cell cell=new ItemAnchors.Cell(itemManager.canonicalize(child.getItemId()),bounds);
                 tabCells.add(cell);
                 if(child.isHidden()) { continue; }
@@ -1504,6 +1510,7 @@ public class WindowMarkersPlugin extends Plugin
                 itemCells.add(cell);
             }
         }
+        ItemAnchors.fitGrid(tabCells);
         if (itemArea != null && currentLayout() && markers.stream().anyMatch(m -> m.scrollWithItems == null))
         {
             String backupKey=layoutKey+"_beforeScroll";
@@ -1719,6 +1726,7 @@ public class WindowMarkersPlugin extends Plugin
 
     final class MarkerOverlay extends Overlay
     {
+        private final MarkerLabelCache labelPositions=new MarkerLabelCache();
         MarkerOverlay()
         {
             setPosition(OverlayPosition.DYNAMIC);
@@ -1760,10 +1768,14 @@ public class WindowMarkersPlugin extends Plugin
                     {
                         List<Rectangle> occupiedLabels=new ArrayList<>();
                         for (ItemAnchors.Cell cell : itemCells) { occupiedLabels.add(new Rectangle(cell.grid)); }
+                        occupiedLabels.addAll(previewLabelObstacles);
+                        if(itemArea!=null && bankLayout!=null) for(SetupItemLayout.Heading h:bankLayout.searchHeadings())
+                            occupiedLabels.add(new Rectangle(itemArea.x+h.x,itemArea.y+h.y-itemScroll-12,170,16));
+                        labelPositions.begin(occupiedLabels);
                         for (Marker marker : renderedMarkers())
                         {
                             Rectangle clip=markerClip(marker);
-                            if (clip==null || marker.labelText().isEmpty() || config.bankLabels()==WindowMarkersConfig.BankLabels.OFF || (focused!=null && focused!=marker)) { continue; }
+                            if (clip==null || marker.labelText().isEmpty() || config.bankLabels()==WindowMarkersConfig.BankLabels.OFF) { continue; }
                             List<Rectangle> regions=new ArrayList<>(markerRegions(marker));
                             regions.removeIf(r -> r==null || !r.intersects(clip));
                             regions.sort(java.util.Comparator.comparingInt((Rectangle r) -> r.width).reversed());
@@ -1777,9 +1789,10 @@ public class WindowMarkersPlugin extends Plugin
                                     boolean mini=config.bankLabels()==WindowMarkersConfig.BankLabels.MINI;
                                     text.setFont(mini ? new Font("Arial",Font.PLAIN,10) : labelFont(marker));
                                     FontMetrics metrics=text.getFontMetrics();
-                                    String title=MarkerPresentation.fit(config.bankLabels()==WindowMarkersConfig.BankLabels.MINI ? MarkerPresentation.miniTitle(marker.labelText()) : MarkerPresentation.displayTitle(marker.labelText()),metrics,Math.min(config.bankLabels()==WindowMarkersConfig.BankLabels.MINI ? 90 : 176,clip.width-10));
+                                    boolean custom=marker.category==null;
+                                    String title=MarkerPresentation.fit(custom?marker.labelText():mini?MarkerPresentation.miniTitle(marker.labelText()):MarkerPresentation.displayTitle(marker.labelText()),metrics,Math.min(mini?90:176,clip.width-10));
                                     if (title.isEmpty()) { continue; }
-                                    Rectangle badge=MarkerPresentation.place(r,clip,metrics.stringWidth(title)+10,metrics.getHeight()+4,marker.labelPlacement,occupiedLabels);
+                                    Rectangle badge=labelPositions.place(r,clip,metrics.stringWidth(title)+10,metrics.getHeight()+4,marker.labelPlacement,occupiedLabels);
                                     if (badge==null) { continue; }
                                     text.setColor(new Color(12,12,12,235)); text.fillRoundRect(badge.x,badge.y,badge.width,badge.height,5,5);
                                     text.setColor(marker.borderArgb==null ? config.color() : new Color(marker.borderArgb,true));

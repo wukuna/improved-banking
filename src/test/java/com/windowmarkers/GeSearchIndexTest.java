@@ -23,8 +23,9 @@ public class GeSearchIndexTest
         for(boolean ge:new boolean[]{false,true}) {
             ItemCatalogueIndex index=new ItemCatalogueIndex(items,ge);
             ItemCatalogueIndex.Result z=index.find("zalcano shield","227925:1");
-            assertEquals(2,z.ranks.get(12817).tier);
-            assertEquals(4,z.ranks.get(3839).tier);
+            // Current Zalcano guide promotes Elysian to its first column and books to third.
+            assertEquals(1,z.ranks.get(12817).tier);
+            assertEquals(3,z.ranks.get(3839).tier);
             ItemCatalogueIndex.Result melee=index.find("graardor weapon","41794:13");
             assertEquals(1,melee.ranks.get(22325).tier);
             assertEquals(0,melee.ranks.get(22486).tier);

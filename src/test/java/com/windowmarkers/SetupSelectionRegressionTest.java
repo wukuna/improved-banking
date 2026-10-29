@@ -5,6 +5,44 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class SetupSelectionRegressionTest {
+    @Test public void refreshedSarachnisExampleIncludesOwnedMagicTreads() {
+        for(int id:new int[]{31097,31093,31095,31096}) {
+            var p=plan("224363:10",item(id,"Avernic treads",10));
+            assertEquals(Integer.valueOf(id),p.equipment.get(10).get(0));
+        }
+    }
+    @Test public void refreshedKrillArrowTiersAndElementalSpellAmuletsStayContextual() {
+        assertTrue(ActivitySetups.byId("24889:1").itemIds.contains(33589));
+        assertTrue(ActivitySetups.byId("82921:5").itemIds.contains(34428));
+        assertFalse(ActivitySetups.byId("74025:7").itemIds.contains(34428));
+        var kril=plan("24889:1",item(20997,"Twisted bow",3),item(33589,"Seeking amethyst arrow",13),item(11212,"Dragon arrow",13));
+        assertEquals(Integer.valueOf(33589),kril.equipment.get(13).get(0));
+    }
+    @Test public void sireFullMagicGuideSelectsOwnedBlessingAndMaxTreads() {
+        var p=plan("74025:7",item(27275,"Tumeken's shadow",3),item(22947,"Rada's blessing 4",13),
+            item(31097,"Avernic treads (max)",10),item(13235,"Eternal boots",10));
+        assertEquals(Integer.valueOf(22947),p.equipment.get(13).get(0));
+        assertEquals(Integer.valueOf(31097),p.equipment.get(10).get(0));
+    }
+    @Test public void sirePartialSwitchTableExplainsItsIntentionallyOmittedSlots() {
+        var p=plan("74025:2",item(27275,"Tumeken's shadow",3),item(22947,"Rada's blessing 4",13),item(31097,"Avernic treads (max)",10));
+        assertTrue(p.equipmentNote.contains("omits boots, ammunition and a ring"));
+        assertFalse(p.equipment.containsKey(10));assertFalse(p.equipment.containsKey(13));
+        assertEquals(p.equipmentNote,p.retainItems(Collections.singleton(27275)).equipmentNote);
+    }
+    @Test public void magicTreadAlternativesNeedTheEternalUpgradeAndShareTheirGuideRank() {
+        for(int id:new int[]{31093,31095,31096}) {
+            String name=id==31093?"Avernic treads (et)":id==31095?"Avernic treads (pr)(et)":"Avernic treads (pe)(et)";
+            var index=new ItemCatalogueIndex(Arrays.asList(item(27275,"Tumeken's shadow",3),item(22947,"Rada's blessing 4",13),
+                item(id,name,10),item(31088,"Avernic treads",10),item(31091,"Avernic treads (pr)",10)),false);
+            var result=index.find("sire magic","74025:7");
+            assertEquals(Integer.valueOf(id),result.loadout.equipment.get(10).get(0));
+            assertEquals(1,result.ranks.get(id).tier);
+            assertFalse(result.loadout.equipment.get(10).contains(31088));
+            assertFalse(result.loadout.equipment.get(10).contains(31091));
+            assertEquals(Integer.valueOf(22947),result.loadout.equipment.get(13).get(0));
+        }
+    }
     private static ItemCatalogueIndex.Item item(int id,String name,int slot) { return GeSearchIndexTest.item(id,name,slot); }
     private static SetupLoadout plan(String setup,ItemCatalogueIndex.Item... items) {
         Map<Integer,ItemCatalogueIndex.Item> bank=new LinkedHashMap<>();for(var i:items) bank.put(i.id,i);

@@ -1,0 +1,3 @@
+# Explicit partial switch tables, rather than full equipment loadouts. See EQUIPMENT-SLOT-AUDIT.md.
+74025:2	The Wiki's Phase 1 Magic table lists switches only. It omits boots, ammunition and a ring; retain suitable gear from your main setup. Select Phase 2 Magic for the complete magic loadout.
+74025:3	The Wiki's Phase 1 Ranged table lists switches only. It omits boots and a ring; retain suitable gear from your main setup. Select Phase 2 Ranged for the complete ranged loadout.
