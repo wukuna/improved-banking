@@ -143,6 +143,8 @@ final class SetupItemLayout
                     String state=ItemVariantState.annotate("Item state",new AutoCategories.Item(id,definition.getName(),false,
                         definition.getInventoryActions(),0,0,0));
                     if(!state.equals("Item state")) note+=(note.isEmpty()?"":" ")+state;
+                    if(definition.getName()!=null && definition.getName().toLowerCase(Locale.ROOT).startsWith("blighted "))
+                        note+=(note.isEmpty()?"":" ")+"Restricted-use blighted supply listed by this activity's inventory guide.";
                 }
             }
             if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));

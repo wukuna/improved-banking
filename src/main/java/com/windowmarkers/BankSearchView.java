@@ -40,6 +40,19 @@ final class BankSearchView
         bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
     }
     boolean isActive() { return tag!=null && tagName.equals(bankTags.getActiveTag()); }
+    void filter(net.runelite.api.events.ScriptCallbackEvent event)
+    {
+        if(!"bankSearchFilter".equals(event.getEventName()) || !isActive()
+            || client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.ITEMS)==null
+            || client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)==net.runelite.api.vars.InputType.SEARCH.getType()) return;
+        int size=client.getIntStackSize();
+        if(size<2) return;
+        int[] stack=client.getIntStack();
+        if(stack[size-1]<0) return;
+        // A temporary view is an exact selection, even if an earlier search
+        // subscriber accepted a different item. Normal tabs/search keep their filters.
+        stack[size-2]=tag.contains(stack[size-1])?1:0;
+    }
     boolean bySlot() { return slots; }
     String name() { return name; }
     List<Marker> groups() { return isActive()?new ArrayList<>(groups):Collections.emptyList(); }

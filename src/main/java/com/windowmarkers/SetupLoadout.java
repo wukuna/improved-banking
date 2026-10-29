@@ -85,10 +85,12 @@ final class SetupLoadout
     }
     private static boolean ready(ItemCatalogueIndex.Item item) { return item!=null && !ItemVariantState.needsActivityReview(item.fact); }
     private static boolean inventoryReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
-        return ready(item) && SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();
+        return item!=null && !ItemVariantState.needsInventoryReview(item.fact,setup)
+            && SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();
     }
     private static boolean equipmentReady(ActivitySetups.Setup setup,ItemCatalogueIndex.Item item) {
-        return inventoryReady(setup,item) && !ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
+        return ready(item) && SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty()
+            && !ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
     }
     static SetupLoadout build(List<ActivitySetups.Setup> matched,Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,String inventoryContext)
     {

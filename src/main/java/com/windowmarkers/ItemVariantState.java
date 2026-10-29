@@ -60,6 +60,16 @@ final class ItemVariantState
         return needsActivityReview(item);
     }
 
+    static boolean needsInventoryReview(AutoCategories.Item item,ActivitySetups.Setup setup)
+    {
+        // A reviewed inventory's exact blighted supply is usable for that guide.
+        // This is not a general-use or equipment exception, nor an identity match by name.
+        if(!identityNeedsReview(item) && setup.itemIds.contains(item.id)
+            && item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item,"restricted")
+            && !STATES.containsKey(item.id)) return false;
+        return needsActivityReview(item);
+    }
+
     static boolean canRepresentOwnedEquivalent(AutoCategories.Item held,AutoCategories.Item candidate)
     {
         if(needsActivityReview(held)) return false;

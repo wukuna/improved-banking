@@ -112,15 +112,19 @@ public class BankLayoutTest
         c.searchView.show("cox",Collections.singletonList(group),true);
         Widget items=mock(Widget.class);
         Widget title=decoration(net.runelite.api.widgets.WidgetType.TEXT,"Tab 5",false);
-        Widget line=decoration(net.runelite.api.widgets.WidgetType.LINE,"",false);
+        Widget line=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);
+        when(line.getSpriteId()).thenReturn(897); // Native bankmain_init separator sprite.
+        when(line.getOriginalHeight()).thenReturn(2);
+        Widget unrelatedSprite=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);
+        when(unrelatedSprite.getOriginalHeight()).thenReturn(2);when(unrelatedSprite.getSpriteId()).thenReturn(898);
         Widget hidden=decoration(net.runelite.api.widgets.WidgetType.TEXT,"Tab 2",true);
         Widget other=decoration(net.runelite.api.widgets.WidgetType.TEXT,"Another plugin's label",false);
         Widget item=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);when(item.getItemId()).thenReturn(385);
         when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
-        when(items.getDynamicChildren()).thenReturn(new Widget[]{title,line,hidden,other,item});
+        when(items.getDynamicChildren()).thenReturn(new Widget[]{title,line,hidden,other,item,unrelatedSprite});
         c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
         assertTrue(title.isSelfHidden());assertTrue(line.isSelfHidden());assertTrue(hidden.isSelfHidden());
-        assertFalse(other.isSelfHidden());assertFalse(item.isSelfHidden());
+        assertFalse(other.isSelfHidden());assertFalse(item.isSelfHidden());assertFalse(unrelatedSprite.isSelfHidden());
         // Exercise the real registered pre-build hook before native scripts set visibility.
         ArgumentCaptor<java.util.function.Consumer<ScriptPreFired>> hook=ArgumentCaptor.forClass(java.util.function.Consumer.class);
         verify(c.eventBus).register(eq(ScriptPreFired.class),hook.capture(),eq(10f));
@@ -133,6 +137,29 @@ public class BankLayoutTest
         assertTrue(title.isSelfHidden());assertFalse(line.isSelfHidden());
         verify(c.client,never()).runScript(any(Object[].class));
     }
+    @Test public void temporaryViewRejectsItemsAdmittedByAnotherFilter() {
+        BankLayoutController c=controller();c.searchView=new BankSearchView();
+        c.searchView.client=c.client;c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=mock(ItemManager.class);
+        when(c.searchView.items.canonicalize(anyInt())).thenAnswer(call -> call.getArgument(0));
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(mock(Widget.class));
+        doAnswer(call -> {when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null;})
+            .when(c.searchView.bankTags).openBankTag(anyString(),anyInt());
+        Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{25731};
+        c.searchView.show("Boss",Collections.singletonList(group),true);
+        int[] stack={1,2347};when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(2);
+        ScriptCallbackEvent event=new ScriptCallbackEvent();event.setEventName("bankSearchFilter");
+        EventBus bus=new EventBus();bus.register(c);
+        bus.register(ScriptCallbackEvent.class,e -> stack[0]=1,0);
+        bus.post(event);assertEquals("An unrelated hammer must not leak into the preset",0,stack[0]);
+        stack[1]=25731;bus.post(event);assertEquals(1,stack[0]);
+        stack[1]=25733;bus.post(event);assertEquals("The uncharged state was not selected",0,stack[0]);
+        when(c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE))
+            .thenReturn(net.runelite.api.vars.InputType.SEARCH.getType());
+        bus.post(event);assertEquals("Typing still uses native search and tag intersection",1,stack[0]);
+        when(c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)).thenReturn(0);
+        c.searchView.clear();bus.post(event);assertEquals("Other bank views retain their own filtering",1,stack[0]);
+    }
     private Widget decoration(int type,String text,boolean hidden) {
         Widget widget=mock(Widget.class);java.util.concurrent.atomic.AtomicBoolean state=new java.util.concurrent.atomic.AtomicBoolean(hidden);
         when(widget.getType()).thenReturn(type);when(widget.getText()).thenReturn(text);when(widget.getItemId()).thenReturn(-1);
@@ -140,6 +167,28 @@ public class BankLayoutTest
         when(widget.isSelfHidden()).thenAnswer(call -> state.get());
         doAnswer(call -> {state.set(call.getArgument(0));return widget;}).when(widget).setHidden(anyBoolean());
         return widget;
+    }
+    @Test public void nativeSearchHidesSpriteDividersWithoutClosingItsInput() throws Exception {
+        BankLayoutController c=controller();when(c.config.setupSearchLayout()).thenReturn(true);
+        when(c.config.improvedBankSearch()).thenReturn(true);
+        c.nativeSearch=new NativeBankSearch();c.nativeSearch.client=c.client;c.nativeSearch.config=c.config;
+        c.nativeSearch.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        when(c.client.getGameState()).thenReturn(GameState.LOGGED_IN);
+        when(c.client.getWidget(InterfaceID.Bankmain.UNIVERSE)).thenReturn(mock(Widget.class));
+        for(String field:new String[]{"query","slots","matches"}) {
+            java.lang.reflect.Field f=NativeBankSearch.class.getDeclaredField(field);f.setAccessible(true);
+            f.set(c.nativeSearch,field.equals("query")?"hydra":field.equals("slots")?true:Collections.singleton(1));
+        }
+        c.nativeSearch.start();
+        when(c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE))
+            .thenReturn(net.runelite.api.vars.InputType.SEARCH.getType());
+        when(c.client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT)).thenReturn("hydra");
+        Widget items=mock(Widget.class),line=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);
+        when(line.getSpriteId()).thenReturn(897);when(line.getOriginalHeight()).thenReturn(2);
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+        when(items.getDynamicChildren()).thenReturn(new Widget[]{line});
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        assertTrue(line.isSelfHidden());verify(c.client,never()).runScript(any(Object[].class));
     }
     private Widget cell(int x,int y)
     {

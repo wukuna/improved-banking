@@ -11,6 +11,16 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void ownedBlightedSupplyKeepsItsRestrictionNoteInInventory() {
+        Widget food=cell(24589,"Blighted manta ray",-1,"Eat",51,0);
+        var item=GeSearchIndexTest.item(24589,"Blighted manta ray",-1);
+        var plan=SetupLoadout.build(ActivitySetups.forActivity("Callisto"),Collections.singletonMap(24589,item),Collections.singleton(24589),"");
+        Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{food});
+        var notes=new ArrayList<SetupItemLayout.InventoryNote>();var headings=new ArrayList<SetupItemLayout.Heading>();
+        SetupItemLayout.apply(container,manager,8,48,4,plan,Collections.emptyMap(),headings,null,notes);
+        assertTrue(notes.stream().anyMatch(n->n.text.contains("Restricted-use blighted supply")));
+        assertFalse(headings.stream().anyMatch(h->h.text.equals("Needs repair / charging / review")));
+    }
     @Test public void combinedSirePhasesStayInsideEightColumnsWithNoOverlappingCells() {
         for(int columns:new int[]{3,6,8}) {
             Widget boots=cell(31097,"Avernic treads (max)",10,"Wear",51,0),blessing=cell(22947,"Rada's blessing 4",13,"Wear",99,0);

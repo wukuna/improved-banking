@@ -94,6 +94,8 @@ public final class BankLayoutController
 	private static final int VANILLA_GAP = 12;
 	private static final int MIN_GAP = 2;
 	private static final int SEPARATOR_MIN_WIDTH = 300;
+    // bankmain_init creates the nine tab dividers as tiled GRAPHIC widgets.
+    private static final int BANK_TAB_SEPARATOR_SPRITE = 897;
 
 	private static final int MIN_BANK_HEIGHT = 200;
 	// the game keeps this much of the modal's height free around the bank
@@ -338,6 +340,7 @@ public final class BankLayoutController
     @Subscribe(priority=-20)
     public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     {
+        if(active && searchView!=null) searchView.filter(event);
         // Single-tab mode explicitly closes a native search input in BankMainBuild.
         // Use it only for saved views outside chatbox search, never while typing.
         if(active && "bankBuildTab".equals(event.getEventName())
@@ -744,7 +747,9 @@ public final class BankLayoutController
                 && net.runelite.client.util.Text.removeTags(child.getText()).matches("Tab (?:[1-9]|[IVX]+)");
             boolean line=(type==WidgetType.LINE || type==WidgetType.RECTANGLE)
                 && child.getOriginalWidth()>=SEPARATOR_MIN_WIDTH && child.getOriginalHeight()<=2;
-            if(heading || line) { hiddenSeparators.add(child);child.setHidden(true); }
+            boolean spriteLine=type==WidgetType.GRAPHIC && child.getSpriteId()==BANK_TAB_SEPARATOR_SPRITE
+                && child.getOriginalWidth()>0 && child.getOriginalHeight()==2;
+            if(heading || line || spriteLine) { hiddenSeparators.add(child);child.setHidden(true); }
         }
     }
 
