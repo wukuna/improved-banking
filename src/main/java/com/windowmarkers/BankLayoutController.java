@@ -98,6 +98,12 @@ public final class BankLayoutController
     private static final int BANK_TAB_SEPARATOR_SPRITE = 897;
 
 	private static final int MIN_BANK_HEIGHT = 200;
+    private static final int SETTINGS_WIDTH=478,SETTINGS_HEIGHT=290,SETTINGS_TOP=35;
+    private static final int[] SETTINGS_ROWS={InterfaceID.Bankmain.INCINERATOR_TOGGLE,InterfaceID.Bankmain.BANKTUT_TOGGLE,
+        InterfaceID.Bankmain.SIDEOPS_TOGGLE,InterfaceID.Bankmain.BANKOPS_TOGGLE,
+        InterfaceID.Bankmain.DEPOSITINV_TOGGLE,InterfaceID.Bankmain.DEPOSITWORN_TOGGLE,
+        InterfaceID.Bankmain.DEPOSITCONTAINERS_TOGGLE,InterfaceID.Bankmain.POPUP_TAB_FORGETPOS,
+        InterfaceID.Bankmain.DEPOSITPOTION_TOGGLE,InterfaceID.Bankmain.CHUGGINGBARREL_TOGGLE};
 	// the game keeps this much of the modal's height free around the bank
 	private static final int MODAL_HEIGHT_MARGIN = 3;
 	private static final int REBUILD_COOLDOWN_TICKS = 5;
@@ -221,12 +227,18 @@ public final class BankLayoutController
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		Widget container = client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
-		if (universe == null || universe.isHidden() || container == null || items == null || items.isHidden())
+		if (universe == null || universe.isHidden() || container == null || items == null || items.isHidden() && !settingsVisible())
 		{
 			return;
 		}
 
 		applyUniverse(universe);
+        layoutSettings();
+        if(items.isHidden()) {
+            revalidateTree(universe);
+            appliedSignature=signature(universe);
+            return;
+        }
 		fillWidth(client.getWidget(InterfaceID.Bankmain.TABS));
 		fillWidth(client.getWidget(InterfaceID.Bankmain.TABS_LINE0));
 		universe.revalidate();
@@ -330,7 +342,7 @@ public final class BankLayoutController
 		// Only width changes affect item wrapping. Finishbuilding may adjust the
 		// viewport height after our hook; using that height here causes a rebuild loop.
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
-		if (appliedSignature != null && items != null && rebuildCooldown == 0
+		if (appliedSignature != null && items != null && !items.isHidden() && rebuildCooldown == 0
 			&& items.getWidth() != reflowedWidth)
 		{
 			rebuildCooldown = REBUILD_COOLDOWN_TICKS;
@@ -361,7 +373,8 @@ public final class BankLayoutController
 	private void reapplyFrame()
 	{
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
-		if (appliedSignature != null && universe != null && !Arrays.equals(signature(universe), appliedSignature))
+		if (universe != null && (appliedSignature != null && !Arrays.equals(signature(universe), appliedSignature)
+            || appliedSignature == null && settingsVisible()))
 		{
 			applyFrame();
 		}
@@ -390,7 +403,7 @@ public final class BankLayoutController
 			universe.getOriginalX(), universe.getOriginalY(), universe.getXPositionMode(), universe.getYPositionMode(),
 			universe.getOriginalWidth(), universe.getOriginalHeight(), universe.getWidthMode(), universe.getHeightMode(),
 			modal == null ? 0 : modal.getOriginalWidth(), modal == null ? 0 : modal.getOriginalHeight(),
-			area == null ? 0 : area.getWidth(), area == null ? 0 : area.getHeight()
+			area == null ? 0 : area.getWidth(), area == null ? 0 : area.getHeight(),settingsVisible()?1:0
 		};
 	}
 
@@ -449,6 +462,8 @@ public final class BankLayoutController
 			height = Math.max(Math.min(s[1], MIN_BANK_HEIGHT), Math.min(config.height(), Math.max(s[1], max)));
 		}
 
+        // The native settings form needs its full height even when the item view is short.
+        if(settingsVisible() && s[3]==WidgetSizeMode.ABSOLUTE) height=Math.max(height,SETTINGS_TOP+SETTINGS_HEIGHT+5);
 		setSize(universe, width, height, s[2], s[3]);
 		if (height != s[1])
 		{
@@ -459,6 +474,28 @@ public final class BankLayoutController
 			setPos(universe, p[0], p[1], p[2], p[3]);
 		}
 	}
+
+    private boolean settingsVisible() {
+        Widget settings=client.getWidget(InterfaceID.Bankmain.MENU_CONTAINER);
+        return settings!=null && !settings.isHidden();
+    }
+
+    private void layoutSettings() {
+        Widget settings=client.getWidget(InterfaceID.Bankmain.MENU_CONTAINER);
+        if(settings==null) return;
+        // Native checkbox scripts anchor the two columns 251px from opposite
+        // edges. Stretching their parent makes them overlap. Keep the whole
+        // native form centred at its designed size, including its click targets.
+        setSize(settings,SETTINGS_WIDTH,SETTINGS_HEIGHT,WidgetSizeMode.ABSOLUTE,WidgetSizeMode.ABSOLUTE);
+        setPos(settings,0,SETTINGS_TOP,WidgetPositionMode.ABSOLUTE_CENTER,WidgetPositionMode.ABSOLUTE_TOP);
+        for(int i=0;i<SETTINGS_ROWS.length;i++) {
+            Widget row=client.getWidget(SETTINGS_ROWS[i]);if(row==null) continue;
+            int[] p=basePos(row);
+            // The first three rows start centred, then native init freezes their
+            // Y in pixels. Normalize that Y too when opening a tall bank.
+            setPos(row,p[0],23+(i/2)*28,p[2],WidgetPositionMode.ABSOLUTE_TOP);
+        }
+    }
 
 	private void fillWidth(Widget widget)
 	{

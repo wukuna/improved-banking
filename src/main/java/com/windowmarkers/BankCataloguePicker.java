@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.swing.*;
 import net.runelite.api.Client;
+import net.runelite.api.SpriteID;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
@@ -18,7 +19,13 @@ import net.runelite.api.widgets.WidgetType;
 final class BankCataloguePicker
 {
     @Inject Client client;
+    private static final int WIDTH=96,HEIGHT=22,EDGE=6;
+    private static final int[] SPRITES={SpriteID.BUTTON_CORNER_TOP_LEFT,SpriteID.BUTTON_EDGE_TOP,SpriteID.BUTTON_CORNER_TOP_RIGHT,
+        SpriteID.BUTTON_EDGE_LEFT,SpriteID.BUTTON_MIDDLE,SpriteID.BUTTON_EDGE_RIGHT,
+        SpriteID.BUTTON_CORNER_BOTTOM_LEFT,SpriteID.BUTTON_EDGE_BOTTOM,SpriteID.BUTTON_CORNER_BOTTOM_RIGHT};
     private Widget parent,button;
+    private final BankHeaderTitle title=new BankHeaderTitle();
+    private final List<Widget> background=new ArrayList<>();
     private volatile JPopupMenu popup;
     private volatile long context;
 
@@ -28,18 +35,44 @@ final class BankCataloguePicker
         if(frame!=null && frame.getChildren()!=null) for(Widget child:frame.getChildren())
             if(child!=null && !child.isHidden() && child.getActions()!=null && Arrays.asList(child.getActions()).contains("Close")) { close=child; break; }
         if(!enabled || frame==null || frame.isHidden() || close==null) { clear(); return; }
-        if(parent!=frame || button==null || frame.getChildren()==null || !Arrays.asList(frame.getChildren()).contains(button)) {
-            clear(); parent=frame; button=frame.createChild(-1,WidgetType.TEXT);
-            button.setOriginalWidth(20); button.setOriginalHeight(20); button.setFontId(494);
-            button.setText("v"); button.setTextColor(0x70D8E8); button.setTextShadowed(true);
-            button.setAction(0,"Search categories and presets"); button.setHasListener(true);
+        List<Widget> children=Arrays.asList(frame.getChildren());
+        if(parent!=frame || button==null || !children.contains(button) || !children.containsAll(background)) {
+            clear(); parent=frame;
+            // The native bank buttons use these nine tiled sprite pieces. Keep
+            // sprite IDs so resource packs supply their normal button artwork.
+            for(int sprite:SPRITES) {
+                Widget part=frame.createChild(-1,WidgetType.GRAPHIC);
+                part.setSpriteId(sprite);part.setSpriteTiling(true);background.add(part);
+            }
+            button=frame.createChild(-1,WidgetType.TEXT);
+            button.setOriginalWidth(WIDTH); button.setOriginalHeight(HEIGHT); button.setFontId(495);
+            button.setXTextAlignment(1);button.setYTextAlignment(1);
+            button.setText("View presets"); button.setTextColor(0xFF981F); button.setTextShadowed(true);
+            button.setAction(0,"View presets"); button.setHasListener(true);
+            button.setOnMouseOverListener((JavaScriptCallback)e -> { if(button!=null) button.setTextColor(0xFFFFFF); });
+            button.setOnMouseLeaveListener((JavaScriptCallback)e -> { if(button!=null) button.setTextColor(0xFF981F); });
             button.setOnOpListener((JavaScriptCallback)e -> open.run());
         }
-        Rectangle bounds=frame.getBounds(),exit=close.getBounds();
-        Rectangle position=new Rectangle(exit.x-bounds.x-48,exit.y-bounds.y+(exit.height-20)/2,20,20);
-        if(!new Rectangle(0,0,bounds.width,bounds.height).contains(position)) { clear(); return; }
+        Rectangle position=position(frame.getBounds(),close.getBounds());
+        if(position==null) { clear(); return; }
+        for(int i=0;i<background.size();i++) {
+            int column=i%3,row=i/3;
+            Widget part=background.get(i);
+            part.setOriginalX(position.x+(column==0?0:column==1?EDGE:WIDTH-EDGE));
+            part.setOriginalY(position.y+(row==0?0:row==1?EDGE:HEIGHT-EDGE));
+            part.setOriginalWidth(column==1?WIDTH-2*EDGE:EDGE);
+            part.setOriginalHeight(row==1?HEIGHT-2*EDGE:EDGE);
+            part.setHidden(false);part.revalidate();
+        }
         button.setOriginalX(position.x); button.setOriginalY(position.y);
         button.setHidden(false); button.revalidate();
+        title.update(client.getWidget(InterfaceID.Bankmain.TITLE),position.x-6);
+    }
+
+    static Rectangle position(Rectangle frame,Rectangle close) {
+        // Leave the existing screenshot button and native close control intact.
+        Rectangle result=new Rectangle(close.x-frame.x-28-WIDTH,close.y-frame.y+(close.height-HEIGHT)/2,WIDTH,HEIGHT);
+        return new Rectangle(0,0,frame.width,frame.height).contains(result)?result:null;
     }
 
     void show(Component canvas,List<BankCatalogue.Choice> choices,boolean canSave,Consumer<BankCatalogue.Choice> choose,Runnable save,Runnable closeView)
@@ -63,14 +96,27 @@ final class BankCataloguePicker
             });
             int width=Math.min(400,Math.max(240,canvas.getWidth()-16));
             panel.setPreferredSize(new Dimension(width,Math.min(350,Math.max(200,canvas.getHeight()-anchor.y-28))));
-            menu.show(canvas,Math.max(0,Math.min(anchor.x-width+20,canvas.getWidth()-width)),anchor.y+20);
+            menu.show(canvas,Math.max(0,Math.min(anchor.x+anchor.width-width,canvas.getWidth()-width)),anchor.y+anchor.height);
             panel.search.requestFocusInWindow();
         });
     }
     void close() { JPopupMenu current=popup; popup=null; if(current!=null) current.setVisible(false); }
     void clear() {
         context++;
-        if(button!=null) { button.setHidden(true); button.clearActions(); button.setOnOpListener((Object[])null); button.setHasListener(false); }
+        title.clear();
+        if(button!=null) { button.setHidden(true); button.clearActions(); button.setOnOpListener((Object[])null);
+            button.setOnMouseOverListener((Object[])null);button.setOnMouseLeaveListener((Object[])null);button.setHasListener(false); }
+        for(Widget part:background) part.setHidden(true);
+        if(parent!=null && parent.getChildren()!=null) {
+            Widget[] remaining=parent.getChildren().clone();int length=remaining.length;
+            for(int i=0;i<length;i++) {
+                Widget child=remaining[i];
+                if(child==button || background.stream().anyMatch(part -> part==child)) remaining[i]=null;
+            }
+            while(length>0 && remaining[length-1]==null) length--;
+            parent.setChildren(Arrays.copyOf(remaining,length));
+        }
+        background.clear();
         button=null; parent=null;
         JPopupMenu old=popup;
         if(old!=null) SwingUtilities.invokeLater(() -> { old.setVisible(false); if(popup==old) popup=null; });

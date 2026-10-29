@@ -68,7 +68,7 @@ public interface WindowMarkersConfig extends Config
     default boolean improvedBankSearch() { return false; }
     @ConfigItem(section=appearance,keyName="setupSearchLayout",name="Equipment and inventory search layout",description="Show an eight-column equipment and inventory view for activity searches, with alternatives and supplies below. Ordinary searches and existing Bank Tag layouts keep their order.",position=9)
     default boolean setupSearchLayout() { return true; }
-    @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="Bank category picker",description="Show a searchable category and preset dropdown beside the bank screenshot button.",position=10)
+    @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="View presets button",description="Show the View presets button beside the bank screenshot button.",position=10)
     default boolean bankCatalogueButton() { return true; }
     @ConfigItem(section=appearance,keyName="bankTooltips",name="Show category and setup tooltips",description="Show group names, category explanations, gear tiers and inventory notes when hovering bank items. Turning this off keeps colours, labels, highlights and native item actions.",position=11)
     default boolean bankTooltips() { return true; }

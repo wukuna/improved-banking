@@ -22,11 +22,11 @@ final class ReleaseNotesNotice
     static final String RELEASE = "2026-10-28-consolidated-presets";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
+        "View presets now uses a native-style bank button; flexible banks keep the settings menu neatly spaced.",
         "Wilderness defaults retain budget filters, show missing-gear labels and dimmed budget suggestions; owned Wilderness weapons stay preferred.",
         "Suggested runes sit below the first gear setup; presets highlight owned items and stay intact when the bank reopens.",
         "Owned divine/blighted supplies, potion doses and charge-check utilities fill reviewed inventories with use reminders.",
-        "Boss presets share search setups, separate phase gear and inventories, and preserve repeated items with Bank Tag Layouts.",
-        "Native dividers and unrelated preset items stay out of activity layouts; custom labels and saved groups are preserved."
+        "Boss presets share search setups and preserve phase gear and repeated items with Bank Tag Layouts, without unrelated items or native dividers."
     };
 
     @Inject private Client client;
