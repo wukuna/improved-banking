@@ -193,6 +193,7 @@ public class BankLayoutTest
     private Widget cell(int x,int y)
     {
         Widget widget=mock(Widget.class);AtomicInteger px=new AtomicInteger(x),py=new AtomicInteger(y);
+        when(widget.getType()).thenReturn(net.runelite.api.widgets.WidgetType.GRAPHIC);when(widget.getItemId()).thenReturn(100);
         when(widget.getOriginalX()).thenAnswer(i -> px.get());when(widget.getOriginalY()).thenAnswer(i -> py.get());
         doAnswer(i -> {px.set(i.getArgument(0));return widget;}).when(widget).setOriginalX(anyInt());
         doAnswer(i -> {py.set(i.getArgument(0));return widget;}).when(widget).setOriginalY(anyInt());
@@ -231,6 +232,64 @@ public class BankLayoutTest
         c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
         assertEquals(4,cells[0].getOriginalY());assertEquals(76,cells[8].getOriginalY());assertEquals(112,stack[0]);
         for(Widget w:cells) { verify(w,never()).setOriginalWidth(anyInt());verify(w,never()).setOriginalHeight(anyInt()); }
+    }
+    @Test public void nativeOneSlotTabDropAreasDoNotCreateBlankRowsInWideBanks() {
+        BankLayoutController c=controller();Widget items=mock(Widget.class);
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);when(items.getWidth()).thenReturn(698);
+        List<Widget> children=new ArrayList<>();List<Widget> first=new ArrayList<>(),targets=new ArrayList<>();
+        int nativeY=0;
+        for(int count:new int[]{23,15,1}) {
+            for(int i=0;i<count;i++) {
+                Widget item=cell(51+(i%8)*48,nativeY+(i/8)*36);if(i==0)first.add(item);children.add(item);
+            }
+            // Script 509 creates a transparent rectangle across the unused end
+            // of each tab's last row. Seven items leave a 36x32 rectangle.
+            int used=count%8,free=8-used;
+            Widget target=cell(51+used*48,nativeY+((count-1)/8)*36+4);
+            when(target.getType()).thenReturn(net.runelite.api.widgets.WidgetType.RECTANGLE);
+            when(target.getItemId()).thenReturn(-1);when(target.getOpacity()).thenReturn(255);when(target.isFilled()).thenReturn(true);
+            AtomicInteger width=new AtomicInteger(free*36+(free-1)*12);
+            when(target.getOriginalWidth()).thenAnswer(call -> width.get());
+            doAnswer(call -> {width.set(call.getArgument(0));return target;}).when(target).setOriginalWidth(anyInt());
+            children.add(target);targets.add(target);nativeY+=((count+7)/8)*36+12;
+        }
+        when(items.getDynamicChildren()).thenReturn(children.toArray(new Widget[0]));
+        int[] stack=new int[9];stack[0]=nativeY-12;
+        when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        assertEquals(4,first.get(0).getOriginalY());
+        assertEquals("The gear tab's invisible drop area must not consume an extra row",88,first.get(1).getOriginalY());
+        assertEquals("The potion tab's invisible drop area must not consume an extra row",172,first.get(2).getOriginalY());
+        assertEquals(208,stack[0]);
+        assertEquals(531,targets.get(0).getOriginalX());assertEquals(44,targets.get(0).getOriginalY());assertEquals(132,targets.get(0).getOriginalWidth());
+        assertEquals(147,targets.get(1).getOriginalX());assertEquals(128,targets.get(1).getOriginalY());assertEquals(516,targets.get(1).getOriginalWidth());
+        assertEquals(99,targets.get(2).getOriginalX());assertEquals(176,targets.get(2).getOriginalY());assertEquals(564,targets.get(2).getOriginalWidth());
+        for(Widget target:targets) {verify(target,never()).setHidden(anyBoolean());verify(target,never()).clearActions();}
+    }
+    @Test public void rewrappedFullRowsDisableTheDropAreaWithoutAddingAnEmptyRow() {
+        BankLayoutController c=controller();Widget items=mock(Widget.class);List<Widget> children=new ArrayList<>();
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);when(items.getWidth()).thenReturn(698);
+        for(int i=0;i<13;i++)children.add(cell(51+(i%8)*48,(i/8)*36));
+        Widget target=cell(291,40);when(target.getType()).thenReturn(net.runelite.api.widgets.WidgetType.RECTANGLE);
+        when(target.getItemId()).thenReturn(-1);when(target.getOpacity()).thenReturn(255);when(target.isFilled()).thenReturn(true);
+        when(target.getOriginalWidth()).thenReturn(132);children.add(target);
+        when(items.getDynamicChildren()).thenReturn(children.toArray(new Widget[0]));
+        int[] stack=new int[9];stack[0]=72;when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        assertEquals(40,stack[0]);verify(target).setOriginalWidth(0);verify(target,never()).setHidden(anyBoolean());
+    }
+    @Test public void intentionalTagLayoutGapsArePreservedWithNativeDropAreas() {
+        BankLayoutController c=controller();c.bankTagsService=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        when(c.bankTagsService.getActiveLayout()).thenReturn(new net.runelite.client.plugins.banktags.tabs.Layout("Own layout"));
+        Widget items=mock(Widget.class),a=cell(51,0),b=cell(387,360),target=cell(51,400);
+        when(target.getType()).thenReturn(net.runelite.api.widgets.WidgetType.RECTANGLE);when(target.getItemId()).thenReturn(-1);
+        when(target.getOpacity()).thenReturn(255);when(target.isFilled()).thenReturn(true);
+        when(items.getDynamicChildren()).thenReturn(new Widget[]{a,b,target});when(items.getWidth()).thenReturn(698);
+        when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+        int[] stack=new int[9];stack[0]=396;when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+        c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+        assertEquals(4,a.getOriginalY());assertEquals(364,b.getOriginalY());assertEquals(387,b.getOriginalX());
+        assertEquals(400,stack[0]);verify(target,never()).setOriginalWidth(anyInt());
     }
     @Test public void captureIncludesOffscreenItemsWithoutChangingGameWidgets()
     {

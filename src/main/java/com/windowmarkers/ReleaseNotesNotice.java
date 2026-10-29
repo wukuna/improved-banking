@@ -19,14 +19,14 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-10-28-consolidated-presets";
+    static final String RELEASE = "2026-10-29-bank-controls";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
-        "View presets now uses a native-style bank button; flexible banks keep the settings menu neatly spaced.",
-        "Wilderness defaults retain budget filters, show missing-gear labels and dimmed budget suggestions; owned Wilderness weapons stay preferred.",
-        "Suggested runes sit below the first gear setup; presets highlight owned items and stay intact when the bank reopens.",
-        "Owned divine/blighted supplies, potion doses and charge-check utilities fill reviewed inventories with use reminders.",
-        "Boss presets share search setups and preserve phase gear and repeated items with Bank Tag Layouts, without unrelated items or native dividers."
+        "Alt-drag bank buttons to reorder them, slide them along the bottom row, or dock them beside Bank Tags.",
+        "Flexible banks no longer add blank rows for invisible tab drop areas; View presets and bank settings use clearer controls.",
+        "View presets now lists 102 activities plus saved views, with clearer names and related methods grouped together.",
+        "Wilderness budget gear, owned potion variants and charged supplies fill reviewed setups; suggested runes appear below the first gear setup.",
+        "Presets share search setups, preserve phase gear and repeated items with Bank Tag Layouts, and stay selected when reopening the bank."
     };
 
     @Inject private Client client;

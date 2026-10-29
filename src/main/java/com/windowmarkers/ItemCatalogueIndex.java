@@ -198,15 +198,15 @@ final class ItemCatalogueIndex
         if(!BankSearchIndex.plainQuery(raw) || raw.length()>100) return null;
         SupplySearch.Query supply=SupplySearch.parse(raw);
         if(supply!=null) return SupplySearch.find(supply,items.values(),hitpoints);
-        String query=normalize(raw);
+        String query=normalize(ActivityMenu.query(raw));
         ActivitySetups.Setup chosen=setups.stream().filter(s->s.id.equals(context)).findFirst().orElse(null);
         // Explicit guide selection disambiguates activities that are also item
         // names (for example Gout tuber or a boss pet). Ordinary item searches
         // still pass through when no matching guide has been selected.
         boolean selectedActivity=chosen!=null && mentionsActivity(query,chosen.activity,false);
-        if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query) && !selectedActivity) return null;
+        if(query.length()<3 || exactNames.contains(normalize(raw)) && !categories.containsKey(query) && !selectedActivity) return null;
         SearchQuery qualifiers=SearchQuery.parse(raw);
-        query=normalize(qualifiers.text);
+        query=normalize(ActivityMenu.query(qualifiers.text));
         boolean exactActivityQuery=false;
         for(ActivitySetups.Setup setup:setups) if(normalize(setup.activity).equals(query)) { exactActivityQuery=true;break; }
         int wantedSlot=-1;
@@ -237,7 +237,7 @@ final class ItemCatalogueIndex
             for(ActivitySetups.Setup setup:setups) if(matches(setupText.get(setup.id),terms,fuzzy)) {
                 // An exact activity such as Abyss must not acquire Abyssal Sire.
                 // Parent activities still include their slash-delimited variants.
-                if(!exactActivity.isEmpty() && !family(setup.activity).equals(exactActivity)) continue;
+                if(!exactActivity.isEmpty() && !normalize(setup.activity).equals(exactActivity) && !family(setup.activity).equals(exactActivity)) continue;
                 recognized=true;
                 // A selected guide only narrows that activity; other activities
                 // and ordinary categories remain searchable.
@@ -249,7 +249,7 @@ final class ItemCatalogueIndex
                 recognized=true; found.addAll(category.getValue());
             }
             for(Map.Entry<String,Map<String,Set<Integer>>> activity:activityCategories.entrySet())
-                if((exactActivity.isEmpty() || family(activity.getKey()).equals(exactActivity)) && mentionsActivity(terms,activity.getKey(),fuzzy))
+                if((exactActivity.isEmpty() || normalize(activity.getKey()).equals(exactActivity) || family(activity.getKey()).equals(exactActivity)) && mentionsActivity(terms,activity.getKey(),fuzzy))
                     for(Map.Entry<String,Set<Integer>> group:activity.getValue().entrySet()) if(matches(group.getKey(),terms,fuzzy)) {
                         recognized=true; found.addAll(group.getValue());
                     }
@@ -294,7 +294,7 @@ final class ItemCatalogueIndex
         Result result=find(query,context,"",hitpoints);
         return result==null?Collections.emptyMap():result.ranks;
     }
-    private static String family(String activity) { return normalize(activity.split("/",2)[0]); }
+    private static String family(String activity) { return normalize(ActivityMenu.canonical(activity).split("/",2)[0]); }
     private static String[] functionalSlot(Item item)
     { String[] row=FUNCTIONAL_SLOTS.get(item.id); return row!=null && row[1].equalsIgnoreCase(item.name)?row:null; }
     private static boolean fitsSlot(Item item,int slot)

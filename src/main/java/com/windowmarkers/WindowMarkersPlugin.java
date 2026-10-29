@@ -164,6 +164,13 @@ public class WindowMarkersPlugin extends Plugin
                 historyActions.add(undo); historyActions.add(redo); controls.add(historyActions);
                 JButton layoutControls=new JButton("Bank size and tabs");
                 layoutControls.addActionListener(e -> editBankLayout()); toolsPanel.add(new JLabel("Bank tools")); toolsPanel.add(layoutControls);
+                toolsPanel.add(new JLabel("<html>Alt-drag bank buttons to arrange them.</html>"));
+                JButton resetButtons=new JButton("Reset bank buttons");
+                resetButtons.addActionListener(e -> {
+                    configs.setConfiguration("windowmarkers","bankControlLayout","");
+                    configs.setConfiguration("windowmarkers","customBankControls",false);
+                    setStatus("Bank button arrangement reset.");
+                });toolsPanel.add(resetButtons);
                 JButton screenshot=new JButton("Save bank screenshot");
                 screenshot.addActionListener(e -> clientThread.invokeLater(this::captureBank)); toolsPanel.add(screenshot);
                 JPanel customPanel=new MarkerForm();
@@ -499,8 +506,7 @@ public class WindowMarkersPlugin extends Plugin
         if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),settings,"Auto-categorize",560,280)) { return; }
         AutoCategories.Preset preset=(AutoCategories.Preset)presets.getSelectedItem();
         if(preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP) {
-            List<BankCatalogue.Choice> activities=new ArrayList<>();
-            for(String activity:ActivitySetups.activities("")) activities.add(new BankCatalogue.Choice(BankCatalogue.Kind.ACTIVITY,activity,activity));
+            List<BankCatalogue.Choice> activities=ActivityMenu.activities();
             BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),activities,"");
             if(choice!=null) chooseCatalogue(choice,showView);
             return;
@@ -703,7 +709,7 @@ public class WindowMarkersPlugin extends Plugin
                         choices.removeIf(c -> c.kind==BankCatalogue.Kind.SAVED_GROUP || c.kind==BankCatalogue.Kind.CUSTOM_PRESET);
                         for(Marker m:markers) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.SAVED_GROUP,m.labelText().isEmpty()?"Unnamed group":m.labelText(),m));
                         for(CustomPresets.Preset p:customPresets.presets) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,p.name,p));
-                        catalogueChoices=choices; rankingIndex=searchIndex; if(legend!=null) legend.catalogue(choices);
+                        catalogueChoices=choices; rankingIndex=searchIndex; if(legend!=null) legend.catalogue(ActivityMenu.choices(choices));
                         if(nativeSearch!=null) nativeSearch.index(searchIndex);
                         clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
                             if(active && revision==catalogueRevision && bank!=null && searchView!=null
@@ -723,7 +729,7 @@ public class WindowMarkersPlugin extends Plugin
     private void browseCatalogue(String query)
     {
         List<BankCatalogue.Choice> choices; String owner,layout;
-        synchronized(this) { choices=new ArrayList<>(catalogueChoices); owner=accountKey; layout=layoutKey; }
+        synchronized(this) { choices=ActivityMenu.choices(catalogueChoices); owner=accountKey; layout=layoutKey; }
         BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),choices,query); if(choice==null) return;
         synchronized(this) { if(!context(owner,layout)) return; }
         chooseCatalogue(choice,true);
@@ -993,7 +999,7 @@ public class WindowMarkersPlugin extends Plugin
         if(bankPicker==null || bank==null || !currentLayout()) return;
         final String owner=accountKey,layout=layoutKey;
         boolean canSave=searchView!=null && searchView.isActive() || nativeSearch!=null && !nativeSearch.matches().isEmpty();
-        bankPicker.show(client.getCanvas(),catalogueChoices,canSave,choice -> {
+        bankPicker.show(client.getCanvas(),ActivityMenu.choices(catalogueChoices),canSave,choice -> {
             synchronized(WindowMarkersPlugin.this) { if(!context(owner,layout)) return; }
             chooseCatalogue(choice,true);
         },this::saveCurrentBankView,() -> clientThread.invokeLater(() -> {

@@ -82,7 +82,7 @@ public class WindowMarkersTest
                     java.util.List<javax.swing.JButton> buttons=new java.util.ArrayList<>();visibleButtons(legend,buttons);
                     var names=buttons.stream().map(javax.swing.JButton::getText).collect(java.util.stream.Collectors.toList());
                     assertTrue(names.containsAll(java.util.Arrays.asList("Show in bank","Clear bank filter","Add to Legend")));
-                    assertEquals(1,names.stream().filter("Browse all categories…"::equals).count());
+                    assertEquals(1,names.stream().filter("Browse activities…"::equals).count());
                     assertFalse(names.contains("Open saved view"));assertFalse(names.contains("Remove selected groups"));
                     for(var button:buttons) assertTrue(button.getText(),button.getFontMetrics(button.getFont()).stringWidth(button.getText())<=button.getWidth()-button.getInsets().left-button.getInsets().right);
                     BufferedImage image=new BufferedImage(205,700,BufferedImage.TYPE_INT_ARGB);

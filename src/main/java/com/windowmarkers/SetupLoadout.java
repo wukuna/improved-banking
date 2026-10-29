@@ -128,7 +128,7 @@ final class SetupLoadout
         // Explicit source selections and saved inventory choices remain stable.
         if(matched.size()<2) return buildOne(matched,owned,visible,inventoryContext);
         Set<String> activities=new HashSet<>();matched.forEach(s->activities.add(s.activity));
-        Set<String> families=new HashSet<>();activities.forEach(a->families.add(a.split("/",2)[0]));
+        Set<String> families=new HashSet<>();activities.forEach(a->families.add(ActivityMenu.canonical(a).split("/",2)[0]));
         if(families.size()!=1) return buildOne(matched,owned,visible,inventoryContext);
         String activityName=families.iterator().next();
         Map<String,List<ActivitySetups.Setup>> groups=new LinkedHashMap<>();
@@ -139,7 +139,7 @@ final class SetupLoadout
             String phase=table.context.toLowerCase(Locale.ROOT).contains("phase")?table.context.replaceFirst("^Equipment / ",""):"";
             String style=SetupCompletion.style(table.style);
             String name=phase.isEmpty()?table.style:phase+" / "+(style.isEmpty()?table.style:style.substring(0,1).toUpperCase(Locale.ROOT)+style.substring(1));
-            if(activities.size()>1 && !setup.activity.equals(activityName)) name=setup.activity.substring(activityName.length()+1)+" / "+name;
+            if(activities.size()>1 && !setup.activity.equals(activityName)) name=(setup.activity.startsWith(activityName+"/")?setup.activity.substring(activityName.length()+1):setup.activity.split("/",2)[0])+" / "+name;
             groups.computeIfAbsent(name,k->new ArrayList<>()).add(setup);
         }
         if(groups.size()<2) return buildOne(matched,owned,visible,inventoryContext);

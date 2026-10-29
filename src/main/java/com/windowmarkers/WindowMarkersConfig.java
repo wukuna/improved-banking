@@ -97,6 +97,12 @@ public interface WindowMarkersConfig extends Config
 
     @ConfigItem(section=bankLayout,keyName="bankLayoutEnabled",name="Built-in bank layout",description="Use the integrated flexible bank layout. Disable the separate Flexible Bank plugin.",position=10)
     default boolean bankLayoutEnabled() { return true; }
+    @ConfigItem(section=bankLayout,keyName="customBankControls",name="Custom bank buttons",description="Use the arrangement saved by Alt-dragging bank buttons. Overrides the older deposit-button placement while enabled. Requires built-in bank layout.",position=22)
+    default boolean customBankControls() { return false; }
+    @ConfigItem(section=bankLayout,keyName="bankButtonDragging",name="Alt-drag bank buttons",description="Hold Alt and drag native bank buttons along the bottom row or into the left dock. Release to save. Requires built-in bank layout.",position=23)
+    default boolean bankButtonDragging() { return true; }
+    @ConfigItem(keyName="bankControlLayout",name="Bank button arrangement",description="Saved named bank controls and docking preferences.",hidden=true)
+    default String bankControlLayout() { return ""; }
     enum TabAlignment { LEFT, CENTER, RIGHT }
     @ConfigItem(section=bankLayout,keyName="tabAlignment",name="Bank tab alignment",description="Align the top bank tabs within the bank window.",position=20)
     default TabAlignment tabAlignment() { return TabAlignment.CENTER; }

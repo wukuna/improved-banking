@@ -17,7 +17,8 @@ final class ActivitySetupPicker
     private static ActivitySetups.Setup choose(Component parent,boolean ge,boolean inventory)
     {
         JTextField search=new JTextField(32);
-        JComboBox<String> activities=new JComboBox<>();
+        JComboBox<BankCatalogue.Choice> activities=new JComboBox<>();
+        java.util.List<BankCatalogue.Choice> available=ActivityMenu.activities();
         JComboBox<ActivitySetups.Setup> setups=new JComboBox<>();
         activities.setMaximumRowCount(12); setups.setMaximumRowCount(12);
         JTextArea notes=new JTextArea(7,48);
@@ -43,14 +44,16 @@ final class ActivitySetupPicker
         });
         activities.addActionListener(e -> {
             setups.removeAllItems();
-            for (ActivitySetups.Setup setup:ActivitySetups.forActivity((String)activities.getSelectedItem()))
+            BankCatalogue.Choice selected=(BankCatalogue.Choice)activities.getSelectedItem();
+            for (ActivitySetups.Setup setup:ActivityMenu.setups(selected==null?null:selected.viewQuery()))
             { if(!inventory || SetupLoadout.inventoryTable(setup)) setups.addItem(setup); }
         });
         Runnable refresh=() -> {
             Object previous=activities.getSelectedItem();
             activities.removeAllItems();
-            for (String activity:ActivitySetups.activities(search.getText())) { activities.addItem(activity); }
-            if (previous!=null && ActivitySetups.activities(search.getText()).contains(previous))
+            java.util.List<BankCatalogue.Choice> found=BankCatalogue.search(available,search.getText(),available.size());
+            for (BankCatalogue.Choice activity:found) { activities.addItem(activity); }
+            if (previous!=null && found.contains(previous))
             { activities.setSelectedItem(previous); }
         };
         search.getDocument().addDocumentListener(new DocumentListener()

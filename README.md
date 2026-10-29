@@ -13,14 +13,14 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 ## Features
 
 - **Recent updates:** up to five bundled change notes appear in the chatbox once per update in each RuneLite profile.
-- **Searchable Legend:** find categories, presets and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
+- **Searchable Legend:** find activities and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
 - **Item lookup and comparison:** inspect one or two items, send a classification to Legend, or temporarily highlight the selected items without creating a group.
 - **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
 - **Editable saved views:** copy a built-in search into a custom view, then add/remove item icons, rename groups and reorder them in one resizable editor. Save commits the draft; Cancel leaves the saved view unchanged.
 - **Cleanup review:** find reviewed burnt cooking results with specific quest, repeatable-task, container and rarity notes. A separate conservative sell-candidate search covers supported ordinary gathering tools.
 - **Wiki-based organization:** broad categories, skilling, utility and raid presets, plus separately reviewed activity setups. Charged, empty, broken and equivalent versions retain their documented distinctions.
 - **Optional native bank search:** enable category, preset and custom-group matches from the checkbox in the bank search prompt, with live item highlighting.
-- **View presets button:** search the same catalogue from a native-style button beside the bank camera button, open a reviewed view, save it as a custom preset or return to your bank.
+- **View presets button:** browse 102 activities and your saved views from a native-style button beside the bank camera button, open a reviewed view, save it as a custom preset or return to your bank.
 - **Equipment and inventory views:** phase-specific equipment diagrams and Wiki inventories, with matching owned alternatives below. Temporary presets retain their selected item list; unrelated supplies are excluded. General item/category searches retain their normal order.
 - **Bank Tags integration:** add a real tag to selected items through an icon palette for use with Bank Tags layouts. Existing tags are retained. Search results and highlights refresh when switching tabs and stay within the active tag's membership.
 - **Bank presentation:** item-linked and area markers, readable labels, optional hover highlights, flexible dimensions, tab alignment and local full-tab screenshots.
@@ -58,7 +58,7 @@ Mini-labels show short category names once per group. Custom groups retain the n
 
 ### Search, item lookup and custom presets
 
-**Legend → Browse all categories** searches the bundled Wiki categories, equipment groups, raid presets, Wiki activity setups and saved custom presets. Results update as you type and tolerate approximate spelling; CoX, ToB and ToA abbreviations work. Choosing a result previews the bank; it does not save a new group until **Add to Legend** is used. Search finds available categories even when they are not yet in your legend.
+**Legend → Browse activities** and **View presets** list named activities and saved custom views. General categories and broad supply presets are kept out of this menu; their item classifications and native search matching remain available. Barbarian Assault and Fossil Island Wyverns each group their related methods, with original guide conditions and setup IDs retained. The seasonal Echo Hespori entry stays out of ordinary browsing. Results update as you type and tolerate approximate spelling; CoX, ToB and ToA abbreviations work. Choosing a result previews the bank; it does not save a new group until **Add to Legend** is used. Activities appear even when they are not yet in your legend.
 
 **Item lookup / compare** opens a searchable item-icon palette. Choose one item to list its recorded categories, presets, Wiki setups and custom memberships, or two to see shared and unique memberships. Same-name item variants retain separate IDs. This compares membership, not item power or activity readiness. Use **Only items in this bank** to limit results to owned items; uncheck it to search the item catalogue.
 
@@ -68,7 +68,7 @@ Use **Saved views → Edit saved view** to change that copy later, **Open saved 
 
 ### Junk and quest-use review
 
-Search **Junk review** (or `junk`) in Legend, the bank picker or enabled native bank search. The initial reviewed set covers burnt cooking results; this is not a complete junk catalogue or an instruction to discard anything. Ordinary review items have a subtle grey outline. Items with niche or uncertain uses have a light amber outline and stay in the same junk results. Hover an item, or open **Item uses and reasons** to see names, icons, the specific purpose and source; this window also searches the reason text.
+Search **Junk review** (or `junk`) in Legend or enabled native bank search. The initial reviewed set covers burnt cooking results; this is not a complete junk catalogue or an instruction to discard anything. Ordinary review items have a subtle grey outline. Items with niche or uncertain uses have a light amber outline and stay in the same junk results. Hover an item, or open **Item uses and reasons** to see names, icons, the specific purpose and source; this window also searches the reason text.
 
 Burnt chicken retains its **repeatable Keldagrim tasks** note even after **Forgettable Tale...** is completed. Burnt meat's **Witch's Potion** note changes when that quest is completed. Recoverable containers, rare collector items and uncertain uses receive their own explanations. Collector value can remain even after a practical use ends.
 
@@ -177,6 +177,14 @@ Use **Legend → Saved views → Guide choices → Choose bank / GE guide** to n
 ### Bank layout
 
 **Tools → Bank size and tabs** controls bank width, height, columns, tab alignment, spacing below the tabs and deposit-button placement. Item icons retain their native size. Bank Tags custom layouts retain their designed grid. Linked markers follow reflow; area markers keep their saved coordinates.
+
+**Hold Alt and drag a bank button** to move it along the bottom row, change its order, or place it in the left dock beside Bank Tags. Guides appear while Alt is held. Release to save the arrangement automatically; releasing outside the bank, losing focus, closing the bank or changing profiles cancels an unfinished move. An Alt-click without a drag does not activate or rearrange the button. Normal clicks keep their usual behavior. Ctrl+Alt stays available for RuneLite's overlay controls.
+
+**Tools → Reset bank buttons** restores your previous bank controls. **Custom bank buttons** can also be turned off in settings, and **Alt-drag bank buttons** disables the drag shortcut if desired. Only a completed drag enables a custom arrangement.
+
+The dock needs a bank at least 536 pixels wide. Controls that cannot fit beside a short or narrow bank stay in the bottom row. Buttons keep their native sizes, actions, tooltips and artwork; controls hidden by the game stay hidden. The dock reserves its own space beside Bank Tags and the item grid, including Bank Tag Layouts. The arrangement is saved in your RuneLite profile and takes precedence over the older deposit-button placement while enabled. The built-in bank layout must also be enabled.
+
+The ordinary All tab preserves native tab sections without treating transparent tab drop areas as extra item rows.
 
 ## Saved settings
 

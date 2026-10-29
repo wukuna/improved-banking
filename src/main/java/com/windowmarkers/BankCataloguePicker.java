@@ -133,8 +133,8 @@ final class BankCataloguePicker
         PickerPanel(List<BankCatalogue.Choice> choices,Consumer<BankCatalogue.Choice> choose,Runnable save,Runnable closeView,boolean canSave)
         {
             super(new BorderLayout(6,6)); setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
-            search.setToolTipText("Search categories, activities and saved presets. Approximate spelling works.");
-            JPanel header=new JPanel(new BorderLayout(0,4)); header.add(new JLabel("Search categories & presets"),BorderLayout.NORTH);
+            search.setToolTipText("Search activities and saved presets. Approximate spelling works.");
+            JPanel header=new JPanel(new BorderLayout(0,4)); header.add(new JLabel("Search activities & saved views"),BorderLayout.NORTH);
             header.add(search,BorderLayout.CENTER); add(header,BorderLayout.NORTH); add(new JScrollPane(list),BorderLayout.CENTER);
             list.setCellRenderer(new DefaultListCellRenderer() {
                 @Override public Component getListCellRendererComponent(JList<?> list,Object value,int index,boolean selected,boolean focus) {
@@ -159,7 +159,7 @@ final class BankCataloguePicker
             Runnable refresh=() -> {
                 long token=++revision; String text=search.getText();
                 new SwingWorker<List<BankCatalogue.Choice>,Void>() {
-                    protected List<BankCatalogue.Choice> doInBackground() { return BankCatalogue.search(choices,text,80); }
+                    protected List<BankCatalogue.Choice> doInBackground() { return BankCatalogue.search(choices,text,choices.size()); }
                     protected void done() { if(closed || token!=revision) return; try { rows.clear(); for(var c:get()) rows.addElement(c); if(!rows.isEmpty()) list.setSelectedIndex(0); } catch(Exception ignored) { } }
                 }.execute();
             };

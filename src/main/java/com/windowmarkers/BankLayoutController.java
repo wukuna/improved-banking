@@ -131,6 +131,12 @@ public final class BankLayoutController
     @Inject net.runelite.client.game.ItemManager itemManager;
     private final SetupInventoryWidgets inventoryWidgets=new SetupInventoryWidgets();
     private final BankViewGeometry viewGeometry=new BankViewGeometry();
+    final BankControlWidgets controls=new BankControlWidgets(this);
+    final BankControlDrag controlDrag=new BankControlDrag(this);
+    @Inject net.runelite.client.input.MouseManager mouseManager;
+    @Inject net.runelite.client.ui.overlay.OverlayManager overlayManager;
+    @Inject ConfigManager configs;
+    private boolean customControls() {return config.customBankControls() || controlDrag.draft()!=null;}
 
 	@com.google.inject.Inject(optional = true)
 	BankTagsService bankTagsService;
@@ -159,7 +165,9 @@ public final class BankLayoutController
 	void startUp()
 	{
         inventoryWidgets.setClient(client);
-		active = true;
+		active = true;controlDrag.resetInput();
+        if(mouseManager!=null)mouseManager.registerMouseListener(0,controlDrag);
+        if(overlayManager!=null)overlayManager.add(controlDrag.overlay);
 		eventBus.register(this);
 		// The frame has to be in place before the bank tags plugin sizes its tab column on this event,
 		// the item grid can only be reflowed after it has laid out its tag tabs.
@@ -170,6 +178,9 @@ public final class BankLayoutController
 	void shutDown()
 	{
 		active = false;
+        controlDrag.resetInput();
+        if(mouseManager!=null)mouseManager.unregisterMouseListener(controlDrag);
+        if(overlayManager!=null)overlayManager.remove(controlDrag.overlay);
 		eventBus.unregister(this);
 		eventBus.unregister(frameSubscriber);
 		clientThread.invokeLater(() ->
@@ -182,8 +193,9 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout").contains(event.getKey()))
+		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging").contains(event.getKey()))
 		{
+            controlDrag.clear();
 			clientThread.invokeLater(() -> { restoreTabs(); restore(); rebuildBank(); });
 		}
 	}
@@ -193,19 +205,18 @@ public final class BankLayoutController
 	{
 		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
+            controlDrag.clear();controls.clear();
             inventoryWidgets.clear();
             hiddenSeparators.clear();
             viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
-			restoreTabs();
-			// the modal outlives the bank and hosts every other main interface, so it must not stay enlarged
-			restore(positions, true, false);
-			restore(sizes, false, false);
-			appliedSignature = null;
+            // Restore surviving widgets as well as the modal. An unfinished Alt-drag
+            // must not leave changed quantity children behind on a soft close.
+            restore();
 		}
 	}
 
     @Subscribe public void onProfileChanged(net.runelite.client.events.ProfileChanged event)
-    { clientThread.invokeLater(() -> { restore(); rebuildBank(); }); }
+    { controlDrag.clear();clientThread.invokeLater(() -> { restore(); rebuildBank(); }); }
 
 	private void layoutFrame(ScriptPreFired event)
 	{
@@ -243,13 +254,16 @@ public final class BankLayoutController
 		fillWidth(client.getWidget(InterfaceID.Bankmain.TABS_LINE0));
 		universe.revalidate();
 		container.revalidate();
+        controls.previewWidth=container.getWidth();controls.previewHeight=container.getHeight();
 
 		// the build script resets the item grid to its vanilla width every time
 		int[] s = baseSize(items);
 		int gap=Math.max(0,Math.min(40,config.tabGap()));
+        BankControlLayout.Plan controlPlan=customControls()?controls.plan(container):null;
+        int inset=controlPlan==null?0:controlPlan.inset;
         int[] itemPosition=basePos(items);
-        setPos(items,itemPosition[0],itemPosition[1]+gap,itemPosition[2],itemPosition[3]);
-        setSize(items, ITEMS_WIDTH_MARGIN, s[3]==WidgetSizeMode.MINUS ? s[1]+gap : Math.max(1,s[1]-gap), WidgetSizeMode.MINUS, s[3]);
+        setPos(items,itemPosition[0]+inset,itemPosition[1]+gap,itemPosition[2],itemPosition[3]);
+        setSize(items, ITEMS_WIDTH_MARGIN+inset, s[3]==WidgetSizeMode.MINUS ? s[1]+gap : Math.max(1,s[1]-gap), WidgetSizeMode.MINUS, s[3]);
         Widget scrollbar=client.getWidget(InterfaceID.Bankmain.SCROLLBAR);
         if(scrollbar!=null)
         {
@@ -258,9 +272,11 @@ public final class BankLayoutController
             setSize(scrollbar,scrollSize[0],scrollSize[3]==WidgetSizeMode.MINUS ? scrollSize[1]+gap : Math.max(1,scrollSize[1]-gap),scrollSize[2],scrollSize[3]);
         }
 
-		layoutBottom(container);
+        if(controlPlan==null) layoutBottom(container);
+        else controls.apply(container,controlPlan);
 		revalidateTree(universe);
 		appliedSignature = signature(universe);
+        if(controlPlan!=null)controls.capture();
 	}
 
 	@Subscribe(priority = -10)
@@ -322,10 +338,18 @@ public final class BankLayoutController
 
     // Search refresh rebuilds the native tabs after ClientTick. Apply their final
     // positions after scripts, before any frame can display the intermediate layout.
+    @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused())controlDrag.cancel();}
+    @Subscribe public void onGameStateChanged(net.runelite.api.events.GameStateChanged event) {
+        if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN)controlDrag.cancel();
+    }
     @Subscribe(priority=-20)
     public void onBeforeRender(BeforeRender event)
     {
-        if(active && config.bankLayoutEnabled()) { reapplyFrame(); alignTabs(); }
+        if(active && config.bankLayoutEnabled()) {
+            int update=controlDrag.update();if(update==2)restore();if(update>0)applyFrame();
+            reapplyFrame();alignTabs();controlDrag.capture();
+        }
+        else controlDrag.clear();
     }
 
 	@Subscribe
@@ -374,7 +398,8 @@ public final class BankLayoutController
 	{
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		if (universe != null && (appliedSignature != null && !Arrays.equals(signature(universe), appliedSignature)
-            || appliedSignature == null && settingsVisible()))
+            || appliedSignature == null && settingsVisible()
+            || customControls() && !settingsVisible() && controls.changed()))
 		{
 			applyFrame();
 		}
@@ -630,6 +655,7 @@ public final class BankLayoutController
 		int usable = items.getWidth() - LEFT_INSET - RIGHT_INSET;
 		List<Widget> cells = new ArrayList<>();
 		List<Widget> separators = new ArrayList<>();
+        Map<Widget,Integer> tabDropAreas=new java.util.IdentityHashMap<>();
 		for (Widget child : children)
 		{
 			if (child == null)
@@ -637,8 +663,14 @@ public final class BankLayoutController
 				continue;
 			}
 
-			boolean cell = child.getOriginalWidth() == CELL_WIDTH && child.getOriginalHeight() == CELL_HEIGHT;
-			if (!cell && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH && child.getOriginalWidth() != usable)
+            // A native tab's unused trailing slot is also 36x32 when the last
+            // row contains seven items. It is a transparent RECTANGLE, not an
+            // item; counting it creates an entire blank row after rewrapping.
+			boolean cell = child.getType()==WidgetType.GRAPHIC && child.getItemId()>=0
+                && child.getOriginalWidth() == CELL_WIDTH && child.getOriginalHeight() == CELL_HEIGHT;
+            boolean tabDropArea=child.getType()==WidgetType.RECTANGLE && child.getOriginalHeight()==CELL_HEIGHT
+                && child.getOpacity()==255 && child.isFilled() && child.getItemId()<0;
+			if (!cell && !tabDropArea && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH && child.getOriginalWidth() != usable)
 			{
 				// tab separator lines and labels are created once, at the vanilla width
 				child.setOriginalWidth(usable);
@@ -647,7 +679,8 @@ public final class BankLayoutController
 
 			if (!child.isSelfHidden())
 			{
-				(cell ? cells : separators).add(child);
+                if(tabDropArea) tabDropAreas.put(child,child.getOriginalY());
+                else (cell ? cells : separators).add(child);
 			}
 		}
 
@@ -661,6 +694,7 @@ public final class BankLayoutController
             int end=0;
             for(Widget cell:cells) { end=Math.max(end,cell.getOriginalY()+ROW_HEIGHT); cell.setOriginalY(cell.getOriginalY()+4); cell.revalidate(); }
             for(Widget separator:separators) { separator.setOriginalY(separator.getOriginalY()+4); separator.revalidate(); }
+            for(Widget area:tabDropAreas.keySet()) { area.setOriginalY(area.getOriginalY()+4);area.revalidate(); }
             return new int[]{end,end+4};
         }
 
@@ -712,6 +746,17 @@ public final class BankLayoutController
 			}
 
 			newEnd = newStart + ((end - start + columns - 1) / columns) * ROW_HEIGHT;
+            for(Map.Entry<Widget,Integer> entry:tabDropAreas.entrySet()) {
+                if(entry.getValue()!=oldY[end-1]+ROW_HEIGHT-CELL_HEIGHT) continue;
+                // Keep the native drag target on this tab's unused row tail,
+                // never over real items or on a new row of its own.
+                int used=(end-start)%columns,free=used==0?0:columns-used;
+                Widget area=entry.getKey();
+                area.setOriginalX(LEFT_INSET+used*pitch);
+                area.setOriginalY(newEnd-CELL_HEIGHT);
+                area.setOriginalWidth(free==0?0:free*CELL_WIDTH+(free-1)*(pitch-CELL_WIDTH));
+                area.revalidate();
+            }
 			oldEnd = oldY[end - 1] + ROW_HEIGHT;
 			start = end;
 		}
@@ -803,6 +848,7 @@ public final class BankLayoutController
         inventoryWidgets.clear();
         restoreSeparators();
 		restoreTabs();
+        controls.clear();
 		Widget modal = modal();
 		restore(positions, true, true);
 		restore(sizes, false, true);
@@ -828,7 +874,7 @@ public final class BankLayoutController
 		int usable = items.getWidth() - LEFT_INSET - RIGHT_INSET;
 		for (Widget child : children)
 		{
-			if (child != null && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH)
+			if (child != null && child.getType()!=WidgetType.RECTANGLE && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH)
 			{
 				child.setOriginalWidth(usable);
 				child.revalidate();
@@ -929,14 +975,14 @@ public final class BankLayoutController
 		return track.base.clone();
 	}
 
-	private void setPos(Widget widget, int x, int y, int xMode, int yMode)
+	void setPos(Widget widget, int x, int y, int xMode, int yMode)
 	{
 		basePos(widget);
 		widget.setPos(x, y, xMode, yMode);
 		positions.get(widget.getId()).applied = new int[]{x, y, xMode, yMode};
 	}
 
-	private void setSize(Widget widget, int width, int height, int widthMode, int heightMode)
+	void setSize(Widget widget, int width, int height, int widthMode, int heightMode)
 	{
 		baseSize(widget);
 		widget.setSize(width, height, widthMode, heightMode);

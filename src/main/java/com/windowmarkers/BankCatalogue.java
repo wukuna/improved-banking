@@ -20,11 +20,11 @@ final class BankCatalogue
             this.kind=kind; this.name=name; this.value=value;
             this.presetScope=presetScope; this.customGroup=customGroup;
             String terms=name+" "+aliases(name);
-            if(kind==Kind.ACTIVITY) for(ActivitySetups.Setup setup:ActivitySetups.forActivity(name)) terms+=" "+setup.label;
+            if(kind==Kind.ACTIVITY) for(ActivitySetups.Setup setup:ActivityMenu.setups((String)value)) terms+=" "+setup.activity+" "+setup.label;
             search=SearchText.normalize(terms);
         }
         @Override public String toString() { return name+"  · "+kind.toString().toLowerCase(Locale.ROOT).replace('_',' '); }
-        String viewQuery() { return kind==Kind.PRESET?name.split(" — ",2)[0]:name; }
+        String viewQuery() { return kind==Kind.ACTIVITY?(String)value:kind==Kind.PRESET?name.split(" — ",2)[0]:name; }
     }
     static String aliases(String name)
     {

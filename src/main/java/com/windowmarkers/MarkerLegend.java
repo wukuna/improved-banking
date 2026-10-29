@@ -126,7 +126,7 @@ final class MarkerLegend extends JPanel
         filterOptions.addActionListener(e -> { filters.setVisible(filterOptions.isSelected()); revalidate(); });
         header.add(filterOptions); header.add(filters);
         scope.setToolTipText("Current bank tab follows tab changes. All saved groups includes absent items and empty area markers.");
-        JButton browse=new JButton("Browse all categories…"),inspect=new JButton("Item lookup / compare…");
+        JButton browse=new JButton("Browse activities…"),inspect=new JButton("Item lookup / compare…");
         browse.addActionListener(e -> { if(actions!=null) actions.browse(search.getText()); });
         inspect.addActionListener(e -> { if(actions!=null) actions.inspect(); }); header.add(browse); header.add(inspect);
         add(header,BorderLayout.NORTH);

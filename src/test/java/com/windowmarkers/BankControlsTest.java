@@ -102,7 +102,7 @@ public class BankControlsTest
     }
 
     /** A small geometry model using RuneLite's absolute/centre/right/minus modes. */
-    private static final class Cell {
+    static final class Cell {
         final int id;final Widget widget;final Cell parent;final int[] geometry;
         final List<Widget> children=new ArrayList<>();final Map<String,Object> properties=new HashMap<>();
         Cell(int id,Cell parent,int x,int y,int width,int height,int xMode,int yMode,int widthMode,int heightMode) {
