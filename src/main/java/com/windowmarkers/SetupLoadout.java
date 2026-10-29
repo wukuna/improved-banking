@@ -52,6 +52,19 @@ final class SetupLoadout
     String equipmentNote="";
     String sectionName="";
     boolean wildernessBudget;
+    String equipmentSource="";
+    final Map<Integer,Integer> equipmentExample=new LinkedHashMap<>();
+    Table equipmentTable() { return TABLES.get(equipmentSource); }
+    boolean notEnoughGear() {
+        if(!wildernessBudget) return false;
+        for(SetupLoadout part:sections()) for(int slot:new int[]{0,3,4,7})
+            if(part.equipmentTable()!=null && part.equipmentTable().fields.stream().anyMatch(f->f.slot()==slot)
+                && part.equipment.getOrDefault(slot,Collections.emptyList()).isEmpty()) return true;
+        return false;
+    }
+    boolean hasBudgetExamples() {
+        return wildernessBudget && sections().stream().anyMatch(s->!s.equipmentExample.isEmpty());
+    }
     private List<SetupLoadout> sections=Collections.emptyList();
     List<SetupLoadout> sections() { return sections.isEmpty()?Collections.singletonList(this):sections; }
     int sectionCount() { return sections.isEmpty()?1:sections.size(); }
@@ -78,6 +91,8 @@ final class SetupLoadout
         result.equipmentNote=equipmentNote;
         result.sectionName=sectionName;
         result.wildernessBudget=wildernessBudget;
+        result.equipmentSource=equipmentSource;
+        // Saved custom selections must not regain removed items as suggestions.
         if(!sections.isEmpty()) {
             List<SetupLoadout> kept=new ArrayList<>();
             for(SetupLoadout section:sections) kept.add(section.retainItems(allowed));
@@ -216,6 +231,7 @@ final class SetupLoadout
                     || InventoryPotionDoses.listed(field.ids,owned.get(id).fact))) { inventoryItems.put(position,id);break; }
         }
         SetupLoadout result=new SetupLoadout(anchor.activity,gear==null?"":gear.activity+" / "+gear.label,inventory==null?"No inventory example":inventory.label,equipment,inventoryItems,inventoryExample);
+        result.equipmentSource=gear==null?"":gear.id;
         result.equipmentNotes.putAll(equipmentNotes);
         result.equipmentNote=gear==null?"":SWITCH_NOTES.getOrDefault(gear.id,"");
         return result;

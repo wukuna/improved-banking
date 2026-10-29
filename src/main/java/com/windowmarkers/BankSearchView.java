@@ -8,7 +8,7 @@ import net.runelite.client.plugins.banktags.BankTag;
 import net.runelite.client.plugins.banktags.BankTagsService;
 import net.runelite.client.plugins.banktags.TagManager;
 
-/** Session-only custom tag; never writes to Bank Tags' saved tabs or layouts. */
+/** Session-only custom tag; does not create saved tag tabs or layouts. */
 @Singleton
 final class BankSearchView
 {
@@ -16,11 +16,15 @@ final class BankSearchView
     @Inject BankTagsService bankTags;
     @Inject TagManager tags;
     @Inject ItemManager items;
+    @Inject net.runelite.client.callback.ClientThread clientThread;
     private final String tagName="improved banking "+UUID.randomUUID();
     private BankTag tag;
     private String name;
     private boolean slots;
+    private boolean reopen, reopenQueued;
     private SetupLoadout loadout;
+    private Marker highlight;
+    Marker highlight() { return isActive()?highlight:null; }
     private Map<Integer,ItemCatalogueIndex.Rank> ranks=Collections.emptyMap();
     SetupLoadout loadout() { return isActive()?loadout:null; }
     Map<Integer,ItemCatalogueIndex.Rank> ranks() { return isActive()?ranks:Collections.emptyMap(); }
@@ -34,7 +38,11 @@ final class BankSearchView
         this.name=name; this.groups=new ArrayList<>(groups); this.slots=slots;
         Set<Integer> ids=new HashSet<>();
         for(Marker group:groups) if(group.linked()) for(int id:group.linkedItemIds) ids.add(id);
-        if(ids.isEmpty()) { this.groups=Collections.emptyList(); return; }
+        if(ids.isEmpty() && (loadout==null || !loadout.hasBudgetExamples())) { this.groups=Collections.emptyList(); return; }
+        if(loadout!=null && !ids.isEmpty()) {
+            highlight=new Marker(0,0,48,36);highlight.scrollWithItems=true;
+            highlight.linkedItemIds=ids.stream().mapToInt(Integer::intValue).toArray();
+        }
         tag=id -> ids.contains(items.canonicalize(id));
         tags.registerTag(tagName,tag);
         bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
@@ -72,18 +80,53 @@ final class BankSearchView
             && inputMode==client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)
             && Objects.equals(input,client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT));
     }
+    // Bank Tags clears its active tag on unload but remembers its name. Keep the
+    // registered contents until the bank reopens or the user explicitly changes views.
+    void bankClosed() {
+        if(isActive()) reopen=true;
+        else if(!reopen) forget();
+    }
+    private boolean bankOpen() {
+        var bank=client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE);
+        return bank!=null && !bank.isHidden();
+    }
+    private boolean canReopen() {
+        String active=bankTags.getActiveTag();
+        return (active==null || tagName.equals(active))
+            && client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB)==0
+            && client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)!=net.runelite.api.vars.InputType.SEARCH.getType();
+    }
     void update() {
+        if(tag==null || !bankOpen()) return;
+        if(reopen) {
+            if(!canReopen()) { forget(); return; }
+            if(!reopenQueued) {
+                reopenQueued=true;
+                BankTag expected=tag;
+                var unchanged=unchangedContext();
+                // Opening a tag rebuilds the bank: defer it out of BeforeRender.
+                clientThread.invokeLater(() -> {
+                    if(tag!=expected) return;
+                    reopenQueued=false;
+                    if(!bankOpen()) return;
+                    if(!unchanged.getAsBoolean() || !canReopen()) { forget(); return; }
+                    reopen=false;
+                    bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
+                });
+            }
+            return;
+        }
         if(tag!=null && !isActive()) forget();
         if(isActive()) {
             var title=client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.TITLE);
-            if(title!=null) title.setText("Bank view: "+name.replace('<',' ').replace('>',' ').substring(0,Math.min(48,name.length())));
+            if(title!=null) title.setText("Bank view: "+name.replace('<',' ').replace('>',' ').substring(0,Math.min(48,name.length()))+(loadout!=null && loadout.notEnoughGear()?" - not enough gear in bank":""));
         }
     }
     void clear() {
-        if(isActive()) {
+        if(isActive() || tag!=null && reopen && bankTags.getActiveTag()==null) {
             bankTags.closeBankTag();
         }
         forget();
     }
-    private void forget() { if(tag!=null) tags.unregisterTag(tagName); tag=null; name=null; slots=false;loadout=null;ranks=Collections.emptyMap(); groups=Collections.emptyList(); }
+    private void forget() { if(tag!=null) tags.unregisterTag(tagName); tag=null; name=null; slots=false;reopen=false;reopenQueued=false;loadout=null;highlight=null;ranks=Collections.emptyMap(); groups=Collections.emptyList(); }
 }

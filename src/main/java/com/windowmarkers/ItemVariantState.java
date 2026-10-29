@@ -62,6 +62,10 @@ final class ItemVariantState
 
     static boolean needsInventoryReview(AutoCategories.Item item,ActivitySetups.Setup setup)
     {
+        // These exact utility identities keep their charges/contents outside
+        // the item ID. Show ownership without claiming their contents are ready.
+        if(setup.itemIds.contains(item.id) && inventoryOwnershipOnly(item)
+            && !identityNeedsReview(item) && !WikiCatalogue.hasFacet(item,"restricted")) return false;
         // A reviewed inventory can deliberately use a restricted supply. A
         // self-damage warning is not evidence that an owned potion is unavailable.
         // Keep identity, state and unrelated location restrictions separate.
@@ -74,8 +78,18 @@ final class ItemVariantState
         return needsActivityReview(item);
     }
 
+    static boolean inventoryOwnershipOnly(AutoCategories.Item item)
+    {
+        ItemVariantState state=STATES.get(item.id);
+        return state!=null && state.family.equals(item.name)
+            && (item.id==25781 || item.id==13116 || item.id==19634 || item.id==21389)
+            && (state.state==State.CHECK || state.state==State.CONTENTS);
+    }
+
     static String inventoryUseNote(AutoCategories.Item item)
     {
+        if(inventoryOwnershipOnly(item))
+            return "Owned guide item; its ID does not establish remaining charges, stored contents or toggle state. Check before use.";
         if(WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use")))
             return "Deliberate self-damaging supply listed by this guide. Check remaining Hitpoints and use requirements.";
         if(item.name.startsWith("blighted "))

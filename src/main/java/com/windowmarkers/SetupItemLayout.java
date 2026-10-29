@@ -36,15 +36,20 @@ final class SetupItemLayout
             && cell.getOriginalWidth()==36 && cell.getOriginalHeight()==32) {
             cells.add(cell);byId.putIfAbsent(manager.canonicalize(cell.getItemId()),cell);oldEnd=Math.max(oldEnd,cell.getOriginalY()+36);
         }
-        if(cells.isEmpty()) return null;
+        if(cells.isEmpty() && !plan.hasBudgetExamples()) return null;
+        List<Widget> runes=new ArrayList<>();
+        for(Widget cell:cells) if(bucket(manager.canonicalize(cell.getItemId()),manager,plan.activity)==14) runes.add(cell);
+        runes.sort(Comparator.comparingInt(Widget::getItemId));
         Set<Widget> placed=Collections.newSetFromMap(new IdentityHashMap<>());
         Set<Map<Integer,SetupLoadout.Field>> shownInventories=new HashSet<>();
         int y=padding;
         for(SetupLoadout section:plan.sections()) {
-            if(plan.sectionCount()>1) {
-                headings.add(new Heading(section.sectionName,51,y+12));y+=18;
+            if(plan.sectionCount()>1 || section.notEnoughGear()) {
+                String title=section.sectionName.isEmpty()?section.activity:section.sectionName;
+                headings.add(new Heading(title+(section.notEnoughGear()?" - not enough gear in bank":""),51,y+12));y+=18;
             }
-            y=placeSection(container,manager,columns,pitch,y,section,byId,placed,headings,copies,notes,shownInventories.add(section.inventoryExample));
+            y=placeSection(container,manager,columns,pitch,y,section,byId,placed,headings,copies,notes,shownInventories.add(section.inventoryExample),runes);
+            runes=Collections.emptyList();
         }
         Map<String,List<Widget>> extras=new TreeMap<>();
         for(Widget cell:cells) if(!placed.contains(cell)) {
@@ -77,10 +82,16 @@ final class SetupItemLayout
         return new int[]{oldEnd,y};
     }
     private static int placeSection(Widget container,ItemManager manager,int columns,int pitch,int padding,SetupLoadout plan,
-        Map<Integer,Widget> byId,Set<Widget> placed,List<Heading> headings,SetupInventoryWidgets copies,List<InventoryNote> notes,boolean showInventory)
+        Map<Integer,Widget> byId,Set<Widget> placed,List<Heading> headings,SetupInventoryWidgets copies,List<InventoryNote> notes,boolean showInventory,List<Widget> runes)
     {
         Map<Integer,Widget> chosen=new HashMap<>();
         for(var entry:plan.equipment.entrySet()) for(int id:entry.getValue()) if(byId.containsKey(id)) { chosen.put(entry.getKey(),byId.get(id));break; }
+        // A missing weapon's budget example may need different ammunition than
+        // the prayer-slot filler chosen while there was no owned weapon.
+        if(plan.equipmentExample.containsKey(13)) {
+            chosen.remove(13);
+            Widget ammo=byId.get(plan.equipmentExample.get(13));if(ammo!=null) chosen.put(13,ammo);
+        }
         // Void's benefit requires the whole outfit. Do not mix a partial Void
         // selection into an otherwise ordinary equipment diagram.
         boolean fullVoid=true;
@@ -91,12 +102,16 @@ final class SetupItemLayout
         }
         Widget weapon=chosen.get(3);
         boolean twoHanded=false;
-        if(weapon!=null) {
-            var stats=manager.getItemStats(manager.canonicalize(weapon.getItemId()));
+        Integer exampleWeapon=plan.equipmentExample.get(3);
+        if(weapon!=null || exampleWeapon!=null) {
+            var stats=manager.getItemStats(weapon==null?exampleWeapon:manager.canonicalize(weapon.getItemId()));
             if(stats!=null && stats.getEquipment()!=null && stats.getEquipment().isTwoHanded()) { chosen.remove(5);twoHanded=true; }
         }
         boolean showEquipment=!plan.equipmentName.isEmpty();
-        int gearY=padding+18, inventoryY=showEquipment && columns<8?gearY+5*36+18:gearY;
+        int gearY=padding+18,gearEnd=showEquipment?gearY+5*36:gearY;
+        int runeColumns=Math.min(columns,3),runeY=gearEnd+18;
+        if(!runes.isEmpty()) gearEnd=runeY+((runes.size()+runeColumns-1)/runeColumns)*36;
+        int inventoryY=showEquipment && columns<8 || !showEquipment && !runes.isEmpty()?gearEnd+18:gearY;
         int inventoryX=51+(showEquipment && columns>=8?4*pitch:0);
         if(showEquipment) headings.add(new Heading("Equipment",51,padding+12));
         headings.add(new Heading(plan.inventoryExample.isEmpty()?"No Wiki inventory example":showInventory?"Recommended inventory":"Shared inventory above",inventoryX,inventoryY-6));
@@ -113,9 +128,26 @@ final class SetupItemLayout
                 place(cell,x,y);
                 if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
             } else if(showEquipment) {
-                String label=position[0]==5 && twoHanded?"2H":slotLabel(position[0]);
-                headings.add(new Heading(label,x,y,true));
-                notes.add(new InventoryNote(position[0]==5 && twoHanded?"Off-hand unavailable with the selected two-handed weapon.":"No suitable ready owned item for "+label.toLowerCase(Locale.ROOT)+". Check ownership, charges and setup requirements.",x,y));
+                boolean offhand=position[0]==5 && twoHanded;
+                Integer example=offhand?null:plan.equipmentExample.get(position[0]);
+                String label=offhand?"2H":slotLabel(position[0]);
+                if(example!=null && copies!=null) {
+                    place(copies.add(container,null,example,manager),x,y);
+                    notes.add(new InventoryNote("Budget gear suggestion: no matching usable item selected from your bank. Check equip requirements; this is not owned stock or a new guide rank.",x,y));
+                } else {
+                    headings.add(new Heading(label,x,y,true));
+                    notes.add(new InventoryNote(offhand?"Off-hand unavailable with the selected two-handed weapon.":"No suitable ready owned item for "+label.toLowerCase(Locale.ROOT)+". Check ownership, charges and setup requirements.",x,y));
+                }
+            }
+        }
+        if(!runes.isEmpty()) {
+            headings.add(new Heading("Suggested runes",51,runeY-6));
+            for(int i=0;i<runes.size();i++) {
+                Widget rune=runes.get(i);
+                if(!placed.add(rune)) { if(copies==null) continue;rune=copies.add(container,rune,rune.getItemId(),manager); }
+                int x=51+i%runeColumns*pitch,y=runeY+i/runeColumns*36;
+                place(rune,x,y);
+                notes.add(new InventoryNote("Runes listed for this activity. Choose those needed for your spellbook, spell and rune pouch; this is not a required combined rune loadout.",x,y));
             }
         }
         int inventoryColumns=Math.min(4,columns),inventoryEnd=inventoryY;
@@ -150,7 +182,7 @@ final class SetupItemLayout
             }
             if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
         }
-        return Math.max(showEquipment?gearY+5*36:inventoryY,inventoryEnd)+8;
+        return Math.max(gearEnd,inventoryEnd)+8;
     }
     private static String slotLabel(int slot) {
         switch(slot) {

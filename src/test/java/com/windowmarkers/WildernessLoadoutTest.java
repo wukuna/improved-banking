@@ -53,6 +53,32 @@ public class WildernessLoadoutTest
         var result=new ItemCatalogueIndex(new ArrayList<>(bank.values()),false).find("callisto","");
         assertTrue(result.items.isEmpty());
         for(var part:result.loadout.sections()) assertTrue(part.equipment.isEmpty());
+        assertTrue(result.loadout.notEnoughGear());assertTrue(result.loadout.hasBudgetExamples());
+        var ranged=result.loadout.sections().get(0);
+        assertEquals(Integer.valueOf(2503),ranged.equipmentExample.get(4));
+        assertEquals(Integer.valueOf(2497),ranged.equipmentExample.get(7));
+        assertEquals(Integer.valueOf(12788),ranged.equipmentExample.get(3));
+        assertEquals(Integer.valueOf(892),ranged.equipmentExample.get(13));
+        assertEquals(Integer.valueOf(7460),result.loadout.sections().get(1).equipmentExample.get(9));
+        assertTrue(result.loadout.itemIds().isEmpty());
+        assertFalse(result.loadout.retainItems(Collections.emptySet()).hasBudgetExamples());
+    }
+    @Test public void suggestionsNeverBroadenTheBudgetFilterOrReplaceOwnedGear() {
+        var bank=bank();var full=new ItemCatalogueIndex(new ArrayList<>(bank.values()),false).find("callisto","").loadout;
+        assertFalse(full.notEnoughGear());
+        for(var part:full.sections()) assertFalse(part.equipmentExample.containsKey(3));
+        var empty=SetupLoadout.build(ActivitySetups.forActivity("Callisto"),Collections.emptyMap(),Collections.emptySet(),"");
+        for(var part:empty.sections()) for(int id:part.equipmentExample.values()) {
+            assertTrue(WildernessLoadout.allowed(bank.get(id)));
+            assertFalse(WildernessLoadout.wildernessWeapon(id));
+            assertTrue(ActivitySetups.byId(part.equipmentSource).itemIds.contains(id));
+            assertFalse(ItemVariantState.needsActivityReview(bank.get(id).fact));
+        }
+        bank.keySet().retainAll(Collections.singleton(22947));
+        var noWeapon=SetupLoadout.build(ActivitySetups.forActivity("Callisto"),bank,bank.keySet(),"").sections().get(0);
+        assertEquals(Integer.valueOf(12788),noWeapon.equipmentExample.get(3));
+        assertEquals(Integer.valueOf(892),noWeapon.equipmentExample.get(13));
+        assertEquals(Collections.singleton(22947),noWeapon.itemIds());
     }
     @Test public void explicitSourceChoicesAndNonWildernessActivitiesKeepTheirReviewedGear() {
         var bank=bank();var index=new ItemCatalogueIndex(new ArrayList<>(bank.values()),false);

@@ -281,7 +281,7 @@ public final class BankLayoutController
 		int idx = client.getIntStackSize() - FINISHBUILDING_HEIGHT_ARG;
 		// The temporary view owns the whole displayed layout. A tag-layout
         // subscriber may already have replaced the native height argument.
-        if (searchView!=null && searchView.isActive() && idx>=0)
+        if (idx>=0 && (searchView!=null && searchView.isActive() || grouped && ends[0]==0))
         {
             stack[idx]=Math.max(1,ends[1]+8);
             return;

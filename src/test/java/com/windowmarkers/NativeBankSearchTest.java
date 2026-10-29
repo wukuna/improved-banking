@@ -25,6 +25,16 @@ import static org.mockito.Mockito.*;
 
 public class NativeBankSearchTest
 {
+    @Test public void budgetExamplesKeepAnEmptyNativeActivityLayoutWithoutClaimingOwnedMatches() throws Exception {
+        NativeBankSearch search=ready();
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("callisto");
+        set(search,"query","callisto");set(search,"matches",Collections.emptySet());set(search,"slots",true);
+        var plan=SetupLoadout.build(ActivitySetups.forActivity("Callisto"),Collections.emptyMap(),Collections.emptySet(),"");
+        set(search,"loadout",plan);
+        assertTrue(search.groupBySlot());assertSame(plan,search.loadout());assertFalse(search.hasMatches());
+        when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("food");assertFalse(search.groupBySlot());
+        search.reset();assertNull(search.loadout());
+    }
     @Test public void hasMatchesNeverOffersSavingResultsFromAnOldSearchOrTab() throws Exception {
         NativeBankSearch search=ready();
         when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");

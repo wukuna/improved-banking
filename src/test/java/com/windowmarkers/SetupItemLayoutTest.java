@@ -11,6 +11,66 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void emptyBudgetEquipmentRendersMutedNonInteractiveSuggestionsAndTwoHandedSlot() {
+        for(int columns:new int[]{3,6,8}) {
+            var plan=SetupLoadout.build(ActivitySetups.forActivity("Callisto"),Collections.emptyMap(),Collections.emptySet(),"");
+            ItemEquipmentStats bow=ItemEquipmentStats.builder().slot(3).isTwoHanded(true).build();
+            when(manager.getItemStats(12788)).thenReturn(new ItemStats(true,0,0,bow));
+            Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[0]);
+            List<Widget> made=new ArrayList<>();
+            when(container.createChild(anyInt(),anyInt())).thenAnswer(i->{Widget w=mutableCell();made.add(w);return w;});
+            var copies=new SetupInventoryWidgets();var headings=new ArrayList<SetupItemLayout.Heading>();
+            var notes=new ArrayList<SetupItemLayout.InventoryNote>();
+            int[] ends=SetupItemLayout.apply(container,manager,columns,48,4,plan,Collections.emptyMap(),headings,copies,notes);
+            assertNotNull(ends);assertTrue(ends[1]>500);
+            assertTrue(headings.stream().anyMatch(h->h.text.equals("Ranged - not enough gear in bank")));
+            assertTrue(headings.stream().anyMatch(h->h.emptySlot && h.text.equals("2H")));
+            assertTrue(made.stream().anyMatch(w->w.getItemId()==2503));
+            assertTrue(made.stream().anyMatch(w->w.getItemId()==7460));
+            for(Widget w:made) {
+                assertTrue(copies.preview(w));verify(w).setOpacity(150);verify(w).setClickMask(0);
+                verify(w,never()).setAction(anyInt(),anyString());
+                assertTrue(w.getOriginalX()+36<=51+columns*48);
+            }
+            assertNoOverlap(made,headings);
+        }
+    }
+    @Test public void suggestedRunesSitBelowFirstGearAndAboveLaterPhasesAtAllWidths() {
+        for(int columns:new int[]{3,6,8}) {
+            Widget boots=cell(31097,"Avernic treads (max)",10,"Wear",51,0);
+            Widget blood=cell(565,"Blood rune",-1,"",99,0),death=cell(560,"Death rune",-1,"",147,0),air=cell(556,"Air rune",-1,"",195,0);
+            Map<Integer,ItemCatalogueIndex.Item> bank=new LinkedHashMap<>();
+            bank.put(31097,GeSearchIndexTest.item(31097,"Avernic treads (max)",10));
+            bank.put(565,GeSearchIndexTest.item(565,"Blood rune",-1));bank.put(560,GeSearchIndexTest.item(560,"Death rune",-1));
+            bank.put(556,GeSearchIndexTest.item(556,"Air rune",-1));
+            var plan=SetupLoadout.build(ActivitySetups.forActivity("Abyssal Sire"),bank,bank.keySet(),"");
+            Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{boots,blood,death,air});
+            List<Widget> drawn=new ArrayList<>(Arrays.asList(boots,blood,death,air));
+            when(container.createChild(anyInt(),anyInt())).thenAnswer(i->{Widget w=mutableCell();drawn.add(w);return w;});
+            var headings=new ArrayList<SetupItemLayout.Heading>();
+            SetupItemLayout.apply(container,manager,columns,48,4,plan,Collections.emptyMap(),headings,new SetupInventoryWidgets(),new ArrayList<>());
+            var runeHeading=headings.stream().filter(h->h.text.equals("Suggested runes")).findFirst().orElseThrow();
+            assertEquals(1,headings.stream().filter(h->h.text.equals("Suggested runes")).count());
+            assertFalse(headings.stream().anyMatch(h->h.text.equals("Runes")));
+            int firstGear=headings.stream().filter(h->h.text.equals("Equipment")).findFirst().orElseThrow().y;
+            int secondGear=headings.stream().filter(h->h.text.equals("Equipment")).skip(1).findFirst().orElseThrow().y;
+            assertTrue(runeHeading.y>firstGear+5*36);assertTrue(runeHeading.y<secondGear);
+            for(Widget rune:Arrays.asList(blood,death,air)) {assertEquals(runeHeading.y+6,rune.getOriginalY());assertTrue(rune.getOriginalX()<51+3*48);}
+            assertNoOverlap(drawn,headings);
+        }
+    }
+    private Widget mutableCell() {
+        Widget w=cell(-1,"Preview",-1,"",0,0);AtomicInteger id=new AtomicInteger(-1);
+        when(w.getItemId()).thenAnswer(i->id.get());doAnswer(i->{id.set(i.getArgument(0));return w;}).when(w).setItemId(anyInt());
+        return w;
+    }
+    private void assertNoOverlap(List<Widget> widgets,List<SetupItemLayout.Heading> headings) {
+        List<java.awt.Rectangle> cells=new ArrayList<>();
+        for(Widget w:widgets) cells.add(new java.awt.Rectangle(w.getOriginalX(),w.getOriginalY(),36,32));
+        for(var h:headings) if(h.emptySlot) cells.add(new java.awt.Rectangle(h.x,h.y,36,32));
+        for(int a=0;a<cells.size();a++) for(int b=a+1;b<cells.size();b++)
+            assertFalse(cells.get(a)+" overlaps "+cells.get(b),cells.get(a).intersects(cells.get(b)));
+    }
     @Test public void ownedBlightedSupplyKeepsItsRestrictionNoteInInventory() {
         Widget food=cell(24589,"Blighted manta ray",-1,"Eat",51,0);
         var item=GeSearchIndexTest.item(24589,"Blighted manta ray",-1);

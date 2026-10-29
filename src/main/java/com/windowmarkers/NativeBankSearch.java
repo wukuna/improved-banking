@@ -105,7 +105,7 @@ final class NativeBankSearch
                         if(BankCleanup.isQuery(text)) BankCleanup.style(highlight);
                         highlight.linkedItemIds=matches.stream().mapToInt(Integer::intValue).toArray();
                     }
-                    if(!matches.equals(previous) || slots!=previousSlots || (queryChanged && !matches.isEmpty())) bankSearch.layoutBank();
+                    if(!matches.equals(previous) || slots!=previousSlots || (queryChanged && (!matches.isEmpty() || loadout!=null && loadout.hasBudgetExamples()))) bankSearch.layoutBank();
                 });
             } catch(Exception ex) {
                 clientThread.invokeLater(() -> {
@@ -137,7 +137,7 @@ final class NativeBankSearch
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT))?highlight:null; }
     void closeSearch() { if(searching()) bankSearch.reset(true); revision++; query=null; matches=Collections.emptySet(); ranks=Collections.emptyMap(); highlight=null; slots=false; loadout=null; }
     Map<Integer,ItemCatalogueIndex.Rank> ranks() { return highlight()==null?Collections.emptyMap():Collections.unmodifiableMap(ranks); }
-    boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentContext() && slots && !matches.isEmpty()
+    boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentContext() && slots && (!matches.isEmpty() || loadout!=null && loadout.hasBudgetExamples())
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
     String query() { return query; }
     private boolean matchesCurrentInput() { return searching() && config.improvedBankSearch() && currentContext()

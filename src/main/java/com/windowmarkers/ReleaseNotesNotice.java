@@ -22,11 +22,11 @@ final class ReleaseNotesNotice
     static final String RELEASE = "2026-10-28-consolidated-presets";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
-        "Wilderness defaults pair owned Wilderness weapons with budget gear; explicit guide choices remain available.",
-        "Owned divine and blighted supplies fill reviewed inventory slots; supported potions can use other owned doses of the same potion.",
-        "Boss presets share search setups and guide choices, with separate phase gear and inventories and suitable owned slot completion.",
-        "Search layouts hide native dividers; presets exclude unrelated items and preserve repeated supplies and gear with Bank Tag Layouts.",
-        "Custom labels use nearby space and borders follow items; activity browsing is consolidated without deleting saved groups."
+        "Wilderness defaults retain budget filters, show missing-gear labels and dimmed budget suggestions; owned Wilderness weapons stay preferred.",
+        "Suggested runes sit below the first gear setup; presets highlight owned items and stay intact when the bank reopens.",
+        "Owned divine/blighted supplies, potion doses and charge-check utilities fill reviewed inventories with use reminders.",
+        "Boss presets share search setups, separate phase gear and inventories, and preserve repeated items with Bank Tag Layouts.",
+        "Native dividers and unrelated preset items stay out of activity layouts; custom labels and saved groups are preserved."
     };
 
     @Inject private Client client;

@@ -1074,7 +1074,7 @@ public class WindowMarkersPlugin extends Plugin
                     BankSearchIndex.Match match=get();
                     clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
                         if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
-                        if(match.ids.isEmpty()) {
+                        if(match.ids.isEmpty() && (match.loadout==null || !match.loadout.hasBudgetExamples())) {
                             nativeSearch.closeSearch();searchView.clear();
                             setStatus("No owned items match that search. Previous filter cleared; showing all bank items.");return;
                         }
@@ -1434,6 +1434,12 @@ public class WindowMarkersPlugin extends Plugin
 
     @Subscribe(priority=-1) public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     { if(active && nativeSearch!=null) nativeSearch.filter(event); }
+
+    @Subscribe(priority=1) public void onWidgetClosed(net.runelite.api.events.WidgetClosed event)
+    {
+        // Observe ownership before Bank Tags clears its active tag on unload.
+        if(event.getGroupId()==InterfaceID.BANKMAIN && event.isUnload() && searchView!=null) searchView.bankClosed();
+    }
 
     // Snapshot item bounds after BankLayoutController has restored the final frame.
     @Subscribe(priority=-30) public synchronized void onBeforeRender(BeforeRender event)
@@ -1840,6 +1846,7 @@ public class WindowMarkersPlugin extends Plugin
                         } finally { headings.dispose(); }
                     }
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
+                    if(itemHighlight==null && searchView!=null) itemHighlight=searchView.highlight();
                     if(itemHighlight!=null && itemArea!=null && !BankCleanup.isQuery(itemHighlight.guideQuery))
                     {
                         Graphics2D highlight=(Graphics2D)g.create();
