@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.runelite.api.widgets.Widget;
 
-/** Geometry owned by one temporary view, retained only until the next native rebuild. */
+/** Visible cells owned by one temporary view, retained only until the next native rebuild. */
 final class BankViewGeometry
 {
     private Widget parent;
@@ -31,9 +31,13 @@ final class BankViewGeometry
         {
             int index = p.widget.getIndex();
             if (index < 0 || index >= children.length || children[index] != p.widget
-                || p.widget.getItemId() != p.itemId || p.widget.isSelfHidden()) continue;
-            if (p.widget.getOriginalX() != p.x || p.widget.getOriginalY() != p.y)
+                || p.widget.getItemId() != p.itemId) continue;
+            // Another layout can deduplicate repeated supplies and phase gear.
+            // Restore only cells that this view showed after native filtering,
+            // never previously filtered items or widgets replaced since capture.
+            if (p.widget.isSelfHidden() || p.widget.getOriginalX() != p.x || p.widget.getOriginalY() != p.y)
             {
+                p.widget.setHidden(false);
                 p.widget.setOriginalX(p.x); p.widget.setOriginalY(p.y); p.widget.revalidate();
             }
         }

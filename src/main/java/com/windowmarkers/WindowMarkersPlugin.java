@@ -736,7 +736,7 @@ public class WindowMarkersPlugin extends Plugin
     {
         final String owner,layout;
         synchronized(this) { if(!currentLayout()) { setStatus("Log in first."); return; } owner=accountKey; layout=layoutKey; }
-        if(choice.kind==BankCatalogue.Kind.ACTIVITY) { openQueryView(choice.name,"",!showView);return; }
+        if(choice.kind==BankCatalogue.Kind.ACTIVITY) { openQueryView(choice.name,config.geGuideContext(),!showView);return; }
         if(showView) {
             if(choice.kind==BankCatalogue.Kind.CUSTOM_PRESET) { CustomPresets.Preset saved=(CustomPresets.Preset)choice.value; showBankView(saved.name,saved.groups,saved.groupBySlot,owner,layout);return; }
             if(choice.kind==BankCatalogue.Kind.WIKI_SETUP) { ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;openQueryView(setup.activity,setup.id);return; }

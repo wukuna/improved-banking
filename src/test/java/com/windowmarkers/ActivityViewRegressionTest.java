@@ -16,12 +16,19 @@ public class ActivityViewRegressionTest
             {5331,"Watering can"},{1511,"Logs"},{2347,"Hammer"},{590,"Tinderbox"}})
             bank.add(new AutoCategories.Item((int)item[0],(String)item[1],false,null,0,0,0,-1));
         BankSearchIndex index=new BankSearchIndex(bank,Collections.emptyList(),new CustomPresets());
-        for(String[] pair:new String[][]{{"Alchemical Hydra","hydra"},{"Abyssal Sire","sire"}}) {
-            BankSearchIndex.Match preset=index.search(pair[0],""),search=index.search(pair[1],"");
+        for(String[] pair:new String[][]{{"Alchemical Hydra","hydra"},{"Abyssal Sire","sire"},{"Callisto","callisto"}})
+        for(String guide:new String[]{"",ActivitySetups.forActivity(pair[0]).get(0).id}) {
+            BankSearchIndex.Match preset=index.search(pair[0],guide),search=index.search(pair[1],guide);
             Set<Integer> extras=new HashSet<>(preset.ids);extras.removeAll(search.ids);
             assertTrue(pair[0]+" unexpected preset additions: "+extras,extras.isEmpty());
             assertNotNull(preset.loadout);assertNotNull(search.loadout);
             assertEquals(search.loadout.sectionCount(),preset.loadout.sectionCount());
+            for(int i=0;i<search.loadout.sectionCount();i++) {
+                var a=search.loadout.sections().get(i);var b=preset.loadout.sections().get(i);
+                assertEquals(pair[0]+" section "+i+" gear",a.equipment,b.equipment);
+                assertEquals(pair[0]+" section "+i+" inventory",a.inventory,b.inventory);
+                assertEquals(pair[0]+" section "+i+" guide positions",a.inventoryExample.keySet(),b.inventoryExample.keySet());
+            }
             // Short input also keeps literal name matches (e.g. Hydra slayer helmet).
             assertFalse(preset.ids.contains(5331));assertFalse(preset.ids.contains(1511));assertFalse(preset.ids.contains(2347));
         }

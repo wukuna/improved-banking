@@ -302,7 +302,8 @@ public final class BankLayoutController
 		}
         if(active && config.bankLayoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
         // Bank Tag Layouts can auto-layout a temporary tag after finishbuilding.
-        // Restore only our current view's positions; never touch another tag's layout.
+        // Restore our current view's visible cells and positions, including
+        // repeated supplies/phase gear; never touch another tag's layout.
         if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && searchView!=null && searchView.isActive())
             viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}

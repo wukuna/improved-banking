@@ -25,7 +25,7 @@ final class ReleaseNotesNotice
         "Search layouts hide native tab dividers; temporary presets keep unrelated items out, and owned blighted supplies fill their guide slots.",
         "Boss presets combine phase setups; missing guide slots use suitable owned gear, including Avernic treads.",
         "Activity browsing is consolidated; weapon-specific ammo categories are archived without removing saved groups.",
-        "Temporary bank views keep their gear layout when Bank Tag Layouts is enabled.",
+        "Presets use the search setup and guide choice; repeated supplies and phase gear remain visible with Bank Tag Layouts enabled.",
         "Custom labels use nearby free space; drawn borders follow the visible item grid."
     };
 
