@@ -498,10 +498,14 @@ public class WindowMarkersPlugin extends Plugin
         settings.add(new JLabel("<html>Uses your real skill levels and owned replacements.<br>Preserves set, clue, quest and special-use alternatives.<br>Exclusions are listed for review before any markers change.</html>"));
         if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),settings,"Auto-categorize",560,280)) { return; }
         AutoCategories.Preset preset=(AutoCategories.Preset)presets.getSelectedItem();
-        final ActivitySetups.Setup setup=preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP
-            ? ActivitySetupPicker.choose(navigation==null ? null : navigation.getPanel()) : null;
-        if (preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP && setup==null) { return; }
-        categorize(preset,setup,excludeWorse.isSelected() && setup==null,showView);
+        if(preset==AutoCategories.Preset.WIKI_ACTIVITY_SETUP) {
+            List<BankCatalogue.Choice> activities=new ArrayList<>();
+            for(String activity:ActivitySetups.activities("")) activities.add(new BankCatalogue.Choice(BankCatalogue.Kind.ACTIVITY,activity,activity));
+            BankCatalogue.Choice choice=CatalogueBrowser.choose(parent(),activities,"");
+            if(choice!=null) chooseCatalogue(choice,showView);
+            return;
+        }
+        categorize(preset,null,excludeWorse.isSelected(),showView);
     }
 
     private void categorize(AutoCategories.Preset preset,ActivitySetups.Setup setup,boolean filterWorse)
@@ -732,6 +736,7 @@ public class WindowMarkersPlugin extends Plugin
     {
         final String owner,layout;
         synchronized(this) { if(!currentLayout()) { setStatus("Log in first."); return; } owner=accountKey; layout=layoutKey; }
+        if(choice.kind==BankCatalogue.Kind.ACTIVITY) { openQueryView(choice.name,"",!showView);return; }
         if(showView) {
             if(choice.kind==BankCatalogue.Kind.CUSTOM_PRESET) { CustomPresets.Preset saved=(CustomPresets.Preset)choice.value; showBankView(saved.name,saved.groups,saved.groupBySlot,owner,layout);return; }
             if(choice.kind==BankCatalogue.Kind.WIKI_SETUP) { ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;openQueryView(setup.activity,setup.id);return; }
@@ -1051,6 +1056,9 @@ public class WindowMarkersPlugin extends Plugin
     }
 
     private void openQueryView(String text,String guide)
+    { openQueryView(text,guide,false); }
+
+    private void openQueryView(String text,String guide,boolean addToLegend)
     {
         final String owner,layout,inventory;final BankSearchIndex index;final long request;
         synchronized(this) {
@@ -1075,6 +1083,7 @@ public class WindowMarkersPlugin extends Plugin
                         group.guideQuery=text;group.guideContext=guide;group.inventoryContext=inventory;
                         nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks);
                         setStatus(BankCleanup.isQuery(text)?"Cleanup review: open Item uses and reasons for details. Nothing is discarded or sold.":"View open. Save it to reopen later, or add it to Legend.");
+                        if(addToLegend) addViewToLegend();
                     }});
                 } catch(Exception ex) { setStatus("Could not open that search. Your saved groups are unchanged."); } }
             }.execute();
@@ -1433,6 +1442,7 @@ public class WindowMarkersPlugin extends Plugin
             SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();
             String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
             if(plan!=null) current+=(plan.equipmentName.isEmpty()?"":"\nEquipment: "+plan.equipmentName)+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
+            if(plan!=null && plan.sectionCount()>1) current+="\n"+plan.sectionCount()+" phase / method loadouts in this activity. Inventories remain separate.";
             if(plan!=null && !plan.equipmentNote.isEmpty()) current+="\n"+plan.equipmentNote;
             boolean hasView=searchView!=null && searchView.isActive();
             boolean hasMatches=hasView || nativeSearch!=null && nativeSearch.hasMatches();
@@ -1770,7 +1780,8 @@ public class WindowMarkersPlugin extends Plugin
                         for (ItemAnchors.Cell cell : itemCells) { occupiedLabels.add(new Rectangle(cell.grid)); }
                         occupiedLabels.addAll(previewLabelObstacles);
                         if(itemArea!=null && bankLayout!=null) for(SetupItemLayout.Heading h:bankLayout.searchHeadings())
-                            occupiedLabels.add(new Rectangle(itemArea.x+h.x,itemArea.y+h.y-itemScroll-12,170,16));
+                            occupiedLabels.add(h.emptySlot?new Rectangle(itemArea.x+h.x,itemArea.y+h.y-itemScroll,36,32)
+                                :new Rectangle(itemArea.x+h.x,itemArea.y+h.y-itemScroll-12,170,16));
                         labelPositions.begin(occupiedLabels);
                         for (Marker marker : renderedMarkers())
                         {
@@ -1808,7 +1819,19 @@ public class WindowMarkersPlugin extends Plugin
                     if(itemArea!=null && bankLayout!=null) {
                         Graphics2D headings=(Graphics2D)g.create();
                         try { headings.clip(itemArea);headings.setFont(new Font("Arial",Font.PLAIN,11));headings.setColor(new Color(230,205,145));
-                            for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) headings.drawString(heading.text,itemArea.x+heading.x,itemArea.y+heading.y-itemScroll);
+                            Font headingFont=headings.getFont(),slotFont=headingFont.deriveFont(9f);
+                            Color headingColor=headings.getColor(),slotColor=new Color(155,155,155,130);
+                            for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) {
+                                int x=itemArea.x+heading.x,y=itemArea.y+heading.y-itemScroll;
+                                if(heading.emptySlot) {
+                                    headings.setColor(slotColor);headings.drawRoundRect(x,y,35,31,4,4);
+                                    headings.setFont(slotFont);
+                                    headings.drawString(heading.text,x+(36-headings.getFontMetrics().stringWidth(heading.text))/2,y+19);
+                                } else {
+                                    headings.setColor(headingColor);headings.setFont(headingFont);
+                                    headings.drawString(MarkerPresentation.fit(heading.text,headings.getFontMetrics(),Math.min(380,itemArea.width-heading.x-6)),x,y);
+                                }
+                            }
                             net.runelite.api.Point mouse=client.getMouseCanvasPosition();
                             if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null)
                                 for(SetupItemLayout.InventoryNote note:bankLayout.inventoryNotes())

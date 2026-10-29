@@ -5,7 +5,7 @@ import java.util.*;
 /** Search the full bundled catalogue; membership remains distinct from activity readiness. */
 final class BankCatalogue
 {
-    enum Kind { CATEGORY, PRESET, WIKI_SETUP, CUSTOM_PRESET, SAVED_GROUP }
+    enum Kind { CATEGORY, PRESET, WIKI_SETUP, CUSTOM_PRESET, SAVED_GROUP, ACTIVITY }
     static final class Choice
     {
         final Kind kind;
@@ -19,7 +19,9 @@ final class BankCatalogue
         {
             this.kind=kind; this.name=name; this.value=value;
             this.presetScope=presetScope; this.customGroup=customGroup;
-            search=SearchText.normalize(name+" "+aliases(name));
+            String terms=name+" "+aliases(name);
+            if(kind==Kind.ACTIVITY) for(ActivitySetups.Setup setup:ActivitySetups.forActivity(name)) terms+=" "+setup.label;
+            search=SearchText.normalize(terms);
         }
         @Override public String toString() { return name+"  · "+kind.toString().toLowerCase(Locale.ROOT).replace('_',' '); }
         String viewQuery() { return kind==Kind.PRESET?name.split(" — ",2)[0]:name; }
@@ -45,9 +47,11 @@ final class BankCatalogue
         for(AutoCategories.Item item:owned) if(!ItemVariantState.identityNeedsReview(item))
             for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) categories.add(ItemVariantState.annotate(entry.group,item));
         List<Choice> result=new ArrayList<>();
-        for(String category:categories) result.add(new Choice(Kind.CATEGORY,category,category));
-        for(AutoCategories.Preset preset:AutoCategories.Preset.values()) result.add(new Choice(Kind.PRESET,preset.toString(),preset));
-        for(ActivitySetups.Setup setup:ActivitySetups.all()) result.add(new Choice(Kind.WIKI_SETUP,setup.activity+" — "+setup.label,setup));
+        for(String category:categories) if(!CatalogueArchive.hidden(category)) result.add(new Choice(Kind.CATEGORY,category,category));
+        for(AutoCategories.Preset preset:AutoCategories.Preset.values())
+            if(preset!=AutoCategories.Preset.CHAMBERS_OF_XERIC && preset!=AutoCategories.Preset.THEATRE_OF_BLOOD && preset!=AutoCategories.Preset.TOMBS_OF_AMASCUT)
+                result.add(new Choice(Kind.PRESET,preset.toString(),preset));
+        for(String activity:ActivitySetups.activities("")) result.add(new Choice(Kind.ACTIVITY,activity,activity));
         for(CustomPresets.Preset preset:presets.presets) result.add(new Choice(Kind.CUSTOM_PRESET,preset.name,preset));
         for(Marker marker:markers) result.add(new Choice(Kind.SAVED_GROUP,marker.labelText().isEmpty()?"Unnamed group":marker.labelText(),marker));
         return result;
@@ -119,8 +123,17 @@ final class BankCatalogue
             }
         }
         List<Choice> matches=new ArrayList<>();
+        if(membership.startsWith("Wiki setup: ")) {
+            // Old lookup results and saved source contexts remain resolvable.
+            for(ActivitySetups.Setup setup:ActivitySetups.all()) {
+                String label="Wiki setup: "+setup.activity+" / "+setup.label;
+                if(membership.equals(label) || membership.equals(label+" — state needs review"))
+                    return Collections.singletonList(new Choice(Kind.ACTIVITY,setup.activity,setup.activity));
+            }
+        }
         for(Choice choice:available) {
-            if(choice.kind==Kind.WIKI_SETUP) {
+            if(choice.kind==Kind.ACTIVITY && membership.equals("Activity: "+choice.name)) matches.add(choice);
+            else if(choice.kind==Kind.WIKI_SETUP) {
                 ActivitySetups.Setup setup=(ActivitySetups.Setup)choice.value;
                 String label="Wiki setup: "+setup.activity+" / "+setup.label;
                 if(membership.equals(label) || membership.equals(label+" — state needs review")) matches.add(choice);
@@ -137,8 +150,9 @@ final class BankCatalogue
     static SortedSet<String> memberships(AutoCategories.Item item,List<AutoCategories.Item> owned,List<Marker> markers,CustomPresets custom)
     {
         SortedSet<String> result=new TreeSet<>();
+        if(ItemVariantState.needsActivityReview(item)) result.add("Review: "+ItemVariantState.annotate(ItemVariantState.reviewGroup(item),item));
         if(ItemVariantState.identityNeedsReview(item)) result.add("Review: "+ItemVariantState.reviewGroup(item));
-        else for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) result.add("Category: "+ItemVariantState.annotate(entry.group,item));
+        else for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) if(!CatalogueArchive.hidden(entry.group)) result.add("Category: "+ItemVariantState.annotate(entry.group,item));
         // Only fellow set pieces affect this item's group. Evaluating the entire
         // bank once per preset would repeatedly classify hundreds of unrelated IDs.
         String set=ItemTaxonomy.equipmentSet(ItemVariantState.familyName(item));
@@ -151,7 +165,7 @@ final class BankCatalogue
                 if(items.stream().anyMatch(i -> i.id==item.id)) result.add("Preset: "+preset+" / "+group);
             });
         for(ActivitySetups.Setup setup:ActivitySetups.all()) if(setup.itemIds.contains(item.id))
-            result.add("Wiki setup: "+setup.activity+" / "+setup.label+(ItemVariantState.needsActivityReview(item)?" — state needs review":""));
+            result.add("Activity: "+setup.activity);
         for(Marker marker:markers) if(marker.linked() && Arrays.stream(marker.linkedItemIds).anyMatch(id -> id==item.id))
             result.add("Saved group: "+marker.labelText());
         for(CustomPresets.Preset preset:custom.presets) for(Marker group:preset.groups)

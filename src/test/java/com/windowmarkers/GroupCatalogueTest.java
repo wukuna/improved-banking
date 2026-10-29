@@ -47,9 +47,9 @@ public class GroupCatalogueTest
         assertTrue(SearchText.score("Herblore — ingredients","herblroe")<Integer.MAX_VALUE);
         assertEquals(Integer.MAX_VALUE,SearchText.score("Magic weapons","woodcutting"));
         List<BankCatalogue.Choice> choices=BankCatalogue.choices(Collections.emptyList(),Collections.emptyList(),new CustomPresets());
-        assertTrue(BankCatalogue.search(choices,"cox",150).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.PRESET));
+        assertTrue(BankCatalogue.search(choices,"cox",150).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.ACTIVITY));
         assertTrue(BankCatalogue.search(choices,"herblroe",150).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.CATEGORY));
-        assertTrue(choices.stream().anyMatch(c -> c.kind==BankCatalogue.Kind.WIKI_SETUP));
+        assertTrue(choices.stream().anyMatch(c -> c.kind==BankCatalogue.Kind.ACTIVITY));
         for(String query:new String[]{"herb","herbl","herblor","herblroe","ingredients herblroe"})
             assertTrue(query,SearchText.score("Herblore — ingredients",query)<Integer.MAX_VALUE);
         assertTrue(SearchText.score("Ancestral hat","ancsetr")<Integer.MAX_VALUE);

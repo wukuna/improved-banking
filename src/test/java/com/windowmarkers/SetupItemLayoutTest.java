@@ -11,6 +11,34 @@ import static org.mockito.Mockito.*;
 
 public class SetupItemLayoutTest
 {
+    @Test public void combinedSirePhasesStayInsideEightColumnsWithNoOverlappingCells() {
+        for(int columns:new int[]{3,6,8}) {
+            Widget boots=cell(31097,"Avernic treads (max)",10,"Wear",51,0),blessing=cell(22947,"Rada's blessing 4",13,"Wear",99,0);
+            var owned=new LinkedHashMap<Integer,ItemCatalogueIndex.Item>();
+            owned.put(31097,GeSearchIndexTest.item(31097,"Avernic treads (max)",10));
+            owned.put(22947,GeSearchIndexTest.item(22947,"Rada's blessing 4",13));
+            var plan=SetupLoadout.build(ActivitySetups.forActivity("Abyssal Sire"),owned,owned.keySet(),"");
+            Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{boots,blessing});
+            List<Widget> drawn=new ArrayList<>(Arrays.asList(boots,blessing));
+            when(container.createChild(anyInt(),anyInt())).thenAnswer(call->{Widget copy=cell(-1,"Preview",-1,"",0,0);drawn.add(copy);return copy;});
+            var headings=new ArrayList<SetupItemLayout.Heading>();var notes=new ArrayList<SetupItemLayout.InventoryNote>();
+            int[] end=SetupItemLayout.apply(container,manager,columns,48,4,plan,Collections.emptyMap(),headings,new SetupInventoryWidgets(),notes);
+            List<java.awt.Rectangle> occupied=new ArrayList<>();
+            for(Widget cell:drawn) {
+                assertTrue(cell.getOriginalX()+36<=51+columns*48);assertTrue(cell.getOriginalY()+32<end[1]);
+                occupied.add(new java.awt.Rectangle(cell.getOriginalX(),cell.getOriginalY(),36,32));
+            }
+            for(var h:headings) if(h.emptySlot) occupied.add(new java.awt.Rectangle(h.x,h.y,36,32));
+            for(int a=0;a<occupied.size();a++) for(int b=a+1;b<occupied.size();b++)
+                assertFalse(columns+" columns: "+occupied.get(a)+" overlaps "+occupied.get(b),occupied.get(a).intersects(occupied.get(b)));
+            assertEquals(plan.sections().size(),headings.stream().filter(h->h.text.equals("Equipment")).count());
+            assertEquals(1,headings.stream().filter(h->h.text.equals("Recommended inventory")).count());
+            assertTrue(headings.stream().anyMatch(h->h.text.equals("Shared inventory above")));
+            assertTrue(headings.stream().anyMatch(h->h.emptySlot && h.text.equals("Head")));
+            assertFalse(headings.stream().anyMatch(h->h.emptySlot && h.text.equals("Feet")));
+            assertTrue(notes.stream().anyMatch(n->n.text.startsWith("No suitable ready owned item")));
+        }
+    }
     @Test public void damagedPouchRemainsUsableButInventoryShowsItsReducedCapacity() {
         Widget pouch=cell(5513,"Large pouch",-1,"Fill",51,0);
         var item=GeSearchIndexTest.item(5513,"Large pouch",-1);
@@ -49,7 +77,7 @@ public class SetupItemLayoutTest
             Widget brew=cell(6685,"Saradomin brew(4)",-1,"Drink",51,0);
             var fact=GeSearchIndexTest.item(6685,"Saradomin brew(4)",-1);
             var owned=Collections.singletonMap(6685,fact);
-            var plan=SetupLoadout.build(ActivitySetups.forActivity("Chambers of Xeric"),owned,owned.keySet(),"94147:13");
+            var plan=SetupLoadout.build(Collections.singletonList(ActivitySetups.byId("94147:1")),owned,owned.keySet(),"94147:13");
             Widget container=mock(Widget.class);when(container.getDynamicChildren()).thenReturn(new Widget[]{brew});
             List<Widget> made=new ArrayList<>();
             when(container.createChild(anyInt(),anyInt())).thenAnswer(invocation -> {

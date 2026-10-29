@@ -84,7 +84,7 @@ final class WikiCatalogue
         Entry best=null;
         for (Entry entry : entries(item))
         {
-            if (!accepts(preset,entry)) { continue; }
+            if (!accepts(preset,entry) || CatalogueArchive.hidden(entry.group)) { continue; }
             if (best==null || priority(entry)<priority(best) || (priority(entry)==priority(best) && entry.group.compareTo(best.group)<0)) { best=entry; }
         }
         return best==null ? null : best.group;

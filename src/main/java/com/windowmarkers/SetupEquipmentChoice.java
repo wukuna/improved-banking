@@ -25,6 +25,10 @@ final class SetupEquipmentChoice
         // does not make a usable piece disappear from its equipment slot.
         if(text.isEmpty() || text.startsWith("set to ") || text.startsWith("use stab attack style")
             || text.startsWith("on crush") || text.startsWith("on stab") || text.startsWith("on slash")) return true;
+        // Owning Rada's blessing 4 already establishes its diary unlock. This
+        // does not waive skill/quest conditions on unrelated guide choices.
+        if(item.id==22947 && text.contains("diary")) return true;
+        if(text.startsWith("only for phase ")) return true; // already scoped to this source's phase
         if(text.contains("slayer task") || text.contains("slayer assignment") || text.contains("task only") || text.startsWith("only on ")
             || text.contains("after completing") || text.contains("elite kourend") || text.contains("diary")) return false;
         if(text.contains("blood moon") && (text.contains("full") || text.contains("set"))) {

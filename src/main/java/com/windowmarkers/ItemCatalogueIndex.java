@@ -268,7 +268,10 @@ final class ItemCatalogueIndex
             ? SetupLoadout.build(matched,items,found,inventoryContext):null;
         if(loadout!=null) {
             Set<Integer> included=result.stream().map(i->i.id).collect(Collectors.toSet());
-            for(int id:loadout.inventory.values()) if(included.add(id)) result.add(items.get(id));
+            for(int id:loadout.itemIds()) if(items.containsKey(id) && included.add(id)) {
+                result.add(items.get(id));
+                ranks.put(id,new Rank(0,"Owned alternative completing this setup. Not ranked by this activity's source table."));
+            }
         }
         return new Result(result,ranks,!matched.isEmpty(),loadout,matched);
     }

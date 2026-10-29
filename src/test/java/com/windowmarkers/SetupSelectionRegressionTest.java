@@ -24,10 +24,10 @@ public class SetupSelectionRegressionTest {
         assertEquals(Integer.valueOf(22947),p.equipment.get(13).get(0));
         assertEquals(Integer.valueOf(31097),p.equipment.get(10).get(0));
     }
-    @Test public void sirePartialSwitchTableExplainsItsIntentionallyOmittedSlots() {
+    @Test public void sirePartialSwitchTableCompletesOmittedSlotsFromOwnedGear() {
         var p=plan("74025:2",item(27275,"Tumeken's shadow",3),item(22947,"Rada's blessing 4",13),item(31097,"Avernic treads (max)",10));
         assertTrue(p.equipmentNote.contains("omits boots, ammunition and a ring"));
-        assertFalse(p.equipment.containsKey(10));assertFalse(p.equipment.containsKey(13));
+        assertEquals(Integer.valueOf(31097),p.equipment.get(10).get(0));assertEquals(Integer.valueOf(22947),p.equipment.get(13).get(0));
         assertEquals(p.equipmentNote,p.retainItems(Collections.singleton(27275)).equipmentNote);
     }
     @Test public void magicTreadAlternativesNeedTheEternalUpgradeAndShareTheirGuideRank() {
@@ -38,8 +38,10 @@ public class SetupSelectionRegressionTest {
             var result=index.find("sire magic","74025:7");
             assertEquals(Integer.valueOf(id),result.loadout.equipment.get(10).get(0));
             assertEquals(1,result.ranks.get(id).tier);
-            assertFalse(result.loadout.equipment.get(10).contains(31088));
-            assertFalse(result.loadout.equipment.get(10).contains(31091));
+            assertTrue(result.loadout.equipment.get(10).contains(31088));
+            assertTrue(result.loadout.equipment.get(10).contains(31091));
+            assertEquals(0,result.ranks.get(31088).tier); // usable fallback, not falsely equivalent to the upgraded magic tier
+            assertEquals(0,result.ranks.get(31091).tier);
             assertEquals(Integer.valueOf(22947),result.loadout.equipment.get(13).get(0));
         }
     }

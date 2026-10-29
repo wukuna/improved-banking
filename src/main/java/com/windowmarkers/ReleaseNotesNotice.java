@@ -19,14 +19,14 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-10-28-performance";
+    static final String RELEASE = "2026-10-28-consolidated-presets";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
+        "Boss presets combine phase setups; missing guide slots use suitable owned gear, including Avernic treads.",
+        "Activity browsing is consolidated; weapon-specific ammo categories are archived without removing saved groups.",
         "Temporary bank views keep their gear layout when Bank Tag Layouts is enabled.",
         "Custom labels use nearby free space; drawn borders follow the visible item grid.",
-        "Updated guide choices and style-specific Avernic treads alternatives; partial Sire setups are labelled as switches.",
-        "Reduced marker drawing overhead and overlapping catalogue rebuilds.",
-        "Searches and saved views discard outdated results after changing tabs or clearing filters."
+        "Reduced drawing overhead; searches discard outdated results after switching tabs or clearing filters."
     };
 
     @Inject private Client client;

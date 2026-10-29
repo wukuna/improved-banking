@@ -71,7 +71,7 @@ public class CategoryWorkflowTest
         var target=BankCatalogue.targets("Custom preset: Raids / "+marker.label,all).get(0);
         assertSame(preset,target.value); assertEquals(marker.label,target.customGroup);
         ActivitySetups.Setup setup=ActivitySetups.all().iterator().next();
-        assertTrue(BankCatalogue.targets("Wiki setup: "+setup.activity+" / "+setup.label+" — state needs review",all).stream().anyMatch(c -> c.value==setup));
+        assertTrue(BankCatalogue.targets("Wiki setup: "+setup.activity+" / "+setup.label+" — state needs review",all).stream().anyMatch(c -> c.kind==BankCatalogue.Kind.ACTIVITY && c.name.equals(setup.activity)));
         assertTrue(BankCatalogue.targets("Saved group: My fod / potions",all).isEmpty());
     }
     @Test public void legendSuggestionEnterPassesTheActualChoiceRatherThanSearchingItsNameAgain() throws Exception {

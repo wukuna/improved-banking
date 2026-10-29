@@ -10,7 +10,9 @@ final class SetupItemLayout
     private static final int[] SLOTS={0,1,2,3,4,5,7,9,10,12,13};
     static final class Heading {
         final String text; final int x,y;
-        Heading(String text,int x,int y) { this.text=text;this.x=x;this.y=y; }
+        final boolean emptySlot;
+        Heading(String text,int x,int y) { this(text,x,y,false); }
+        Heading(String text,int x,int y,boolean emptySlot) { this.text=text;this.x=x;this.y=y;this.emptySlot=emptySlot; }
     }
     static final class InventoryNote {
         final String text;final int x,y;
@@ -36,64 +38,14 @@ final class SetupItemLayout
         }
         if(cells.isEmpty()) return null;
         Set<Widget> placed=Collections.newSetFromMap(new IdentityHashMap<>());
-        Map<Integer,Widget> chosen=new HashMap<>();
-        for(var entry:plan.equipment.entrySet()) for(int id:entry.getValue()) if(byId.containsKey(id)) { chosen.put(entry.getKey(),byId.get(id));break; }
-        // Void's benefit requires the whole outfit. Do not mix a partial Void
-        // selection into an otherwise ordinary equipment diagram.
-        boolean fullVoid=true;
-        for(int slot:new int[]{0,4,7,9}) if(!isVoid(chosen.get(slot),manager)) fullVoid=false;
-        if(!fullVoid) for(int slot:new int[]{0,4,7,9}) if(isVoid(chosen.get(slot),manager)) {
-            chosen.remove(slot);
-            for(int id:plan.equipment.getOrDefault(slot,Collections.emptyList())) if(byId.containsKey(id) && !isVoid(byId.get(id),manager)) { chosen.put(slot,byId.get(id));break; }
-        }
-        Widget weapon=chosen.get(3);
-        if(weapon!=null) {
-            var stats=manager.getItemStats(manager.canonicalize(weapon.getItemId()));
-            if(stats!=null && stats.getEquipment()!=null && stats.getEquipment().isTwoHanded()) chosen.remove(5);
-        }
-        boolean showEquipment=!plan.equipmentName.isEmpty();
-        int gearY=padding+18, inventoryY=showEquipment && columns<8?gearY+5*36+18:gearY;
-        int inventoryX=51+(showEquipment && columns>=8?4*pitch:0);
-        if(showEquipment) headings.add(new Heading(plan.equipmentNote.isEmpty()?"Equipment":"Equipment switches",51,padding+12));
-        headings.add(new Heading("Recommended inventory",inventoryX,inventoryY-6));
-        for(int[] position:EQUIPMENT) {
-            Widget cell=chosen.get(position[0]);
-            if(cell!=null) {
-                int col=position[1]%columns,row=position[2]+position[1]/columns;
-                place(cell,51+col*pitch,gearY+row*36);placed.add(cell);
-                String note=plan.equipmentNotes.getOrDefault(manager.canonicalize(cell.getItemId()),"");
-                if(!note.isEmpty()) notes.add(new InventoryNote(note,51+col*pitch,gearY+row*36));
+        Set<Map<Integer,SetupLoadout.Field>> shownInventories=new HashSet<>();
+        int y=padding;
+        for(SetupLoadout section:plan.sections()) {
+            if(plan.sectionCount()>1) {
+                headings.add(new Heading(section.sectionName,51,y+12));y+=18;
             }
+            y=placeSection(container,manager,columns,pitch,y,section,byId,placed,headings,copies,notes,shownInventories.add(section.inventoryExample));
         }
-        int inventoryColumns=Math.min(4,columns),inventoryEnd=inventoryY;
-        for(var entry:plan.inventoryExample.entrySet()) {
-            Integer id=plan.inventory.get(entry.getKey());
-            Widget source=id==null?null:byId.get(id),cell=source;
-            if(source==null || !placed.add(source)) {
-                if(copies==null) continue;
-                cell=copies.add(container,source,entry.getValue().ids.get(0),manager);
-            }
-            int position=entry.getKey(),x=inventoryX+(position%inventoryColumns)*pitch;
-            int y=inventoryY+(position/inventoryColumns)*36;
-            place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
-            String note=entry.getValue().note;
-            if(id!=null && !entry.getValue().ids.contains(id))
-                note=SetupEquipmentChoice.inventoryAlternativeNote(entry.getValue().ids);
-            if(source==null) {
-                if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
-            }
-            else if(!note.isEmpty()) note="Showing an owned alternative; live prices are not compared. "+note;
-            if(source!=null) {
-                var definition=manager.getItemComposition(id);
-                if(definition!=null) {
-                    String state=ItemVariantState.annotate("Item state",new AutoCategories.Item(id,definition.getName(),false,
-                        definition.getInventoryActions(),0,0,0));
-                    if(!state.equals("Item state")) note+=(note.isEmpty()?"":" ")+state;
-                }
-            }
-            if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
-        }
-        int y=Math.max(showEquipment?gearY+5*36:inventoryY,inventoryEnd)+8;
         Map<String,List<Widget>> extras=new TreeMap<>();
         for(Widget cell:cells) if(!placed.contains(cell)) {
             int id=manager.canonicalize(cell.getItemId()),bucket=bucket(id,manager);
@@ -123,6 +75,86 @@ final class SetupItemLayout
             y+=((group.size()+columns-1)/columns)*36+8;
         }
         return new int[]{oldEnd,y};
+    }
+    private static int placeSection(Widget container,ItemManager manager,int columns,int pitch,int padding,SetupLoadout plan,
+        Map<Integer,Widget> byId,Set<Widget> placed,List<Heading> headings,SetupInventoryWidgets copies,List<InventoryNote> notes,boolean showInventory)
+    {
+        Map<Integer,Widget> chosen=new HashMap<>();
+        for(var entry:plan.equipment.entrySet()) for(int id:entry.getValue()) if(byId.containsKey(id)) { chosen.put(entry.getKey(),byId.get(id));break; }
+        // Void's benefit requires the whole outfit. Do not mix a partial Void
+        // selection into an otherwise ordinary equipment diagram.
+        boolean fullVoid=true;
+        for(int slot:new int[]{0,4,7,9}) if(!isVoid(chosen.get(slot),manager)) fullVoid=false;
+        if(!fullVoid) for(int slot:new int[]{0,4,7,9}) if(isVoid(chosen.get(slot),manager)) {
+            chosen.remove(slot);
+            for(int id:plan.equipment.getOrDefault(slot,Collections.emptyList())) if(byId.containsKey(id) && !isVoid(byId.get(id),manager)) { chosen.put(slot,byId.get(id));break; }
+        }
+        Widget weapon=chosen.get(3);
+        boolean twoHanded=false;
+        if(weapon!=null) {
+            var stats=manager.getItemStats(manager.canonicalize(weapon.getItemId()));
+            if(stats!=null && stats.getEquipment()!=null && stats.getEquipment().isTwoHanded()) { chosen.remove(5);twoHanded=true; }
+        }
+        boolean showEquipment=!plan.equipmentName.isEmpty();
+        int gearY=padding+18, inventoryY=showEquipment && columns<8?gearY+5*36+18:gearY;
+        int inventoryX=51+(showEquipment && columns>=8?4*pitch:0);
+        if(showEquipment) headings.add(new Heading("Equipment",51,padding+12));
+        headings.add(new Heading(plan.inventoryExample.isEmpty()?"No Wiki inventory example":showInventory?"Recommended inventory":"Shared inventory above",inventoryX,inventoryY-6));
+        for(int[] position:EQUIPMENT) {
+            Widget cell=chosen.get(position[0]);
+            int col=position[1]%columns,row=position[2]+position[1]/columns;
+            int x=51+col*pitch,y=gearY+row*36;
+            if(cell!=null) {
+                String note=plan.equipmentNotes.getOrDefault(manager.canonicalize(cell.getItemId()),"");
+                if(!placed.add(cell)) {
+                    if(copies==null) continue;
+                    cell=copies.add(container,cell,cell.getItemId(),manager);
+                }
+                place(cell,x,y);
+                if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
+            } else if(showEquipment) {
+                String label=position[0]==5 && twoHanded?"2H":slotLabel(position[0]);
+                headings.add(new Heading(label,x,y,true));
+                notes.add(new InventoryNote(position[0]==5 && twoHanded?"Off-hand unavailable with the selected two-handed weapon.":"No suitable ready owned item for "+label.toLowerCase(Locale.ROOT)+". Check ownership, charges and setup requirements.",x,y));
+            }
+        }
+        int inventoryColumns=Math.min(4,columns),inventoryEnd=inventoryY;
+        for(var entry:plan.inventoryExample.entrySet()) {
+            if(!showInventory) break;
+            Integer id=plan.inventory.get(entry.getKey());
+            Widget source=id==null?null:byId.get(id),cell=source;
+            if(source==null || !placed.add(source)) {
+                if(copies==null) continue;
+                cell=copies.add(container,source,entry.getValue().ids.get(0),manager);
+            }
+            int position=entry.getKey(),x=inventoryX+(position%inventoryColumns)*pitch;
+            int y=inventoryY+(position/inventoryColumns)*36;
+            place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
+            String note=entry.getValue().note;
+            if(id!=null && !entry.getValue().ids.contains(id))
+                note=SetupEquipmentChoice.inventoryAlternativeNote(entry.getValue().ids);
+            if(source==null) {
+                if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
+            }
+            else if(!note.isEmpty()) note="Showing an owned alternative; live prices are not compared. "+note;
+            if(source!=null) {
+                var definition=manager.getItemComposition(id);
+                if(definition!=null) {
+                    String state=ItemVariantState.annotate("Item state",new AutoCategories.Item(id,definition.getName(),false,
+                        definition.getInventoryActions(),0,0,0));
+                    if(!state.equals("Item state")) note+=(note.isEmpty()?"":" ")+state;
+                }
+            }
+            if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
+        }
+        return Math.max(showEquipment?gearY+5*36:inventoryY,inventoryEnd)+8;
+    }
+    private static String slotLabel(int slot) {
+        switch(slot) {
+            case 0:return "Head";case 1:return "Cape";case 2:return "Neck";case 3:return "Main";
+            case 4:return "Body";case 5:return "Off";case 7:return "Legs";case 9:return "Hands";
+            case 10:return "Feet";case 12:return "Ring";default:return "Ammo";
+        }
     }
     private static boolean isVoid(Widget widget,ItemManager manager) {
         if(widget==null) return false;

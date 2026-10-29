@@ -10,7 +10,8 @@ final class CatalogueBrowser
     static BankCatalogue.Choice choose(Component parent,List<BankCatalogue.Choice> choices,String initial)
     {
         JPanel panel=new JPanel(new BorderLayout(0,8)); JTextField search=new JTextField(initial);
-        JComboBox<String> kind=new JComboBox<>(new String[]{"Everything","Categories","Presets","Wiki setups","Custom presets","Saved groups"});
+        JComboBox<String> kind=new JComboBox<>(new String[]{"Everything","Categories","Activities","Presets","Custom presets","Saved groups"});
+        BankCatalogue.Kind[] kinds={null,BankCatalogue.Kind.CATEGORY,BankCatalogue.Kind.ACTIVITY,BankCatalogue.Kind.PRESET,BankCatalogue.Kind.CUSTOM_PRESET,BankCatalogue.Kind.SAVED_GROUP};
         JPanel top=new JPanel(new BorderLayout(6,0)); top.add(search,BorderLayout.CENTER); top.add(kind,BorderLayout.EAST); panel.add(top,BorderLayout.NORTH);
         DefaultListModel<BankCatalogue.Choice> rows=new DefaultListModel<>(); JList<BankCatalogue.Choice> list=new JList<>(rows);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); list.setVisibleRowCount(14);
@@ -34,7 +35,7 @@ final class CatalogueBrowser
         Runnable refresh=() -> {
             rows.clear(); int selectedKind=kind.getSelectedIndex();
             List<BankCatalogue.Choice> filtered=new java.util.ArrayList<>();
-            for(BankCatalogue.Choice choice:choices) if(selectedKind==0 || choice.kind.ordinal()==selectedKind-1) filtered.add(choice);
+            for(BankCatalogue.Choice choice:choices) if(selectedKind==0 || choice.kind==kinds[selectedKind]) filtered.add(choice);
             for(BankCatalogue.Choice choice:BankCatalogue.search(filtered,search.getText(),150)) rows.addElement(choice);
         };
         javax.swing.Timer timer=new javax.swing.Timer(150,e -> refresh.run()); timer.setRepeats(false);
