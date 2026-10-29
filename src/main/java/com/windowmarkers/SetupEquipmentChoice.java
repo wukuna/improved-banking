@@ -67,7 +67,7 @@ final class SetupEquipmentChoice
     {
         // This is specifically a home teleport, not a combat-cape equivalence,
         // redirected tablet, Wilderness escape, or a promise of POH facilities.
-        List<Integer> result=new ArrayList<>(exact);
+        List<Integer> result=InventoryPotionDoses.alternatives(exact);
         if(exact.contains(8013))
             for(int id:new int[]{9789,9790,13280,13342}) if(!result.contains(id)) result.add(id);
         // Unlimited charges preserve the same destinations. Do not reverse this:

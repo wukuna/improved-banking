@@ -48,7 +48,7 @@ final class SetupItemLayout
         }
         Map<String,List<Widget>> extras=new TreeMap<>();
         for(Widget cell:cells) if(!placed.contains(cell)) {
-            int id=manager.canonicalize(cell.getItemId()),bucket=bucket(id,manager);
+            int id=manager.canonicalize(cell.getItemId()),bucket=bucket(id,manager,plan.activity);
             var definition=manager.getItemComposition(id);
             Set<String> roles=definition==null?Collections.emptySet():RaidRecommendations.layoutGroups(plan.activity,
                 new AutoCategories.Item(id,definition.getName(),bucket<11,definition.getInventoryActions(),0,0,0));
@@ -132,7 +132,7 @@ final class SetupItemLayout
             place(cell,x,y);inventoryEnd=Math.max(inventoryEnd,y+36);
             String note=entry.getValue().note;
             if(id!=null && !entry.getValue().ids.contains(id))
-                note=SetupEquipmentChoice.inventoryAlternativeNote(entry.getValue().ids);
+                note=InventoryPotionDoses.known(id)?InventoryPotionDoses.note(id):SetupEquipmentChoice.inventoryAlternativeNote(entry.getValue().ids);
             if(source==null) {
                 if(!entry.getValue().guideOnly) note="Guide example: no ready bank item for this slot. Check ownership, charges and requirements."+(note.isEmpty()?"":" "+note);
             }
@@ -143,8 +143,9 @@ final class SetupItemLayout
                     String state=ItemVariantState.annotate("Item state",new AutoCategories.Item(id,definition.getName(),false,
                         definition.getInventoryActions(),0,0,0));
                     if(!state.equals("Item state")) note+=(note.isEmpty()?"":" ")+state;
-                    if(definition.getName()!=null && definition.getName().toLowerCase(Locale.ROOT).startsWith("blighted "))
-                        note+=(note.isEmpty()?"":" ")+"Restricted-use blighted supply listed by this activity's inventory guide.";
+                    String use=ItemVariantState.inventoryUseNote(new AutoCategories.Item(id,definition.getName(),false,
+                        definition.getInventoryActions(),0,0,0));
+                    if(!use.isEmpty()) note+=(note.isEmpty()?"":" ")+use;
                 }
             }
             if(!note.isEmpty()) notes.add(new InventoryNote(note,x,y));
@@ -174,13 +175,18 @@ final class SetupItemLayout
     }
 
     static int bucket(int id,ItemManager manager)
+    { return bucket(id,manager,""); }
+    private static int bucket(int id,ItemManager manager,String activity)
     {
         var definition=manager.getItemComposition(id);
         if(definition==null) return 19;
         var stats=manager.getItemStats(id);
         String name=definition.getName();
         AutoCategories.Item item=new AutoCategories.Item(id,name,stats!=null && stats.isEquipable(),definition.getInventoryActions(),0,0,0);
-        if(ItemVariantState.needsActivityReview(item)) return 19;
+        boolean reviewedSupply=!activity.isEmpty() && ActivitySetups.forActivity(activity).stream().anyMatch(s->
+            SetupLoadout.inventoryTable(s) && (s.itemIds.contains(id) || InventoryPotionDoses.listed(s.itemIds,item))
+                && !ItemVariantState.needsInventoryReview(item,s) && SetupItemRequirements.reviewReason(s.id,item).isEmpty());
+        if(ItemVariantState.needsActivityReview(item) && !reviewedSupply) return 19;
         if("Tools".equals(ItemTaxonomy.weaponRole(ItemVariantState.familyName(item)))
             || WikiCatalogue.entries(item).stream().anyMatch(e -> e.group.equals("Shared tools") || e.group.endsWith("— tools"))) return 11;
         if(stats!=null && stats.getEquipment()!=null) {

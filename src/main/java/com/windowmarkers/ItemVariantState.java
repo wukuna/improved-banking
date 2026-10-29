@@ -62,12 +62,25 @@ final class ItemVariantState
 
     static boolean needsInventoryReview(AutoCategories.Item item,ActivitySetups.Setup setup)
     {
-        // A reviewed inventory's exact blighted supply is usable for that guide.
-        // This is not a general-use or equipment exception, nor an identity match by name.
-        if(!identityNeedsReview(item) && setup.itemIds.contains(item.id)
-            && item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item,"restricted")
+        // A reviewed inventory can deliberately use a restricted supply. A
+        // self-damage warning is not evidence that an owned potion is unavailable.
+        // Keep identity, state and unrelated location restrictions separate.
+        if(!identityNeedsReview(item) && (setup.itemIds.contains(item.id) || InventoryPotionDoses.listed(setup.itemIds,item))
+            && (item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item,"restricted")
+                || WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use"))
+                    && WikiCatalogue.entries(item).stream().filter(e->e.facet.equals("restricted"))
+                        .allMatch(e->e.group.equals("Self-damaging items — deliberate use")))
             && !STATES.containsKey(item.id)) return false;
         return needsActivityReview(item);
+    }
+
+    static String inventoryUseNote(AutoCategories.Item item)
+    {
+        if(WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use")))
+            return "Deliberate self-damaging supply listed by this guide. Check remaining Hitpoints and use requirements.";
+        if(item.name.startsWith("blighted "))
+            return "Restricted-use blighted supply listed by this activity's inventory guide.";
+        return "";
     }
 
     static boolean canRepresentOwnedEquivalent(AutoCategories.Item held,AutoCategories.Item candidate)

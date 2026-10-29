@@ -1,0 +1,154 @@
+# Exact ordinary potion doses from reviewed cache identities; see WILDERNESS-AND-SUPPLY-SOURCES.md.
+# item_id	expected_name	potion_family	doses
+139	Prayer potion(3)	prayer potion	3
+141	Prayer potion(2)	prayer potion	2
+143	Prayer potion(1)	prayer potion	1
+145	Super attack(3)	super attack	3
+147	Super attack(2)	super attack	2
+149	Super attack(1)	super attack	1
+157	Super strength(3)	super strength	3
+159	Super strength(2)	super strength	2
+161	Super strength(1)	super strength	1
+163	Super defence(3)	super defence	3
+165	Super defence(2)	super defence	2
+167	Super defence(1)	super defence	1
+169	Ranging potion(3)	ranging potion	3
+171	Ranging potion(2)	ranging potion	2
+173	Ranging potion(1)	ranging potion	1
+175	Antipoison(3)	antipoison	3
+177	Antipoison(2)	antipoison	2
+179	Antipoison(1)	antipoison	1
+181	Superantipoison(3)	superantipoison	3
+183	Superantipoison(2)	superantipoison	2
+185	Superantipoison(1)	superantipoison	1
+189	Zamorak brew(3)	zamorak brew	3
+191	Zamorak brew(2)	zamorak brew	2
+193	Zamorak brew(1)	zamorak brew	1
+2434	Prayer potion(4)	prayer potion	4
+2436	Super attack(4)	super attack	4
+2440	Super strength(4)	super strength	4
+2442	Super defence(4)	super defence	4
+2444	Ranging potion(4)	ranging potion	4
+2446	Antipoison(4)	antipoison	4
+2448	Superantipoison(4)	superantipoison	4
+2450	Zamorak brew(4)	zamorak brew	4
+2452	Antifire potion(4)	antifire potion	4
+2454	Antifire potion(3)	antifire potion	3
+2456	Antifire potion(2)	antifire potion	2
+2458	Antifire potion(1)	antifire potion	1
+3008	Energy potion(4)	energy potion	4
+3010	Energy potion(3)	energy potion	3
+3012	Energy potion(2)	energy potion	2
+3014	Energy potion(1)	energy potion	1
+3016	Super energy(4)	super energy	4
+3018	Super energy(3)	super energy	3
+3020	Super energy(2)	super energy	2
+3022	Super energy(1)	super energy	1
+3024	Super restore(4)	super restore	4
+3026	Super restore(3)	super restore	3
+3028	Super restore(2)	super restore	2
+3030	Super restore(1)	super restore	1
+3040	Magic potion(4)	magic potion	4
+3042	Magic potion(3)	magic potion	3
+3044	Magic potion(2)	magic potion	2
+3046	Magic potion(1)	magic potion	1
+5943	Antidote+(4)	antidote+	4
+5945	Antidote+(3)	antidote+	3
+5947	Antidote+(2)	antidote+	2
+5949	Antidote+(1)	antidote+	1
+5952	Antidote++(4)	antidote++	4
+5954	Antidote++(3)	antidote++	3
+5956	Antidote++(2)	antidote++	2
+5958	Antidote++(1)	antidote++	1
+6685	Saradomin brew(4)	saradomin brew	4
+6687	Saradomin brew(3)	saradomin brew	3
+6689	Saradomin brew(2)	saradomin brew	2
+6691	Saradomin brew(1)	saradomin brew	1
+10925	Sanfew serum(4)	sanfew serum	4
+10927	Sanfew serum(3)	sanfew serum	3
+10929	Sanfew serum(2)	sanfew serum	2
+10931	Sanfew serum(1)	sanfew serum	1
+11951	Extended antifire(4)	extended antifire	4
+11953	Extended antifire(3)	extended antifire	3
+11955	Extended antifire(2)	extended antifire	2
+11957	Extended antifire(1)	extended antifire	1
+12625	Stamina potion(4)	stamina potion	4
+12627	Stamina potion(3)	stamina potion	3
+12629	Stamina potion(2)	stamina potion	2
+12631	Stamina potion(1)	stamina potion	1
+12695	Super combat potion(4)	super combat potion	4
+12697	Super combat potion(3)	super combat potion	3
+12699	Super combat potion(2)	super combat potion	2
+12701	Super combat potion(1)	super combat potion	1
+12905	Anti-venom(4)	anti-venom	4
+12907	Anti-venom(3)	anti-venom	3
+12909	Anti-venom(2)	anti-venom	2
+12911	Anti-venom(1)	anti-venom	1
+12913	Anti-venom+(4)	anti-venom+	4
+12915	Anti-venom+(3)	anti-venom+	3
+12917	Anti-venom+(2)	anti-venom+	2
+12919	Anti-venom+(1)	anti-venom+	1
+21978	Super antifire potion(4)	super antifire potion	4
+21981	Super antifire potion(3)	super antifire potion	3
+21984	Super antifire potion(2)	super antifire potion	2
+21987	Super antifire potion(1)	super antifire potion	1
+22209	Extended super antifire(4)	extended super antifire	4
+22212	Extended super antifire(3)	extended super antifire	3
+22215	Extended super antifire(2)	extended super antifire	2
+22218	Extended super antifire(1)	extended super antifire	1
+22449	Battlemage potion(4)	battlemage potion	4
+22452	Battlemage potion(3)	battlemage potion	3
+22455	Battlemage potion(2)	battlemage potion	2
+22458	Battlemage potion(1)	battlemage potion	1
+22461	Bastion potion(4)	bastion potion	4
+22464	Bastion potion(3)	bastion potion	3
+22467	Bastion potion(2)	bastion potion	2
+22470	Bastion potion(1)	bastion potion	1
+23685	Divine super combat potion(4)	divine super combat potion	4
+23688	Divine super combat potion(3)	divine super combat potion	3
+23691	Divine super combat potion(2)	divine super combat potion	2
+23694	Divine super combat potion(1)	divine super combat potion	1
+23697	Divine super attack potion(4)	divine super attack potion	4
+23700	Divine super attack potion(3)	divine super attack potion	3
+23703	Divine super attack potion(2)	divine super attack potion	2
+23706	Divine super attack potion(1)	divine super attack potion	1
+23709	Divine super strength potion(4)	divine super strength potion	4
+23712	Divine super strength potion(3)	divine super strength potion	3
+23715	Divine super strength potion(2)	divine super strength potion	2
+23718	Divine super strength potion(1)	divine super strength potion	1
+23721	Divine super defence potion(4)	divine super defence potion	4
+23724	Divine super defence potion(3)	divine super defence potion	3
+23727	Divine super defence potion(2)	divine super defence potion	2
+23730	Divine super defence potion(1)	divine super defence potion	1
+23733	Divine ranging potion(4)	divine ranging potion	4
+23736	Divine ranging potion(3)	divine ranging potion	3
+23739	Divine ranging potion(2)	divine ranging potion	2
+23742	Divine ranging potion(1)	divine ranging potion	1
+23745	Divine magic potion(4)	divine magic potion	4
+23748	Divine magic potion(3)	divine magic potion	3
+23751	Divine magic potion(2)	divine magic potion	2
+23754	Divine magic potion(1)	divine magic potion	1
+24598	Blighted super restore(4)	blighted super restore	4
+24601	Blighted super restore(3)	blighted super restore	3
+24603	Blighted super restore(2)	blighted super restore	2
+24605	Blighted super restore(1)	blighted super restore	1
+24623	Divine battlemage potion(4)	divine battlemage potion	4
+24626	Divine battlemage potion(3)	divine battlemage potion	3
+24629	Divine battlemage potion(2)	divine battlemage potion	2
+24632	Divine battlemage potion(1)	divine battlemage potion	1
+24635	Divine bastion potion(4)	divine bastion potion	4
+24638	Divine bastion potion(3)	divine bastion potion	3
+24641	Divine bastion potion(2)	divine bastion potion	2
+24644	Divine bastion potion(1)	divine bastion potion	1
+26340	Ancient brew(4)	ancient brew	4
+26342	Ancient brew(3)	ancient brew	3
+26344	Ancient brew(2)	ancient brew	2
+26346	Ancient brew(1)	ancient brew	1
+27629	Forgotten brew(4)	forgotten brew	4
+27632	Forgotten brew(3)	forgotten brew	3
+27635	Forgotten brew(2)	forgotten brew	2
+27638	Forgotten brew(1)	forgotten brew	1
+29824	Extended anti-venom+(4)	extended anti-venom+	4
+29827	Extended anti-venom+(3)	extended anti-venom+	3
+29830	Extended anti-venom+(2)	extended anti-venom+	2
+29833	Extended anti-venom+(1)	extended anti-venom+	1

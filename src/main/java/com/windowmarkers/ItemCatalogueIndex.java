@@ -207,10 +207,12 @@ final class ItemCatalogueIndex
         if(query.length()<3 || exactNames.contains(query) && !categories.containsKey(query) && !selectedActivity) return null;
         SearchQuery qualifiers=SearchQuery.parse(raw);
         query=normalize(qualifiers.text);
+        boolean exactActivityQuery=false;
+        for(ActivitySetups.Setup setup:setups) if(normalize(setup.activity).equals(query)) { exactActivityQuery=true;break; }
         int wantedSlot=-1;
         List<String> words=new ArrayList<>();
         for(String word:query.split(" +")) {
-            int candidate=slot(word);
+            int candidate=exactActivityQuery?-1:slot(word);
             if(candidate>=0) { if(wantedSlot>=0 && wantedSlot!=candidate) return null; wantedSlot=candidate; }
             else words.add(word);
         }
@@ -230,7 +232,12 @@ final class ItemCatalogueIndex
         boolean recognized=terms.isEmpty() && wantedSlot>=0;
         if(recognized) found.addAll(items.keySet());
         if(!terms.isEmpty()) {
+            String exactActivity="";
+            for(ActivitySetups.Setup setup:setups) if(normalize(setup.activity).equals(terms)) { exactActivity=terms;break; }
             for(ActivitySetups.Setup setup:setups) if(matches(setupText.get(setup.id),terms,fuzzy)) {
+                // An exact activity such as Abyss must not acquire Abyssal Sire.
+                // Parent activities still include their slash-delimited variants.
+                if(!exactActivity.isEmpty() && !family(setup.activity).equals(exactActivity)) continue;
                 recognized=true;
                 // A selected guide only narrows that activity; other activities
                 // and ordinary categories remain searchable.
@@ -242,7 +249,7 @@ final class ItemCatalogueIndex
                 recognized=true; found.addAll(category.getValue());
             }
             for(Map.Entry<String,Map<String,Set<Integer>>> activity:activityCategories.entrySet())
-                if(mentionsActivity(terms,activity.getKey(),fuzzy))
+                if((exactActivity.isEmpty() || family(activity.getKey()).equals(exactActivity)) && mentionsActivity(terms,activity.getKey(),fuzzy))
                     for(Map.Entry<String,Set<Integer>> group:activity.getValue().entrySet()) if(matches(group.getKey(),terms,fuzzy)) {
                         recognized=true; found.addAll(group.getValue());
                     }
@@ -267,6 +274,11 @@ final class ItemCatalogueIndex
         SetupLoadout loadout=!ge && wantedSlot<0 && qualifiers.tiers.isEmpty()
             ? SetupLoadout.build(matched,items,found,inventoryContext):null;
         if(loadout!=null) {
+            if(loadout.wildernessBudget) {
+                result.removeIf(item->!WildernessLoadout.allowed(item));
+                Set<Integer> retained=result.stream().map(i->i.id).collect(Collectors.toSet());
+                ranks.keySet().retainAll(retained);
+            }
             Set<Integer> included=result.stream().map(i->i.id).collect(Collectors.toSet());
             for(int id:loadout.itemIds()) if(items.containsKey(id) && included.add(id)) {
                 result.add(items.get(id));
@@ -303,8 +315,13 @@ final class ItemCatalogueIndex
         String state=ItemVariantState.annotate("Item state",item.fact);
         if(!state.equals("Item state")) notes.add(state);
         String extra=notes.isEmpty()?"":"\n"+String.join("\n",notes);
-        if(ItemVariantState.needsActivityReview(item.fact))
+        boolean inventoryUse=matched.stream().anyMatch(s->SetupLoadout.inventoryTable(s)
+            && (s.itemIds.contains(item.id) || InventoryPotionDoses.listed(s.itemIds,item.fact))
+            && !ItemVariantState.needsInventoryReview(item.fact,s));
+        if(ItemVariantState.needsActivityReview(item.fact) && !inventoryUse)
             return new Rank(0,ItemVariantState.annotate(ItemVariantState.reviewGroup(item.fact),item.fact)+". Purchase state is not a ready-to-use loadout."+extra);
+        if(inventoryUse && !ItemVariantState.inventoryUseNote(item.fact).isEmpty())
+            extra+="\n"+ItemVariantState.inventoryUseNote(item.fact);
         Set<Integer> tiers=new HashSet<>(); Set<String> roles=new HashSet<>(); List<String> sources=new ArrayList<>();
         for(ActivitySetups.Setup setup:matched) {
             List<Field> fields=RANKS.getOrDefault(setup.id,Collections.emptyMap()).get(item.id);

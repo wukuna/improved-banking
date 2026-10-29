@@ -1,0 +1,311 @@
+# Curated budget selection from reviewed Wilderness guides; see WILDERNESS-AND-SUPPLY-SOURCES.md.
+# item_id	expected_name	slot	selection
+88	Boots of lightness	10	budget
+89	Boots of lightness	10	budget
+542	Monk's robe	7	budget
+544	Monk's robe top	4	budget
+777	Chaos gauntlets	9	budget
+861	Magic shortbow	3	budget
+892	Rune arrow	13	budget
+1033	Zamorak monk bottom	7	budget
+1035	Zamorak monk top	4	budget
+1052	Cape of Legends	1	budget
+1065	Green d'hide vambraces	9	budget
+1073	Adamant platelegs	7	budget
+1079	Rune platelegs	7	budget
+1099	Green d'hide chaps	7	budget
+1127	Rune platebody	4	budget
+1135	Green d'hide body	4	budget
+1161	Adamant full helm	0	budget
+1163	Rune full helm	0	budget
+1169	Coif	0	budget
+1215	Dragon dagger	3	budget
+1231	Dragon dagger(p)	3	budget
+1265	Bronze pickaxe	3	budget
+1271	Adamant pickaxe	3	budget
+1273	Mithril pickaxe	3	budget
+1275	Rune pickaxe	3	budget
+1383	Staff of water	3	budget
+1409	Iban's staff	3	budget
+1410	Iban's staff	3	budget
+1434	Dragon mace	3	budget
+1540	Anti-dragon shield	5	budget
+1704	Amulet of glory	2	budget
+1706	Amulet of glory(1)	2	budget
+1708	Amulet of glory(2)	2	budget
+1710	Amulet of glory(3)	2	budget
+1712	Amulet of glory(4)	2	budget
+1724	Unholy symbol	2	budget
+1725	Amulet of strength	2	budget
+1727	Amulet of magic	2	budget
+1731	Amulet of power	2	budget
+2412	Saradomin cape	1	budget
+2413	Guthix cape	1	budget
+2414	Zamorak cape	1	budget
+2487	Blue d'hide vambraces	9	budget
+2489	Red d'hide vambraces	9	budget
+2491	Black d'hide vambraces	9	budget
+2493	Blue d'hide chaps	7	budget
+2495	Red d'hide chaps	7	budget
+2497	Black d'hide chaps	7	budget
+2499	Blue d'hide body	4	budget
+2501	Red d'hide body	4	budget
+2503	Black d'hide body	4	budget
+2550	Ring of recoil	12	budget
+2552	Ring of dueling(8)	12	budget
+2554	Ring of dueling(7)	12	budget
+2556	Ring of dueling(6)	12	budget
+2558	Ring of dueling(5)	12	budget
+2560	Ring of dueling(4)	12	budget
+2562	Ring of dueling(3)	12	budget
+2564	Ring of dueling(2)	12	budget
+2566	Ring of dueling(1)	12	budget
+2570	Ring of life	12	budget
+2572	Ring of wealth	12	budget
+3105	Climbing boots	10	budget
+3393	Splitbark boots	10	budget
+3749	Archer helm	0	budget
+3751	Berserker helm	0	budget
+3755	Farseer helm	0	budget
+3840	Holy book	5	budget
+3842	Unholy book	5	budget
+3844	Book of Balance	5	budget
+3853	Games necklace(8)	2	budget
+3855	Games necklace(7)	2	budget
+3857	Games necklace(6)	2	budget
+3859	Games necklace(5)	2	budget
+3861	Games necklace(4)	2	budget
+3863	Games necklace(3)	2	budget
+3865	Games necklace(2)	2	budget
+3867	Games necklace(1)	2	budget
+4081	Salve amulet	2	budget
+4089	Mystic hat	0	budget
+4091	Mystic robe top	4	budget
+4093	Mystic robe bottom	7	budget
+4095	Mystic gloves	9	budget
+4097	Mystic boots	10	budget
+4129	Adamant boots	10	budget
+4131	Rune boots	10	budget
+4170	Slayer's staff	3	budget
+4502	Bearhead	0	budget
+4587	Dragon scimitar	3	budget
+4675	Ancient staff	3	budget
+5575	Initiate hauberk	4	budget
+5576	Initiate cuisse	7	budget
+5680	Dragon dagger(p+)	3	budget
+5698	Dragon dagger(p++)	3	budget
+6106	Ghostly boots	10	budget
+6215	Broodoo shield (10)	5	budget
+6217	Broodoo shield (9)	5	budget
+6219	Broodoo shield (8)	5	budget
+6221	Broodoo shield (7)	5	budget
+6223	Broodoo shield (6)	5	budget
+6225	Broodoo shield (5)	5	budget
+6227	Broodoo shield (4)	5	budget
+6229	Broodoo shield (3)	5	budget
+6231	Broodoo shield (2)	5	budget
+6233	Broodoo shield (1)	5	budget
+6235	Broodoo shield	5	budget
+6237	Broodoo shield (10)	5	budget
+6239	Broodoo shield (9)	5	budget
+6241	Broodoo shield (8)	5	budget
+6243	Broodoo shield (7)	5	budget
+6245	Broodoo shield (6)	5	budget
+6247	Broodoo shield (5)	5	budget
+6249	Broodoo shield (4)	5	budget
+6251	Broodoo shield (3)	5	budget
+6253	Broodoo shield (2)	5	budget
+6255	Broodoo shield (1)	5	budget
+6257	Broodoo shield	5	budget
+6259	Broodoo shield (10)	5	budget
+6261	Broodoo shield (9)	5	budget
+6263	Broodoo shield (8)	5	budget
+6265	Broodoo shield (7)	5	budget
+6267	Broodoo shield (6)	5	budget
+6269	Broodoo shield (5)	5	budget
+6271	Broodoo shield (4)	5	budget
+6273	Broodoo shield (3)	5	budget
+6275	Broodoo shield (2)	5	budget
+6277	Broodoo shield (1)	5	budget
+6279	Broodoo shield	5	budget
+6326	Snakeskin bandana	0	budget
+6328	Snakeskin boots	10	budget
+7458	Mithril gloves	9	budget
+7459	Adamant gloves	9	budget
+7460	Rune gloves	9	budget
+7462	Barrows gloves	9	budget
+8850	Rune defender	5	budget
+9073	Moonclan boots	10	budget
+9104	Lunar ring	12	budget
+9143	Adamant bolts	13	budget
+9144	Runite bolts	13	budget
+9185	Rune crossbow	3	budget
+9242	Ruby bolts (e)	13	budget
+9243	Diamond bolts (e)	13	budget
+9672	Proselyte sallet	0	budget
+9674	Proselyte hauberk	4	budget
+9676	Proselyte cuisse	7	budget
+9678	Proselyte tasset	7	budget
+10071	Spottier cape	1	budget
+10074	Spottier cape	1	budget
+10498	Ava's attractor	1	budget
+10499	Ava's accumulator	1	budget
+10588	Salve amulet (e)	2	budget
+10828	Helm of Neitiznot	0	budget
+10839	Silly jester boots	10	budget
+11014	Beacon ring	12	budget
+11090	Phoenix necklace	2	budget
+11118	Combat bracelet(4)	9	budget
+11120	Combat bracelet(3)	9	budget
+11122	Combat bracelet(2)	9	budget
+11124	Combat bracelet(1)	9	budget
+11126	Combat bracelet	9	budget
+11200	Dwarven helmet	0	budget
+11866	Slayer ring (8)	12	budget
+11867	Slayer ring (7)	12	budget
+11868	Slayer ring (6)	12	budget
+11869	Slayer ring (5)	12	budget
+11870	Slayer ring (4)	12	budget
+11871	Slayer ring (3)	12	budget
+11872	Slayer ring (2)	12	budget
+11873	Slayer ring (1)	12	budget
+11875	Broad bolts	13	budget
+11905	Trident of the Seas (full)	3	budget
+11907	Trident of the Seas	3	budget
+11908	Uncharged trident	3	budget
+11972	Combat bracelet(6)	9	budget
+11974	Combat bracelet(5)	9	budget
+11976	Amulet of glory(5)	2	budget
+11978	Amulet of glory(6)	2	budget
+11980	Ring of wealth (5)	12	budget
+11982	Ring of wealth (4)	12	budget
+11984	Ring of wealth (3)	12	budget
+11986	Ring of wealth (2)	12	budget
+11988	Ring of wealth (1)	12	budget
+12002	Occult necklace	2	budget
+12017	Salve amulet(i)	2	budget
+12018	Salve amulet(ei)	2	budget
+12297	Black pickaxe	3	budget
+12608	Book of War	5	budget
+12610	Book of Law	5	budget
+12612	Book of Darkness	5	budget
+12785	Ring of wealth (i)	12	budget
+12788	Magic shortbow (i)	3	budget
+12954	Dragon defender	5	budget
+13120	Falador shield 4	5	budget
+13121	Ardougne cloak 1	1	budget
+13122	Ardougne cloak 2	1	budget
+13123	Ardougne cloak 3	1	budget
+13124	Ardougne cloak 4	1	budget
+13125	Explorer's ring 1	12	budget
+13126	Explorer's ring 2	12	budget
+13127	Explorer's ring 3	12	budget
+13128	Explorer's ring 4	12	budget
+13132	Fremennik sea boots 4	10	budget
+13378	Shayzien boots (5)	10	budget
+13385	Xerician hat	0	budget
+13387	Xerician top	4	budget
+13389	Xerician robe	7	budget
+20220	Holy blessing	13	budget
+20223	Unholy blessing	13	budget
+20226	Peaceful blessing	13	budget
+20229	Honourable blessing	13	budget
+20232	War blessing	13	budget
+20235	Ancient blessing	13	budget
+20406	Dragon scimitar	3	budget
+20407	Dragon dagger	3	budget
+20422	Rune platelegs	7	budget
+20423	Black d'hide body	4	budget
+20424	Black d'hide chaps	7	budget
+20425	Mystic robe top	4	budget
+20426	Mystic robe bottom	7	budget
+20431	Ancient staff	3	budget
+20461	Rune defender (broken)	5	budget
+20463	Dragon defender (broken)	5	budget
+20578	Climbing boots	10	budget
+20581	Mithril gloves	9	budget
+20582	Adamant gloves	9	budget
+20585	Amulet of power	2	budget
+20586	Amulet of glory	2	budget
+20727	Leaf-bladed battleaxe	3	budget
+20786	Ring of wealth (i5)	12	budget
+20787	Ring of wealth (i4)	12	budget
+20788	Ring of wealth (i3)	12	budget
+20789	Ring of wealth (i2)	12	budget
+20790	Ring of wealth (i1)	12	budget
+21009	Dragon sword	3	budget
+21166	Burning amulet(5)	2	budget
+21169	Burning amulet(4)	2	budget
+21171	Burning amulet(3)	2	budget
+21173	Burning amulet(2)	2	budget
+21175	Burning amulet(1)	2	budget
+21183	Bracelet of slaughter	9	budget
+21326	Amethyst arrow	13	budget
+21816	Bracelet of ethereum	9	budget
+21817	Bracelet of ethereum (uncharged)	9	budget
+22114	Mythical cape	1	budget
+22275	Green d'hide shield	5	budget
+22278	Blue d'hide shield	5	budget
+22281	Red d'hide shield	5	budget
+22284	Black d'hide shield	5	budget
+22288	Trident of the Seas (e)	3	budget
+22290	Uncharged trident (e)	3	budget
+22542	Viggora's chainmace (u)	3	wilderness weapon
+22545	Viggora's chainmace	3	wilderness weapon
+22547	Craw's bow (u)	3	wilderness weapon
+22550	Craw's bow	3	wilderness weapon
+22552	Thammaron's sceptre (u)	3	wilderness weapon
+22555	Thammaron's sceptre	3	wilderness weapon
+22941	Rada's blessing 1	13	budget
+22943	Rada's blessing 2	13	budget
+22945	Rada's blessing 3	13	budget
+22947	Rada's blessing 4	13	budget
+23528	Sarachnis cudgel	3	budget
+23591	Helm of Neitiznot	0	budget
+23593	Barrows gloves	9	budget
+23597	Dragon defender	5	budget
+23601	Rune crossbow	3	budget
+23649	Diamond bolts (e)	13	budget
+23654	Occult necklace	2	budget
+24142	Rune defender (l)	5	budget
+24143	Dragon defender (l)	5	budget
+25250	Salve amulet(i)	2	budget
+25278	Salve amulet(ei)	2	budget
+25395	Swampbark boots	10	budget
+26763	Salve amulet(i)	2	budget
+26782	Salve amulet(ei)	2	budget
+27169	Berserker helm	0	budget
+27185	Rune defender	5	budget
+27191	Unholy book	5	budget
+27652	Webweaver bow (u)	3	wilderness weapon
+27655	Webweaver bow	3	wilderness weapon
+27657	Ursine chainmace (u)	3	wilderness weapon
+27660	Ursine chainmace	3	wilderness weapon
+27662	Accursed sceptre (u)	3	wilderness weapon
+27665	Accursed sceptre	3	wilderness weapon
+27676	Accursed sceptre (au)	3	wilderness weapon
+27679	Accursed sceptre (a)	3	wilderness weapon
+27785	Thammaron's sceptre (au)	3	wilderness weapon
+27788	Thammaron's sceptre (a)	3	wilderness weapon
+28327	Ring of shadows	12	budget
+28329	Ring of shadows (uncharged)	12	budget
+28583	Warped sceptre (uncharged)	3	budget
+28585	Warped sceptre	3	budget
+28810	Zombie axe	3	budget
+28869	Hunters' sunlight crossbow	3	budget
+28872	Sunlight antler bolts	13	budget
+28878	Moonlight antler bolts	13	budget
+28991	Atlatl dart	13	budget
+29280	Mixed hide top	4	budget
+29283	Mixed hide legs	7	budget
+29286	Mixed hide boots	10	budget
+29289	Mixed hide cape	1	budget
+29852	Atlatl dart	13	budget
+30895	Steel ring	12	budget
+33322	Trident of the Seas (o)	3	budget
+33323	Trident of the Seas (full) (o)	3	budget
+33326	Trident of the Seas (e) (o)	3	budget
+33328	Uncharged trident (e) (o)	3	budget
+33330	Iban's staff (o)	3	budget
+33333	Iban's staff (o)	3	budget
+33434	Uncharged trident (o)	3	budget

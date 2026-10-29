@@ -4,6 +4,8 @@ Original tables reviewed October 20, 2026; full snapshot reconciliation and scop
 
 ## Attribution and data licence
 
+[Wilderness defaults and inventory supplies](WILDERNESS-AND-SUPPLY-SOURCES.md) records the curated budget eligibility and exact potion-dose resources added on 29 October 2026. Both retain the Wiki-derived data licence below.
+
 The exact-ID organizational supplement, `wiki-category-supplement.tsv`, also adapts OSRS Wiki contributor data under CC BY-NC-SA 3.0. [WIKI-CATEGORY-SOURCES.md](WIKI-CATEGORY-SOURCES.md) records its revisions and scope. It adds broad roles without granting activity eligibility or lower-tier rankings. [CATALOGUE-COVERAGE.md](CATALOGUE-COVERAGE.md) records the completed snapshot reconciliation and the identities or functional uses that remain explicitly unverified.
 
 New resources retain that same data licence. Separate source records describe [variant states](VARIANT-STATE-SOURCES.md), [cape combat equivalence](COMBAT-EQUIVALENCE-SOURCES.md), [cosmetic combat equivalence](COSMETIC-EQUIVALENCE-SOURCES.md), [skilling effect alternatives](SKILLING-EQUIVALENCE-SOURCES.md), [recipe inputs and tools](RECIPE-ROLE-SOURCES.md), [source-specific activity setups](ACTIVITY-SETUP-SOURCES.md) and [additional raid contexts](RAID-CONTEXT-SOURCES.md). Exact-ID exclusions and review guards preserve source conflicts instead of guessing at their meaning.

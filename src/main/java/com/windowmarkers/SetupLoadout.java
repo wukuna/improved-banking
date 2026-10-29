@@ -51,6 +51,7 @@ final class SetupLoadout
     final Map<Integer,String> equipmentNotes=new HashMap<>();
     String equipmentNote="";
     String sectionName="";
+    boolean wildernessBudget;
     private List<SetupLoadout> sections=Collections.emptyList();
     List<SetupLoadout> sections() { return sections.isEmpty()?Collections.singletonList(this):sections; }
     int sectionCount() { return sections.isEmpty()?1:sections.size(); }
@@ -76,6 +77,7 @@ final class SetupLoadout
         equipmentNotes.forEach((id,note)-> { if(allowed.contains(id)) result.equipmentNotes.put(id,note); });
         result.equipmentNote=equipmentNote;
         result.sectionName=sectionName;
+        result.wildernessBudget=wildernessBudget;
         if(!sections.isEmpty()) {
             List<SetupLoadout> kept=new ArrayList<>();
             for(SetupLoadout section:sections) kept.add(section.retainItems(allowed));
@@ -93,6 +95,20 @@ final class SetupLoadout
             && !ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label);
     }
     static SetupLoadout build(List<ActivitySetups.Setup> matched,Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,String inventoryContext)
+    {
+        if(!WildernessLoadout.applies(matched)) return buildSections(matched,owned,visible,inventoryContext);
+        Map<Integer,ItemCatalogueIndex.Item> budget=new LinkedHashMap<>();
+        owned.forEach((id,item)-> { if(WildernessLoadout.allowed(item)) budget.put(id,item); });
+        Set<Integer> shown=new HashSet<>(visible);shown.retainAll(budget.keySet());
+        // An explicit inventory choice remains authoritative. The ordinary view
+        // prefers a source's low-risk inventory when one is supplied.
+        if(inventoryContext.isEmpty()) for(ActivitySetups.Setup setup:matched)
+            if(inventoryTable(setup) && setup.label.toLowerCase(Locale.ROOT).contains("low-risk")) { inventoryContext=setup.id;break; }
+        SetupLoadout plan=buildSections(WildernessLoadout.defaults(matched),budget,shown,inventoryContext);
+        if(plan!=null) WildernessLoadout.finish(plan);
+        return plan;
+    }
+    private static SetupLoadout buildSections(List<ActivitySetups.Setup> matched,Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,String inventoryContext)
     {
         // Explicit source selections and saved inventory choices remain stable.
         if(matched.size()<2) return buildOne(matched,owned,visible,inventoryContext);
@@ -175,7 +191,7 @@ final class SetupLoadout
                 // Owning several colours/charge states of one switch must not
                 // make an unrelated example appear more complete.
                 int available=0;
-                for(int id:field.ids) if(inventoryReady(setup,owned.get(id)))
+                for(int id:SetupEquipmentChoice.inventoryAlternatives(field.ids)) if(inventoryReady(setup,owned.get(id)))
                     available=Math.max(available,owned.get(id).slot>=0?20:1);
                 score+=available;
             }
@@ -196,7 +212,8 @@ final class SetupLoadout
             inventoryExample.put(position,field);
             if(!field.inventoryChoice()) continue;
             for(int id:SetupEquipmentChoice.inventoryAlternatives(field.ids))
-                if(inventoryReady(inventory,owned.get(id))) { inventoryItems.put(position,id);break; }
+                if(inventoryReady(inventory,owned.get(id)) && (!InventoryPotionDoses.known(id)
+                    || InventoryPotionDoses.listed(field.ids,owned.get(id).fact))) { inventoryItems.put(position,id);break; }
         }
         SetupLoadout result=new SetupLoadout(anchor.activity,gear==null?"":gear.activity+" / "+gear.label,inventory==null?"No inventory example":inventory.label,equipment,inventoryItems,inventoryExample);
         result.equipmentNotes.putAll(equipmentNotes);
