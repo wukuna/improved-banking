@@ -16,19 +16,23 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 - **Searchable Legend:** find activities and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
 - **Item lookup and comparison:** inspect one or two items, send a classification to Legend, or temporarily highlight the selected items without creating a group.
 - **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
-- **Editable saved views:** copy a built-in search into a custom view, then add/remove item icons, rename groups and reorder them in one resizable editor. Save commits the draft; Cancel leaves the saved view unchanged.
+- **Editable saved views:** copy a built-in search into a custom view, then add/remove item icons, rename groups and reorder them in one resizable editor. Drag displayed items to swap positions or use an empty space; positions are saved separately from real bank order. Save commits the editor draft; Cancel leaves the saved view unchanged.
 - **Cleanup review:** find reviewed burnt cooking results with specific quest, repeatable-task, container and rarity notes. A separate conservative sell-candidate search covers supported ordinary gathering tools.
 - **Wiki-based organization:** broad categories, skilling, utility and raid presets, plus separately reviewed activity setups. Charged, empty, broken and equivalent versions retain their documented distinctions.
 - **Optional native bank search:** enable category, preset and custom-group matches from the checkbox in the bank search prompt, with live item highlighting.
 - **View presets button:** browse 102 activities and your saved views from a native-style button beside the bank camera button, open a reviewed view, save it as a custom preset or return to your bank.
-- **Equipment and inventory views:** phase-specific equipment diagrams and Wiki inventories, with matching owned alternatives below. Temporary presets retain their selected item list; unrelated supplies are excluded. General item/category searches retain their normal order.
+- **Equipment and inventory views:** phase-specific equipment diagrams and Wiki inventories, with matching owned alternatives below. Native activity search and presets share the same setup selection; presets keep the view available after closing and reopening the bank. Wilderness defaults favour owned Wilderness weapons with budget armour. General item/category searches retain their normal order.
 - **Bank Tags integration:** add a real tag to selected items through an icon palette for use with Bank Tags layouts. Existing tags are retained. Search results and highlights refresh when switching tabs and stay within the active tag's membership.
 - **Bank presentation:** item-linked and area markers, readable labels, optional hover highlights, flexible dimensions, tab alignment and local full-tab screenshots.
+- **Preset display controls:** independently hide floating preset name tags, section headings, rank labels, or outlines and backgrounds. Compact tooltips keep long guide notes readable.
+- **Movable bank controls:** Alt-drag buttons along the bottom row or into the left dock; completed arrangements are saved.
 - **Saved layouts:** separate settings for each character and RuneLite profile, multi-selection and Undo/Redo.
 - **Optional GE discovery:** search activities and categories such as `toa head`, `cox cape`, `vorkath ranged` or `mining tools`. Shared purple, blue and green tier labels identify the first three Wiki equipment columns in both bank and GE searches where matching setups agree.
 - **GE shopping filters:** find owned activity gear and supported next guide upgrades, narrow skill supplies with search tips, and optionally show guide prices, affordability colours and known unmet requirements.
 
-**Availability:** The [initial Plugin Hub submission](https://github.com/runelite/plugin-hub/pull/19100) has merged. This README follows the current source, which can include updates still awaiting Hub review.
+**Availability:** Install **Improved Banking** from RuneLite's Plugin Hub. This README follows current development. As of 30 October 2026, [update #19695](https://github.com/runelite/plugin-hub/pull/19695) is awaiting review; its preset-dragging fixes, movable bank controls and display switches are not yet in the regular Hub build. The PR shows the current review status.
+
+**More plugins:** [Banking, Looting, Right-Clicks, Interface Layout and Chat](https://github.com/wukuna#runelite-plugins).
 
 ## Getting started
 
@@ -122,7 +126,7 @@ Flexible bank sizes keep the native settings form centred at its original size, 
 
 Equipment follows the guide's ordered choices and conditions. Missing slots use suitable ready owned alternatives from compatible activity tables, then the shared combat-style lists. Avernic treads use the relevant style upgrades; base treads remain usable alternatives without inheriting upgraded tier labels. Blessings fill a free ammunition slot, including owned Rada's blessing 4, but never replace ammunition required by the selected weapon. Fallbacks have explanatory notes and do not acquire an invented boss-specific rank. Required protection and method-defining weapons are preserved. If no suitable item is available, a labelled slot explains what is missing; Wilderness defaults can instead show a dimmed budget suggestion. These suggestions have no highlight or withdrawal action and do not widen the budget filter. A two-handed weapon shows **2H** in the off-hand slot. Incomplete Void sets are not presented as complete outfits. Hover equipment for its guide note. Native bank-tab headings and divider lines are omitted inside these views; ordinary tabs retain them.
 
-The browser now lists 105 activities rather than 855 separate source tables. The 37 weapon-specific ammunition categories are archived from browsing and item-lookup suggestions. Their compatibility data and explicit searches remain available, and existing saved groups are preserved. Use an activity preset or the broad ammunition category for normal browsing; **Guide choices** still offers individual source tables for an explicit setup.
+The browser lists 102 activities, grouping related methods instead of exposing hundreds of separate source tables. The 37 weapon-specific ammunition categories are archived from browsing and item-lookup suggestions. Their compatibility data and explicit searches remain available, and existing saved groups are preserved. Use an activity preset or the broad ammunition category for normal browsing; **Guide choices** still offers individual source tables for an explicit setup.
 
 Each inventory preserves every populated item position in its Wiki example, including repeated supplies and equipment switches. When several phase sections use the same inventory, it is shown once with **Shared inventory above** beside the later sections. Different inventories remain separate. Raid equipment examples keep their matching role or progression inventory; an explicit choice under **Guide choices** takes priority. Owning more items from another example does not replace the matching inventory. Repeated displays point to the same bank stack and retain its normal withdrawal choices; they do not change quantities or withdraw anything automatically. Owned blighted supplies fill the exact slots listing them in reviewed inventories, with a restriction note; they are not treated as missing or broken merely because their use is restricted.
 
@@ -200,6 +204,8 @@ Existing Window Markers beta settings and saved layouts are preserved under thei
 
 ## Compatibility
 
+**Bank Tags and Bank Tag Layouts:** supported companions, not declared conflicts. Improved Banking keeps its own preset positions separate from their saved tag layouts. The latest drag-handling fix is included in the update linked above.
+
 Improved Banking replaces the separate **Flexible Bank** and **Bank Screenshot** plugins and declares those conflicts. Existing Flexible Bank size preferences are copied once when no corresponding Improved Banking preference exists. Original settings remain stored. Disable Improved Banking before re-enabling the separate plugins. The integrated bank-layout option can also be disabled in settings.
 
 The screenshot button can be disabled independently in **Screenshots** settings. Bank controls, menus and character actions remain under your control. Slot grouping changes the displayed search layout only; it never rearranges the stored bank, withdraws or equips items.
@@ -213,7 +219,7 @@ The recipe is searchable categories, recognisable gear layouts, clear markers an
 | [Flexible Bank](https://github.com/TheLeon0/flexible-bank) | Adapted foundation | Bank sizing, columns and deposit-button layout; credit to TheLeon0. Declared conflict because both plugins manage the bank geometry. |
 | [Bank Screenshot](https://github.com/raiyni/example-plugin/tree/f96b865927366f1c19b9ec46483d9d0f503f57c7) | Feature reference | Bank captures. Improved Banking adds its own marker artwork and legend to current-tab exports. Declared conflict. |
 | [Bank Tags (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/banktags) | Integrated companion | Persistent tags and tab layouts. Our Add Bank Tags tool uses real tags and respects the active tag's item membership. |
-| [Bank Tag Layouts](https://github.com/geheur/bank-tag-custom-layouts) | Layout inspiration and alternative | Arranged item positions and layout placeholders. Our guide views use an equipment/inventory shape; Bank Tags' core layouts remain a separate workflow. |
+| [Bank Tag Layouts](https://github.com/geheur/bank-tag-custom-layouts) | Compatible companion and layout inspiration | Arranged item positions and layout placeholders. Existing tag layouts remain separate from Improved Banking's editable activity views. |
 | [Inventory Setups](https://github.com/dillydill123/inventory-setups) | Related setup workflow | Records personal gear, inventories and setup details. Our editable Wiki views do not import or replace its saved setups; choose one active bank-layout workflow at a time. |
 | [Screen Markers (built in)](https://github.com/runelite/runelite/tree/master/runelite-client/src/main/java/net/runelite/client/plugins/screenmarkers) | Marker inspiration | Visual boxes over the client. Improved Banking's markers instead belong to the bank contents or follow linked items. |
 | [Wasted Bank Space](https://github.com/mcgeer/WastedBankSpace) | Complementary cleanup approach | Shows items that can be stored elsewhere. Our initial Junk review explains reviewed niche uses; it does not reproduce the complete storage-location catalogue. |
@@ -241,10 +247,10 @@ Adjacent item highlights with the same colour share a continuous outline, includ
 
 Under **Appearance**, **Hide item outlines in presets** removes preset outlines and backgrounds while retaining rank badges. **Hide item labels in presets** removes only the small 1st/2nd/3rd badges. Both start off and also apply to activity search layouts. Setup headings, item icons, hover explanations, item choices and ordinary bank markers remain available. Saved screenshots also respect the outline/background switch.
 
+Preset item tooltips combine rank and inventory notes into a compact, wrapped summary. Item-state warnings remain visible; long strategy footnotes stay in Guide choices. Hover text is capped at six lines and 300 pixels wide, using your tooltip font.
+
 ## License and attribution
 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.
 
 The bundled Wiki-derived data files are distributed under **CC BY-NC-SA 3.0**, separately from the Java code. Their source revisions, attribution and modifications are documented in [TAXONOMY-SOURCES.md](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md). No resource-pack artwork is redistributed.
-
-Preset item tooltips combine rank and inventory notes into a compact, wrapped summary. Item-state warnings remain visible; long strategy footnotes stay in Guide choices. Hover text is capped at six lines and 300 pixels wide, using your tooltip font.
