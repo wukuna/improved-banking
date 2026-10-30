@@ -189,6 +189,7 @@ public class WindowMarkersPlugin extends Plugin
                 reviewItemsButton.setVisible(false);
                 JPanel savedViews=new MarkerForm();
                 saveViewButton=addButton(savedViews,"Save as custom view…",this::saveCurrentBankView);
+                addButton(savedViews,"Reset preset item positions",() -> clientThread.invokeLater(() -> bankLayout.resetPresetPositions()));
                 addViewButton.setEnabled(false);clearViewButton.setEnabled(false);saveViewButton.setEnabled(false);
                 customPicker=new JComboBox<>();customPicker.setRenderer(PlainText.renderer());savedViews.add(customPicker);
                 addButton(savedViews,"Open saved view",() -> {
@@ -1054,6 +1055,8 @@ public class WindowMarkersPlugin extends Plugin
                     clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
                         if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
                         nativeSearch.closeSearch();
+                        for(Marker group:snapshot) if(group.linkedItemIds!=null)
+                            group.linkedItemIds=java.util.Arrays.stream(group.linkedItemIds).map(itemManager::canonicalize).distinct().toArray();
                         java.util.Set<Integer> allowed=java.util.Arrays.stream(GroupEdits.union(snapshot)).boxed().collect(java.util.stream.Collectors.toSet());
                         searchView.show(name,snapshot,slots,match==null || match.loadout==null?null:match.loadout.retainItems(allowed),match==null?java.util.Collections.emptyMap():match.ranks);
                     }});
@@ -1088,7 +1091,7 @@ public class WindowMarkersPlugin extends Plugin
                         Marker group=new Marker(0,0,48,36);styleGroup(group,text);group.scrollWithItems=true;
                         group.linkedItemIds=match.ids.stream().sorted().mapToInt(Integer::intValue).toArray();
                         group.guideQuery=text;group.guideContext=guide;group.inventoryContext=inventory;
-                        nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks);
+                        nativeSearch.closeSearch();searchView.show(text,java.util.Collections.singletonList(group),match.slots,match.loadout,match.ranks,"activity:"+text+":"+guide+":"+inventory);
                         setStatus(BankCleanup.isQuery(text)?"Cleanup review: open Item uses and reasons for details. Nothing is discarded or sold.":"View open. Save it to reopen later, or add it to Legend.");
                         if(addToLegend) addViewToLegend();
                     }});
@@ -1806,6 +1809,9 @@ public class WindowMarkersPlugin extends Plugin
                         labelPositions.begin(occupiedLabels);
                         for (Marker marker : renderedMarkers())
                         {
+                            // The bank title already names the preset. Keep section
+                            // headings and rank badges, without floating name tags.
+                            if(presetPresentation() && config.hidePresetNameTags()) continue;
                             Rectangle clip=markerClip(marker);
                             if (clip==null || marker.labelText().isEmpty() || config.bankLabels()==WindowMarkersConfig.BankLabels.OFF) { continue; }
                             List<Rectangle> regions=new ArrayList<>(markerRegions(marker));
@@ -1844,6 +1850,7 @@ public class WindowMarkersPlugin extends Plugin
                             Font headingFont=headings.getFont(),slotFont=headingFont.deriveFont(9f);
                             Color headingColor=headings.getColor(),slotColor=new Color(155,155,155,130);
                             for(SetupItemLayout.Heading heading:bankLayout.searchHeadings()) {
+                                if(!heading.emptySlot && config.hidePresetSectionHeadings()) continue;
                                 int x=itemArea.x+heading.x,y=itemArea.y+heading.y-itemScroll;
                                 if(heading.emptySlot) {
                                     headings.setColor(slotColor);headings.drawRoundRect(x,y,35,31,4,4);

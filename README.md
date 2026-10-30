@@ -58,6 +58,10 @@ Mini-labels show short category names once per group. Custom groups retain the n
 
 ### Search, item lookup and custom presets
 
+Drag items inside a preset to swap two displayed cells or move an item into an empty space. Each repeated inventory item moves independently. Positions are saved for the current preset, bank width, character and RuneLite profile; your real bank order and other Bank Tag Layouts tabs stay unchanged. **Saved views → Reset preset item positions** restores the generated arrangement. After adding items in the custom-view editor, press **Add selected items**, then **Save changes**; the new items can be dragged in the open preset too.
+
+**Appearance** has independent switches for preset name tags, section headings, rank labels and item outlines/backgrounds. Floating name tags start hidden; section headings and 1st/2nd/3rd labels start visible. The bank title always identifies the selected preset. These switches also apply to activity searches and preserve saved group labels and colours.
+
 **Legend → Browse activities** and **View presets** list named activities and saved custom views. General categories and broad supply presets are kept out of this menu; their item classifications and native search matching remain available. Barbarian Assault and Fossil Island Wyverns each group their related methods, with original guide conditions and setup IDs retained. The seasonal Echo Hespori entry stays out of ordinary browsing. Results update as you type and tolerate approximate spelling; CoX, ToB and ToA abbreviations work. Choosing a result previews the bank; it does not save a new group until **Add to Legend** is used. Activities appear even when they are not yet in your legend.
 
 **Item lookup / compare** opens a searchable item-icon palette. Choose one item to list its recorded categories, presets, Wiki setups and custom memberships, or two to see shared and unique memberships. Same-name item variants retain separate IDs. This compares membership, not item power or activity readiness. Use **Only items in this bank** to limit results to owned items; uncheck it to search the item catalogue.

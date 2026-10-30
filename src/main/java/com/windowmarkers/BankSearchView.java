@@ -20,6 +20,8 @@ final class BankSearchView
     private final String tagName="improved banking "+UUID.randomUUID();
     private BankTag tag;
     private String name;
+    private String layoutIdentity;
+    String layoutIdentity() { return isActive() ? layoutIdentity : null; }
     private boolean slots;
     private boolean reopen, reopenQueued;
     private SetupLoadout loadout;
@@ -32,10 +34,13 @@ final class BankSearchView
 
     void show(String name,List<Marker> groups,boolean slots) { show(name,groups,slots,null,Collections.emptyMap()); }
     void show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks)
+    { show(name,groups,slots,loadout,ranks,"saved:"+name); }
+    void show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks,String layoutIdentity)
     {
         clear();
         this.loadout=loadout; this.ranks=ranks;
         this.name=name; this.groups=new ArrayList<>(groups); this.slots=slots;
+        this.layoutIdentity=layoutIdentity;
         Set<Integer> ids=new HashSet<>();
         for(Marker group:groups) if(group.linked()) for(int id:group.linkedItemIds) ids.add(id);
         if(ids.isEmpty() && (loadout==null || !loadout.hasBudgetExamples())) { this.groups=Collections.emptyList(); return; }
@@ -43,7 +48,10 @@ final class BankSearchView
             highlight=new Marker(0,0,48,36);highlight.scrollWithItems=true;
             highlight.linkedItemIds=ids.stream().mapToInt(Integer::intValue).toArray();
         }
-        tag=id -> ids.contains(items.canonicalize(id));
+        // The palette saves exact IDs. Canonicalize both sides so a selected
+        // worn/ornament variant is not silently lost; do not expand charge families.
+        Set<Integer> canonical=new HashSet<>();for(int id:ids) canonical.add(items.canonicalize(id));
+        tag=id -> ids.contains(id) || canonical.contains(items.canonicalize(id));
         tags.registerTag(tagName,tag);
         bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
     }

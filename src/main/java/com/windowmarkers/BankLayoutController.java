@@ -131,6 +131,7 @@ public final class BankLayoutController
     @Inject net.runelite.client.game.ItemManager itemManager;
     private final SetupInventoryWidgets inventoryWidgets=new SetupInventoryWidgets();
     private final BankViewGeometry viewGeometry=new BankViewGeometry();
+    @Inject BankPresetPositions presetPositions;
     final BankControlWidgets controls=new BankControlWidgets(this);
     final BankControlDrag controlDrag=new BankControlDrag(this);
     @Inject net.runelite.client.input.MouseManager mouseManager;
@@ -295,10 +296,20 @@ public final class BankLayoutController
 
         boolean grouped=groupedSearch();
         inventoryWidgets.clear();
-        if(!config.bankLayoutEnabled() && !grouped) return;
+        if(!config.bankLayoutEnabled() && !grouped && !ownsPreset()) return;
 		if(grouped) hideSeparators(items);
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
-        if(searchView!=null && searchView.isActive()) viewGeometry.capture(items);
+        if(ownsPreset() && ends!=null) {
+            String identity=presetIdentity(),account=configs==null?null:configs.getRSProfileKey();
+            String key=presetPositions==null?null:presetPositions.key(identity,items.getWidth());
+            BankPresetPositions.Layout saved=presetPositions==null?new BankPresetPositions.Layout():presetPositions.read(account,key);
+            ends[1]=viewGeometry.capture(items,saved,() -> {
+                if(presetPositions!=null && java.util.Objects.equals(identity,presetIdentity())
+                    && java.util.Objects.equals(key,presetPositions.key(presetIdentity(),items.getWidth())))
+                    presetPositions.save(account,key,saved);
+            },inventoryNotes,ends[1]);
+            inventoryWidgets.allowPresetDragging();
+        }
 		reflowedWidth = items.getWidth();
 		if (ends == null)
 		{
@@ -332,15 +343,15 @@ public final class BankLayoutController
         // Bank Tag Layouts can auto-layout a temporary tag after finishbuilding.
         // Restore our current view's visible cells and positions, including
         // repeated supplies/phase gear; never touch another tag's layout.
-        if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && searchView!=null && searchView.isActive())
+        if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && ownsPreset())
             viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}
 
     // Search refresh rebuilds the native tabs after ClientTick. Apply their final
     // positions after scripts, before any frame can display the intermediate layout.
-    @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused())controlDrag.cancel();}
+    @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused()){controlDrag.cancel();viewGeometry.cancelDrag();}}
     @Subscribe public void onGameStateChanged(net.runelite.api.events.GameStateChanged event) {
-        if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN)controlDrag.cancel();
+        if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN){controlDrag.cancel();viewGeometry.cancelDrag();}
     }
     @Subscribe(priority=-20)
     public void onBeforeRender(BeforeRender event)
@@ -350,6 +361,36 @@ public final class BankLayoutController
             reapplyFrame();alignTabs();controlDrag.capture();
         }
         else controlDrag.clear();
+        if(active && ownsPreset()) viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
+    }
+
+    // Run before Bank Tags snapshots the native drop target. Only display
+    // positions in our current preset change; real bank order stays untouched.
+    @Subscribe(priority=30)
+    public void onWidgetDrag(net.runelite.api.events.WidgetDrag event)
+    {
+        if(!active || !ownsPreset()) return;
+        Widget items=client.getWidget(InterfaceID.Bankmain.ITEMS);
+        if(items==null || items.isHidden()) return;
+        Widget dragged=client.getDraggedWidget();
+        if(dragged!=null && dragged.getId()==InterfaceID.Bankmain.ITEMS) client.setDraggedOnWidget(null);
+        String identity=presetIdentity();
+        viewGeometry.drag(client,items,() -> active && ownsPreset()
+            && java.util.Objects.equals(identity,presetIdentity()) && client.getWidget(InterfaceID.Bankmain.ITEMS)==items && !items.isHidden());
+    }
+
+    private boolean ownsPreset() { return searchView!=null && searchView.isActive() || groupedSearch(); }
+    private String presetIdentity() {
+        return searchView!=null && searchView.isActive()?searchView.layoutIdentity()+":"+searchView.bySlot():
+            nativeSearch==null?null:nativeSearch.layoutIdentity()+":true";
+    }
+
+    void resetPresetPositions()
+    {
+        if(!active || !ownsPreset() || presetPositions==null || configs==null) return;
+        Widget items=client.getWidget(InterfaceID.Bankmain.ITEMS);if(items==null || items.isHidden())return;
+        presetPositions.save(configs.getRSProfileKey(),presetPositions.key(presetIdentity(),items.getWidth()),new BankPresetPositions.Layout());
+        viewGeometry.clear();rebuildBank();
     }
 
 	@Subscribe
@@ -689,7 +730,7 @@ public final class BankLayoutController
 		{
 			return null;
 		}
-        if (bankTagsService != null && bankTagsService.getActiveLayout() != null)
+        if (bankTagsService != null && bankTagsService.getActiveLayout() != null && !(searchView!=null && searchView.isActive()))
         {
             int end=0;
             for(Widget cell:cells) { end=Math.max(end,cell.getOriginalY()+ROW_HEIGHT); cell.setOriginalY(cell.getOriginalY()+4); cell.revalidate(); }
@@ -794,19 +835,20 @@ public final class BankLayoutController
     private boolean groupedSearch()
     {
         if(!config.setupSearchLayout()) return false;
-        if(bankTagsService!=null && bankTagsService.getActiveLayout()!=null) return false;
         if(searchView!=null && searchView.isActive()) return searchView.bySlot();
+        if(bankTagsService!=null && bankTagsService.getActiveLayout()!=null) return false;
         return (bankTagsService==null || bankTagsService.getActiveBankTag()==null)
             && nativeSearch!=null && nativeSearch.groupBySlot();
     }
 
     private final java.util.List<SetupItemLayout.Heading> searchHeadings=new java.util.ArrayList<>();
     private final java.util.List<SetupItemLayout.InventoryNote> inventoryNotes=new java.util.ArrayList<>();
-    java.util.List<SetupItemLayout.InventoryNote> inventoryNotes() { return groupedSearch()?inventoryNotes:java.util.Collections.emptyList(); }
+    java.util.List<SetupItemLayout.InventoryNote> inventoryNotes() { return groupedSearch()?viewGeometry.visibleNotes(inventoryNotes):java.util.Collections.emptyList(); }
     boolean inventoryPreview(Widget widget) { return inventoryWidgets.preview(widget); }
     @Subscribe(priority=20) public void onMenuEntryAdded(net.runelite.api.events.MenuEntryAdded event) { inventoryWidgets.menuAdded(event.getMenuEntry()); }
     @Subscribe(priority=20) public void onMenuOptionClicked(net.runelite.api.events.MenuOptionClicked event) { inventoryWidgets.clicked(event,client); }
-    java.util.List<SetupItemLayout.Heading> searchHeadings() { return groupedSearch()?searchHeadings:java.util.Collections.emptyList(); }
+    java.util.List<SetupItemLayout.Heading> searchHeadings() { return groupedSearch()?searchHeadings.stream()
+        .filter(h -> !h.emptySlot || !viewGeometry.occupied(h.x,h.y)).collect(java.util.stream.Collectors.toList()):java.util.Collections.emptyList(); }
     private int[] layoutSearch(Widget items)
     {
         int usable=items.getWidth()-LEFT_INSET-RIGHT_INSET;

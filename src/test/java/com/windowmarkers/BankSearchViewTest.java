@@ -10,6 +10,17 @@ import static org.mockito.Mockito.*;
 
 public class BankSearchViewTest
 {
+    @Test public void manuallySelectedWornVariantMatchesItsBankIdWithoutExpandingCharges() {
+        ReopenFixture f=new ReopenFixture();
+        when(f.view.items.canonicalize(1001)).thenReturn(1000);
+        Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{1001,25731};
+        f.view.show("Custom",Collections.singletonList(group),true);
+        assertTrue(f.registered.get().contains(1001));
+        assertTrue(f.registered.get().contains(1000));
+        assertTrue(f.registered.get().contains(25731));
+        assertFalse(f.registered.get().contains(25733));
+        assertFalse(f.registered.get().contains(385));
+    }
     private static final class ReopenFixture {
         final BankSearchView view=new BankSearchView();
         final AtomicReference<String> active=new AtomicReference<>();

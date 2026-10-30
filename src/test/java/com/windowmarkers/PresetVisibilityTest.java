@@ -31,6 +31,16 @@ public class PresetVisibilityTest
         when(p.config.hidePresetItemOutlines()).thenReturn(true);
         BufferedImage labels=render(p);assertEquals(0,labels.getRGB(40,30));assertTrue(pixels(labels)>0);
         when(p.config.hidePresetItemLabels()).thenReturn(true);assertEquals(0,pixels(render(p)));
+        marker.label="Hydra";when(p.config.bankLabels()).thenReturn(WindowMarkersConfig.BankLabels.MINI);
+        assertEquals("Preset name tags start hidden",0,pixels(render(p)));
+        when(p.config.hidePresetNameTags()).thenReturn(false);assertTrue(pixels(render(p))>0);
+        when(p.config.hidePresetNameTags()).thenReturn(true);
+        p.bankLayout=new BankLayoutController();p.bankLayout.config=p.config;p.bankLayout.searchView=p.searchView;
+        var headings=BankLayoutController.class.getDeclaredField("searchHeadings");headings.setAccessible(true);
+        @SuppressWarnings("unchecked") java.util.List<SetupItemLayout.Heading> list=(java.util.List<SetupItemLayout.Heading>)headings.get(p.bankLayout);
+        list.add(new SetupItemLayout.Heading("Equipment",1,80));
+        assertTrue("Section headings remain independently visible",pixels(render(p))>0);
+        when(p.config.hidePresetSectionHeadings()).thenReturn(true);assertEquals(0,pixels(render(p)));
         when(p.config.hidePresetItemOutlines()).thenReturn(false);assertNotEquals(0,render(p).getRGB(40,30));
         p.searchView.clear();assertFalse(p.hidePresetOutlines());assertFalse(p.hidePresetLabels());
     }

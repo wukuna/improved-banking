@@ -140,6 +140,7 @@ final class NativeBankSearch
     boolean groupBySlot() { return searching() && config.improvedBankSearch() && currentContext() && slots && (!matches.isEmpty() || loadout!=null && loadout.hasBudgetExamples())
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
     String query() { return query; }
+    String layoutIdentity() { return groupBySlot()?"activity:"+query+":"+guideContext+":"+inventoryContext:null; }
     private boolean matchesCurrentInput() { return searching() && config.improvedBankSearch() && currentContext()
         && Objects.equals(query,client.getVarcStrValue(VarClientID.MESLAYERINPUT)); }
     boolean hasMatches() { return matchesCurrentInput() && !matches.isEmpty(); }

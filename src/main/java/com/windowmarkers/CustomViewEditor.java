@@ -28,7 +28,7 @@ final class CustomViewEditor extends JPanel
         for(BankItemSearch.Choice choice:choices) known.put(choice.id,choice);
         name.setText(draft.name);slots.setSelected(draft.groupBySlot);
         JPanel heading=new MarkerForm();heading.add(new JLabel("Custom view name"));heading.add(name);heading.add(slots);
-        heading.add(new JLabel("<html>Select a group, then add or remove its items. Reorder groups on the left.<br>Bank stacks are not moved. Built-in presets and existing Legend groups stay unchanged.</html>"));
+        heading.add(new JLabel("<html>Select a group, add items, then Save changes.<br>Drag items in the open preset to save their positions. Bank order stays unchanged.</html>"));
         add(heading,BorderLayout.NORTH);
         for(Marker group:draft.groups) groups.addElement(group);
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);

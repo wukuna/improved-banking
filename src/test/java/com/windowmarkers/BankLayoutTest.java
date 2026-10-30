@@ -27,6 +27,8 @@ public class BankLayoutTest
             .when(c.searchView.bankTags).openBankTag(anyString(),anyInt());
         Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
         c.searchView.show("Food",Collections.singletonList(group),true);
+        c.bankTagsService=c.searchView.bankTags;
+        when(c.bankTagsService.getActiveLayout()).thenReturn(new net.runelite.client.plugins.banktags.tabs.Layout("Competing layout"));
         Widget items=mock(Widget.class),item=cell(51,360);
         when(item.getIndex()).thenReturn(0);when(item.getItemId()).thenReturn(385);
         when(c.itemManager.canonicalize(385)).thenReturn(385);
@@ -39,6 +41,8 @@ public class BankLayoutTest
         item.setOriginalX(300);item.setOriginalY(800);
         c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
         assertEquals(x,item.getOriginalX());assertEquals(y,item.getOriginalY());
+        item.setOriginalY(900);c.onBeforeRender(new BeforeRender());
+        assertEquals("Direct tag-layout changes also cannot flatten a preset",y,item.getOriginalY());
         c.searchView.clear();item.setOriginalY(500);
         c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
         assertEquals("Switching away releases ownership",500,item.getOriginalY());

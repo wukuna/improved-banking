@@ -22,11 +22,11 @@ final class ReleaseNotesNotice
     static final String RELEASE = "2026-10-29-bank-controls";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
-        "Preset tooltips are compact and wrapped; hide outlines/backgrounds or small rank labels separately in Appearance.",
+        "Drag preset items without collapsing the setup; positions are saved, and custom views include manually added variants.",
+        "Preset tooltips are compact and wrapped; Appearance separately controls name tags, section headings, rank labels and outlines.",
         "Alt-drag bank buttons to reorder them, slide them along the bottom row, or dock them beside Bank Tags.",
         "Inventory switches use owned combat variants and ranged alternatives; matching item outlines join into continuous sections.",
         "View presets lists 102 activities plus saved views; flexible banks have clearer controls and no extra rows for invisible tab drop areas.",
-        "Presets share search setups, preserve phase gear and repeated items with Bank Tag Layouts, and stay selected when reopening the bank."
     };
 
     @Inject private Client client;

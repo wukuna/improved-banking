@@ -28,6 +28,10 @@ public class SetupInventoryWidgetsTest
         when(config.getClickMask()).thenReturn(WidgetConfig.transmitAction(0)|WidgetConfig.DRAG);
         SetupInventoryWidgets widgets=new SetupInventoryWidgets();widgets.setClient(client);widgets.add(parent,source,6685,mock(ItemManager.class));
         verify(copy).setClickMask(WidgetConfig.transmitAction(0));
+        when(copy.getClickMask()).thenReturn(WidgetConfig.transmitAction(0));
+        widgets.allowPresetDragging();
+        verify(copy).setClickMask(WidgetConfig.transmitAction(0)|WidgetConfig.DRAG);
+        verify(copy).setHasListener(true);
         MenuEntry menu=mock(MenuEntry.class);when(menu.getWidget()).thenReturn(copy);
         when(menu.getParam1()).thenReturn(InterfaceID.Bankmain.ITEMS);when(menu.getType()).thenReturn(MenuAction.CC_OP);
         widgets.menuAdded(menu);verify(menu).setParam0(7);verify(copy).setAction(0,"Withdraw-1");verify(copy).setItemQuantity(40);
@@ -45,6 +49,7 @@ public class SetupInventoryWidgetsTest
         when(parent.createChild(anyInt(),anyInt())).thenReturn(copy);
         SetupInventoryWidgets widgets=new SetupInventoryWidgets();widgets.add(parent,null,385,mock(ItemManager.class));
         assertTrue(widgets.preview(copy));verify(copy,never()).setAction(anyInt(),anyString());verify(copy).setClickMask(0);
+        widgets.allowPresetDragging();verify(copy,never()).setClickMask(WidgetConfig.DRAG);
         AtomicReference<Widget[]> children=new AtomicReference<>(new Widget[]{original,copy,other});
         when(parent.getChildren()).thenAnswer(i->children.get());
         doAnswer(i->{children.set(i.getArgument(0));return null;}).when(parent).setChildren(any(Widget[].class));

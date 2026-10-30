@@ -55,6 +55,17 @@ final class SetupInventoryWidgets
 
     boolean preview(Widget widget) { Copy copy=copies.get(widget);return copy!=null && copy.source==null; }
 
+    void allowPresetDragging()
+    {
+        for(Copy copy:copies.values()) if(copy.source!=null) {
+            copy.widget.setClickMask(copy.widget.getClickMask() | WidgetConfig.DRAG);
+            copy.widget.setDragParent(copy.source.getDragParent());
+            copy.widget.setDragDeadZone(copy.source.getDragDeadZone());
+            copy.widget.setDragDeadTime(copy.source.getDragDeadTime());
+            copy.widget.setHasListener(true);
+        }
+    }
+
     void menuAdded(MenuEntry menu)
     {
         menus.remove(menu);

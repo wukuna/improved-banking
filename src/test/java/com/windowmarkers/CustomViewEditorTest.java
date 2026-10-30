@@ -8,6 +8,34 @@ import static org.junit.Assert.*;
 
 public class CustomViewEditorTest
 {
+    @Test public void addedPaletteItemSurvivesGroupChangesSaveAndReopening() throws Exception {
+        CustomPresets.Preset draft=new CustomPresets.Preset();draft.name="Meals";
+        Marker group=new Marker(0,0,48,36);group.label="Food";group.linkedItemIds=new int[]{385};draft.groups.add(group);
+        SwingUtilities.invokeAndWait(()-> {
+            CustomViewEditor editor=new CustomViewEditor(draft,new BankItemSearch(),Collections.emptySet(),Collections.emptyList());
+            try {
+                java.lang.reflect.Field field=CustomViewEditor.class.getDeclaredField("palette");field.setAccessible(true);
+                ItemPalette palette=(ItemPalette)field.get(editor);
+                field=ItemPalette.class.getDeclaredField("results");field.setAccessible(true);
+                @SuppressWarnings("unchecked") DefaultListModel<BankItemSearch.Choice> results=(DefaultListModel<BankItemSearch.Choice>)field.get(palette);
+                results.addElement(new BankItemSearch.Choice(3144,"Cooked karambwan"));
+                field=ItemPalette.class.getDeclaredField("tiles");field.setAccessible(true);
+                ((JList<?>)field.get(palette)).setSelectedIndex(0);
+                clickAdd(palette);
+                editor.flush();editor.list.clearSelection();editor.list.setSelectedIndex(0);
+                assertTrue(editor.valid());assertArrayEquals(new int[]{385,3144},draft.groups.get(0).linkedItemIds);
+                CustomPresets.Preset reopened=new Gson().fromJson(new Gson().toJson(draft),CustomPresets.Preset.class);
+                assertArrayEquals(new int[]{385,3144},reopened.groups.get(0).linkedItemIds);
+            } catch(ReflectiveOperationException ex) { throw new AssertionError(ex); }
+            finally { editor.close(); }
+        });
+    }
+    private static void clickAdd(java.awt.Container container) {
+        for(java.awt.Component child:container.getComponents()) {
+            if(child instanceof JButton && ((JButton)child).getText().startsWith("Add selected")) ((JButton)child).doClick();
+            else if(child instanceof java.awt.Container) clickAdd((java.awt.Container)child);
+        }
+    }
     @Test public void customGroupLabelsAreLiteralTextNotHtml() throws Exception {
         CustomPresets.Preset draft=new CustomPresets.Preset();draft.name="View";
         Marker group=new Marker(0,0,48,36);group.label="<html><b>My group</b>";group.linkedItemIds=new int[]{385};draft.groups.add(group);

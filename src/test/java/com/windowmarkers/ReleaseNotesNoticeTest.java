@@ -43,8 +43,8 @@ public class ReleaseNotesNoticeTest
         notice.start(); flush();
         ArgumentCaptor<QueuedMessage> messages=ArgumentCaptor.forClass(QueuedMessage.class);
         verify(chat,times(6)).queue(messages.capture());
-        assertTrue(messages.getAllValues().get(1).getRuneLiteFormattedMessage().contains("Preset tooltips are compact"));
-        assertTrue(messages.getAllValues().stream().anyMatch(m->m.getRuneLiteFormattedMessage().contains("Bank Tag Layouts")));
+        assertTrue(messages.getAllValues().get(1).getRuneLiteFormattedMessage().contains("Drag preset items"));
+        assertTrue(messages.getAllValues().stream().anyMatch(m->m.getRuneLiteFormattedMessage().contains("Preset tooltips are compact")));
         assertEquals(ReleaseNotesNotice.RELEASE,seen);
         notice.onGameStateChanged(loggedIn()); flush();
         notice.stop(); notice.start(); flush();

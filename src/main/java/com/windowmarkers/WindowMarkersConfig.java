@@ -74,8 +74,12 @@ public interface WindowMarkersConfig extends Config
     default boolean bankTooltips() { return true; }
     @ConfigItem(section=appearance,keyName="hidePresetItemOutlines",name="Hide item outlines in presets",description="Hide item outlines and marker backgrounds in presets and activity search layouts. Keep the 1st/2nd/3rd rank labels and setup headings.",position=12)
     default boolean hidePresetItemOutlines() { return false; }
-    @ConfigItem(section=appearance,keyName="hidePresetItemLabels",name="Hide item labels in presets",description="Hide the small 1st/2nd/3rd rank labels in presets and activity search layouts. Keep outlines, backgrounds, setup headings and tooltips.",position=13)
+    @ConfigItem(section=appearance,keyName="hidePresetItemLabels",name="Hide preset rank labels",description="Hide the small 1st/2nd/3rd labels. Other preset display options are separate.",position=15)
     default boolean hidePresetItemLabels() { return false; }
+    @ConfigItem(section=appearance,keyName="hidePresetNameTags",name="Hide preset name tags",description="Hide floating group-name tags inside preset views. The bank title still names the active preset.",position=13)
+    default boolean hidePresetNameTags() { return true; }
+    @ConfigItem(section=appearance,keyName="hidePresetSectionHeadings",name="Hide preset section headings",description="Hide phase, Equipment, Recommended inventory and Suggested runes headings. Empty equipment slot hints and item tooltips remain.",position=14)
+    default boolean hidePresetSectionHeadings() { return false; }
     @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
     default boolean snapToGrid() { return false; }
 
