@@ -22,7 +22,7 @@ final class ReleaseNotesNotice
     static final String RELEASE = "2026-10-29-bank-controls";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
-        "Hide preset item outlines and backgrounds separately from the small 1st/2nd/3rd rank labels in Appearance.",
+        "Preset tooltips are compact and wrapped; hide outlines/backgrounds or small rank labels separately in Appearance.",
         "Alt-drag bank buttons to reorder them, slide them along the bottom row, or dock them beside Bank Tags.",
         "Inventory switches use owned combat variants and ranged alternatives; matching item outlines join into continuous sections.",
         "View presets lists 102 activities plus saved views; flexible banks have clearer controls and no extra rows for invisible tab drop areas.",

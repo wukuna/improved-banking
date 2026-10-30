@@ -242,3 +242,5 @@ Under **Appearance**, **Hide item outlines in presets** removes preset outlines 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.
 
 The bundled Wiki-derived data files are distributed under **CC BY-NC-SA 3.0**, separately from the Java code. Their source revisions, attribution and modifications are documented in [TAXONOMY-SOURCES.md](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md). No resource-pack artwork is redistributed.
+
+Preset item tooltips combine rank and inventory notes into a compact, wrapped summary. Item-state warnings remain visible; long strategy footnotes stay in Guide choices. Hover text is capped at six lines and 300 pixels wide, using your tooltip font.

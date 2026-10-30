@@ -102,6 +102,7 @@ public class WindowMarkersPlugin extends Plugin
     private volatile Marker lookupHighlight;
     private BankSearchIndex rankingIndex;
     @Inject net.runelite.client.ui.overlay.tooltip.TooltipManager tooltipManager;
+    @Inject net.runelite.client.config.RuneLiteConfig runeLiteConfig;
     private final MarkerMouse mouse = new MarkerMouse();
     private final MarkerOverlay overlay = new MarkerOverlay();
     private final BackgroundOverlay backgroundOverlay = new BackgroundOverlay();
@@ -1751,6 +1752,11 @@ public class WindowMarkersPlugin extends Plugin
     boolean hidePresetOutlines() {return config.hidePresetItemOutlines() && presetPresentation();}
     boolean hidePresetLabels() {return config.hidePresetItemLabels() && presetPresentation();}
 
+    private net.runelite.client.ui.overlay.tooltip.Tooltip bankTooltip(String summary) {
+        Color background=runeLiteConfig==null?net.runelite.client.ui.overlay.components.ComponentConstants.STANDARD_BACKGROUND_COLOR:runeLiteConfig.overlayBackgroundColor();
+        return new net.runelite.client.ui.overlay.tooltip.Tooltip(new BankItemTooltip(summary,Math.min(300,client.getCanvasWidth()-16),background));
+    }
+
     final class MarkerOverlay extends Overlay
     {
         private final MarkerLabelCache labelPositions=new MarkerLabelCache();
@@ -1772,7 +1778,7 @@ public class WindowMarkersPlugin extends Plugin
                     Marker focused=highlightedMarker();
                     Marker hovered=hoveredBankMarker();
                     if(config.bankTooltips() && config.visible() && hovered!=null && tooltipManager!=null)
-                    { tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(hovered.labelText()))); }
+                    { tooltipManager.add(bankTooltip(hovered.labelText())); }
                     if (config.visible() && !hidePresetOutlines())
                     {
                         for (Marker marker : renderedMarkers())
@@ -1831,6 +1837,7 @@ public class WindowMarkersPlugin extends Plugin
                             }
                         }
                     }
+                    String hoveredSetupNote=null;
                     if(itemArea!=null && bankLayout!=null) {
                         Graphics2D headings=(Graphics2D)g.create();
                         try { headings.clip(itemArea);headings.setFont(new Font("Arial",Font.PLAIN,11));headings.setColor(new Color(230,205,145));
@@ -1851,7 +1858,7 @@ public class WindowMarkersPlugin extends Plugin
                             if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null)
                                 for(SetupItemLayout.InventoryNote note:bankLayout.inventoryNotes())
                                     if(new Rectangle(itemArea.x+note.x,itemArea.y+note.y-itemScroll,36,32).contains(mouse.getX(),mouse.getY()))
-                                        tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(note.text)));
+                                        {hoveredSetupNote=note.text;break;}
                         } finally { headings.dispose(); }
                     }
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
@@ -1885,12 +1892,13 @@ public class WindowMarkersPlugin extends Plugin
                                     if(!hidePresetLabels())TierPresentation.drawLabel(ranked,cell.grid,rank.tier,config);
                                 }
                                 if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
-                                    String explanation=rank.explanation.length()>850?rank.explanation.substring(0,847)+"...":rank.explanation;
-                                    tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(explanation).replace("\n","<br>")));
+                                    tooltipManager.add(bankTooltip(BankItemTooltip.summary(rank,hoveredSetupNote)));
+                                    hoveredSetupNote=null;
                                 }
                             }
                         } finally { ranked.dispose(); }
                     }
+                    if(hoveredSetupNote!=null)tooltipManager.add(bankTooltip(BankItemTooltip.summary(null,hoveredSetupNote)));
                     if (preview != null && markerClip(preview) != null)
                     { g.clip(markerClip(preview)); BorderRenderer.plain(g, preview.onScreen(bank,itemArea,itemScroll), config.color()); }
                 }
