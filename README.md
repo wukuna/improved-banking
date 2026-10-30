@@ -235,6 +235,8 @@ Inventory gear switches accept owned combat variants, including ornamented jewel
 
 Adjacent item highlights with the same colour share a continuous outline, including irregular groups. Different guide colours, empty slots and gaps between setups remain distinct. Tier labels and hover explanations remain available.
 
+Under **Appearance**, **Hide item outlines in presets** removes preset outlines and backgrounds while retaining rank badges. **Hide item labels in presets** removes only the small 1st/2nd/3rd badges. Both start off and also apply to activity search layouts. Setup headings, item icons, hover explanations, item choices and ordinary bank markers remain available. Saved screenshots also respect the outline/background switch.
+
 ## License and attribution
 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.

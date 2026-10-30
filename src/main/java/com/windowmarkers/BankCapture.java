@@ -37,6 +37,8 @@ final class BankCapture
 
     /** True means queued, not saved. Never blocks the client thread waiting for sprites. */
     boolean save(List<Marker> markers,BooleanSupplier valid,Consumer<Boolean> completed)
+    {return save(markers,false,valid,completed);}
+    boolean save(List<Marker> markers,boolean hideOutlines,BooleanSupplier valid,Consumer<Boolean> completed)
     {
         if(pending || !valid.getAsBoolean()) { return false; }
         Widget bank=client.getWidget(InterfaceID.Bankmain.UNIVERSE),grid=client.getWidget(InterfaceID.Bankmain.ITEMS);
@@ -84,7 +86,7 @@ final class BankCapture
             }
             pending=false;
             try {
-                render(captureWidth,totalHeight,contentHeight,icons,visible,regions);
+                render(captureWidth,totalHeight,contentHeight,icons,visible,regions,hideOutlines);
                 completed.accept(true);
             } catch(RuntimeException ex) {
                 log.warn("Could not capture bank screenshot",ex);completed.accept(false);
@@ -94,7 +96,7 @@ final class BankCapture
         return true;
     }
 
-    private void render(int width,int totalHeight,int contentHeight,List<Icon> icons,List<Group> visible,List<List<Rectangle>> regions)
+    private void render(int width,int totalHeight,int contentHeight,List<Icon> icons,List<Group> visible,List<List<Rectangle>> regions,boolean hideOutlines)
     {
         BufferedImage image=new BufferedImage(width,totalHeight,BufferedImage.TYPE_INT_RGB);
         Graphics2D g=image.createGraphics();
@@ -108,7 +110,7 @@ final class BankCapture
                 for(int i=0;i<visible.size();i++)
                 {
                     Group marker=visible.get(i);
-                    if(marker.backgroundArgb==null) { continue; }
+                    if(marker.backgroundArgb==null || hideOutlines) { continue; }
                     content.setColor(new Color(marker.backgroundArgb,true));
                     for(Rectangle r:regions.get(i)) { content.fillRect(r.x,r.y,r.width,r.height); }
                 }
@@ -120,7 +122,7 @@ final class BankCapture
                 for(int i=0;i<visible.size();i++)
                 {
                     Group marker=visible.get(i);
-                    borders.drawRegions(content,regions.get(i),marker.style,marker.borderColor,marker.tint);
+                    if(!hideOutlines)borders.drawRegions(content,regions.get(i),marker.style,marker.borderColor,marker.tint);
                 }
             }
             finally { content.dispose(); }

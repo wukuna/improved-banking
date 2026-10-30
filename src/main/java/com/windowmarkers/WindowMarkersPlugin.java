@@ -412,7 +412,7 @@ public class WindowMarkersPlugin extends Plugin
     {
         if(!active || bankCapture==null || bank==null) { return; }
         final String owner=accountKey,layout=layoutKey;final long started=lifecycle;
-        boolean queued=bankCapture.save(new ArrayList<>(markers),() -> {
+        boolean queued=bankCapture.save(new ArrayList<>(markers),hidePresetOutlines(),() -> {
             synchronized(WindowMarkersPlugin.this) { return started==lifecycle && context(owner,layout); }
         },saved -> {
             synchronized(WindowMarkersPlugin.this) {
@@ -1745,6 +1745,11 @@ public class WindowMarkersPlugin extends Plugin
         if(searchView==null || !searchView.isActive()) return markers;
         List<Marker> rendered=new ArrayList<>(markers);rendered.addAll(searchView.groups());return rendered;
     }
+    boolean presetPresentation() {
+        return searchView!=null && searchView.isActive() || bankLayout!=null && !bankLayout.searchHeadings().isEmpty();
+    }
+    boolean hidePresetOutlines() {return config.hidePresetItemOutlines() && presetPresentation();}
+    boolean hidePresetLabels() {return config.hidePresetItemLabels() && presetPresentation();}
 
     final class MarkerOverlay extends Overlay
     {
@@ -1768,7 +1773,7 @@ public class WindowMarkersPlugin extends Plugin
                     Marker hovered=hoveredBankMarker();
                     if(config.bankTooltips() && config.visible() && hovered!=null && tooltipManager!=null)
                     { tooltipManager.add(new net.runelite.client.ui.overlay.tooltip.Tooltip(net.runelite.client.util.Text.escapeJagex(hovered.labelText()))); }
-                    if (config.visible())
+                    if (config.visible() && !hidePresetOutlines())
                     {
                         for (Marker marker : renderedMarkers())
                         {
@@ -1852,7 +1857,7 @@ public class WindowMarkersPlugin extends Plugin
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
                     if(itemHighlight==null && searchView!=null) itemHighlight=searchView.highlight();
                     java.util.Map<Integer,ItemCatalogueIndex.Rank> tiers=config.visible()?bankRanks():java.util.Collections.emptyMap();
-                    if(itemArea!=null)
+                    if(itemArea!=null && !hidePresetOutlines())
                     {
                         Graphics2D highlight=(Graphics2D)g.create();
                         try {
@@ -1871,11 +1876,13 @@ public class WindowMarkersPlugin extends Plugin
                                 ItemCatalogueIndex.Rank rank=tiers.get(cell.id);
                                 if(rank==null || !cell.grid.intersects(itemArea)) continue;
                                 if(BankCleanup.isReview(rank)) {
-                                    ranked.setStroke(new BasicStroke(1));
-                                    BorderRenderer.plain(ranked,cell.grid,BankCleanup.colour(rank));
+                                    if(!hidePresetOutlines()) {
+                                        ranked.setStroke(new BasicStroke(1));
+                                        BorderRenderer.plain(ranked,cell.grid,BankCleanup.colour(rank));
+                                    }
                                 } else {
                                     if(!config.geTierColours()) continue;
-                                    TierPresentation.drawLabel(ranked,cell.grid,rank.tier,config);
+                                    if(!hidePresetLabels())TierPresentation.drawLabel(ranked,cell.grid,rank.tier,config);
                                 }
                                 if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
                                     String explanation=rank.explanation.length()>850?rank.explanation.substring(0,847)+"...":rank.explanation;
@@ -1923,7 +1930,7 @@ public class WindowMarkersPlugin extends Plugin
         {
             synchronized (WindowMarkersPlugin.this)
             {
-                if (bank == null || !config.visible()) { return null; }
+                if (bank == null || !config.visible() || hidePresetOutlines()) { return null; }
                 Graphics2D g=(Graphics2D)graphics.create();
                 try
                 {

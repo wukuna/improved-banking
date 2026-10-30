@@ -72,6 +72,10 @@ public interface WindowMarkersConfig extends Config
     default boolean bankCatalogueButton() { return true; }
     @ConfigItem(section=appearance,keyName="bankTooltips",name="Show category and setup tooltips",description="Show group names, category explanations, gear tiers and inventory notes when hovering bank items. Turning this off keeps colours, labels, highlights and native item actions.",position=11)
     default boolean bankTooltips() { return true; }
+    @ConfigItem(section=appearance,keyName="hidePresetItemOutlines",name="Hide item outlines in presets",description="Hide item outlines and marker backgrounds in presets and activity search layouts. Keep the 1st/2nd/3rd rank labels and setup headings.",position=12)
+    default boolean hidePresetItemOutlines() { return false; }
+    @ConfigItem(section=appearance,keyName="hidePresetItemLabels",name="Hide item labels in presets",description="Hide the small 1st/2nd/3rd rank labels in presets and activity search layouts. Keep outlines, backgrounds, setup headings and tooltips.",position=13)
+    default boolean hidePresetItemLabels() { return false; }
     @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
     default boolean snapToGrid() { return false; }
 

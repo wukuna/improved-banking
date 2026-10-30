@@ -43,7 +43,7 @@ public class ReleaseNotesNoticeTest
         notice.start(); flush();
         ArgumentCaptor<QueuedMessage> messages=ArgumentCaptor.forClass(QueuedMessage.class);
         verify(chat,times(6)).queue(messages.capture());
-        assertTrue(messages.getAllValues().get(1).getRuneLiteFormattedMessage().contains("Alt-drag bank buttons"));
+        assertTrue(messages.getAllValues().get(1).getRuneLiteFormattedMessage().contains("Hide preset item outlines"));
         assertTrue(messages.getAllValues().stream().anyMatch(m->m.getRuneLiteFormattedMessage().contains("Bank Tag Layouts")));
         assertEquals(ReleaseNotesNotice.RELEASE,seen);
         notice.onGameStateChanged(loggedIn()); flush();
