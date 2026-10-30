@@ -79,6 +79,8 @@ final class SetupEquipmentChoice
     static String inventoryAlternativeNote(List<Integer> exact) {
         return exact.contains(8013)
             ? "Owned home-teleport alternative. Construction and ordinary Max capes retain the home teleport; combat Max capes do not. Check your house settings and facilities."
-            : "Owned eternal Slayer ring replaces the finite ring's teleports. Destination unlocks still apply; unlimited charges do not unlock quest-gated destinations.";
+            : exact.stream().anyMatch(id->id>=11866 && id<=11873)
+                ? "Owned eternal Slayer ring replaces the finite ring's teleports. Destination unlocks still apply; unlimited charges do not unlock quest-gated destinations."
+                : "Owned combat variant or activity-listed ranged accessory alternative. Lower-tier gear can have different stats and effects; this does not inherit the example item's guide rank.";
     }
 }

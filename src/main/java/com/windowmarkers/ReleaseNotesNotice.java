@@ -23,9 +23,9 @@ final class ReleaseNotesNotice
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] RECENT = {
         "Alt-drag bank buttons to reorder them, slide them along the bottom row, or dock them beside Bank Tags.",
-        "Flexible banks no longer add blank rows for invisible tab drop areas; View presets and bank settings use clearer controls.",
-        "View presets now lists 102 activities plus saved views, with clearer names and related methods grouped together.",
-        "Wilderness budget gear, owned potion variants and charged supplies fill reviewed setups; suggested runes appear below the first gear setup.",
+        "Inventory switches now use owned combat variants and activity-listed ranged cape, necklace and off-hand alternatives.",
+        "Matching item outlines join into continuous sections, keeping different guide colours and empty slots distinct.",
+        "View presets lists 102 activities plus saved views; flexible banks have clearer controls and no extra rows for invisible tab drop areas.",
         "Presets share search setups, preserve phase gear and repeated items with Bank Tag Layouts, and stay selected when reopening the bank."
     };
 

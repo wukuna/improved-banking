@@ -19,6 +19,7 @@ final class BorderRenderer
     private static final long MAX_TINT_PIXELS = 2L * 1024 * 1024; // 8 MiB of ARGB pixels.
     private final java.util.Map<TintKey, BufferedImage> tinted = new java.util.LinkedHashMap<>(64, 0.75f, true);
     private long tintPixels;
+    final JoinedItemBorders joined=new JoinedItemBorders();
 
     BufferedImage image(int index, boolean theme)
     {
@@ -36,7 +37,13 @@ final class BorderRenderer
     {
         java.util.Arrays.fill(previous, null);
         java.util.Arrays.fill(themed, null);
-        tinted.clear(); tintPixels = 0;
+        tinted.clear(); tintPixels = 0; joined.clear();
+    }
+
+    void drawRegions(Graphics2D g,java.util.List<Rectangle> regions,WindowMarkersConfig.BorderStyle style,Color colour,boolean tint)
+    {
+        if(style==WindowMarkersConfig.BorderStyle.PLAIN) joined.draw(g,regions,colour);
+        else for(Rectangle region:regions) if(region!=null) draw(g,region,style,colour,tint);
     }
 
     void draw(Graphics2D g, Rectangle r, WindowMarkersConfig.BorderStyle style, Color color, boolean tint)

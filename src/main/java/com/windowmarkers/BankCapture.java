@@ -120,7 +120,7 @@ final class BankCapture
                 for(int i=0;i<visible.size();i++)
                 {
                     Group marker=visible.get(i);
-                    for(Rectangle r:regions.get(i)) { borders.draw(content,r,marker.style,marker.borderColor,marker.tint); }
+                    borders.drawRegions(content,regions.get(i),marker.style,marker.borderColor,marker.tint);
                 }
             }
             finally { content.dispose(); }

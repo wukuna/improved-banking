@@ -1772,18 +1772,16 @@ public class WindowMarkersPlugin extends Plugin
                     {
                         for (Marker marker : renderedMarkers())
                         {
-                          for (Rectangle r : markerRegions(marker))
-                          {
                             Rectangle clip=markerClip(marker);
-                            if (r == null || clip == null) { continue; }
+                            if (clip == null) { continue; }
                             Shape previousClip=g.getClip(); g.clip(clip);
                             g.setComposite(AlphaComposite.SrcOver.derive(focused!=null && focused!=marker ? 0.18f : 1f));
-                            borders.draw(g,r,marker.style == null ? config.style() : marker.style,
+                            List<Rectangle> regions=markerRegions(marker);
+                            borders.drawRegions(g,regions,marker.style == null ? config.style() : marker.style,
                                 marker.borderArgb == null ? config.color() : new Color(marker.borderArgb,true),marker.borderArgb != null);
-                            if(focused==marker) { BorderRenderer.plain(g,r,Color.WHITE); }
+                            if(focused==marker) { borders.joined.draw(g,regions,Color.WHITE); }
                             g.setComposite(AlphaComposite.SrcOver);
                             g.setClip(previousClip);
-                          }
                         }
                     }
                     if (config.visible())
@@ -1853,16 +1851,18 @@ public class WindowMarkersPlugin extends Plugin
                     }
                     Marker itemHighlight=lookupHighlight!=null?lookupHighlight:nativeSearch==null?null:nativeSearch.highlight();
                     if(itemHighlight==null && searchView!=null) itemHighlight=searchView.highlight();
-                    if(itemHighlight!=null && itemArea!=null && !BankCleanup.isQuery(itemHighlight.guideQuery))
+                    java.util.Map<Integer,ItemCatalogueIndex.Rank> tiers=config.visible()?bankRanks():java.util.Collections.emptyMap();
+                    if(itemArea!=null)
                     {
                         Graphics2D highlight=(Graphics2D)g.create();
                         try {
                             highlight.clip(itemArea); highlight.setStroke(new BasicStroke(2));
-                            for(Rectangle r:markerRegions(itemHighlight)) if(r!=null) BorderRenderer.plain(highlight,r,Color.YELLOW);
+                            int[] ids=itemHighlight!=null && itemHighlight.linkedItemIds!=null && !BankCleanup.isQuery(itemHighlight.guideQuery)
+                                ?itemHighlight.linkedItemIds:new int[0];
+                            JoinedItemBorders.groups(itemCells,ids,tiers,config).forEach((colour,regions)->borders.joined.draw(highlight,regions,colour));
                         } finally { highlight.dispose(); }
                     }
                     if(config.visible() && itemArea!=null) {
-                        java.util.Map<Integer,ItemCatalogueIndex.Rank> tiers=bankRanks();
                         Graphics2D ranked=(Graphics2D)g.create();
                         try {
                             ranked.clip(itemArea);
@@ -1875,7 +1875,7 @@ public class WindowMarkersPlugin extends Plugin
                                     BorderRenderer.plain(ranked,cell.grid,BankCleanup.colour(rank));
                                 } else {
                                     if(!config.geTierColours()) continue;
-                                    TierPresentation.draw(ranked,cell.grid,rank.tier,config);
+                                    TierPresentation.drawLabel(ranked,cell.grid,rank.tier,config);
                                 }
                                 if(config.bankTooltips() && mouse!=null && !client.isMenuOpen() && itemArea.contains(mouse.getX(),mouse.getY()) && cell.grid.contains(mouse.getX(),mouse.getY()) && tooltipManager!=null) {
                                     String explanation=rank.explanation.length()>850?rank.explanation.substring(0,847)+"...":rank.explanation;

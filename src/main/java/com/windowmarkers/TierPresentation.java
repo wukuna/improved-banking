@@ -25,6 +25,11 @@ final class TierPresentation
         if(tier<1 || tier>3) return;
         Color colour=colour(config,tier);
         g.setStroke(new BasicStroke(2)); BorderRenderer.plain(g,grid,colour);
+        drawLabel(g,grid,tier,config);
+    }
+    static void drawLabel(Graphics2D g,Rectangle grid,int tier,WindowMarkersConfig config) {
+        if(tier<1 || tier>3) return;
+        Color colour=colour(config,tier);
         g.setFont(new Font("Arial",Font.BOLD,9));
         String text=ordinal(tier); FontMetrics fm=g.getFontMetrics();
         int width=fm.stringWidth(text)+4,height=fm.getHeight();

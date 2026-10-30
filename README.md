@@ -229,6 +229,12 @@ Use Java 11 and run `./gradlew test jar` (Windows: `gradlew.bat test jar`). Publ
 
 [Report an issue, correction or feature request](https://github.com/wukuna/improved-banking/issues). For category problems, include the item names, selected preset and whether Exclude worse items was enabled. For layout problems, include the current bank tab, RuneLite profile context, overlapping bank plugins and a screenshot with private details removed. All requests and information are considered and appreciated.
 
+## Inventory switches and item outlines
+
+Inventory gear switches accept owned combat variants, including ornamented jewellery. Missing ranged capes, necklaces and off-hands can use alternatives listed in the same activity's ranged equipment guide. For example, Muspah can use an owned Aquanite hopper for its Twisted buckler inventory slot, or an assembler/accumulator cape in place of Dizana's quiver. Lower-tier alternatives retain their own stats, effects and guide ranks; charge checks, protected equipment and Wilderness budget rules still apply.
+
+Adjacent item highlights with the same colour share a continuous outline, including irregular groups. Different guide colours, empty slots and gaps between setups remain distinct. Tier labels and hover explanations remain available.
+
 ## License and attribution
 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.

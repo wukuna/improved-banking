@@ -206,7 +206,7 @@ final class SetupLoadout
                 // Owning several colours/charge states of one switch must not
                 // make an unrelated example appear more complete.
                 int available=0;
-                for(int id:SetupEquipmentChoice.inventoryAlternatives(field.ids)) if(inventoryReady(setup,owned.get(id)))
+                for(int id:inventoryAlternatives(setup,field,owned)) if(inventoryReady(setup,owned.get(id)))
                     available=Math.max(available,owned.get(id).slot>=0?20:1);
                 score+=available;
             }
@@ -226,7 +226,7 @@ final class SetupLoadout
             if(!(field.name.matches("[0-9]+") || field.name.startsWith("inventory")) || position<0 || position>=28 || field.ids.isEmpty()) continue;
             inventoryExample.put(position,field);
             if(!field.inventoryChoice()) continue;
-            for(int id:SetupEquipmentChoice.inventoryAlternatives(field.ids))
+            for(int id:inventoryAlternatives(inventory,field,owned))
                 if(inventoryReady(inventory,owned.get(id)) && (!InventoryPotionDoses.known(id)
                     || InventoryPotionDoses.listed(field.ids,owned.get(id).fact))) { inventoryItems.put(position,id);break; }
         }
@@ -234,6 +234,29 @@ final class SetupLoadout
         result.equipmentSource=gear==null?"":gear.id;
         result.equipmentNotes.putAll(equipmentNotes);
         result.equipmentNote=gear==null?"":SWITCH_NOTES.getOrDefault(gear.id,"");
+        return result;
+    }
+    private static List<Integer> inventoryAlternatives(ActivitySetups.Setup inventory,Field wanted,Map<Integer,ItemCatalogueIndex.Item> owned)
+    {
+        List<Integer> result=InventoryGearAlternatives.equivalents(SetupEquipmentChoice.inventoryAlternatives(wanted.ids),owned);
+        if(wanted.ids.stream().noneMatch(InventoryGearAlternatives::rangedAccessory)) return result;
+        // Only borrow this activity's reviewed ranged accessory choices. A
+        // defensive/mechanic shield or a different weapon method is not a swap.
+        for(ActivitySetups.Setup guide:ActivitySetups.forActivity(inventory.activity)) {
+            Table table=TABLES.get(guide.id);
+            if(table==null || !table.kind.equals("recommended equipment") || !SetupCompletion.style(table.style).equals("ranged")) continue;
+            Set<Integer> slots=new HashSet<>();
+            for(Field field:table.fields) if(field.ids.stream().anyMatch(id->wanted.ids.stream().anyMatch(w->InventoryGearAlternatives.sameCombatItem(w,id)))) slots.add(field.slot());
+            slots.removeAll(SetupCompletion.protectedSlots(inventory.activity));
+            List<Field> fields=new ArrayList<>(table.fields);fields.sort(Comparator.comparingInt(Field::order));
+            for(Field field:fields) if(slots.contains(field.slot()))
+                for(int id:InventoryGearAlternatives.equivalents(field.ids,owned)) {
+                    ItemCatalogueIndex.Item item=owned.get(id);
+                    String note=field.itemNotes.getOrDefault(id,field.note);
+                    if(item!=null && item.slot==field.slot() && equipmentReady(guide,item)
+                        && SetupEquipmentChoice.allowed(item,note,null,owned.values()) && !result.contains(id)) result.add(id);
+                }
+        }
         return result;
     }
     /** Fill omissions without promoting a different activity's rankings to this boss's BIS. */
