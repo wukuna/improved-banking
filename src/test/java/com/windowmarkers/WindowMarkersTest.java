@@ -25,6 +25,47 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersTest
 {
+    @Test public void bankTagsStopDefersCleanupAndRejectsStaleLifecycleCallbacks() throws Exception {
+        WindowMarkersPlugin p=plugin();
+        try {
+            p.clientThread=mock(net.runelite.client.callback.ClientThread.class);
+            java.util.List<Runnable> pending=new java.util.ArrayList<>();
+            doAnswer(call -> { pending.add(call.getArgument(0));return null; }).when(p.clientThread).invokeLater(any(Runnable.class));
+            p.searchView=BankSearchViewTest.availableView();
+            p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
+            p.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+            p.searchView.items=p.itemManager;
+            doAnswer(call -> { when(p.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null; })
+                .when(p.searchView.bankTags).openBankTag(anyString(),anyInt());
+            Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
+            p.searchView.show("Food",java.util.Collections.singletonList(group),false);
+            clearInvocations(p.searchView.tags,p.searchView.bankTags);
+            net.runelite.client.eventbus.EventBus bus=new net.runelite.client.eventbus.EventBus();bus.register(p);
+            var stopped=new net.runelite.client.events.PluginChanged(mock(net.runelite.client.plugins.banktags.BankTagsPlugin.class),false);
+            SwingUtilities.invokeAndWait(() -> bus.post(stopped));
+            verifyNoInteractions(p.searchView.tags,p.searchView.bankTags);assertEquals(1,pending.size());
+            pending.remove(0).run();verify(p.searchView.tags).unregisterTag(anyString());verify(p.searchView.bankTags).closeBankTag();
+            SwingUtilities.invokeAndWait(() -> {});
+            var status=WindowMarkersPlugin.class.getDeclaredField("status");status.setAccessible(true);
+            assertTrue(((javax.swing.JLabel)status.get(p)).getText().contains("Enable Bank Tags"));
+            clearInvocations(p.searchView.tags,p.searchView.bankTags);
+            bus.post(new net.runelite.client.events.PluginChanged(stopped.getPlugin(),true));
+            assertTrue(pending.isEmpty());verifyNoInteractions(p.searchView.tags,p.searchView.bankTags);
+            bus.post(stopped);assertEquals(1,pending.size());
+            p.onProfileChanged(new ProfileChanged());
+            p.searchView.show("New profile view",java.util.Collections.singletonList(group),false);
+            clearInvocations(p.searchView.tags,p.searchView.bankTags);
+            pending.remove(0).run();verifyNoInteractions(p.searchView.tags,p.searchView.bankTags);
+            pending.clear(); // Discard unrelated sidebar refresh work from the profile event.
+            bus.post(stopped);assertEquals(1,pending.size());
+            p.shutDown();p.startUp();
+            p.searchView.show("New view",java.util.Collections.singletonList(group),false);
+            clearInvocations(p.searchView.tags,p.searchView.bankTags);
+            pending.remove(0).run();verifyNoInteractions(p.searchView.tags,p.searchView.bankTags);
+            bus.unregister(p);
+        } finally { p.shutDown();SwingUtilities.invokeAndWait(() -> {}); }
+    }
+
     @Test public void idleBankSearchKeepsSidebarActionsSafeAndDisabled() throws Exception {
         WindowMarkersPlugin p=plugin();
         try {
@@ -46,7 +87,7 @@ public class WindowMarkersTest
         try {
             p.clientThread=mock(net.runelite.client.callback.ClientThread.class);
             doAnswer(call -> { ((Runnable)call.getArgument(0)).run();return null; }).when(p.clientThread).invokeLater(any(Runnable.class));
-            p.searchView=new BankSearchView();p.searchView.client=p.client;
+            p.searchView=BankSearchViewTest.availableView();p.searchView.client=p.client;
             p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
             p.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
             p.searchView.items=p.itemManager;
@@ -124,7 +165,7 @@ public class WindowMarkersTest
         p.nativeSearch=new NativeBankSearch(); p.nativeSearch.client=p.client;
         p.nativeSearch.bankSearch=mock(net.runelite.client.plugins.bank.BankSearch.class);
         p.nativeSearch.start();
-        p.searchView=new BankSearchView(); p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
+        p.searchView=BankSearchViewTest.availableView(); p.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);
         p.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
         p.bankPicker=new BankCataloguePicker(); p.screenshotButton=new BankScreenshotButton();
         Widget checkbox=mock(Widget.class), picker=mock(Widget.class), camera=mock(Widget.class);

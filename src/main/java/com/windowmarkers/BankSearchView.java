@@ -14,6 +14,14 @@ final class BankSearchView
 {
     @Inject net.runelite.api.Client client;
     @Inject BankTagsService bankTags;
+    @Inject net.runelite.client.plugins.PluginManager plugins;
+    static final String BANK_TAGS_REQUIRED="Enable Bank Tags in RuneLite to use preset views.";
+
+    // PluginDependency shares services; it does not start a disabled provider.
+    boolean available() {
+        return plugins.getPlugins().stream().anyMatch(p ->
+            p instanceof net.runelite.client.plugins.banktags.BankTagsPlugin && plugins.isPluginActive(p));
+    }
     @Inject TagManager tags;
     @Inject ItemManager items;
     @Inject net.runelite.client.callback.ClientThread clientThread;
@@ -32,18 +40,19 @@ final class BankSearchView
     Map<Integer,ItemCatalogueIndex.Rank> ranks() { return isActive()?ranks:Collections.emptyMap(); }
     private List<Marker> groups=Collections.emptyList();
 
-    void show(String name,List<Marker> groups,boolean slots) { show(name,groups,slots,null,Collections.emptyMap()); }
-    void show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks)
-    { show(name,groups,slots,loadout,ranks,"saved:"+name); }
-    void show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks,String layoutIdentity)
+    boolean show(String name,List<Marker> groups,boolean slots) { return show(name,groups,slots,null,Collections.emptyMap()); }
+    boolean show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks)
+    { return show(name,groups,slots,loadout,ranks,"saved:"+name); }
+    boolean show(String name,List<Marker> groups,boolean slots,SetupLoadout loadout,Map<Integer,ItemCatalogueIndex.Rank> ranks,String layoutIdentity)
     {
+        if(!available()) return false;
         clear();
         this.loadout=loadout; this.ranks=ranks;
         this.name=name; this.groups=new ArrayList<>(groups); this.slots=slots;
         this.layoutIdentity=layoutIdentity;
         Set<Integer> ids=new HashSet<>();
         for(Marker group:groups) if(group.linked()) for(int id:group.linkedItemIds) ids.add(id);
-        if(ids.isEmpty() && (loadout==null || !loadout.hasBudgetExamples())) { this.groups=Collections.emptyList(); return; }
+        if(ids.isEmpty() && (loadout==null || !loadout.hasBudgetExamples())) { this.groups=Collections.emptyList(); return false; }
         if(loadout!=null && !ids.isEmpty()) {
             highlight=new Marker(0,0,48,36);highlight.scrollWithItems=true;
             highlight.linkedItemIds=ids.stream().mapToInt(Integer::intValue).toArray();
@@ -54,8 +63,10 @@ final class BankSearchView
         tag=id -> ids.contains(id) || canonical.contains(items.canonicalize(id));
         tags.registerTag(tagName,tag);
         bankTags.openBankTag(tagName,BankTagsService.OPTION_NO_LAYOUT|BankTagsService.OPTION_HIDE_TAG_NAME);
+        return true;
     }
-    boolean isActive() { return tag!=null && tagName.equals(bankTags.getActiveTag()); }
+    private boolean ownsTag() { return tag!=null && tagName.equals(bankTags.getActiveTag()); }
+    boolean isActive() { return ownsTag() && available(); }
     void filter(net.runelite.api.events.ScriptCallbackEvent event)
     {
         if(!"bankSearchFilter".equals(event.getEventName()) || !isActive()
@@ -76,12 +87,12 @@ final class BankSearchView
     java.util.function.BooleanSupplier unchangedContext()
     {
         var bank=client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE);
-        if(client.getGameState()!=net.runelite.api.GameState.LOGGED_IN || bank==null || bank.isHidden()) return () -> false;
+        if(!available() || client.getGameState()!=net.runelite.api.GameState.LOGGED_IN || bank==null || bank.isHidden()) return () -> false;
         String activeName=bankTags.getActiveTag();BankTag activeTag=bankTags.getActiveBankTag();
         int nativeTab=client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB);
         int inputMode=client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE);
         String input=client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT);
-        return () -> client.getGameState()==net.runelite.api.GameState.LOGGED_IN && bank!=null && !bank.isHidden()
+        return () -> available() && client.getGameState()==net.runelite.api.GameState.LOGGED_IN && bank!=null && !bank.isHidden()
             && client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)==bank
             && nativeTab==client.getVarbitValue(net.runelite.api.gameval.VarbitID.BANK_CURRENTTAB)
             && Objects.equals(activeName,bankTags.getActiveTag()) && activeTag==bankTags.getActiveBankTag()
@@ -105,7 +116,7 @@ final class BankSearchView
             && client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)!=net.runelite.api.vars.InputType.SEARCH.getType();
     }
     void update() {
-        if(tag==null || !bankOpen()) return;
+        if(tag==null || !available() || !bankOpen()) return;
         if(reopen) {
             if(!canReopen()) { forget(); return; }
             if(!reopenQueued) {
@@ -131,7 +142,7 @@ final class BankSearchView
         }
     }
     void clear() {
-        if(isActive() || tag!=null && reopen && bankTags.getActiveTag()==null) {
+        if(ownsTag() || tag!=null && reopen && bankTags.getActiveTag()==null) {
             bankTags.closeBankTag();
         }
         forget();

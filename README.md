@@ -30,7 +30,7 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 - **Optional GE discovery:** search activities and categories such as `toa head`, `cox cape`, `vorkath ranged` or `mining tools`. Shared purple, blue and green tier labels identify the first three Wiki equipment columns in both bank and GE searches where matching setups agree.
 - **GE shopping filters:** find owned activity gear and supported next guide upgrades, narrow skill supplies with search tips, and optionally show guide prices, affordability colours and known unmet requirements.
 
-**Availability:** Install **Improved Banking** from RuneLite's Plugin Hub. This README follows current development. As of 30 October 2026, [update #19695](https://github.com/runelite/plugin-hub/pull/19695) is awaiting review; its preset-dragging fixes, movable bank controls and display switches are not yet in the regular Hub build. The PR shows the current review status.
+**Availability:** Install **Improved Banking** from RuneLite's Plugin Hub. This README follows current development. [Update #19695](https://github.com/runelite/plugin-hub/pull/19695), covering preset dragging, movable bank controls and display switches, has merged. The Bank Tags dependency checks described below are part of the next update.
 
 **More plugins:** [Banking, Looting, Right-Clicks, Interface Layout and Chat](https://github.com/wukuna#runelite-plugins).
 
@@ -203,6 +203,8 @@ Markers are separate for each RuneScape character **and** RuneLite settings prof
 Existing Window Markers beta settings and saved layouts are preserved under their original storage keys. Tools can copy earlier account-only or shared marker layouts into an empty current layout without changing the originals.
 
 ## Compatibility
+
+**Bank Tags must be enabled for preset views.** If it is off, Improved Banking shows this requirement in the side panel instead of opening an incomplete preset. Turning Bank Tags off closes the temporary view and cancels pending preset loading; saved presets and positions are retained. Enable Bank Tags and select the preset again. Bank Tag Layouts is optional.
 
 **Bank Tags and Bank Tag Layouts:** supported companions, not declared conflicts. Improved Banking keeps its own preset positions separate from their saved tag layouts. The latest drag-handling fix is included in the update linked above.
 

@@ -1034,14 +1034,32 @@ public class WindowMarkersPlugin extends Plugin
         });
     }
 
+    private boolean requireBankTags() {
+        if(searchView!=null && searchView.available()) return true;
+        setStatus(BankSearchView.BANK_TAGS_REQUIRED);
+        return false;
+    }
+
+    @Subscribe public synchronized void onPluginChanged(net.runelite.client.events.PluginChanged event) {
+        if(!active || event.isLoaded() || !(event.getPlugin() instanceof net.runelite.client.plugins.banktags.BankTagsPlugin)) return;
+        final long request=++viewRequest,owner=lifecycle;
+        clientThread.invokeLater(() -> { synchronized(this) {
+            if(!active || lifecycle!=owner || viewRequest!=request) return;
+            // Bank Tags has queued its own bank reset. Release only our temporary
+            // tag after that reset, and cancel any pending preset reopen.
+            if(searchView!=null) searchView.clear();
+            setStatus(BankSearchView.BANK_TAGS_REQUIRED);
+        }});
+    }
+
     private synchronized void showBankView(String name,List<Marker> groups,boolean slots,String owner,String layout)
     {
-        if(searchView==null) return;
+        if(!requireBankTags()) return;
         List<Marker> snapshot=new ArrayList<>();
         for(Marker group:groups) snapshot.add(gson.fromJson(gson.toJson(group),Marker.class));
         BankSearchIndex index=rankingIndex; final long request=++viewRequest;
         clientThread.invokeLater(() -> {
-            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null) return; }
+            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null || !requireBankTags()) return; }
             final java.util.function.BooleanSupplier unchanged=searchView.unchangedContext();
             new SwingWorker<BankSearchIndex.Match,Void>() {
                 protected BankSearchIndex.Match doInBackground() {
@@ -1053,7 +1071,7 @@ public class WindowMarkersPlugin extends Plugin
                 protected void done() { try {
                     BankSearchIndex.Match match=get();
                     clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
-                        if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
+                        if(request!=viewRequest || !context(owner,layout) || bank==null || !requireBankTags() || !unchanged.getAsBoolean()) return;
                         nativeSearch.closeSearch();
                         for(Marker group:snapshot) if(group.linkedItemIds!=null)
                             group.linkedItemIds=java.util.Arrays.stream(group.linkedItemIds).map(itemManager::canonicalize).distinct().toArray();
@@ -1073,17 +1091,18 @@ public class WindowMarkersPlugin extends Plugin
         final String owner,layout,inventory;final BankSearchIndex index;final long request;
         synchronized(this) {
             if(!currentLayout() || bank==null || rankingIndex==null) { setStatus("Open your bank and wait for the catalogue.");return; }
+            if(!requireBankTags()) return;
             owner=accountKey;layout=layoutKey;inventory=config.bankInventoryContext();index=rankingIndex;request=++viewRequest;
         }
         clientThread.invokeLater(() -> {
-            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null) return; }
+            synchronized(this) { if(request!=viewRequest || !context(owner,layout) || bank==null || !requireBankTags()) return; }
             final java.util.function.BooleanSupplier unchanged=searchView.unchangedContext();
             new SwingWorker<BankSearchIndex.Match,Void>() {
                 protected BankSearchIndex.Match doInBackground() { return index.search(text,guide,inventory); }
                 protected void done() { try {
                     BankSearchIndex.Match match=get();
                     clientThread.invokeLater(() -> { synchronized(WindowMarkersPlugin.this) {
-                        if(request!=viewRequest || !context(owner,layout) || bank==null || !unchanged.getAsBoolean()) return;
+                        if(request!=viewRequest || !context(owner,layout) || bank==null || !requireBankTags() || !unchanged.getAsBoolean()) return;
                         if(match.ids.isEmpty() && (match.loadout==null || !match.loadout.hasBudgetExamples())) {
                             nativeSearch.closeSearch();searchView.clear();
                             setStatus("No owned items match that search. Previous filter cleared; showing all bank items.");return;
@@ -1457,6 +1476,7 @@ public class WindowMarkersPlugin extends Plugin
         if(viewLabel!=null) {
             SetupLoadout plan=searchView!=null && searchView.isActive()?searchView.loadout():nativeSearch==null?null:nativeSearch.loadout();
             String current=searchView!=null && searchView.isActive()?"View: "+searchView.name():nativeSearch!=null && nativeSearch.highlight()!=null?"Search: "+nativeSearch.query():"All bank items";
+            if(searchView!=null && !searchView.available()) current=BankSearchView.BANK_TAGS_REQUIRED;
             if(plan!=null) current+=(plan.equipmentName.isEmpty()?"":"\nEquipment: "+plan.equipmentName)+"\nInventory: "+plan.inventoryName+"\nRepeated supplies use one bank stack. Review guide requirements.";
             if(plan!=null && plan.sectionCount()>1) current+="\n"+plan.sectionCount()+" phase / method loadouts in this activity. Inventories remain separate.";
             if(plan!=null && !plan.equipmentNote.isEmpty()) current+="\n"+plan.equipmentNote;

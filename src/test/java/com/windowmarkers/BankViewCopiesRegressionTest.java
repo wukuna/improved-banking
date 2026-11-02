@@ -23,7 +23,7 @@ public class BankViewCopiesRegressionTest
             c.config=mock(WindowMarkersConfig.class);c.eventBus=mock(EventBus.class);c.itemManager=mock(ItemManager.class);
             when(c.config.bankLayoutEnabled()).thenReturn(true);when(c.config.setupSearchLayout()).thenReturn(true);
             when(c.itemManager.canonicalize(anyInt())).thenAnswer(a->a.getArgument(0));c.startUp();
-            c.searchView=new BankSearchView();c.searchView.client=c.client;c.searchView.items=c.itemManager;
+            c.searchView=BankSearchViewTest.availableView();c.searchView.client=c.client;c.searchView.items=c.itemManager;
             c.searchView.bankTags=mock(BankTagsService.class);c.searchView.tags=mock(TagManager.class);
             doAnswer(a->{when(c.searchView.bankTags.getActiveTag()).thenReturn(a.getArgument(0));return null;})
                 .when(c.searchView.bankTags).openBankTag(anyString(),anyInt());

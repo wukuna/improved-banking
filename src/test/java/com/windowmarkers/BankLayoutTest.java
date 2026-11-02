@@ -20,7 +20,7 @@ public class BankLayoutTest
 {
     @Test public void temporaryViewKeepsLayoutAndScrollRangeAfterAnotherLayoutSubscriber() {
         BankLayoutController c=controller();when(c.config.setupSearchLayout()).thenReturn(true);
-        c.searchView=new BankSearchView();c.itemManager=mock(ItemManager.class);
+        c.searchView=BankSearchViewTest.availableView();c.itemManager=mock(ItemManager.class);
         c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
         c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=c.itemManager;
         doAnswer(call -> {when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null;})
@@ -86,7 +86,7 @@ public class BankLayoutTest
         verify(c.clientThread,times(1)).invokeLater(any(Runnable.class));
     }
     @Test public void aCustomViewUsesNativeSingleSectionBuildAndRestoresOrdinaryTabs() {
-        BankLayoutController c=controller();c.searchView=new BankSearchView();
+        BankLayoutController c=controller();c.searchView=BankSearchViewTest.availableView();
         c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
         c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=mock(ItemManager.class);
         doAnswer(call -> { when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null; })
@@ -107,7 +107,7 @@ public class BankLayoutTest
     }
     @Test public void groupedResultsHideOnlyTabDecorationsAndRestoreBeforeNativeBuild() throws Exception {
         BankLayoutController c=controller();when(c.config.setupSearchLayout()).thenReturn(true);
-        c.searchView=new BankSearchView();
+        c.searchView=BankSearchViewTest.availableView();
         c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
         c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=mock(ItemManager.class);
         doAnswer(call -> {when(c.searchView.bankTags.getActiveTag()).thenReturn(call.getArgument(0));return null;})
@@ -142,7 +142,7 @@ public class BankLayoutTest
         verify(c.client,never()).runScript(any(Object[].class));
     }
     @Test public void temporaryViewRejectsItemsAdmittedByAnotherFilter() {
-        BankLayoutController c=controller();c.searchView=new BankSearchView();
+        BankLayoutController c=controller();c.searchView=BankSearchViewTest.availableView();
         c.searchView.client=c.client;c.searchView.bankTags=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
         c.searchView.tags=mock(net.runelite.client.plugins.banktags.TagManager.class);c.searchView.items=mock(ItemManager.class);
         when(c.searchView.items.canonicalize(anyInt())).thenAnswer(call -> call.getArgument(0));

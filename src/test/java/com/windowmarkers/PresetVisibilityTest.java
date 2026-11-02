@@ -19,7 +19,7 @@ public class PresetVisibilityTest
         p.config=mock(WindowMarkersConfig.class,CALLS_REAL_METHODS);p.borders=new BorderRenderer();
         when(p.config.bankLabels()).thenReturn(WindowMarkersConfig.BankLabels.OFF);
         when(p.config.style()).thenReturn(WindowMarkersConfig.BorderStyle.PLAIN);
-        p.searchView=new BankSearchView();p.searchView.bankTags=mock(BankTagsService.class);p.searchView.tags=mock(TagManager.class);p.searchView.items=mock(ItemManager.class);
+        p.searchView=BankSearchViewTest.availableView();p.searchView.bankTags=mock(BankTagsService.class);p.searchView.tags=mock(TagManager.class);p.searchView.items=mock(ItemManager.class);
         when(p.searchView.items.canonicalize(anyInt())).thenAnswer(c->c.getArgument(0));
         doAnswer(c->{when(p.searchView.bankTags.getActiveTag()).thenReturn(c.getArgument(0));return null;}).when(p.searchView.bankTags).openBankTag(anyString(),anyInt());
         Marker marker=new Marker(0,0,48,36);marker.linkedItemIds=new int[]{1};marker.scrollWithItems=true;marker.backgroundArgb=Color.RED.getRGB();

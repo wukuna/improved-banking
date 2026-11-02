@@ -65,6 +65,7 @@ public class NativeBankSearchTest
             binder.bind(WindowMarkersConfig.class).toInstance(mock(WindowMarkersConfig.class));
             binder.bind(ItemManager.class).toInstance(mock(ItemManager.class));
             binder.bind(BankSearch.class).toInstance(mock(BankSearch.class));
+            binder.bind(net.runelite.client.plugins.PluginManager.class).toInstance(mock(net.runelite.client.plugins.PluginManager.class));
         });
         Injector child=root.createChildInjector(exported,
             binder -> { binder.bind(NativeBankSearch.class); binder.bind(BankSearchView.class); });

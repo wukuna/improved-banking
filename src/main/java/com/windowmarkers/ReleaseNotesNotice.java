@@ -19,14 +19,11 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-10-29-bank-controls";
+    static final String RELEASE = "2026-11-02-bank-tags-presets";
     static final String SEEN_KEY = "releaseNotesShown";
-    private static final String[] RECENT = {
-        "Drag preset items without collapsing the setup; positions are saved, and custom views include manually added variants.",
-        "Preset tooltips are compact and wrapped; Appearance separately controls name tags, section headings, rank labels and outlines.",
-        "Alt-drag bank buttons to reorder them, slide them along the bottom row, or dock them beside Bank Tags.",
-        "Inventory switches use owned combat variants and ranged alternatives; matching item outlines join into continuous sections.",
-        "View presets lists 102 activities plus saved views; flexible banks have clearer controls and no extra rows for invisible tab drop areas.",
+    private static final String[] UPDATES = {
+        "Preset views now require Bank Tags to be enabled, preventing incomplete equipment and inventory rows.",
+        "Turning Bank Tags off closes the temporary view safely; saved presets and positions are kept.",
     };
 
     @Inject private Client client;
@@ -53,8 +50,7 @@ final class ReleaseNotesNotice
         if (client.getGameState() != GameState.LOGGED_IN
             || RELEASE.equals(configManager.getConfiguration("windowmarkers", SEEN_KEY)))
             return;
-        send("Recent updates (newest first):");
-        for (int i = 0; i < Math.min(5, RECENT.length); i++) send((i + 1) + ". " + RECENT[i]);
+        send("Updates:<br>* " + String.join("<br>* ", UPDATES));
         configManager.setConfiguration("windowmarkers", SEEN_KEY, RELEASE);
     }
 
@@ -62,7 +58,7 @@ final class ReleaseNotesNotice
     {
         String message = new ChatMessageBuilder().append(ChatColorType.NORMAL).append("[")
             .append(ChatColorType.HIGHLIGHT).append("Improved Banking")
-            .append(ChatColorType.NORMAL).append("] ").append(text).build();
+            .append(ChatColorType.NORMAL).append("] ").build() + text;
         chat.queue(QueuedMessage.builder().type(ChatMessageType.CONSOLE)
             .runeLiteFormattedMessage(message).build());
     }

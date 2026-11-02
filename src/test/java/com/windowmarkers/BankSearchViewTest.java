@@ -10,6 +10,55 @@ import static org.mockito.Mockito.*;
 
 public class BankSearchViewTest
 {
+    static BankSearchView availableView() {
+        BankSearchView view=new BankSearchView();
+        view.plugins=mock(net.runelite.client.plugins.PluginManager.class);
+        BankTagsPlugin provider=mock(BankTagsPlugin.class);
+        when(view.plugins.getPlugins()).thenReturn(Collections.singletonList(provider));
+        when(view.plugins.isPluginActive(provider)).thenReturn(true);
+        return view;
+    }
+
+    @Test public void disabledBankTagsCannotOpenAPartialPresetOrChangeTheCurrentBank() {
+        BankSearchView view=availableView();
+        view.tags=mock(TagManager.class);view.bankTags=mock(BankTagsService.class);view.items=mock(ItemManager.class);
+        var provider=view.plugins.getPlugins().iterator().next();
+        when(view.plugins.isPluginActive(provider)).thenReturn(false);
+        // Configured-on is not sufficient if the provider failed to start.
+        when(view.plugins.isPluginEnabled(provider)).thenReturn(true);
+        Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
+        assertFalse(view.available());
+        assertFalse(view.show("Food",Collections.singletonList(group),true));
+        assertFalse(view.isActive());
+        verifyNoInteractions(view.tags,view.bankTags,view.items);
+        when(view.plugins.isPluginActive(provider)).thenReturn(true);
+        assertTrue(view.show("Food",Collections.singletonList(group),true));
+        verify(view.bankTags).openBankTag(anyString(),anyInt());
+    }
+
+    @Test public void disablingDependencyReleasesLayoutAndInvalidatesPendingWork() {
+        ReopenFixture f=new ReopenFixture();
+        var unchanged=f.view.unchangedContext();
+        assertTrue(unchanged.getAsBoolean());
+        var provider=f.view.plugins.getPlugins().iterator().next();
+        when(f.view.plugins.isPluginActive(provider)).thenReturn(false);
+        assertFalse(f.view.isActive());assertNull(f.view.loadout());assertTrue(f.view.groups().isEmpty());
+        assertFalse(unchanged.getAsBoolean());
+        f.view.clear();
+        assertNull(f.registered.get());verify(f.view.bankTags).closeBankTag();
+        when(f.view.plugins.isPluginActive(provider)).thenReturn(true);
+        assertFalse(f.view.isActive());
+    }
+
+    @Test public void dependencyStoppingWhileBankIsClosedCancelsDeferredReopen() {
+        ReopenFixture f=new ReopenFixture();f.close();f.open(false);
+        var provider=f.view.plugins.getPlugins().iterator().next();
+        when(f.view.plugins.isPluginActive(provider)).thenReturn(false);
+        f.view.clear();f.run();
+        assertNull(f.registered.get());
+        verify(f.view.bankTags,times(1)).openBankTag(anyString(),anyInt());
+    }
+
     @Test public void manuallySelectedWornVariantMatchesItsBankIdWithoutExpandingCharges() {
         ReopenFixture f=new ReopenFixture();
         when(f.view.items.canonicalize(1001)).thenReturn(1000);
@@ -22,7 +71,7 @@ public class BankSearchViewTest
         assertFalse(f.registered.get().contains(385));
     }
     private static final class ReopenFixture {
-        final BankSearchView view=new BankSearchView();
+        final BankSearchView view=BankSearchViewTest.availableView();
         final AtomicReference<String> active=new AtomicReference<>();
         final AtomicReference<BankTag> registered=new AtomicReference<>();
         final List<Runnable> queued=new ArrayList<>();
@@ -82,7 +131,7 @@ public class BankSearchViewTest
         verify(f.view.bankTags,times(2)).openBankTag(anyString(),anyInt());
     }
     @Test public void budgetPreviewsOpenWithoutOwnedMatchesAndHighlightsOnlyContainOwnedIds() {
-        BankSearchView view=new BankSearchView();view.client=mock(net.runelite.api.Client.class);
+        BankSearchView view=BankSearchViewTest.availableView();view.client=mock(net.runelite.api.Client.class);
         view.tags=mock(TagManager.class);view.bankTags=mock(BankTagsService.class);view.items=mock(ItemManager.class);
         AtomicReference<String> active=new AtomicReference<>();AtomicReference<BankTag> tag=new AtomicReference<>();
         when(view.bankTags.getActiveTag()).thenAnswer(i->active.get());
@@ -104,7 +153,7 @@ public class BankSearchViewTest
         active.set("Another tab");view.update();assertNull(view.highlight());assertNull(view.loadout());
     }
     @Test public void pendingViewCannotReopenAfterSearchOrTabChanges() {
-        BankSearchView view=new BankSearchView();view.client=mock(net.runelite.api.Client.class);view.bankTags=mock(BankTagsService.class);
+        BankSearchView view=BankSearchViewTest.availableView();view.client=mock(net.runelite.api.Client.class);view.bankTags=mock(BankTagsService.class);
         var bank=mock(net.runelite.api.widgets.Widget.class);
         when(view.client.getGameState()).thenReturn(net.runelite.api.GameState.LOGGED_IN);
         when(view.client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE)).thenReturn(bank);
@@ -129,12 +178,12 @@ public class BankSearchViewTest
         when(view.client.getGameState()).thenReturn(net.runelite.api.GameState.LOGIN_SCREEN);assertFalse(unchanged.getAsBoolean());
     }
     @Test public void noViewCanStartWithoutAnOpenBank() {
-        BankSearchView view=new BankSearchView();view.client=mock(net.runelite.api.Client.class);
+        BankSearchView view=BankSearchViewTest.availableView();view.client=mock(net.runelite.api.Client.class);
         assertFalse(view.unchangedContext().getAsBoolean());
         verify(view.client,never()).getVarcIntValue(anyInt());
     }
     @Test public void temporaryViewRetainsExactStatesAndDoesNotCloseAnotherPluginsTab() {
-        BankSearchView view=new BankSearchView(); view.tags=mock(TagManager.class); view.bankTags=mock(BankTagsService.class); view.items=mock(ItemManager.class);
+        BankSearchView view=BankSearchViewTest.availableView(); view.tags=mock(TagManager.class); view.bankTags=mock(BankTagsService.class); view.items=mock(ItemManager.class);
         AtomicReference<BankTag> registered=new AtomicReference<>(),active=new AtomicReference<>();
         AtomicReference<String> name=new AtomicReference<>();
         doAnswer(i -> {registered.set(i.getArgument(1));return null;}).when(view.tags).registerTag(anyString(),any());
