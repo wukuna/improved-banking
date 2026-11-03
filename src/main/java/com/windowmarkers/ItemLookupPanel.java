@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
-/** Select an exact membership to review and add, or temporarily highlight the inspected items. */
 final class ItemLookupPanel extends JPanel
 {
     static final class Row

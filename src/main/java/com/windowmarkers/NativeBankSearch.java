@@ -19,7 +19,6 @@ import net.runelite.client.plugins.bank.BankSearch;
 import net.runelite.client.plugins.banktags.BankTag;
 import net.runelite.client.plugins.banktags.BankTagsService;
 
-/** Adds only owned search UI and optional matches; native/tag restrictions remain authoritative. */
 @javax.inject.Singleton
 final class NativeBankSearch
 {
@@ -95,7 +94,7 @@ final class NativeBankSearch
                         || !Objects.equals(guide,config.geGuideContext()==null?"":config.geGuideContext())
                         || !Objects.equals(text,client.getVarcStrValue(VarClientID.MESLAYERINPUT))) return;
                     matches=new HashSet<>(found.ids); slots=found.slots; loadout=found.loadout;exactSupply=SupplySearch.parse(text)!=null || BankCleanup.isQuery(text);
-                    // A tab's own membership must not be expanded by category search.
+
                     if(tag!=null) matches.removeIf(id -> !tag.contains(id));
                     ranks=new HashMap<>(found.ranks); ranks.keySet().retainAll(matches);
                     highlight=null;
@@ -160,7 +159,7 @@ final class NativeBankSearch
                 if(!searching()) return;
                 final long owner=context;
                 final Widget bank=client.getWidget(InterfaceID.Bankmain.UNIVERSE),clicked=checkbox;
-                // layoutBank runs a client script. Never call it from inside a widget script.
+
                 clientThread.invokeLater(() -> {
                     if(owner!=context || !searching() || checkbox!=clicked || parent!=layer
                         || client.getWidget(InterfaceID.Bankmain.UNIVERSE)!=bank

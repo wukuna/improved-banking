@@ -56,7 +56,7 @@ public class WindowMarkersTest
             p.searchView.show("New profile view",java.util.Collections.singletonList(group),false);
             clearInvocations(p.searchView.tags,p.searchView.bankTags);
             pending.remove(0).run();verifyNoInteractions(p.searchView.tags,p.searchView.bankTags);
-            pending.clear(); // Discard unrelated sidebar refresh work from the profile event.
+            pending.clear();
             bus.post(stopped);assertEquals(1,pending.size());
             p.shutDown();p.startUp();
             p.searchView.show("New view",java.util.Collections.singletonList(group),false);
@@ -264,7 +264,7 @@ public class WindowMarkersTest
             p.reorderGroups(java.util.Arrays.asList(a,b),java.util.Collections.singletonList(b),0);
             assertEquals("B",markers.get(0).label); assertEquals("Hidden",markers.get(1).label);
             p.restoreHistory(false); assertEquals("A",markers.get(0).label); assertEquals("Hidden",markers.get(1).label);
-            p.reorderGroups(java.util.Arrays.asList(a,b),java.util.Collections.singletonList(b),0); // old identities after Undo
+            p.reorderGroups(java.util.Arrays.asList(a,b),java.util.Collections.singletonList(b),0);
             assertEquals("A",markers.get(0).label);
         } finally { p.shutDown(); }
     }
@@ -351,7 +351,7 @@ public class WindowMarkersTest
         when(child.getItemId()).thenReturn(123);
         when(child.getRelativeX()).thenReturn(16);when(child.getRelativeY()).thenReturn(22);
         when(child.getWidth()).thenReturn(36);when(child.getHeight()).thenReturn(32);
-        // Fresh widgets have not acquired a canvas position during BeforeRender.
+
         when(child.getBounds()).thenReturn(new Rectangle(0,0,36,32));
         when(p.configs.getConfiguration("windowmarkers","account-a","markersV3_profile_10"))
             .thenReturn("[{\"x\":20,\"y\":20,\"width\":60,\"height\":60,\"scrollWithItems\":true,\"linkedItemIds\":[123],\"backgroundArgb\":-65536}]");
@@ -363,7 +363,7 @@ public class WindowMarkersTest
             assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(130,180));
             when(items.getBounds()).thenReturn(new Rectangle(110,150,180,200));
             when(child.getRelativeX()).thenReturn(64);when(child.getRelativeY()).thenReturn(94);
-            when(child.getBounds()).thenReturn(new Rectangle(126,172,36,32)); // Previous frame, before reflow.
+            when(child.getBounds()).thenReturn(new Rectangle(126,172,36,32));
             p.onBeforeRender(new BeforeRender());
             canvas=new BufferedImage(500,500,2); g=canvas.createGraphics(); bg.render(g); g.dispose();
             assertEquals(0,canvas.getRGB(130,180)); assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(180,250));
@@ -455,7 +455,7 @@ public class WindowMarkersTest
             Marker copied=new Gson().fromJson(first,Marker[].class)[0];
             assertEquals("Herbs",copied.label); assertEquals(Integer.valueOf(-65536),copied.borderArgb);
             assertEquals(Integer.valueOf(-16776961),copied.backgroundArgb);
-            // An explicit copy must never overwrite a non-empty destination.
+
             p.copyAccountMarkers(); assertEquals(first,saved.get("account-a/markersV3_profile_10"));
             p.arm(); mouse.mousePressed(event(MouseEvent.MOUSE_PRESSED,120,120,1));
             when(p.configs.getProfile().getId()).thenReturn(20L);
@@ -474,7 +474,7 @@ public class WindowMarkersTest
             p.arm(); mouse.mousePressed(event(MouseEvent.MOUSE_PRESSED,150,150,1));
             mouse.mouseReleased(event(MouseEvent.MOUSE_RELEASED,210,210,1));
             assertEquals(2,new Gson().fromJson(saved.get("account-a/markersV3_profile_10"),Marker[].class).length);
-            // Renaming changes the display name, not the stable layout key.
+
             when(p.configs.getProfile().getName()).thenReturn("Renamed wide bank");
             p.onProfileChanged(new ProfileChanged()); p.onBeforeRender(new BeforeRender());
             p.arm(); mouse.mousePressed(event(MouseEvent.MOUSE_PRESSED,170,170,1));
@@ -521,7 +521,7 @@ public class WindowMarkersTest
             Graphics2D g=canvas.createGraphics(); bg.render(g); g.dispose();
             assertEquals(new Color(255,0,0,115).getRGB(),canvas.getRGB(390,130));
             assertEquals(0,canvas.getRGB(410,130));
-            // Native item rendering occurs after this background pass; it remains unobscured.
+
             g=canvas.createGraphics(); g.setColor(Color.BLUE); g.fillRect(385,125,10,10); g.dispose();
             assertEquals(Color.BLUE.getRGB(),canvas.getRGB(390,130));
             when(p.client.getGameState()).thenReturn(GameState.LOGIN_SCREEN);
@@ -718,6 +718,4 @@ public class WindowMarkersTest
         finally { p.shutDown(); }
     }
 }
-
-
 

@@ -7,7 +7,6 @@ import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 
-/** Account-local review facts, never instructions to drop, destroy, withdraw or sell. */
 final class BankCleanup
 {
     static boolean isReview(ItemCatalogueIndex.Rank rank) { return rank!=null && rank.role.startsWith("cleanup:"); }
@@ -18,7 +17,7 @@ final class BankCleanup
     static final String JUNK="Junk review",SELL="Sell candidates",ACTIVE="Quest items — active quest",FUTURE="Quest items — future quest",DONE="Quest items — completed uses",UNKNOWN="Quest items — progress unknown";
     private static final List<String[]> RULES=ItemTaxonomy.readRows("bank-cleanup-items.tsv",5);
     private static final Set<Integer> TOOLS=new HashSet<>(Arrays.asList(1265,1267,1269,1271,1273,1275,11920,1349,1351,1353,1355,1357,1359,6739));
-    // These ordinary tools also have repeatable Keldagrim task uses.
+
     private static final Set<Integer> REPEAT_TOOLS=new HashSet<>(Arrays.asList(1267,1349,1353));
     final Map<Integer,ItemCatalogueIndex.Rank> junk=new LinkedHashMap<>(),sell=new LinkedHashMap<>();
     private final Map<String,Map<Integer,ItemCatalogueIndex.Rank>> questGroups=new HashMap<>();
@@ -30,7 +29,7 @@ final class BankCleanup
         Progress(QuestState witch,QuestState tale,QuestState giant,QuestState fishing,int cooking,int farming,int mining,int woodcutting,boolean members)
         { this.witch=witch;this.tale=tale;this.giant=giant;this.fishing=fishing;this.cooking=cooking;this.farming=farming;this.mining=mining;this.woodcutting=woodcutting;this.members=members; }
         static Progress unknown() { return new Progress(null,null,null,null,0,0,0,0); }
-        /** Called between client events on the client thread; not inside a CS2 callback. */
+
         static Progress capture(Client client)
         {
             if(client.getGameState()!=GameState.LOGGED_IN) return unknown();
@@ -58,8 +57,7 @@ final class BankCleanup
         Map<Integer,AutoCategories.Item> owned=new HashMap<>();for(AutoCategories.Item item:bank) owned.put(item.id,item);
         for(String[] row:RULES) {
             int id=Integer.parseInt(row[0]);AutoCategories.Item item=owned.get(id);
-            // Reviewed rare burnt items can survive in banks despite unavailable-normal-source guards.
-            // This narrow review label grants no food, equipment or activity capability.
+
             if(item==null || !row[1].equalsIgnoreCase(item.name)
                 || ItemVariantState.identityNeedsReview(item) && !row[2].equals("rare")) continue;
             boolean niche=!row[2].equals("review");String reason=row[3];
@@ -78,7 +76,7 @@ final class BankCleanup
         LowerTierFilter.exclusions(tools,progress.mining,progress.woodcutting,0).forEach((id,why)-> {
             if(!REPEAT_TOOLS.contains(id)) sell.put(id,new ItemCatalogueIndex.Rank(0,"Sell candidate for ordinary gathering: "+why+".\nLow-cost spares or personal plans can still justify keeping it. This is not a claim of universal redundancy.","cleanup:sell"));
         });
-        // Unmapped quest-related objects remain unknown; completion is not guessed from their name.
+
         for(AutoCategories.Item item:bank) if(WikiCatalogue.hasFacet(item,"quest") && item.id!=2144 && item.id!=2146)
             questGroups.computeIfAbsent(UNKNOWN,k->new LinkedHashMap<>()).put(item.id,new ItemCatalogueIndex.Rank(0,"Quest-related item. Exact quest/stage uses are not yet mapped here; no completed-quest or disposal claim is made.","cleanup:niche"));
     }

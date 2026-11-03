@@ -201,7 +201,7 @@ final class MarkerLegend extends JPanel
             if(actions!=null) actions.clear(expected);
         });
         clear.addActionListener(e -> { list.clearSelection(); hover.accept(null); pin.accept(null); if(actions!=null) actions.clearHighlight(); });
-        // Full-width actions remain readable in RuneLite's narrow sidebar.
+
         footer.add(edit); footer.add(items); footer.add(remove);footer.add(clear);footer.add(more);
         footer.add(new JLabel("<html>Drag to reorder. Shift + arrows or<br>Ctrl + click selects several groups.</html>")); add(footer,BorderLayout.SOUTH);
         items.setEnabled(false); edit.setEnabled(false); remove.setEnabled(false); move.setEnabled(false); resize.setEnabled(false);

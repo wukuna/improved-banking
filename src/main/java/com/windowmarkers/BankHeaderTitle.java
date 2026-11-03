@@ -6,7 +6,6 @@ import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
 import net.runelite.client.util.Text;
 
-/** Reserve header space for the picker without covering the native title. */
 final class BankHeaderTitle
 {
     private Widget widget;

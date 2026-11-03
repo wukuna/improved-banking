@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Source-backed supply filters. Names alone never establish healing or ammunition compatibility. */
 final class SupplySearch
 {
     private static final Map<Integer,Food> FOODS=new HashMap<>();
@@ -65,7 +64,7 @@ final class SupplySearch
         if(kind.equals("potions") && Arrays.asList("attack","strength","defence","defense","magic","ranged","agility","fishing","hunter").contains(terms))
             terms=(terms.equals("defense")?"defence":terms)+" boost";
         Query q=new Query();String key=kind+" "+terms;
-        // A weapon that uses charges must not fuzzily acquire ammo from a similarly named bow.
+
         if(kind.equals("ammo") && Arrays.asList("bowfa","bow of faerdhinen","crystal bow","craws bow","webweaver bow").contains(terms)) {
             q.explanation="This weapon uses charges, not interchangeable ammunition. Check its charging requirements.";return q;
         }
@@ -90,7 +89,7 @@ final class SupplySearch
                 if(!query.ids.contains(item.id)) continue;
                 if(item.name.toLowerCase(Locale.ROOT).startsWith("blighted ")) note+=" Blighted: area restrictions apply.";
                 if(query.raw) {
-                    // Uncooked ingredients have no ready-to-eat healing value.
+
                     if(query.minimum>=0 || !query.flags.isEmpty()) continue;
                     note="Raw cooking input; prepare it before eating.";
                 }

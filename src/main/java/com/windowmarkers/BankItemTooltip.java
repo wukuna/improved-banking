@@ -11,7 +11,6 @@ import java.util.Set;
 import net.runelite.client.ui.overlay.components.TooltipComponent;
 import net.runelite.client.util.Text;
 
-/** Compact bank hover summaries; full source notes stay in the guide data. */
 final class BankItemTooltip extends TooltipComponent
 {
     static final int MAX_LINES=6;
@@ -25,7 +24,7 @@ final class BankItemTooltip extends TooltipComponent
 
     @Override public Dimension render(Graphics2D graphics)
     {
-        // Use the tooltip renderer's actual font, including user font/size choices.
+
         setText(String.join("<br>",wrap(summary,graphics.getFontMetrics(),width)));
         return super.render(graphics);
     }
@@ -48,7 +47,7 @@ final class BankItemTooltip extends TooltipComponent
                 } else if(!line.isEmpty()) details.add(line);
             }
         }
-        // Item-state warnings precede optional context and long guide commentary.
+
         if(note!=null) {
             int state=note.indexOf("Item state");
             if(state>=0)lines.add(shortNote(note.substring(state)));
@@ -90,8 +89,7 @@ final class BankItemTooltip extends TooltipComponent
         }
         if(truncated&&!lines.isEmpty()) {
             String last=lines.get(lines.size()-1);
-            // The escaped line may contain literal tag escapes: shorten the raw
-            // last line instead of ever leaving a partial Jagex control tag.
+
             last=Text.removeTags(last.replace("<lt>","‹").replace("<gt>","›"));
             while(!last.isEmpty()&&metrics.stringWidth(last+"...")>width)last=last.substring(0,last.offsetByCodePoints(last.length(),-1));
             lines.set(lines.size()-1,Text.escapeJagex(last)+"...");

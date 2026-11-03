@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Presentation-only curation. Original setup IDs, classifications and saved memberships remain intact. */
 final class ActivityMenu
 {
     private static final Map<String,String> NAMES=new LinkedHashMap<>();

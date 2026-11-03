@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.awt.Color;
 import java.util.*;
 
-/** Apply reviewed classifications without discarding other uses or resetting existing styles. */
 final class CategoryGroups
 {
     static final class Result

@@ -49,7 +49,7 @@ public class BankCaptureTest
         assertTrue(capture.save(Collections.emptyList(),() -> true,results::add));
         assertFalse(tasks.get(0).getAsBoolean());
         verifyNoInteractions(capture.capture);
-        // Moving or changing the bank while a sprite loads must not change the captured snapshot.
+
         when(item.getRelativeX()).thenReturn(50);when(item.getItemId()).thenReturn(999);
         image.setRGB(0,0,Color.RED.getRGB());image.loaded();
         assertTrue(tasks.get(0).getAsBoolean());

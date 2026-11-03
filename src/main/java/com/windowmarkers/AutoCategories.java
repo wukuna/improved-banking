@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Local, reviewable facts. Activity suitability is never inferred from Eat/Drink or stat totals. */
 final class AutoCategories
 {
     enum Preset
@@ -95,7 +94,7 @@ final class AutoCategories
         if (item.equipment)
         {
             if (!combat) { return "Equipment"; }
-            // Different styles use different units; never compare their summed bonuses.
+
             int styles=(item.magic>0 ? 1 : 0)+(item.ranged>0 ? 1 : 0)+(item.melee>0 ? 1 : 0);
             if (styles>1) { return "Hybrid equipment"; }
             if (item.magic>0) { return "Magic equipment"; }

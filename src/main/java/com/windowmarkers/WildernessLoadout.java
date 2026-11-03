@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Budget defaults for bank planning, not a price or death-protection calculation. */
 final class WildernessLoadout
 {
     private static final Set<String> ACTIVITIES=new HashSet<>(Arrays.asList("Callisto","Artio","Venenatis","Spindel",
@@ -35,8 +34,7 @@ final class WildernessLoadout
         }
         return result;
     }
-    // Display-only preferences inside the existing budget policy and the exact
-    // source's equipment fields. They never enter owned selection or filtering.
+
     private static final List<Integer> EXAMPLES=Arrays.asList(3749,10499,1704,2503,2497,2491,6328,12788,892,
         4089,2412,4091,4093,7460,4097,28585,11907,1434,3105,3842,12612);
     private static ItemCatalogueIndex.Item exampleItem(int id) {
@@ -76,8 +74,7 @@ final class WildernessLoadout
         for(SetupLoadout part:plan.sections()) {
             part.wildernessBudget=true;
             recommendMissing(part);
-            // Keep source positions, supplies and meaningful empty slots. A
-            // costly equipment switch must not survive as a grey recommendation.
+
             for(var iterator=part.inventoryExample.entrySet().iterator();iterator.hasNext();) {
                 var entry=iterator.next();var field=entry.getValue();
                 List<Integer> kept=new ArrayList<>();for(int id:field.ids) if(allowedPreview(id)) kept.add(id);

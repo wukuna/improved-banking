@@ -10,7 +10,6 @@ import net.runelite.api.Point;
 import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
 
-/** Visible cells owned by one temporary view, retained only until the next native rebuild. */
 final class BankViewGeometry
 {
     private Widget parent;
@@ -39,8 +38,7 @@ final class BankViewGeometry
     {
         capture(container);
         this.layout = layout; this.save = save; this.notes = notes; this.height = height;
-        // A repeated supply has a distinct position. Native bank indexes can change,
-        // so identify occurrences in the generated setup, not by bank stack index.
+
         positions.sort(Comparator.comparingInt((Position p) -> p.y).thenComparingInt(p -> p.x));
         Map<Integer, Integer> occurrences = new HashMap<>();
         for (Position p : positions)
@@ -54,8 +52,7 @@ final class BankViewGeometry
             int[] saved = layout.cells.get(p.key);
             if (saved != null && saved[0] + 36 <= container.getWidth()) move(p, saved[0], saved[1]);
         }
-        // Newly added items must remain visible even if their generated cell is
-        // already occupied by a saved move. Keep the saved placement authoritative.
+
         List<Position> occupied = new ArrayList<>();
         List<Position> ordered = new ArrayList<>(positions);
         ordered.sort(Comparator.comparing(p -> !layout.cells.containsKey(p.key)));
@@ -74,14 +71,12 @@ final class BankViewGeometry
         return false;
     }
 
-    /** Only called for an actual user drag in the currently owned view. */
     boolean drag(Client client, Widget container, java.util.function.BooleanSupplier current)
     {
         Widget dragged = client.getDraggedWidget();
         Position source = find(dragged);
         if (container != parent || source == null || !valid(source, container)) return false;
-        // Stop native bank-order mutations and replace the tag-layout callback,
-        // which otherwise directly repacks the preset without a bank build event.
+
         client.setDraggedOnWidget(null);
         long revision = dragRevision;
         dragged.setOnDragCompleteListener((JavaScriptCallback) event -> {
@@ -113,7 +108,7 @@ final class BankViewGeometry
         {
             nextX = Math.max(0, Math.min(parent.getWidth() - 36, 51 + Math.round((x - 69) / 48f) * 48));
             nextY = Math.max(0, Math.min(50000, source.y + Math.round((y - source.y - 16) / 36f) * 36));
-            // Do not overlap another cell when dropping in the gap beside it.
+
             for (Position p : positions) if (p != source && nextX < p.x + 36 && nextX + 36 > p.x
                 && nextY < p.y + 32 && nextY + 32 > p.y) return;
         }
@@ -189,9 +184,7 @@ final class BankViewGeometry
             int index = p.widget.getIndex();
             if (index < 0 || index >= children.length || children[index] != p.widget
                 || p.widget.getItemId() != p.itemId) continue;
-            // Another layout can deduplicate repeated supplies and phase gear.
-            // Restore only cells that this view showed after native filtering,
-            // never previously filtered items or widgets replaced since capture.
+
             if (p.widget.isSelfHidden() || p.widget.getOriginalX() != p.x || p.widget.getOriginalY() != p.y)
             {
                 p.widget.setHidden(false);

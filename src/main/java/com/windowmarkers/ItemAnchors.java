@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.awt.Rectangle;
 import java.util.*;
 
-/** Pure geometry for matching visible items without changing game widgets. */
 final class ItemAnchors
 {
     static final class Cell
@@ -14,7 +13,7 @@ final class ItemAnchors
         {
             this.id=id; this.icon=new Rectangle(icon);
             grid=new Rectangle(icon);
-            // The native bank slot has 12px horizontal and 4px vertical spacing.
+
             if (grid.width <= 36) { grid.x-=6; grid.width+=12; }
             if (grid.height <= 32) { grid.y-=2; grid.height+=4; }
         }
@@ -36,7 +35,7 @@ final class ItemAnchors
                 Cell cell=row.get(i);
                 int left=i>0?cell.icon.x-row.get(i-1).icon.x-row.get(i-1).icon.width:-1;
                 int right=i+1<row.size()?row.get(i+1).icon.x-cell.icon.x-cell.icon.width:-1;
-                // Larger gaps are equipment-diagram spaces, not slot padding.
+
                 if(left<0 || left>24) left=right>=0 && right<=24?right:12;
                 if(right<0 || right>24) right=left;
                 int before=left-left/2,after=right/2;
@@ -48,8 +47,7 @@ final class ItemAnchors
     static Rectangle snap(Rectangle selection, List<Cell> cells)
     {
         if (cells.isEmpty()) { return selection; }
-        // Tab separators and setup sections do not share the first row's origin.
-        // Snap to the actual cells touched by the drag, not an invented global grid.
+
         Rectangle snapped=null;
         for(Cell cell:cells) if(selection.intersects(cell.icon))
             snapped=snapped==null?new Rectangle(cell.grid):snapped.union(cell.grid);
@@ -65,7 +63,7 @@ final class ItemAnchors
             if (wanted.contains(cell.id) && !result.contains(cell.grid)) { result.add(new Rectangle(cell.grid)); }
         }
         result.sort(Comparator.comparingInt((Rectangle r)->r.y).thenComparingInt(r->r.x));
-        // Merge only full shared edges: unrelated slots and holes stay unmarked.
+
         boolean changed;
         do
         {

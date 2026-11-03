@@ -34,7 +34,7 @@ public class BankLayoutTest
         when(c.itemManager.canonicalize(385)).thenReturn(385);
         when(items.getWidth()).thenReturn(478);when(items.getDynamicChildren()).thenReturn(new Widget[]{item});
         when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
-        int[] stack=new int[9];stack[0]=9000; // Height already changed by the competing layout.
+        int[] stack=new int[9];stack[0]=9000;
         when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
         c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
         int x=item.getOriginalX(),y=item.getOriginalY();assertEquals(48,stack[0]);
@@ -68,7 +68,7 @@ public class BankLayoutTest
         int[] stack={0};when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(1);
         ScriptCallbackEvent event=new ScriptCallbackEvent();event.setEventName("bankBuildTab");
         c.onScriptCallbackEvent(event);
-        // BankMainBuild's single-tab branch calls meslayer_close when search is active.
+
         assertEquals("Keep the native search builder so its input remains open",0,stack[0]);
         verify(c.client,never()).runScript(any(Object[].class));
     }
@@ -117,7 +117,7 @@ public class BankLayoutTest
         Widget items=mock(Widget.class);
         Widget title=decoration(net.runelite.api.widgets.WidgetType.TEXT,"Tab 5",false);
         Widget line=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);
-        when(line.getSpriteId()).thenReturn(897); // Native bankmain_init separator sprite.
+        when(line.getSpriteId()).thenReturn(897);
         when(line.getOriginalHeight()).thenReturn(2);
         Widget unrelatedSprite=decoration(net.runelite.api.widgets.WidgetType.GRAPHIC,"",false);
         when(unrelatedSprite.getOriginalHeight()).thenReturn(2);when(unrelatedSprite.getSpriteId()).thenReturn(898);
@@ -129,13 +129,13 @@ public class BankLayoutTest
         c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
         assertTrue(title.isSelfHidden());assertTrue(line.isSelfHidden());assertTrue(hidden.isSelfHidden());
         assertFalse(other.isSelfHidden());assertFalse(item.isSelfHidden());assertFalse(unrelatedSprite.isSelfHidden());
-        // Exercise the real registered pre-build hook before native scripts set visibility.
+
         ArgumentCaptor<java.util.function.Consumer<ScriptPreFired>> hook=ArgumentCaptor.forClass(java.util.function.Consumer.class);
         verify(c.eventBus).register(eq(ScriptPreFired.class),hook.capture(),eq(10f));
         hook.getValue().accept(new ScriptPreFired(ScriptID.BANKMAIN_BUILD));
         assertFalse(title.isSelfHidden());assertFalse(line.isSelfHidden());
         verify(hidden,never()).setHidden(false);
-        title.setHidden(true); // The new native build hides this tab itself.
+        title.setHidden(true);
         c.searchView.clear();
         c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
         assertTrue(title.isSelfHidden());assertFalse(line.isSelfHidden());
@@ -217,7 +217,7 @@ public class BankLayoutTest
         when(tabs.getDynamicChildren()).thenReturn(new Widget[]{a,b});when(c.config.tabAlignment()).thenReturn(WindowMarkersConfig.TabAlignment.RIGHT);
         c.onBeforeRender(new BeforeRender());int shifted=a.getOriginalX();assertTrue(shifted>51);
         c.onBeforeRender(new BeforeRender());assertEquals(shifted,a.getOriginalX());assertEquals(40,b.getOriginalX()-a.getOriginalX());
-        // A native search rebuild lands after ClientTick, before the next frame.
+
         for(int i=0;i<20;i++) {
             c.onClientTick(new ClientTick()); a.setOriginalX(51); b.setOriginalX(91);
             c.onScriptPostFired(new ScriptPostFired(ScriptID.BANKMAIN_BUILD));
@@ -246,8 +246,7 @@ public class BankLayoutTest
             for(int i=0;i<count;i++) {
                 Widget item=cell(51+(i%8)*48,nativeY+(i/8)*36);if(i==0)first.add(item);children.add(item);
             }
-            // Script 509 creates a transparent rectangle across the unused end
-            // of each tab's last row. Seven items leave a 36x32 rectangle.
+
             int used=count%8,free=8-used;
             Widget target=cell(51+used*48,nativeY+((count-1)/8)*36+4);
             when(target.getType()).thenReturn(net.runelite.api.widgets.WidgetType.RECTANGLE);

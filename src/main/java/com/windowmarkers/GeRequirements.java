@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.util.*;
 import net.runelite.api.*;
 
-/** Proven restrictions only. A blank reason is not proof that every quest/unlock is satisfied. */
 final class GeRequirements
 {
     private static final List<String[]> REQUIREMENTS=ItemTaxonomy.readRows("raid-wear-requirements.tsv",8);
@@ -11,7 +10,7 @@ final class GeRequirements
     private final int[] levels;
     private final boolean allMaxed;
     private final Boolean ancientRings;
-    static void prepare() { /* initialize bundled data on the catalogue worker */ }
+    static void prepare() {   }
     GeRequirements(int[] levels,boolean allMaxed,Boolean ancientRings)
     { this.levels=levels.clone();this.allMaxed=allMaxed;this.ancientRings=ancientRings; }
     static GeRequirements capture(Client client,Boolean ancientRings)

@@ -9,14 +9,14 @@ import net.runelite.client.game.SpriteManager;
 
 final class BorderRenderer
 {
-    // Vanilla equipment-button frame: four corners, left/top/right/bottom edges.
+
     static final int[] IDS = {913, 914, 915, 916, 917, 918, 919, 920};
     @Inject Client client;
     @Inject SpriteManager sprites;
     private final SpritePixels[] previous = new SpritePixels[8];
     private final BufferedImage[] themed = new BufferedImage[8];
     private static final int MAX_TINTS = 2048;
-    private static final long MAX_TINT_PIXELS = 2L * 1024 * 1024; // 8 MiB of ARGB pixels.
+    private static final long MAX_TINT_PIXELS = 2L * 1024 * 1024;
     private final java.util.Map<TintKey, BufferedImage> tinted = new java.util.LinkedHashMap<>(64, 0.75f, true);
     private long tintPixels;
     final JoinedItemBorders joined=new JoinedItemBorders();
@@ -78,8 +78,7 @@ final class BorderRenderer
         long pixels = (long) result.getWidth() * result.getHeight();
         if (pixels <= MAX_TINT_PIXELS)
         {
-            // Do not drop every colour at capacity: that makes the next render pass
-            // recolour the same borders again. Evict only the least recently used.
+
             java.util.Iterator<BufferedImage> oldest = tinted.values().iterator();
             while (tinted.size() >= MAX_TINTS || tintPixels + pixels > MAX_TINT_PIXELS)
             {

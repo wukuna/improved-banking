@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import net.runelite.client.config.ConfigManager;
 
-/** Display coordinates in our own account/profile storage, never Bank Tags settings. */
 final class BankPresetPositions
 {
     @Inject ConfigManager configs;
@@ -34,7 +33,7 @@ final class BankPresetPositions
         {
             String raw = configs.getConfiguration("windowmarkers", account, key);
             try { result = raw == null ? null : gson.fromJson(raw, Layout.class); }
-            catch (JsonParseException ignored) { /* Fall back to the generated setup. */ }
+            catch (JsonParseException ignored) {   }
         }
         if (result == null) result = new Layout();
         if (result.cells == null || result.cells.size() > 4000) result.cells = new LinkedHashMap<>();

@@ -32,7 +32,7 @@ public class SearchQualifiersTest {
         assertEquals("Mining — boosts",choice.viewQuery());
         var index=new ItemCatalogueIndex(Arrays.asList(GeSearchIndexTest.item(11920,"Dragon pickaxe",3),
             GeSearchIndexTest.item(1275,"Rune pickaxe",3),GeSearchIndexTest.item(385,"Shark",-1)),false);
-        // A selected facet must not silently widen to the entire skill.
+
         var result=index.find(choice.viewQuery(),"");
         if(result!=null) assertFalse(result.items.stream().anyMatch(i->i.id==1275 || i.id==385));
     }

@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 
-/** Edits a detached copy. No saved groups or bank widgets change before Save. */
 final class CustomViewEditor extends JPanel
 {
     final CustomPresets.Preset draft;

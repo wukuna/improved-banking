@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Optional guide-tier qualifiers; never rewrites the player's native input. */
 final class SearchQuery
 {
     final String text;
@@ -11,7 +10,7 @@ final class SearchQuery
     static SearchQuery parse(String raw) {
         List<String> words=new ArrayList<>(); Set<Integer> tiers=new HashSet<>();
         for(String word:SearchText.normalize(raw).split(" +")) {
-            // In food searches a number is HP per bite, not an equipment tier.
+
             if(SupplySearch.foodQuery(raw) && word.matches("[0-9]+")) { words.add(word);continue; }
             switch(word) {
                 case "1": case "1st": case "first": case "bis": tiers.add(1);break;

@@ -32,8 +32,7 @@ public class BankControlsTest
             when(client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER)).thenReturn(mock(Widget.class));
             for(Cell cell:Arrays.asList(root,menu,items)) when(client.getWidget(cell.id)).thenReturn(cell.widget);
             List<Cell> rows=new ArrayList<>();
-            // Native init captures the first three rows' Y from a tall parent.
-            // The two columns use offsets from opposite parent edges (script 7859).
+
             for(int i=0;i<10;i++) {
                 int y=i<6?(760-28)/2-108+(i/2)*28:23+(i/2)*28;
                 Cell row=new Cell(InterfaceID.Bankmain.INCINERATOR_TOGGLE+i,menu,251,y,220,28,i%2==0?2:0,0,0,0);
@@ -50,7 +49,7 @@ public class BankControlsTest
                 for(int j=i+1;j<rows.size();j++) assertFalse("Native checkbox hit boxes must not overlap",row.intersects(rows.get(j).bounds()));
                 verify(rows.get(i).widget,never()).clearActions();verify(rows.get(i).widget,never()).setOnOpListener(any(Object[].class));
             }
-            // Native size checks and a settings/item transition must keep the same result.
+
             root.widget.setOriginalWidth(488);bus.post(new ScriptPostFired(ScriptID.BANKMAIN_SIZE_CHECK));
             assertEquals(bankWidth,root.bounds().width);
             for(int i=0;i<12;i++) bus.post(new ClientTick());
@@ -101,7 +100,6 @@ public class BankControlsTest
         layout.update(title.widget,331);title.widget.setText("Native replacement");layout.clear();assertEquals("Native replacement",title.widget.getText());
     }
 
-    /** A small geometry model using RuneLite's absolute/centre/right/minus modes. */
     static final class Cell {
         final int id;final Widget widget;final Cell parent;final int[] geometry;
         final List<Widget> children=new ArrayList<>();final Map<String,Object> properties=new HashMap<>();

@@ -9,7 +9,6 @@ import net.runelite.api.Client;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.game.ItemManager;
 
-/** Incremental client-thread reads; fuzzy ranking runs off the client thread. */
 final class BankItemSearch
 {
     static final class Choice

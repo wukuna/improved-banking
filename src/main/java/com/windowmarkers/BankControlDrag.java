@@ -15,7 +15,6 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
-/** Mouse callbacks use only a client-thread snapshot; widget/config work stays on the client thread. */
 final class BankControlDrag extends MouseAdapter
 {
     private final BankLayoutController owner;
@@ -76,11 +75,10 @@ final class BankControlDrag extends MouseAdapter
     synchronized void resetInput() {clear();captured=false;suppressClick=false;}
     synchronized void clear()
     {
-        // Keep consuming the release of an already captured press, even if the bank closes.
+
         snapshot=null;gesture=null;draft=null;appliedDraft=null;cancel=false;
     }
 
-    /** 0: unchanged; 1: apply preview; 2: restore native bases then apply. */
     synchronized int update()
     {
         Gesture current=gesture;
@@ -120,7 +118,7 @@ final class BankControlDrag extends MouseAdapter
         next.sort();String value=next.write();boolean changed=!value.equals(appliedDraft);draft=next;appliedDraft=value;
         if(current.released) {
             if(!bounds.contains(current.point)) {clear();return 2;}
-            // Only this plugin's preferences change. No native operation is invoked.
+
             owner.configs.setConfiguration("windowmarkers","bankControlLayout",value);
             owner.configs.setConfiguration("windowmarkers","customBankControls",true);
             clear();return 2;

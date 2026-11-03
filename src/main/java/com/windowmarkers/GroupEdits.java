@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Identity-based edits keep filtered-out groups and saved item variants intact. */
 final class GroupEdits
 {
     static int[] union(Collection<Marker> groups)

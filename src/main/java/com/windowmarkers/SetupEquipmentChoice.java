@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Guide annotations explain a choice; only actual prerequisites restrict it. */
 final class SetupEquipmentChoice
 {
     private SetupEquipmentChoice() { }
@@ -18,21 +17,19 @@ final class SetupEquipmentChoice
                 return blessing;
             SupplySearch.Query ammo=weapon==null?null:SupplySearch.parse("ammo "+main);
             if(ammo!=null) return blessing?ammo.ids.isEmpty():ammo.ids.contains(item.id);
-            // Never infer ammunition compatibility from its guide column alone.
+
             if(!blessing) return false;
         }
-        // An attack-style instruction, risk warning, or explanation of a bonus
-        // does not make a usable piece disappear from its equipment slot.
+
         if(text.isEmpty() || text.startsWith("set to ") || text.startsWith("use stab attack style")
             || text.startsWith("on crush") || text.startsWith("on stab") || text.startsWith("on slash")) return true;
-        // Owning Rada's blessing 4 already establishes its diary unlock. This
-        // does not waive skill/quest conditions on unrelated guide choices.
+
         if(item.id==22947 && text.contains("diary")) return true;
-        if(text.startsWith("only for phase ")) return true; // already scoped to this source's phase
+        if(text.startsWith("only for phase ")) return true;
         if(text.contains("slayer task") || text.contains("slayer assignment") || text.contains("task only") || text.startsWith("only on ")
             || text.contains("after completing") || text.contains("elite kourend") || text.contains("diary")) return false;
         if(text.contains("blood moon") && (text.contains("full") || text.contains("set"))) {
-            if(text.contains("without full")) return true; // explicitly ranked standalone weapon
+            if(text.contains("without full")) return true;
             return (main.equals("dual macuahuitl") || name.equals("dual macuahuitl"))
                 && owns(owned,"blood moon helm") && owns(owned,"blood moon chestplate") && owns(owned,"blood moon tassets");
         }
@@ -44,11 +41,11 @@ final class SetupEquipmentChoice
         if(text.contains("if using a crossbow") || text.contains("if bringing a crossbow")) return main.contains("crossbow");
         if(text.contains("if using a twisted bow") || text.equals("with a twisted bow")) return main.equals("twisted bow");
         if(text.contains("if using a 1-handed weapon") || text.contains("with 1 handed staffs"))
-            return true; // the widget layer removes the off-hand for an actual two-handed weapon
+            return true;
         if(text.contains("bow of faerdhinen") && (text.startsWith("with ") || text.startsWith("only ") || text.startsWith("if ")))
             return main.equals("bow of faerdhinen") && (!text.contains("full crystal")
                 || owns(owned,"crystal helm") && owns(owned,"crystal body") && owns(owned,"crystal legs"));
-        // Unknown conditional rankings stay in alternatives with their guide note.
+
         return !(text.startsWith("if ") || text.startsWith("when ") || text.startsWith("only ")
             || text.startsWith("with ") || text.startsWith("without ") || text.startsWith("requires ")
             || text.startsWith("best used with ") || text.startsWith("use only "));
@@ -65,13 +62,11 @@ final class SetupEquipmentChoice
 
     static List<Integer> inventoryAlternatives(List<Integer> exact)
     {
-        // This is specifically a home teleport, not a combat-cape equivalence,
-        // redirected tablet, Wilderness escape, or a promise of POH facilities.
+
         List<Integer> result=InventoryPotionDoses.alternatives(exact);
         if(exact.contains(8013))
             for(int id:new int[]{9789,9790,13280,13342}) if(!result.contains(id)) result.add(id);
-        // Unlimited charges preserve the same destinations. Do not reverse this:
-        // a finite ring need not cover the trip assumed by an eternal-ring guide.
+
         if(exact.stream().anyMatch(id->id>=11866 && id<=11873) && !result.contains(21268)) result.add(21268);
         return result;
     }

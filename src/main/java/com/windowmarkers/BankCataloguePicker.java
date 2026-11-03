@@ -15,7 +15,6 @@ import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetType;
 
-/** The bank dropdown and sidebar share one catalogue and matching implementation. */
 final class BankCataloguePicker
 {
     @Inject Client client;
@@ -38,8 +37,7 @@ final class BankCataloguePicker
         List<Widget> children=Arrays.asList(frame.getChildren());
         if(parent!=frame || button==null || !children.contains(button) || !children.containsAll(background)) {
             clear(); parent=frame;
-            // The native bank buttons use these nine tiled sprite pieces. Keep
-            // sprite IDs so resource packs supply their normal button artwork.
+
             for(int sprite:SPRITES) {
                 Widget part=frame.createChild(-1,WidgetType.GRAPHIC);
                 part.setSpriteId(sprite);part.setSpriteTiling(true);background.add(part);
@@ -70,14 +68,14 @@ final class BankCataloguePicker
     }
 
     static Rectangle position(Rectangle frame,Rectangle close) {
-        // Leave the existing screenshot button and native close control intact.
+
         Rectangle result=new Rectangle(close.x-frame.x-28-WIDTH,close.y-frame.y+(close.height-HEIGHT)/2,WIDTH,HEIGHT);
         return new Rectangle(0,0,frame.width,frame.height).contains(result)?result:null;
     }
 
     void show(Component canvas,List<BankCatalogue.Choice> choices,boolean canSave,Consumer<BankCatalogue.Choice> choose,Runnable save,Runnable closeView)
     {
-        // Called on the client thread; capture widget coordinates here, Swing on EDT.
+
         if(button==null || button.isHidden() || canvas==null) return;
         Rectangle anchor=button.getBounds();
         long token=++context;

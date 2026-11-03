@@ -4,7 +4,6 @@ import java.util.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.game.ItemManager;
 
-/** A display-only arrangement. Widget item IDs, bank indexes and actions stay native. */
 final class SetupItemLayout
 {
     private static final int[] SLOTS={0,1,2,3,4,5,7,9,10,12,13};
@@ -86,14 +85,12 @@ final class SetupItemLayout
     {
         Map<Integer,Widget> chosen=new HashMap<>();
         for(var entry:plan.equipment.entrySet()) for(int id:entry.getValue()) if(byId.containsKey(id)) { chosen.put(entry.getKey(),byId.get(id));break; }
-        // A missing weapon's budget example may need different ammunition than
-        // the prayer-slot filler chosen while there was no owned weapon.
+
         if(plan.equipmentExample.containsKey(13)) {
             chosen.remove(13);
             Widget ammo=byId.get(plan.equipmentExample.get(13));if(ammo!=null) chosen.put(13,ammo);
         }
-        // Void's benefit requires the whole outfit. Do not mix a partial Void
-        // selection into an otherwise ordinary equipment diagram.
+
         boolean fullVoid=true;
         for(int slot:new int[]{0,4,7,9}) if(!isVoid(chosen.get(slot),manager)) fullVoid=false;
         if(!fullVoid) for(int slot:new int[]{0,4,7,9}) if(isVoid(chosen.get(slot),manager)) {

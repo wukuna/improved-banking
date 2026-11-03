@@ -29,7 +29,7 @@ public class GeCatalogueSearchTest
                 when(ours.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn(query);
                 GrandExchangeSearched event=new GrandExchangeSearched();bus.post(event);assertTrue(event.isConsumed());
             }
-            // Core disable/re-enable must not change handler precedence.
+
             bus.unregister(core);bus.register(core);bus.post(new GrandExchangeSearched());
             verifyNoInteractions(manager);verify(ours.client,times(7)).setGeSearchResultIds(any());
         }
@@ -42,7 +42,7 @@ public class GeCatalogueSearchTest
         var manager=mock(net.runelite.client.game.ItemManager.class);
         set(core,"client",ours.client);set(core,"config",config);set(core,"itemManager",manager);
         var bus=new net.runelite.client.eventbus.EventBus();bus.register(core);bus.register(ours);
-        // Registration order is intentionally reversed; the actual event priorities must decide.
+
         bus.post(new GrandExchangeSearched());verify(ours.client,times(1)).setGeSearchResultIds(any());
         verifyNoInteractions(manager);
         clearInvocations(ours.client);
@@ -58,7 +58,7 @@ public class GeCatalogueSearchTest
         clearInvocations(ours.client,manager);
         when(ours.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("shrk");
         bus.post(new GrandExchangeSearched());
-        verify(manager,times(2)).getItemComposition(0); // exact fallback, then fuzzy scoring
+        verify(manager,times(2)).getItemComposition(0);
         verify(ours.client).setGeSearchResultIds(new short[]{385});
     }
     @Test public void loadingDoesNotLeaveCoreFuzzyResultsInControlOnceTheCatalogueIsReady() throws Exception {

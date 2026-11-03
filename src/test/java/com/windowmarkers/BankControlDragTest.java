@@ -28,7 +28,7 @@ public class BankControlDragTest
         MouseEvent press=mouse(MouseEvent.MOUSE_PRESSED,start,true);h.drag.mousePressed(press);assertTrue(press.isConsumed());
         Point end=new Point(area.x+area.width-5,start.y);
         MouseEvent move=mouse(MouseEvent.MOUSE_DRAGGED,end,true);h.drag.mouseDragged(move);assertTrue(move.isConsumed());
-        verifyNoInteractions(h.f.controller.client,h.f.controller.configs); // No client access on the AWT callback.
+        verifyNoInteractions(h.f.controller.client,h.f.controller.configs);
         h.frame();assertNotNull(h.drag.draft());verifyNoInteractions(h.f.controller.configs);
         int x=h.f.cells.get(Control.NOTE.button).bounds().x;assertTrue(x>area.x+area.width-50);
         MouseEvent release=mouse(MouseEvent.MOUSE_RELEASED,end,false);h.drag.mouseReleased(release);assertTrue(release.isConsumed());h.frame();

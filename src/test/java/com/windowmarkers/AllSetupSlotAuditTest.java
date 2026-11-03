@@ -4,7 +4,6 @@ import java.util.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/** Exercise every bundled equipment table with its reviewed, ready identities available. */
 public class AllSetupSlotAuditTest
 {
     @Test public void everyUnconditionalEquipmentSlotSurvivesSelectionAndBrokenStatesStayOut() {

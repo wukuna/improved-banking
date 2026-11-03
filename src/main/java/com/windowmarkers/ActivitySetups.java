@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Exact owned-item membership in one explicitly selected Wiki example. */
 final class ActivitySetups
 {
     static final class Setup

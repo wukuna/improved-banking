@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Conservative completion for omitted boot and utility-ammo slots. */
 final class SetupCompletion
 {
     private SetupCompletion() { }
@@ -21,14 +20,12 @@ final class SetupCompletion
         return Collections.emptySet();
     }
     static void fill(Map<Integer,List<Integer>> gear,Map<Integer,ItemCatalogueIndex.Item> owned,String style,Map<Integer,String> notes,Set<Integer> protectedSlots) {
-        // Upgrades affect only their own style. Base/non-matching treads do not
-        // inherit the upgraded melee strength, ranged strength or magic damage.
+
         int[] boots=style.equals("magic")?new int[]{31097,31093,31095,31096,31088,31091,31092,31094,13235}
             :style.equals("ranged")?new int[]{31097,31092,31094,31096,31088,31091,31093,31095,13237}
             :new int[]{31097,31091,31094,31095,13239,31088,31092,31093,31096,11840};
         List<Integer> existing=gear.getOrDefault(10,Collections.emptyList());
-        // Preserve specialist footwear (e.g. insulated boots), rather than
-        // silently replacing a mechanic's required item with combat boots.
+
         if(!protectedSlots.contains(10) && (existing.isEmpty() || existing.stream().anyMatch(id->id>=31088 && id<=31097 || id==13235 || id==13237 || id==13239))) {
             List<Integer> choices=new ArrayList<>();
             for(int id:boots) {

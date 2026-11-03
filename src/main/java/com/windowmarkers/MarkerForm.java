@@ -5,7 +5,6 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
-/** A width-constrained column: natural control heights and wrapping text. */
 final class MarkerForm extends JPanel implements Scrollable
 {
     MarkerForm() { super(null); }

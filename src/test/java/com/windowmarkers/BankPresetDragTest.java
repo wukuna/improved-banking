@@ -57,7 +57,7 @@ public class BankPresetDragTest
         assertEquals(99,f.notes.get(0).x);assertEquals(51,f.notes.get(1).x);
         assertArrayEquals(new int[]{99,40},f.saved.cells.get("385:1"));
         BankPresetPositions.Layout reloaded=new Gson().fromJson(new Gson().toJson(f.saved),BankPresetPositions.Layout.class);
-        // A rebuilt bank may reorder real stack indexes; occurrence identity is visual.
+
         Widget first=cell(1,385,51,40),second=cell(0,385,99,40);
         when(f.parent.getDynamicChildren()).thenReturn(new Widget[]{second,first});
         f.geometry.capture(f.parent,reloaded,()->{},new ArrayList<>(),80);

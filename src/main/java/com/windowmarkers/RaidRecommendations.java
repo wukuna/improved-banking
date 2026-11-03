@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Explicit per-activity membership from the cited Wiki tables, plus reviewed supply lists. */
 final class RaidRecommendations
 {
     private static final List<String[]> EQUIPMENT=new ArrayList<>();
@@ -23,7 +22,7 @@ final class RaidRecommendations
             for (AutoCategories.Item item : items)
             {
                 if (!CombatEquivalence.matches(item,row[2])) { continue; }
-                // Learner alternatives repeated in a main-role table use that role's group and filtering.
+
                 if(row[1].startsWith("Learner") && EQUIPMENT.stream().anyMatch(other -> other[0].equals(raid)
                     && !other[1].startsWith("Learner") && CombatEquivalence.matches(item,other[2]))) { continue; }
                 String group=row[1];
@@ -35,7 +34,7 @@ final class RaidRecommendations
                 { group=completeCrystal(items) ? "Crystal bow setup" : "Incomplete crystal setup — review"; }
                 else if (raid.equals("tob") && group.equals("Magic")) { group="Magic switches — freezer role"; }
                 else if (raid.equals("tob") && group.equals("Ranged")) { group="Ranged switches — ranger/Tbow use"; }
-                // Keep combat role keys stable for the same-role upgrade filter.
+
                 if (group.startsWith("Guardians tools") || group.startsWith("Special attacks"))
                 { group=ItemVariantState.annotate(group,item); }
                 AutoCategories.add(groups,prefix+" "+group,item);
@@ -56,7 +55,6 @@ final class RaidRecommendations
     static String raid(AutoCategories.Preset preset)
     { return preset==AutoCategories.Preset.CHAMBERS_OF_XERIC ? "cox" : preset==AutoCategories.Preset.THEATRE_OF_BLOOD ? "tob" : "toa"; }
 
-    /** Prefer a documented room or utility role over the item's equipment slot. */
     static String layoutGroup(String activity,AutoCategories.Item item)
     {
         String raid=activity.startsWith("Chambers of Xeric")?"cox":activity.startsWith("Theatre of Blood")?"tob":activity.startsWith("Tombs of Amascut")?"toa":"";
@@ -101,7 +99,6 @@ final class RaidRecommendations
         return "";
     }
 
-    /** Discoverable names even when none of the relevant items are currently owned. */
     static Set<String> groups()
     {
         Set<String> result=new TreeSet<>();
@@ -162,7 +159,7 @@ final class RaidRecommendations
     static String supplyGroup(String raid,String name)
     {
         String n=ItemTaxonomy.baseName(name);
-        // Intentionally positive lists: no Drink/Eat inference, substring matches, or blanket potion/rune groups.
+
         if (raid.equals("tob"))
         {
             if (oneOf(n,"saradomin brew","super restore","prayer potion","stamina potion")) { return "Restoration supplies"; }

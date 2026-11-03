@@ -8,7 +8,6 @@ import net.runelite.client.plugins.banktags.BankTag;
 import net.runelite.client.plugins.banktags.BankTagsService;
 import net.runelite.client.plugins.banktags.TagManager;
 
-/** Session-only custom tag; does not create saved tag tabs or layouts. */
 @Singleton
 final class BankSearchView
 {
@@ -17,7 +16,6 @@ final class BankSearchView
     @Inject net.runelite.client.plugins.PluginManager plugins;
     static final String BANK_TAGS_REQUIRED="Enable Bank Tags in RuneLite to use preset views.";
 
-    // PluginDependency shares services; it does not start a disabled provider.
     boolean available() {
         return plugins.getPlugins().stream().anyMatch(p ->
             p instanceof net.runelite.client.plugins.banktags.BankTagsPlugin && plugins.isPluginActive(p));
@@ -57,8 +55,7 @@ final class BankSearchView
             highlight=new Marker(0,0,48,36);highlight.scrollWithItems=true;
             highlight.linkedItemIds=ids.stream().mapToInt(Integer::intValue).toArray();
         }
-        // The palette saves exact IDs. Canonicalize both sides so a selected
-        // worn/ornament variant is not silently lost; do not expand charge families.
+
         Set<Integer> canonical=new HashSet<>();for(int id:ids) canonical.add(items.canonicalize(id));
         tag=id -> ids.contains(id) || canonical.contains(items.canonicalize(id));
         tags.registerTag(tagName,tag);
@@ -76,14 +73,13 @@ final class BankSearchView
         if(size<2) return;
         int[] stack=client.getIntStack();
         if(stack[size-1]<0) return;
-        // A temporary view is an exact selection, even if an earlier search
-        // subscriber accepted a different item. Normal tabs/search keep their filters.
+
         stack[size-2]=tag.contains(stack[size-1])?1:0;
     }
     boolean bySlot() { return slots; }
     String name() { return name; }
     List<Marker> groups() { return isActive()?new ArrayList<>(groups):Collections.emptyList(); }
-    /** Capture on the client thread before starting a background view calculation. */
+
     java.util.function.BooleanSupplier unchangedContext()
     {
         var bank=client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE);
@@ -99,8 +95,7 @@ final class BankSearchView
             && inputMode==client.getVarcIntValue(net.runelite.api.gameval.VarClientID.MESLAYERMODE)
             && Objects.equals(input,client.getVarcStrValue(net.runelite.api.gameval.VarClientID.MESLAYERINPUT));
     }
-    // Bank Tags clears its active tag on unload but remembers its name. Keep the
-    // registered contents until the bank reopens or the user explicitly changes views.
+
     void bankClosed() {
         if(isActive()) reopen=true;
         else if(!reopen) forget();
@@ -123,7 +118,7 @@ final class BankSearchView
                 reopenQueued=true;
                 BankTag expected=tag;
                 var unchanged=unchangedContext();
-                // Opening a tag rebuilds the bank: defer it out of BeforeRender.
+
                 clientThread.invokeLater(() -> {
                     if(tag!=expected) return;
                     reopenQueued=false;

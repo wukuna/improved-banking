@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.text.Normalizer;
 import java.util.Locale;
 
-/** Shared, bounded typo matching for names, categories and presets. */
 final class SearchText
 {
     static String normalize(String text)
@@ -59,8 +58,7 @@ final class SearchText
     private static boolean matchesWord(String word,String needle,int allowed)
     {
         if(allowed==0) return false;
-        // Search as the user types: a typo in an unfinished word should not make
-        // its suggestions disappear until the final letters have been entered.
+
         for(int length=Math.max(1,needle.length()-allowed);length<=Math.min(word.length(),needle.length()+allowed);length++)
             if(distance(word.substring(0,length),needle)<=allowed) return true;
         return false;

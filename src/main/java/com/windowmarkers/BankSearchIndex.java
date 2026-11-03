@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Immutable bank-only search documents, built off the client thread. */
 final class BankSearchIndex
 {
     private final Map<String,Set<Integer>> documents=new LinkedHashMap<>();
@@ -65,7 +64,7 @@ final class BankSearchIndex
         if(same) return lastRanks;
         Map<Integer,ItemCatalogueIndex.Rank> result=new HashMap<>();
         for(Marker marker:groups) if(marker.linked()) {
-            // Cleanup maps are already built from this snapshot; new preview groups need their reasons too.
+
             if(BankCleanup.isQuery(marker.guideQuery)) indexRank(marker);
             Map<Integer,ItemCatalogueIndex.Rank> ranks=markerRanks.getOrDefault(marker.rankKey(),Collections.emptyMap());
             for(int id:marker.linkedItemIds) if(ranks.containsKey(id)) result.merge(id,ranks.get(id),TierPresentation::merge);
@@ -88,8 +87,7 @@ final class BankSearchIndex
     boolean groupBySlot(String query) {
         String normalized=SearchText.normalize(query);
         if(normalized.length()<3 || ordinaryNames.contains(normalized) || !plainQuery(query)) return false;
-        // A general category or individual item must not inherit layout merely
-        // because it also occurs in a boss setup's long document.
+
         return activities.stream().anyMatch(name -> name.equals(normalized) || name.startsWith(normalized+" "));
     }
     private void add(String text,int id)
@@ -113,8 +111,7 @@ final class BankSearchIndex
         String normalized=SearchText.normalize(query);
         ItemCatalogueIndex.Result common=catalogue.find(query,context,inventoryContext,hitpoints);
         if(common!=null) for(ItemCatalogueIndex.Item item:common.items) result.add(item.id);
-        // Purpose/threshold queries have exact membership. Saved groups with a
-        // matching name must not reintroduce raw food or incompatible ammo.
+
         if(common!=null && SupplySearch.parse(query)!=null) return new Match(result,common.ranks,false);
         Map<String,Set<Integer>> extra=common==null?documents:customDocuments;
         boolean exact=extra.keySet().stream().anyMatch(t->t.contains(normalized));

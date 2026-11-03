@@ -49,7 +49,7 @@ public class BankControlLayoutTest
         for(Cell cell:f.cells.values())original.put(cell.id,cell.geometry.clone());
         f.build();
         assertEquals(49,f.items.geometry[0]);assertEquals(66,f.items.geometry[2]);
-        assertEquals(0,f.tags.geometry[0]); // Bank Tags' parent and its dynamic column are untouched.
+        assertEquals(0,f.tags.geometry[0]);
         Rectangle tagBounds=f.tagColumn.bounds();
         for(Control control:Control.values()) {
             Cell button=f.cells.get(control.button),icon=f.cells.get(control.graphic);
@@ -64,7 +64,7 @@ public class BankControlLayoutTest
         for(int i=0;i<30;i++)f.bus.post(new BeforeRender());
         assertFalse(f.controller.controls.changed());
         verify(f.controller.client,never()).runScript(any(Object[].class));
-        // A native button script may reset only one coordinate between frames.
+
         Cell search=f.cells.get(Control.SEARCH.button);search.widget.setOriginalX(273);f.bus.post(new BeforeRender());
         assertEquals(42,search.geometry[0]);assertFalse(f.controller.controls.changed());
         f.controller.shutDown();

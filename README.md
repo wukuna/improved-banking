@@ -8,11 +8,10 @@ Find what you need, build a useful bank view and make it your own. Search Wiki c
 
 The Wiki-based catalogue ships with the plugin; it does not fetch updates during gameplay or send your bank contents to the Wiki. New information arrives through plugin updates. General classifications are organizational groups, not a claim that every item is suitable for every activity or that a group forms a complete best-in-slot loadout.
 
-[Features](#features) · [Getting started](#getting-started) · [Usage](#usage) · [Saved settings](#saved-settings) · [Compatibility](#compatibility) · [Inspiration and recipe](#inspiration-and-recipe) · [Development](#development) · [Support](#support) · [License and attribution](#license-and-attribution)
+[Features](#features) · [Getting started](#getting-started) · [Usage](#usage) · [Saved settings](#saved-settings) · [Compatibility](#compatibility) · [Inspiration and recipe](#inspiration-and-recipe) · [Support](#support) · [License and attribution](#license-and-attribution)
 
 ## Features
 
-- **Recent updates:** up to five bundled change notes appear in the chatbox once per update in each RuneLite profile.
 - **Searchable Legend:** find activities and saved groups as you type; filter by preset, drag to reorder, and edit groups in one place.
 - **Item lookup and comparison:** inspect one or two items, send a classification to Legend, or temporarily highlight the selected items without creating a group.
 - **Custom groups and presets:** choose item icons from a searchable palette, combine disconnected bank selections, and save reusable groups with their labels and appearance.
@@ -29,8 +28,6 @@ The Wiki-based catalogue ships with the plugin; it does not fetch updates during
 - **Saved layouts:** separate settings for each character and RuneLite profile, multi-selection and Undo/Redo.
 - **Optional GE discovery:** search activities and categories such as `toa head`, `cox cape`, `vorkath ranged` or `mining tools`. Shared purple, blue and green tier labels identify the first three Wiki equipment columns in both bank and GE searches where matching setups agree.
 - **GE shopping filters:** find owned activity gear and supported next guide upgrades, narrow skill supplies with search tips, and optionally show guide prices, affordability colours and known unmet requirements.
-
-**Availability:** Install **Improved Banking** from RuneLite's Plugin Hub. This README follows current development. [Update #19695](https://github.com/runelite/plugin-hub/pull/19695), covering preset dragging, movable bank controls and display switches, has merged. The Bank Tags dependency checks described below are part of the next update.
 
 **More plugins:** [Banking, Looting, Right-Clicks, Interface Layout and Chat](https://github.com/wukuna#runelite-plugins).
 
@@ -82,7 +79,7 @@ Burnt chicken retains its **repeatable Keldagrim tasks** note even after **Forge
 
 `quest active`, `quest future`, `quest completed` and `quest unknown` separate the currently mapped quest uses. Live completion checks initially cover burnt chicken and burnt meat; other quest-related items remain **progress unknown**. Future-quest notes distinguish reviewed prerequisites and boostable skill requirements without claiming complete eligibility. Progress is read locally on bank opening; it is not uploaded. A completed quest use does not imply that every other use is finished.
 
-`sellable` or **Sell candidates** reviews ordinary metal axes and pickaxes only when a better owned, usable replacement is observed. Known clue/quest uses and repeatable task tools remain protected, and members-only replacements do not displace free-world tools. This does not rank combat weapons against each other or mark a specialist weapon redundant because a higher-priced weapon is owned. Nothing is sold, dropped, destroyed or withdrawn automatically. [Cleanup scope and sources](src/main/resources/com/windowmarkers/BANK-CLEANUP-SOURCES.md).
+`sellable` or **Sell candidates** reviews ordinary metal axes and pickaxes only when a better owned, usable replacement is observed. Known clue/quest uses and repeatable task tools remain protected, and members-only replacements do not displace free-world tools. This does not rank combat weapons against each other or mark a specialist weapon redundant because a higher-priced weapon is owned. Nothing is sold, dropped, destroyed or withdrawn automatically. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
 ### Item lookup actions
 
@@ -114,7 +111,7 @@ These searches work in the bank and in the **in-game GE Buy-item search** when t
 
 `food 20` includes delayed healing; use `instant food 20` when you need the full heal immediately. Hover GE results to read healing and restriction notes. Random foods such as kebabs do not qualify for numeric healing thresholds; variable-range foods use their minimum heal. Potions remain separate from food. A food group is not a recommendation for every boss or raid.
 
-Ammo groups cover conventional bows/crossbows, blowpipes, ballistae, hunter crossbows, Karil's crossbow, ogre bows, the eclipse atlatl, cannon and salamanders. Unpoisoned darts are required for blowpipes; Dorgeshuun crossbows exclude gem-tipped bolts; hunter antler bolts stay separate from kebbit bolts. Charge-based bows do not receive a guessed arrow group. Weapon, Slayer and area requirements still apply. [Supply sources and scope](src/main/resources/com/windowmarkers/SUPPLY-SEARCH-SOURCES.md).
+Ammo groups cover conventional bows/crossbows, blowpipes, ballistae, hunter crossbows, Karil's crossbow, ogre bows, the eclipse atlatl, cannon and salamanders. Unpoisoned darts are required for blowpipes; Dorgeshuun crossbows exclude gem-tipped bolts; hunter antler bolts stay separate from kebbit bolts. Charge-based bows do not receive a guessed arrow group. Weapon, Slayer and area requirements still apply. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
 The core Grand Exchange plugin's fuzzy search remains available for queries Improved Banking does not recognize. Recognized supply and activity queries take priority, including an intentionally empty result. The catalogue loads in the background after login/enabling; if you searched while it was loading, edit or re-enter the query once ready. This does not extend the Grand Exchange side panel's price-lookup search.
 
@@ -132,11 +129,11 @@ Each inventory preserves every populated item position in its Wiki example, incl
 
 Owned divine potions and other deliberately self-damaging supplies fill the reviewed inventory slots that list them; their use warning does not mean they are unavailable. If the exact dose is missing, supported potions can use an owned bottle of the same potion with a different dose count. Hover to check the doses: repeated slots share one bank stack and do not guarantee enough doses for the trip. Regular/divine and regular/blighted potions remain distinct. Preset activity views use the same yellow owned-item highlighting as native search; dimmed examples stay unhighlighted. Owned ash sanctifiers, bonecrushers, soul bearers and master scroll books fill their reviewed inventory slots with charge/content reminders. Their item identity alone cannot verify charges, stored contents or toggles.
 
-**Wilderness defaults** favour owned Wilderness weapons with budget armour and accessories. When a setup lacks a usable owned head, weapon, body or legs choice, its heading says **not enough gear in bank**. Missing slots can show muted, source-listed budget suggestions such as black d'hide armour; owning expensive gear does not relax the filter. A view can show suggestions even when nothing eligible is owned. Expensive general gear cannot fill gaps in these defaults; source-listed low-risk inventories are preferred where available. Budget choices are curated, not a live GP limit, and the plugin does not assume items are protected on death. Exact individual guide choices remain available through **Guide choices**. [Selection scope and sources](src/main/resources/com/windowmarkers/WILDERNESS-AND-SUPPLY-SOURCES.md).
+**Wilderness defaults** favour owned Wilderness weapons with budget armour and accessories. When a setup lacks a usable owned head, weapon, body or legs choice, its heading says **not enough gear in bank**. Missing slots can show muted, source-listed budget suggestions such as black d'hide armour; owning expensive gear does not relax the filter. A view can show suggestions even when nothing eligible is owned. Expensive general gear cannot fill gaps in these defaults; source-listed low-risk inventories are preferred where available. Budget choices are curated, not a live GP limit, and the plugin does not assume items are protected on death. Exact individual guide choices remain available through **Guide choices**. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
 When a home-teleport tablet is missing, the inventory can use an owned Construction cape or ordinary Max cape. Combat Max capes and redirected tablets are not interchangeable home teleports. This substitution does not imply that your house has the guide's required facilities.
 
-Missing or unready inventory items appear as dimmed guide previews with no withdrawal action. Unbankable supplies, such as Moonlight potions and Tithe Farm seeds, also appear as guide previews with acquisition notes. They are not added to bank or GE search results. Inventory-only activities do not need an equipment table. Hover to see why a preview or alternative is shown. Intentionally empty source positions and placeholder-only slots stay empty. When the Wiki lists price-dependent food or potion alternatives, an owned eligible choice is shown; live prices are not compared. See [inventory source notes](src/main/resources/com/windowmarkers/INVENTORY-LAYOUT-SOURCES.md).
+Missing or unready inventory items appear as dimmed guide previews with no withdrawal action. Unbankable supplies, such as Moonlight potions and Tithe Farm seeds, also appear as guide previews with acquisition notes. They are not added to bank or GE search results. Inventory-only activities do not need an equipment table. Hover to see why a preview or alternative is shown. Intentionally empty source positions and placeholder-only slots stay empty. When the Wiki lists price-dependent food or potion alternatives, an owned eligible choice is shown; live prices are not compared. See [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
 **Suggested runes** sit directly beneath the first equipment setup, before later phase setups. They are the activity's already-matched rune choices, not a requirement to bring every rune; choose those needed for your spellbook, spells and rune pouch. Other gear follows below all phase sections by slot or documented raid room, followed by food, potions and utilities. Room alternatives cover Chambers of Xeric, Theatre of Blood and Tombs of Amascut; a shared item can appear in multiple rooms. Guardian pickaxes have their own group, including verified Dragon pickaxe cosmetics. Hover explanations retain the guide's conditions. Expand **Legend → Saved views → Guide choices** to choose one equipment table or an inventory example. Ordinary item searches and categories keep their order. Improved Banking's preset views retain their contents and layout when the bank closes and reopens. Choosing a regular tab or search clears the preset; existing saved Bank Tags layouts are kept separately.
 
@@ -156,7 +153,7 @@ Equivalent items are recognized only for the effect they share. Fire and Inferna
 
 Guide alternatives also include ordinary linked items and named footnotes. For example, an ornate-handle granite maul requirement selects the upgraded weapon, while Vale Totems offering examples include the guide's magic-wood products. Links explaining a required spell, weapon or complete set remain conditions; they are not automatically added as interchangeable equipment. Follow the pinned guide when a setup refers to another phase or ranged section.
 
-**Exclude worse items** conservatively compares supported alternatives using owned replacements, real skill levels and verified unlocks. It preserves separate roles, special attacks, set effects and useful alternatives. It does not claim a universal gear ranking. [Coverage details](src/main/resources/com/windowmarkers/CATALOGUE-COVERAGE.md), [Wiki attribution](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md) and [raid comparison sources](src/main/resources/com/windowmarkers/RAID-FILTER-SOURCES.md) describe the implemented scope.
+**Exclude worse items** conservatively compares supported alternatives using owned replacements, real skill levels and verified unlocks. It preserves separate roles, special attacks, set effects and useful alternatives. It does not claim a universal gear ranking. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md) lists the data sources.
 
 ### Grand Exchange search
 
@@ -178,9 +175,9 @@ GE results keep the item name on the first line and compact badges and price on 
 
 Verified purchase alternatives can appear alongside a guide's exact items, such as an uncharged bow or enhanced-capacity trident. Hover explanations identify charging, repair, filling and capacity differences; these alternatives do not inherit a ready-to-use gear colour. Role searches also recognize two-handed shields and supported blowpipe ammunition without confusing those roles with ordinary weapon recommendations.
 
-Full equipment tables win ties over partial switches when both cover the same owned slots. Sire Phase 1 switch lists are explicitly labelled **Equipment switches**; omitted slots are not invented. Relevant Avernic treads upgrades count for their matching single combat style, without claiming the bonuses of their missing upgrades. [Equipment audit and source details](src/main/resources/com/windowmarkers/EQUIPMENT-SLOT-AUDIT.md).
+Full equipment tables win ties over partial switches when both cover the same owned slots. Sire Phase 1 switch lists are explicitly labelled **Equipment switches**; omitted slots are not invented. Relevant Avernic treads upgrades count for their matching single combat style, without claiming the bonuses of their missing upgrades. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
-Use **Legend → Saved views → Guide choices → Choose bank / GE guide** to narrow an activity to one source table and read its conditions. **Clear bank / GE guide** restores all matching setups. This same context applies to live bank searches; saved setup groups retain the guide they were created from. Search again at the GE after changing the guide or settings. The context is saved per RuneLite profile; other activities remain searchable. Ordinary item-name searches and earlier-handled searches such as Bank Tags retain their existing behavior. This feature does not buy items or change offers, prices or quantities. [Tier data and scope](src/main/resources/com/windowmarkers/GE-SEARCH-SOURCES.md).
+Use **Legend → Saved views → Guide choices → Choose bank / GE guide** to narrow an activity to one source table and read its conditions. **Clear bank / GE guide** restores all matching setups. This same context applies to live bank searches; saved setup groups retain the guide they were created from. Search again at the GE after changing the guide or settings. The context is saved per RuneLite profile; other activities remain searchable. Ordinary item-name searches and earlier-handled searches such as Bank Tags retain their existing behavior. This feature does not buy items or change offers, prices or quantities. [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md).
 
 ### Bank layout
 
@@ -206,7 +203,7 @@ Existing Window Markers beta settings and saved layouts are preserved under thei
 
 **Bank Tags must be enabled for preset views.** If it is off, Improved Banking shows this requirement in the side panel instead of opening an incomplete preset. Turning Bank Tags off closes the temporary view and cancels pending preset loading; saved presets and positions are retained. Enable Bank Tags and select the preset again. Bank Tag Layouts is optional.
 
-**Bank Tags and Bank Tag Layouts:** supported companions, not declared conflicts. Improved Banking keeps its own preset positions separate from their saved tag layouts. The latest drag-handling fix is included in the update linked above.
+**Bank Tags and Bank Tag Layouts:** supported companions, not declared conflicts. Improved Banking keeps its own preset positions separate from their saved tag layouts.
 
 Improved Banking replaces the separate **Flexible Bank** and **Bank Screenshot** plugins and declares those conflicts. Existing Flexible Bank size preferences are copied once when no corresponding Improved Banking preference exists. Original settings remain stored. Disable Improved Banking before re-enabling the separate plugins. The integrated bank-layout option can also be disabled in settings.
 
@@ -233,10 +230,6 @@ The recipe is searchable categories, recognisable gear layouts, clear markers an
 
 The [Old School RuneScape Wiki](https://oldschool.runescape.wiki/) supplies attributed category and strategy-guide information. It is credited as a data source, with pinned references and its own license, rather than presented as a plugin dependency. Catalogue updates arrive with plugin releases; bank contents are not uploaded. See [License and attribution](#license-and-attribution) for code and data credits.
 
-## Development
-
-Use Java 11 and run `./gradlew test jar` (Windows: `gradlew.bat test jar`). Published source uses the normal plugin name and RuneLite activation defaults. Local testing builds display **Improved Banking TEST** and retain the same feature-storage keys.
-
 ## Support
 
 [Report an issue, correction or feature request](https://github.com/wukuna/improved-banking/issues). For category problems, include the item names, selected preset and whether Exclude worse items was enabled. For layout problems, include the current bank tab, RuneLite profile context, overlapping bank plugins and a screenshot with private details removed. All requests and information are considered and appreciated.
@@ -255,4 +248,4 @@ Preset item tooltips combine rank and inventory notes into a compact, wrapped su
 
 Original Java code is BSD 2-Clause; see [LICENSE](LICENSE). The integrated bank-layout controller adapts [TheLeon0/Flexible Bank](https://github.com/TheLeon0/flexible-bank/tree/0ea1d3bf2c7bc9534323d4d6939599681c4d40fa), with its BSD licence and attribution included in source and resources.
 
-The bundled Wiki-derived data files are distributed under **CC BY-NC-SA 3.0**, separately from the Java code. Their source revisions, attribution and modifications are documented in [TAXONOMY-SOURCES.md](src/main/resources/com/windowmarkers/TAXONOMY-SOURCES.md). No resource-pack artwork is redistributed.
+The bundled Wiki-derived data files are distributed under **CC BY-NC-SA 3.0**, separately from the Java code. Their source revisions, attribution and modifications are documented in [Wiki attribution](src/main/resources/com/windowmarkers/WIKI_DATA_ATTRIBUTION.md). No resource-pack artwork is redistributed.

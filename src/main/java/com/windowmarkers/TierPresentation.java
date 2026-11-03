@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.awt.*;
 
-/** The same guide tiers, colours and labels in the bank and GE. */
 final class TierPresentation
 {
     static String ordinal(int tier) { return tier==1?"1st":tier==2?"2nd":tier==3?"3rd":""; }

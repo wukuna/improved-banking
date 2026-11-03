@@ -144,8 +144,7 @@ public class CatalogueTest
                 AutoCategories.Preset.THEATRE_OF_BLOOD,AutoCategories.Preset.TOMBS_OF_AMASCUT))
             {
                 assertNull(row[0],WikiCatalogue.category(unknownName,raid));
-                // A separately reviewed variant ID can resolve to an explicit raid-table item.
-                // Category membership alone still cannot establish that identity or eligibility.
+
                 if(CombatEquivalence.familyName(unknownName).equals(unknownName.name))
                 { assertTrue(row[0],AutoCategories.suggest(raid,Collections.singletonList(unknownName)).isEmpty()); }
             }

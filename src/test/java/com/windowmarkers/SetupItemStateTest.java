@@ -63,7 +63,7 @@ public class SetupItemStateTest
             assertFalse(plan("Kalphite Queen","40453:13",empty).inventory.containsValue(empty.id));
             assertTrue(plan("Kalphite Queen","40453:13",empty,charged).inventory.containsValue(charged.id));
             assertTrue(ItemVariantState.needsRankReview(empty.fact,"Kalphite Queen","Max"));
-            assertFalse(ItemVariantState.needsActivityReview(empty.fact)); // Defensive use is retained.
+            assertFalse(ItemVariantState.needsActivityReview(empty.fact));
         }
     }
 
@@ -74,6 +74,6 @@ public class SetupItemStateTest
         assertFalse(plan("Duke Sucellus","391177:2",inactive).inventory.containsValue(inactive.id));
         assertTrue(plan("Duke Sucellus","391177:2",inactive,active).inventory.containsValue(active.id));
         assertFalse(ItemVariantState.needsRankReview(inactive.fact,"Chambers of Xeric","Guardians"));
-        assertFalse(ItemVariantState.needsActivityReview(inactive.fact)); // Dragon-tier mining is retained.
+        assertFalse(ItemVariantState.needsActivityReview(inactive.fact));
     }
 }

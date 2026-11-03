@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Reviewed combat roles only; never a universal alias for utility, quests or clues. */
 final class CombatEquivalence
 {
     private static final Map<Integer,String> FAMILIES=new HashMap<>();

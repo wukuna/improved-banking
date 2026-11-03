@@ -18,7 +18,6 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.util.AsyncBufferedImage;
 import net.runelite.client.util.ImageCapture;
 
-/** Captures the current tab's full laid-out content without clicking or scrolling the game. */
 final class BankCapture
 {
     private static final org.slf4j.Logger log=org.slf4j.LoggerFactory.getLogger(BankCapture.class);
@@ -32,10 +31,8 @@ final class BankCapture
     private long revision;
     private boolean pending;
 
-    /** Called on the client thread when the plugin/account/profile context changes. */
     void cancel() { revision++; pending=false; }
 
-    /** True means queued, not saved. Never blocks the client thread waiting for sprites. */
     boolean save(List<Marker> markers,BooleanSupplier valid,Consumer<Boolean> completed)
     {return save(markers,false,valid,completed);}
     boolean save(List<Marker> markers,boolean hideOutlines,BooleanSupplier valid,Consumer<Boolean> completed)
@@ -61,7 +58,7 @@ final class BankCapture
             List<Rectangle> bounds=marker.linked() ? ItemAnchors.regions(marker.linkedItemIds,cells)
                 : Boolean.TRUE.equals(marker.scrollWithItems) ? java.util.Collections.singletonList(new Rectangle(marker.x,marker.y,marker.width,marker.height)) : java.util.Collections.emptyList();
             if(!bounds.isEmpty() && config.visible()) {
-                // Freeze presentation too: the user can edit markers while images are loading.
+
                 visible.add(new Group(marker,config)); regions.add(bounds);
             }
         }
@@ -73,7 +70,7 @@ final class BankCapture
             if(icon.image==null) { return false; }
             var definition=items.getItemComposition(icon.id);
             icon.placeholder=definition!=null && definition.getPlaceholderTemplateId()>0;
-            // The listener retains only a counter, not the capture or its bank snapshot.
+
             icon.image.onLoaded(remaining::decrementAndGet);
         }
         pending=true;final long request=++revision,started=clock.getAsLong();final int captureWidth=width;
@@ -126,7 +123,7 @@ final class BankCapture
                 }
             }
             finally { content.dispose(); }
-            // A separate legend retains every label without covering any item icon.
+
             g.setFont(new Font("Arial",Font.PLAIN,12));
             int y=contentHeight+55;
             for(Group marker:visible)

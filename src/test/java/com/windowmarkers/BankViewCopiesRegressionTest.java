@@ -52,7 +52,7 @@ public class BankViewCopiesRegressionTest
             for(Widget w:children) if(!w.isSelfHidden()) {expected.add(w);positions.put(w,new int[]{w.getOriginalX(),w.getOriginalY()});}
             assertTrue("Repeated items/previews must exist: "+activity,expected.size()>plan.itemIds().size()+5);
             EventBus bus=new EventBus();bus.register(c);
-            // Bank Tag Layouts retains one widget per item ID and hides the rest.
+
             bus.register(ScriptPostFired.class,e->{Set<Integer> seen=new HashSet<>();for(Widget w:expected) {
                 if(!seen.add(w.getItemId())) w.setHidden(true);
                 else {w.setOriginalX(350);w.setOriginalY(900);}

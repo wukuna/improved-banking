@@ -14,7 +14,7 @@ final class MarkerPresentation
     }
     static String displayTitle(String label)
     {
-        // Legacy generated descriptions can be shortened without rewriting saved custom labels.
+
         if(label.contains(" — ") && (label.contains("set") || label.contains("synergy") || label.startsWith("Void —")
             || label.contains("not activity advice") || label.startsWith("Restricted-use supplies"))) { return title(label); }
         return label;
@@ -62,8 +62,7 @@ final class MarkerPresentation
             if(!clip.contains(candidate)) { continue; }
             if(occupied.stream().noneMatch(candidate::intersects)) { occupied.add(candidate); return candidate; }
         }
-        // Look beside the group and in nearby empty bands. A dense row must not
-        // silently lose its label merely because above/inside/below are occupied.
+
         java.util.Set<Integer> bands=new java.util.TreeSet<>();
         bands.add(clip.y);bands.add(clip.y+clip.height-height);
         bands.add(Math.max(clip.y,Math.min(region.y,clip.y+clip.height-height)));

@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Bundled, audited Wiki item identities and useful roles. Does not imply activity eligibility. */
 final class WikiCatalogue
 {
     static final class Entry
@@ -23,8 +22,7 @@ final class WikiCatalogue
         { AMBIGUOUS_NAMES.add(Integer.parseInt(row[0])); }
         for (String[] row:ItemTaxonomy.readRows("catalogue-identity-exclusions.tsv",1))
         { EXCLUDED_IDENTITIES.add(Integer.parseInt(row[0])); }
-        // Exact-ID Wiki category evidence supplements organizational roles only.
-        // Raid recommendations and ranked alternatives use their own reviewed resources.
+
         for (String resource : new String[]{"wiki-category-supplement.tsv","combat-equivalence-categories.tsv","wiki-recipe-roles.tsv","wiki-role-updates.tsv","supply-search-groups.tsv"})
         for (String[] row : ItemTaxonomy.readRows(resource,3))
         {
@@ -54,15 +52,14 @@ final class WikiCatalogue
         List<Entry> supplement=CATEGORY_SUPPLEMENT.get("I:"+item.id);
         List<Entry> exclusions=ROLE_EXCLUSIONS.get("I:"+item.id);
         if (supplement==null && exclusions==null) { return result==null ? Collections.emptyList() : result; }
-        // Preserve reviewed name aliases when adding an exact-ID category record.
+
         List<Entry> combined=result==null ? new ArrayList<>() : new ArrayList<>(result);
         if (supplement!=null) for (Entry entry:supplement)
         {
             if (combined.stream().noneMatch(e -> e.facet.equals(entry.facet) && e.group.equals(entry.group)))
             { combined.add(entry); }
         }
-        // Correct only the reviewed identity and role, including a name fallback
-        // from a different item with the same display name. Shared indexes stay intact.
+
         if (exclusions!=null)
         { combined.removeIf(e -> exclusions.stream().anyMatch(x -> x.facet.equals(e.facet) && x.group.equals(e.group))); }
         return combined;

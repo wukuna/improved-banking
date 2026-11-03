@@ -9,7 +9,6 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetType;
 import net.runelite.api.gameval.InterfaceID;
 
-/** Owns only its added screenshot widget; never moves or alters the native close control. */
 final class BankScreenshotButton
 {
     @Inject Client client;

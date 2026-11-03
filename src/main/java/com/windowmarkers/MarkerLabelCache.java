@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.awt.Rectangle;
 import java.util.*;
 
-/** Avoid repeating free-space searches while the bank and its labels are stationary. */
 final class MarkerLabelCache
 {
     private List<Rectangle> previousItems=Collections.emptyList();
@@ -26,7 +25,7 @@ final class MarkerLabelCache
             if(result!=null) occupied.add(new Rectangle(result));
             return result;
         }
-        // A changed/removed earlier label changes the free space for every later label.
+
         while(previous.size()>cursor) previous.remove(previous.size()-1);
         request.result=MarkerPresentation.place(region,clip,width,height,preference,occupied);
         previous.add(request);cursor++;return request.result;

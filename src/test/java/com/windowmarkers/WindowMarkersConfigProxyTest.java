@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 
 public class WindowMarkersConfigProxyTest
 {
-    /** Use RuneLite's actual handler and JDK proxy, without loading a user's profile. */
+
     static WindowMarkersConfig proxy(Map<String,String> saved) throws Exception
     {
         ConfigManager manager=mock(ConfigManager.class,CALLS_REAL_METHODS);

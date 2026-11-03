@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-/** Exact identity state is separate from category membership and activity suitability. */
 final class ItemVariantState
 {
     private enum State { AVAILABLE, REPAIR, CHARGE, EMPTY, REDUCED, CHECK, PREPARE, CONTENTS, RESTRICTED }
@@ -54,21 +53,17 @@ final class ItemVariantState
 
     static boolean needsActivityReview(AutoCategories.Item item,String role)
     {
-        // The inactive Arclight keeps Darklight's special attack. This exception
-        // does not grant it the charged weapon's demon-damage role or ranking.
+
         if (item.id==30305 && role.startsWith("Special attacks")) { return false; }
         return needsActivityReview(item);
     }
 
     static boolean needsInventoryReview(AutoCategories.Item item,ActivitySetups.Setup setup)
     {
-        // These exact utility identities keep their charges/contents outside
-        // the item ID. Show ownership without claiming their contents are ready.
+
         if(setup.itemIds.contains(item.id) && inventoryOwnershipOnly(item)
             && !identityNeedsReview(item) && !WikiCatalogue.hasFacet(item,"restricted")) return false;
-        // A reviewed inventory can deliberately use a restricted supply. A
-        // self-damage warning is not evidence that an owned potion is unavailable.
-        // Keep identity, state and unrelated location restrictions separate.
+
         if(!identityNeedsReview(item) && (setup.itemIds.contains(item.id) || InventoryPotionDoses.listed(setup.itemIds,item))
             && (item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item,"restricted")
                 || WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use"))
@@ -101,12 +96,10 @@ final class ItemVariantState
     {
         if(needsActivityReview(held)) return false;
         ItemVariantState owned=STATES.get(held.id),wanted=STATES.get(candidate.id);
-        // Equal combat stats do not make the ordinary trident a 20,000-charge
-        // enhanced model. Preserve that separate purchase option.
+
         if(wanted!=null && wanted.family.startsWith("trident of the ")
             && candidate.name.contains("(e)") && !held.name.contains("(e)")) return false;
-        // Retained base stats do not establish the charged version's teleports,
-        // recoil or gathering benefits. Exact ownership is handled separately.
+
         return owned==null || owned.state!=State.REDUCED
             || wanted!=null && wanted.state==State.REDUCED;
     }
@@ -115,16 +108,14 @@ final class ItemVariantState
     {
         ItemVariantState known=STATES.get(item.id);
         if(known==null || known.state!=State.REDUCED) return false;
-        // These tools remain usable at dragon tier. Do not copy a charged
-        // tool's guide rank when its processing or gathering effect is gone.
+
         if(known.note.startsWith("dragon")) {
             if(known.family.equals("infernal axe") && activity.equals("Wintertodt")) return false;
             if(known.family.endsWith("pickaxe") && activity.startsWith("Chambers of Xeric")
                 && setup.startsWith("Guardians")) return false;
             return true;
         }
-        // A passive bonus is not proof that a guide's additional charge-based
-        // benefit is available. Keep these items searchable with state notes.
+
         if(known.family.startsWith("celestial ")) return !activity.equals("Tempoross");
         if(known.family.startsWith("ring of suffering")) return activity.equals("Zulrah") || activity.equals("Kalphite Queen");
         if(known.family.startsWith("amulet of glory")) return activity.equals("Mining");
@@ -151,15 +142,14 @@ final class ItemVariantState
     {
         if (group==null) { return null; }
         ItemVariantState known=STATES.get(item.id);
-        // Keep the item's factual category, but do not mix depleted and usable states.
+
         if (known!=null && !known.note.isEmpty()) { return group+" ("+known.note+")"; }
         return group;
     }
 
     static boolean identityNeedsReview(AutoCategories.Item item)
     {
-        // Same-name interface models and unavailable quest/test copies must not
-        // inherit the real inventory item's effects or activity recommendations.
+
         return item.name.equals(UNVERIFIED_IDENTITIES.get(item.id))
             || item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id));
     }

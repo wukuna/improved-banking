@@ -7,7 +7,6 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
 
-/** Moves the existing native widgets. No action forwarding or replacement click targets. */
 final class BankControlWidgets
 {
     private final BankLayoutController owner;
@@ -79,8 +78,7 @@ final class BankControlWidgets
         Widget bottom=owner.client.getWidget(InterfaceID.Bankmain.BOTTOM);
         if(bottom==null)return;
         int top=plan.docked.isEmpty()?container.getHeight()-37:BankControlLayout.TOP;
-        // A transparent native layer spans the left dock and the bottom row;
-        // its empty area does not intercept item or Bank Tags clicks.
+
         owner.setSize(bottom,0,container.getHeight()-1-top,WidgetSizeMode.MINUS,WidgetSizeMode.ABSOLUTE);
         owner.setPos(bottom,0,1,WidgetPositionMode.ABSOLUTE_LEFT,WidgetPositionMode.ABSOLUTE_BOTTOM);applied.put(bottom,null);
         Widget quantity=owner.client.getWidget(InterfaceID.Bankmain.QUANTITY_LAYER);
@@ -94,8 +92,7 @@ final class BankControlWidgets
             Widget button=owner.client.getWidget(control.button),icon=owner.client.getWidget(control.graphic);
             position(button,r.x,r.y-top);
             position(icon,r.x+control.iconX,r.y-top+control.iconY);
-            // Quantity labels use a height relative to their 36px native parent.
-            // Freeze that label height while the parent spans both docking areas.
+
             if(icon!=null && control.quantity())owner.setSize(icon,25,21,WidgetSizeMode.ABSOLUTE,WidgetSizeMode.ABSOLUTE);
         }
     }

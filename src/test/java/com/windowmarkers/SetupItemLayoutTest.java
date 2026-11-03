@@ -222,7 +222,7 @@ public class SetupItemLayoutTest
         Widget container=mock(Widget.class); when(container.getDynamicChildren()).thenReturn(heads);
         assertEquals(108,SetupItemLayout.apply(container,manager,2,48,0)[1]);
         assertEquals(72,heads[4].getOriginalY());
-        // Simulate a native rebuild at wider width before the next arrangement.
+
         for(int i=0;i<5;i++) { heads[i].setOriginalX(51+i*48); heads[i].setOriginalY(0); }
         assertEquals(36,SetupItemLayout.apply(container,manager,8,48,0)[1]);
         assertEquals(0,heads[4].getOriginalY());

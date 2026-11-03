@@ -8,7 +8,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import net.runelite.client.util.AsyncBufferedImage;
 
-/** Read-only reasons, separate from the explicit custom-view editor. */
 final class ItemReviewPanel extends JPanel
 {
     final JTextField search=new JTextField();

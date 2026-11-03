@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** An activity contains separate source loadouts; inventories are never unioned. */
 final class SetupLoadout
 {
     static final class Field {
@@ -79,7 +78,7 @@ final class SetupLoadout
         this.equipment=equipment;this.inventory=inventory;this.inventoryExample=inventoryExample;
     }
     static boolean inventoryTable(ActivitySetups.Setup setup) { Table table=TABLES.get(setup.id);return table!=null && table.kind.equals("inventory"); }
-    /** A custom view is an explicit item selection; removed items must not return as example icons. */
+
     SetupLoadout retainItems(Set<Integer> allowed)
     {
         Map<Integer,List<Integer>> gear=new LinkedHashMap<>();
@@ -92,7 +91,7 @@ final class SetupLoadout
         result.sectionName=sectionName;
         result.wildernessBudget=wildernessBudget;
         result.equipmentSource=equipmentSource;
-        // Saved custom selections must not regain removed items as suggestions.
+
         if(!sections.isEmpty()) {
             List<SetupLoadout> kept=new ArrayList<>();
             for(SetupLoadout section:sections) kept.add(section.retainItems(allowed));
@@ -115,8 +114,7 @@ final class SetupLoadout
         Map<Integer,ItemCatalogueIndex.Item> budget=new LinkedHashMap<>();
         owned.forEach((id,item)-> { if(WildernessLoadout.allowed(item)) budget.put(id,item); });
         Set<Integer> shown=new HashSet<>(visible);shown.retainAll(budget.keySet());
-        // An explicit inventory choice remains authoritative. The ordinary view
-        // prefers a source's low-risk inventory when one is supplied.
+
         if(inventoryContext.isEmpty()) for(ActivitySetups.Setup setup:matched)
             if(inventoryTable(setup) && setup.label.toLowerCase(Locale.ROOT).contains("low-risk")) { inventoryContext=setup.id;break; }
         SetupLoadout plan=buildSections(WildernessLoadout.defaults(matched),budget,shown,inventoryContext);
@@ -125,7 +123,7 @@ final class SetupLoadout
     }
     private static SetupLoadout buildSections(List<ActivitySetups.Setup> matched,Map<Integer,ItemCatalogueIndex.Item> owned,Set<Integer> visible,String inventoryContext)
     {
-        // Explicit source selections and saved inventory choices remain stable.
+
         if(matched.size()<2) return buildOne(matched,owned,visible,inventoryContext);
         Set<String> activities=new HashSet<>();matched.forEach(s->activities.add(s.activity));
         Set<String> families=new HashSet<>();activities.forEach(a->families.add(ActivityMenu.canonical(a).split("/",2)[0]));
@@ -171,8 +169,7 @@ final class SetupLoadout
                 slots.add(field.slot());
                 if(field.ids.stream().anyMatch(id->visible.contains(id) && equipmentReady(setup,owned.get(id)) && owned.get(id).slot==field.slot())) available.add(field.slot());
             }
-            // Phase-only switches are completed from the parent activity.
-            // Ordinary room/utility lists remain in their own alternatives group.
+
             if(!layoutTable(table)) continue;
             int score=available.size()*100+(table.kind.equals("recommended equipment")?20:0)+slots.size();
             if(score>best) { gear=setup;best=score; }
@@ -183,8 +180,7 @@ final class SetupLoadout
         Table table=TABLES.get(anchor.id);
         Map<Integer,List<Integer>> equipment=new LinkedHashMap<>();
         List<Field> fields=gear==null?new ArrayList<>():new ArrayList<>(table.fields); fields.sort(Comparator.comparingInt(Field::order));
-        // Resolve the main weapon first, then select compatible ammunition and
-        // dependent equipment using that exact guide choice.
+
         fields.sort(Comparator.comparingInt((Field f)->f.slot()==3?0:1).thenComparingInt(Field::order));
         Map<Integer,String> equipmentNotes=new HashMap<>();
         Collection<ItemCatalogueIndex.Item> requirements=owned.values();
@@ -203,8 +199,7 @@ final class SetupLoadout
             Table candidate=TABLES.get(setup.id);
             int score=0;Set<List<Integer>> distinct=new HashSet<>();
             for(Field field:candidate.fields) if(field.inventoryChoice() && distinct.add(field.ids)) {
-                // Owning several colours/charge states of one switch must not
-                // make an unrelated example appear more complete.
+
                 int available=0;
                 for(int id:inventoryAlternatives(setup,field,owned)) if(inventoryReady(setup,owned.get(id)))
                     available=Math.max(available,owned.get(id).slot>=0?20:1);
@@ -213,8 +208,7 @@ final class SetupLoadout
             boolean paired=gear!=null && setup.id.equals(INVENTORY_PAIRS.get(gear.id));
             boolean sameStyle=gear!=null && !table.style.isEmpty() && candidate.style.equalsIgnoreCase(table.style);
             boolean sameContext=sameStyle && !table.context.isEmpty() && candidate.context.equalsIgnoreCase(table.context);
-            // Different methods can reuse labels such as "Best in slot".
-            // Prefer the source pairing/context before comparing owned items.
+
             int preference=setup.id.equals(inventoryContext)?5:paired?4:sameContext?3:sameStyle?2:matched.contains(setup)?1:0;
             if(preference>bestPreference || preference==bestPreference && score>best)
             { inventory=setup;best=score;bestPreference=preference; }
@@ -240,8 +234,7 @@ final class SetupLoadout
     {
         List<Integer> result=InventoryGearAlternatives.equivalents(SetupEquipmentChoice.inventoryAlternatives(wanted.ids),owned);
         if(wanted.ids.stream().noneMatch(InventoryGearAlternatives::rangedAccessory)) return result;
-        // Only borrow this activity's reviewed ranged accessory choices. A
-        // defensive/mechanic shield or a different weapon method is not a swap.
+
         for(ActivitySetups.Setup guide:ActivitySetups.forActivity(inventory.activity)) {
             Table table=TABLES.get(guide.id);
             if(table==null || !table.kind.equals("recommended equipment") || !SetupCompletion.style(table.style).equals("ranged")) continue;
@@ -259,7 +252,7 @@ final class SetupLoadout
         }
         return result;
     }
-    /** Fill omissions without promoting a different activity's rankings to this boss's BIS. */
+
     private static void completeEquipment(Map<Integer,List<Integer>> equipment,ActivitySetups.Setup gear,Table table,
         Map<Integer,ItemCatalogueIndex.Item> owned,Collection<ItemCatalogueIndex.Item> requirements,Map<Integer,String> notes)
     {
@@ -269,10 +262,9 @@ final class SetupLoadout
             String role=ItemTaxonomy.weaponRole(ItemVariantState.familyName(weapon.fact));
             style=role==null?"":SetupCompletion.style(role);
         }
-        if(style.isEmpty()) return; // skilling methods retain their actual equipment requirements
+        if(style.isEmpty()) return;
         Set<Integer> protectedSlots=SetupCompletion.protectedSlots(gear.activity);
-        // A listed weapon defines the method. Do not quietly turn an unavailable
-        // scorching-bow method into a melee method, or replace a required weapon.
+
         if(table.fields.stream().anyMatch(f->f.slot()==3)) {
             protectedSlots=new HashSet<>(protectedSlots);protectedSlots.add(3);
         }

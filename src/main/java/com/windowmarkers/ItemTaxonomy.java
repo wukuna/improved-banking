@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/** Factual identities, not an ordering of interchangeable gear. Sources accompany bundled data. */
 final class ItemTaxonomy
 {
     private static final Map<String,String> WEAPONS=new HashMap<>();
@@ -53,7 +52,7 @@ final class ItemTaxonomy
     static String baseName(String name)
     {
         String n=name.toLowerCase(Locale.ROOT).replace('\u2019','\'').trim();
-        // Keep functional (i), (f), poisoned and (a) variants distinct.
+
         n=n.replaceFirst("\\s*\\([1-4]\\)$","");
         n=n.replaceFirst("\\s+(100|75|50|25|0)$","");
         n=n.replaceFirst("\\s*\\((?:uncharged|empty|inactive|broken|or|l)\\)$","");

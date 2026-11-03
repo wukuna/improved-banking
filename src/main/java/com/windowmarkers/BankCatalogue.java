@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Search the full bundled catalogue; membership remains distinct from activity readiness. */
 final class BankCatalogue
 {
     enum Kind { CATEGORY, PRESET, WIKI_SETUP, CUSTOM_PRESET, SAVED_GROUP, ACTIVITY }
@@ -41,8 +40,7 @@ final class BankCatalogue
             "Defensive or utility equipment — review","Health-lowering utility","Restricted-use supplies — blighted",
             "Specialist food — purple sweets","Runes","Food — general, not activity advice","Potions — general, not activity advice",
             "Drinks and brews — review","Resources","Other — review","Other — equipment role needs review","Raid mega-rare weapons"));
-        // All preset and setup names are indexed independently of ownership. Only
-        // broad groups need the current bank to discover state-specific labels.
+
         categories.addAll(AutoCategories.suggest(AutoCategories.Preset.ALL_CATEGORIES,owned).keySet());
         for(AutoCategories.Item item:owned) if(!ItemVariantState.identityNeedsReview(item))
             for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) categories.add(ItemVariantState.annotate(entry.group,item));
@@ -98,7 +96,7 @@ final class BankCatalogue
         else matching.addAll(Arrays.asList(AutoCategories.Preset.ALL_CATEGORIES,AutoCategories.Preset.COMBAT_GROUPS,AutoCategories.Preset.RAID_MEGA_RARES));
         for(AutoCategories.Preset preset:matching)
             for(AutoCategories.Item item:AutoCategories.suggest(preset,items).getOrDefault(category,Collections.emptyList()))
-                // Suggested labels already contain their state or review note.
+
                 if(found.add(item.id)) groups.computeIfAbsent(category,k -> new ArrayList<>()).add(item);
         return groups;
     }
@@ -108,7 +106,7 @@ final class BankCatalogue
         List<AutoCategories.Item> matches=AutoCategories.suggest(choice.presetScope,items).get(choice.name);
         return matches==null?Collections.emptyMap():Collections.singletonMap(choice.name,matches);
     }
-    /** Match the exact recorded membership, never a fuzzy result or a different activity's role. */
+
     static List<Choice> targets(String membership,List<Choice> available)
     {
         if(membership.startsWith("Category: ")) {
@@ -124,7 +122,7 @@ final class BankCatalogue
         }
         List<Choice> matches=new ArrayList<>();
         if(membership.startsWith("Wiki setup: ")) {
-            // Old lookup results and saved source contexts remain resolvable.
+
             for(ActivitySetups.Setup setup:ActivitySetups.all()) {
                 String label="Wiki setup: "+setup.activity+" / "+setup.label;
                 if(membership.equals(label) || membership.equals(label+" — state needs review"))
@@ -153,8 +151,7 @@ final class BankCatalogue
         if(ItemVariantState.needsActivityReview(item)) result.add("Review: "+ItemVariantState.annotate(ItemVariantState.reviewGroup(item),item));
         if(ItemVariantState.identityNeedsReview(item)) result.add("Review: "+ItemVariantState.reviewGroup(item));
         else for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item)) if(!CatalogueArchive.hidden(entry.group)) result.add("Category: "+ItemVariantState.annotate(entry.group,item));
-        // Only fellow set pieces affect this item's group. Evaluating the entire
-        // bank once per preset would repeatedly classify hundreds of unrelated IDs.
+
         String set=ItemTaxonomy.equipmentSet(ItemVariantState.familyName(item));
         List<AutoCategories.Item> context=new ArrayList<>();
         if(set!=null) for(AutoCategories.Item candidate:owned)

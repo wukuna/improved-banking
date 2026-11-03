@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Same potion, different remaining doses; never substitute a different effect. */
 final class InventoryPotionDoses
 {
     private static final Map<Integer,String[]> DOSES=new HashMap<>();

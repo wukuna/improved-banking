@@ -24,7 +24,7 @@ public class BankSearchViewTest
         view.tags=mock(TagManager.class);view.bankTags=mock(BankTagsService.class);view.items=mock(ItemManager.class);
         var provider=view.plugins.getPlugins().iterator().next();
         when(view.plugins.isPluginActive(provider)).thenReturn(false);
-        // Configured-on is not sufficient if the provider failed to start.
+
         when(view.plugins.isPluginEnabled(provider)).thenReturn(true);
         Marker group=new Marker(0,0,48,36);group.linkedItemIds=new int[]{385};
         assertFalse(view.available());

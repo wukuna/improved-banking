@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Role-specific state restrictions; these do not remove an item's other uses. */
 final class SetupItemRequirements
 {
     private static final Map<String,Map<Integer,String[]>> REQUIREMENTS=new HashMap<>();

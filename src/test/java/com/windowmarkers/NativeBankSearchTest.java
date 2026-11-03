@@ -193,7 +193,7 @@ public class NativeBankSearchTest
         search.update(); assertTrue(applied.await(10,java.util.concurrent.TimeUnit.SECONDS));
         assertEquals(expected,search.matches()); verify(search.bankSearch).layoutBank();
         clearInvocations(search.bankSearch);
-        search.index(index); // A refresh of identical data must not cause repeated bank-tab rebuilds.
+        search.index(index);
         javax.swing.SwingUtilities.invokeAndWait(() -> {});
         verify(search.bankSearch,after(200).never()).layoutBank();
     }
@@ -261,7 +261,7 @@ public class NativeBankSearchTest
         set(search,"highlight",new Marker(0,0,48,36)); set(search,"slots",true);
         when(search.client.getVarcStrValue(VarClientID.MESLAYERINPUT)).thenReturn("farming");
         BankSearchIndex broken=new BankSearchIndex(Collections.emptyList(),Collections.emptyList(),new CustomPresets());
-        // Simulate an index failure after a previous successful query.
+
         set(broken,"catalogue",null);
         search.index(broken);
         assertTrue(applied.await(10,java.util.concurrent.TimeUnit.SECONDS));

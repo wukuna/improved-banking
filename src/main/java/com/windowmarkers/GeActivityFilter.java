@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.util.*;
 import com.windowmarkers.WindowMarkersConfig.ActivityItems;
 
-/** Per-guide column comparisons. Never treats an item's market price as its strength. */
 final class GeActivityFilter
 {
     static final class Query
@@ -27,7 +26,7 @@ final class GeActivityFilter
     }
     private static final Map<Integer,List<Choice>> RANKS=new HashMap<>();
     static { for(String[] row:ItemTaxonomy.readRows("activity-setup-ranks.tsv",5)) RANKS.computeIfAbsent(Integer.parseInt(row[1]),k->new ArrayList<>()).add(new Choice(row)); }
-    static void prepare() { /* initialize bundled data on the catalogue worker */ }
+    static void prepare() {   }
     static final class Outcome
     {
         final ItemCatalogueIndex.Result result;final Map<Integer,String> upgrades;final String notice;
@@ -41,7 +40,7 @@ final class GeActivityFilter
             if(Arrays.asList("abyssal whip","abyssal tentacle","blade of saeldor").contains(name)) return "slash weapon";
             if(Arrays.asList("warped sceptre","trident of the seas","trident of the swamp","sanguinesti staff").contains(name)) return "powered staff";
             if(Arrays.asList("rune crossbow","dragon crossbow","armadyl crossbow","zaryte crossbow").contains(name)) return "crossbow";
-            return ""; // Dragon-hunter, spec, multi-target and other weapons have separate roles.
+            return "";
         }
         if(item.slot==12 || item.slot==5) return "";
         String set=ItemTaxonomy.equipmentSet(name);
@@ -80,7 +79,7 @@ final class GeActivityFilter
                 String key=key(item,choice);
                 if(!setups.contains(choice.setup) || key.isEmpty() || !ready(item,choice) || !best.containsKey(key) || choice.tier>=best.get(key)) continue;
                 candidates.computeIfAbsent(item.id,k->new HashMap<>()).put(key,choice.tier);
-                next.merge(key,choice.tier,Math::max); // Closest available better column, not automatically BIS.
+                next.merge(key,choice.tier,Math::max);
             }
         }
         Map<Integer,String> upgrades=new HashMap<>();

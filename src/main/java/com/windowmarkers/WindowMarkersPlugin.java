@@ -605,7 +605,7 @@ public class WindowMarkersPlugin extends Plugin
             items.setLineWrap(true); items.setWrapStyleWord(true); items.setEditable(false); items.setColumns(42);
             items.setBackground(panel.getBackground()); panel.add(items);
         }
-        
+
         if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),panel,"Review "+(setup==null ? preset : setup.activity+" — "+setup.label),620,620)) { return; }
         synchronized (this)
         {
@@ -629,8 +629,7 @@ public class WindowMarkersPlugin extends Plugin
             }
             if(result.added>0 || replaced>0 || guideChanged) save();
             if(showView.isSelected()) {
-                // Keep the exact colours/labels the reviewed groups use in Legend.
-                // Skipped groups are not silently saved under different colours.
+
                 if(!result.selected.isEmpty()) showBankView(presetName,result.selected,slotView,owner,layout);
             }
             if(!result.selected.isEmpty()) SwingUtilities.invokeLater(() -> {
@@ -707,7 +706,7 @@ public class WindowMarkersPlugin extends Plugin
                 protected void done() {
                     try { List<BankCatalogue.Choice> choices=get(); synchronized(WindowMarkersPlugin.this) {
                         if(!active || revision!=catalogueRevision) return;
-                        // Saved-group choices must refer to current identities, not the worker's snapshots.
+
                         choices.removeIf(c -> c.kind==BankCatalogue.Kind.SAVED_GROUP || c.kind==BankCatalogue.Kind.CUSTOM_PRESET);
                         for(Marker m:markers) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.SAVED_GROUP,m.labelText().isEmpty()?"Unnamed group":m.labelText(),m));
                         for(CustomPresets.Preset p:customPresets.presets) choices.add(new BankCatalogue.Choice(BankCatalogue.Kind.CUSTOM_PRESET,p.name,p));
@@ -842,7 +841,6 @@ public class WindowMarkersPlugin extends Plugin
         }
     }
 
-    /** Palette inputs are captured on the client thread; all Swing work stays on the EDT. */
     private void paletteInputs(int[] initial,java.util.function.BiConsumer<java.util.Set<Integer>,List<BankItemSearch.Choice>> action)
     {
         final String owner,layout;final long generation;
@@ -1018,8 +1016,7 @@ public class WindowMarkersPlugin extends Plugin
     {
         catalogueWork.clearPending();
         rankingIndex=null;viewRequest++;
-        // RuneLite starts/stops plugins on EDT; layout/profile changes may also
-        // arrive there. Confine all game-widget and Bank Tags cleanup to client.
+
         if(clientThread!=null) clientThread.invoke(() -> {
             synchronized(WindowMarkersPlugin.this) {
                 if(bankCapture!=null) bankCapture.cancel();
@@ -1045,8 +1042,7 @@ public class WindowMarkersPlugin extends Plugin
         final long request=++viewRequest,owner=lifecycle;
         clientThread.invokeLater(() -> { synchronized(this) {
             if(!active || lifecycle!=owner || viewRequest!=request) return;
-            // Bank Tags has queued its own bank reset. Release only our temporary
-            // tag after that reset, and cancel any pending preset reopen.
+
             if(searchView!=null) searchView.clear();
             setStatus(BankSearchView.BANK_TAGS_REQUIRED);
         }});
@@ -1199,7 +1195,7 @@ public class WindowMarkersPlugin extends Plugin
             if(name.isEmpty() || name.length()>60 || name.matches(".*[,<>:].*") || ids.length==0) { setStatus("Choose items and enter one tag name (up to 60 characters; no commas, colons or angle brackets).");return; }
             clientThread.invokeLater(() -> { synchronized(this) {
                 if(!context(owner,layout)) return;
-                // Bank Tags' public user-data API preserves existing tags and handles variations.
+
                 for(int id:ids) bankTagManager.addTag(id,name,all);
                 nativeBankLayout.layoutBank();setStatus("Added Bank Tags tag '"+name+"' to "+ids.length+" item types.");
             }});
@@ -1440,8 +1436,7 @@ public class WindowMarkersPlugin extends Plugin
         form.add(font); form.add(new JLabel("Font size (8–48)")); form.add(fontSize); form.add(labelColorButton);
         form.add(new JLabel("Border style")); form.add(style); form.add(customBorder); form.add(border);
         form.add(fill); form.add(background); form.add(new JLabel("Background opacity (%)")); form.add(opacity);
-        
-        
+
         if (!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),form,"Marker appearance",440,640)) { return; }
         synchronized (this)
         {
@@ -1466,11 +1461,10 @@ public class WindowMarkersPlugin extends Plugin
 
     @Subscribe(priority=1) public void onWidgetClosed(net.runelite.api.events.WidgetClosed event)
     {
-        // Observe ownership before Bank Tags clears its active tag on unload.
+
         if(event.getGroupId()==InterfaceID.BANKMAIN && event.isUnload() && searchView!=null) searchView.bankClosed();
     }
 
-    // Snapshot item bounds after BankLayoutController has restored the final frame.
     @Subscribe(priority=-30) public synchronized void onBeforeRender(BeforeRender event)
     {
         if(viewLabel!=null) {
@@ -1513,7 +1507,7 @@ public class WindowMarkersPlugin extends Plugin
             }
             return;
         }
-        // A first-time character may not have an RS profile until its first account-scoped write.
+
         if (configs.getRSProfileKey() == null)
         {
             configs.setRSProfileConfiguration("windowmarkers", "storageVersion", 2);
@@ -1523,7 +1517,7 @@ public class WindowMarkersPlugin extends Plugin
         Rectangle next = widget == null || widget.isHidden() ? null : widget.getBounds();
         if (next != null && next.isEmpty()) { next = null; }
         if (bank != null && !bank.equals(next)) { cancel(); }
-        // Quest progress is read between events on each bank opening, never from a render/script callback.
+
         if(bank==null && next!=null) reloadCatalogue();
         bank = next;
         Widget items = bank == null ? null : client.getWidget(InterfaceID.Bankmain.ITEMS);
@@ -1829,8 +1823,7 @@ public class WindowMarkersPlugin extends Plugin
                         labelPositions.begin(occupiedLabels);
                         for (Marker marker : renderedMarkers())
                         {
-                            // The bank title already names the preset. Keep section
-                            // headings and rank badges, without floating name tags.
+
                             if(presetPresentation() && config.hidePresetNameTags()) continue;
                             Rectangle clip=markerClip(marker);
                             if (clip==null || marker.labelText().isEmpty() || config.bankLabels()==WindowMarkersConfig.BankLabels.OFF) { continue; }
@@ -1958,7 +1951,7 @@ public class WindowMarkersPlugin extends Plugin
         {
             setPosition(OverlayPosition.DYNAMIC);
             setLayer(OverlayLayer.MANUAL);
-            // The bank frame is rendered before the item-container sibling.
+
             drawAfterLayer(InterfaceID.Bankmain.FRAME);
         }
         @Override public Dimension render(Graphics2D graphics)
@@ -1990,5 +1983,4 @@ public class WindowMarkersPlugin extends Plugin
         }
     }
 }
-
 

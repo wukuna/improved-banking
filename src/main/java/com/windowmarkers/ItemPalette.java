@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.event.*;
 
-/** Searchable real-item palette; selection is by exact ID, including same-name variants. */
 final class ItemPalette extends JPanel
 {
     private final JTextField query=new JTextField();

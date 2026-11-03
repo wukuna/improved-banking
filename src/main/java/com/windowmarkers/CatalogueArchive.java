@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Presentation-only archive: exact searches, compatibility rules and saved groups remain valid. */
 final class CatalogueArchive
 {
     private static final Set<String> HIDDEN=new HashSet<>();

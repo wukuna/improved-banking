@@ -65,24 +65,21 @@ import net.runelite.client.plugins.banktags.BankTagsService;
 
 public final class BankLayoutController
 {
-	// {button, icon}
+
 	private static final int[][] DEPOSIT_BUTTONS = {
 		{InterfaceID.Bankmain.DEPOSITCONTAINERS, InterfaceID.Bankmain.DEPOSITCONTAINERS_GRAPHIC},
 		{InterfaceID.Bankmain.DEPOSITINV, InterfaceID.Bankmain.DEPOSITINV_GRAPHIC},
 		{InterfaceID.Bankmain.DEPOSITWORN, InterfaceID.Bankmain.DEPOSITWORN_GRAPHIC},
 	};
-	// the buttons in the strip left of the items
+
 	private static final int[] LEFT_STRIP = {
 		InterfaceID.Bankmain.POPUP_BUTTON_OUT,
 		InterfaceID.Bankmain.STORAGE_POPUP_TAB,
 		InterfaceID.Bankmain.INCINERATOR_TARGET,
 	};
 
-	// BANKMAIN_FINISHBUILDING is invoked at the end of every bank build, after the items have been
-	// positioned, and takes the content height as the 9th int from the top of the stack.
 	private static final int FINISHBUILDING_HEIGHT_ARG = 9;
 
-	// geometry used by the bankmain_build script
 	private static final int VANILLA_CONTAINER_WIDTH = 478;
 	private static final int ITEMS_WIDTH_MARGIN = 18;
 	private static final int LEFT_INSET = 51;
@@ -94,7 +91,7 @@ public final class BankLayoutController
 	private static final int VANILLA_GAP = 12;
 	private static final int MIN_GAP = 2;
 	private static final int SEPARATOR_MIN_WIDTH = 300;
-    // bankmain_init creates the nine tab dividers as tiled GRAPHIC widgets.
+
     private static final int BANK_TAB_SEPARATOR_SPRITE = 897;
 
 	private static final int MIN_BANK_HEIGHT = 200;
@@ -104,13 +101,13 @@ public final class BankLayoutController
         InterfaceID.Bankmain.DEPOSITINV_TOGGLE,InterfaceID.Bankmain.DEPOSITWORN_TOGGLE,
         InterfaceID.Bankmain.DEPOSITCONTAINERS_TOGGLE,InterfaceID.Bankmain.POPUP_TAB_FORGETPOS,
         InterfaceID.Bankmain.DEPOSITPOTION_TOGGLE,InterfaceID.Bankmain.CHUGGINGBARREL_TOGGLE};
-	// the game keeps this much of the modal's height free around the bank
+
 	private static final int MODAL_HEIGHT_MARGIN = 3;
 	private static final int REBUILD_COOLDOWN_TICKS = 5;
 	private static final int BUTTON_PITCH = 37;
-	// bottom bar children at or right of this x are the deposit buttons and their separator
+
 	private static final int DEPOSIT_GROUP_X = 360;
-	// the left strip's buttons sit at x=2, the lowest one 7px above the bottom bar
+
 	private static final int LEFT_STRIP_X = 2;
 	private static final int LEFT_STRIP_GAP = 7;
 
@@ -142,7 +139,6 @@ public final class BankLayoutController
 	@com.google.inject.Inject(optional = true)
 	BankTagsService bankTagsService;
 
-	// base (game) and applied (ours) geometry of the static widgets we touch, keyed by component id
 	private final Map<Integer, Track> positions = new HashMap<>();
 	private final Map<Integer, Track> sizes = new HashMap<>();
 
@@ -170,8 +166,7 @@ public final class BankLayoutController
         if(mouseManager!=null)mouseManager.registerMouseListener(0,controlDrag);
         if(overlayManager!=null)overlayManager.add(controlDrag.overlay);
 		eventBus.register(this);
-		// The frame has to be in place before the bank tags plugin sizes its tab column on this event,
-		// the item grid can only be reflowed after it has laid out its tag tabs.
+
 		frameSubscriber = eventBus.register(ScriptPreFired.class, this::layoutFrame, 10);
 		clientThread.invokeLater(this::rebuildBank);
 	}
@@ -210,8 +205,7 @@ public final class BankLayoutController
             inventoryWidgets.clear();
             hiddenSeparators.clear();
             viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
-            // Restore surviving widgets as well as the modal. An unfinished Alt-drag
-            // must not leave changed quantity children behind on a soft close.
+
             restore();
 		}
 	}
@@ -224,7 +218,7 @@ public final class BankLayoutController
 		if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) {
             viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
             inventoryWidgets.clear();
-            // Restore before the native builder establishes visibility for this build.
+
             restoreSeparators();
         }
 		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
@@ -257,7 +251,6 @@ public final class BankLayoutController
 		container.revalidate();
         controls.previewWidth=container.getWidth();controls.previewHeight=container.getHeight();
 
-		// the build script resets the item grid to its vanilla width every time
 		int[] s = baseSize(items);
 		int gap=Math.max(0,Math.min(40,config.tabGap()));
         BankControlLayout.Plan controlPlan=customControls()?controls.plan(container):null;
@@ -318,14 +311,13 @@ public final class BankLayoutController
 
 		int[] stack = client.getIntStack();
 		int idx = client.getIntStackSize() - FINISHBUILDING_HEIGHT_ARG;
-		// The temporary view owns the whole displayed layout. A tag-layout
-        // subscriber may already have replaced the native height argument.
+
         if (idx>=0 && (searchView!=null && searchView.isActive() || grouped && ends[0]==0))
         {
             stack[idx]=Math.max(1,ends[1]+8);
             return;
         }
-		// only touch the argument if it looks like the height of the layout we just replaced
+
 		if (idx >= 0 && stack[idx] > 0 && Math.abs(stack[idx] - ends[0]) <= 2 * ROW_HEIGHT)
 		{
 			stack[idx] = Math.max(1, stack[idx] + ends[1] - ends[0]);
@@ -340,15 +332,11 @@ public final class BankLayoutController
 			reapplyFrame();
 		}
         if(active && config.bankLayoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
-        // Bank Tag Layouts can auto-layout a temporary tag after finishbuilding.
-        // Restore our current view's visible cells and positions, including
-        // repeated supplies/phase gear; never touch another tag's layout.
+
         if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && ownsPreset())
             viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}
 
-    // Search refresh rebuilds the native tabs after ClientTick. Apply their final
-    // positions after scripts, before any frame can display the intermediate layout.
     @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused()){controlDrag.cancel();viewGeometry.cancelDrag();}}
     @Subscribe public void onGameStateChanged(net.runelite.api.events.GameStateChanged event) {
         if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN){controlDrag.cancel();viewGeometry.cancelDrag();}
@@ -364,8 +352,6 @@ public final class BankLayoutController
         if(active && ownsPreset()) viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
     }
 
-    // Run before Bank Tags snapshots the native drop target. Only display
-    // positions in our current preset change; real bank order stays untouched.
     @Subscribe(priority=30)
     public void onWidgetDrag(net.runelite.api.events.WidgetDrag event)
     {
@@ -404,8 +390,6 @@ public final class BankLayoutController
 
 		reapplyFrame();
 
-		// Only width changes affect item wrapping. Finishbuilding may adjust the
-		// viewport height after our hook; using that height here causes a rebuild loop.
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
 		if (appliedSignature != null && items != null && !items.isHidden() && rebuildCooldown == 0
 			&& items.getWidth() != reflowedWidth)
@@ -419,8 +403,7 @@ public final class BankLayoutController
     public void onScriptCallbackEvent(net.runelite.api.events.ScriptCallbackEvent event)
     {
         if(active && searchView!=null) searchView.filter(event);
-        // Single-tab mode explicitly closes a native search input in BankMainBuild.
-        // Use it only for saved views outside chatbox search, never while typing.
+
         if(active && "bankBuildTab".equals(event.getEventName())
             && client.getWidget(InterfaceID.Bankmain.ITEMS)!=null
             && client.getVarcIntValue(VarClientID.MESLAYERMODE)!=InputType.SEARCH.getType()
@@ -430,11 +413,6 @@ public final class BankLayoutController
         }
     }
 
-	/**
-	 * The game puts the bank and the modal back to their own sizes whenever the size of either changes,
-	 * which includes us resizing them. Putting ours back right away, before a frame is drawn, keeps that
-	 * from showing.
-	 */
 	private void reapplyFrame()
 	{
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
@@ -473,9 +451,6 @@ public final class BankLayoutController
 		};
 	}
 
-	/**
-	 * The top level interface's container the bank is opened in. It is 512px wide and clips the bank.
-	 */
 	private Widget modal()
 	{
 		Widget infinite = client.getWidget(InterfaceID.Bankmain.INFINITE);
@@ -488,7 +463,7 @@ public final class BankLayoutController
 		int[] s = baseSize(modal);
 		int width = s[0];
 		int height = s[1];
-		// in resizable mode the game already stretches the modal over the area's full height for the bank
+
 		if (area != null && s[2] == WidgetSizeMode.ABSOLUTE && config.customWidth())
 		{
 			width = Math.max(width, Math.min(config.width(), area.getWidth()));
@@ -499,8 +474,7 @@ public final class BankLayoutController
 		}
 
 		setSize(modal, width, height, s[2], s[3]);
-		// The bank's root is sized from the modal by the engine. It has no parent component of its own,
-		// so revalidating it directly would size it to the whole canvas.
+
 		modal.revalidateScroll();
 	}
 
@@ -528,7 +502,6 @@ public final class BankLayoutController
 			height = Math.max(Math.min(s[1], MIN_BANK_HEIGHT), Math.min(config.height(), Math.max(s[1], max)));
 		}
 
-        // The native settings form needs its full height even when the item view is short.
         if(settingsVisible() && s[3]==WidgetSizeMode.ABSOLUTE) height=Math.max(height,SETTINGS_TOP+SETTINGS_HEIGHT+5);
 		setSize(universe, width, height, s[2], s[3]);
 		if (height != s[1])
@@ -549,16 +522,13 @@ public final class BankLayoutController
     private void layoutSettings() {
         Widget settings=client.getWidget(InterfaceID.Bankmain.MENU_CONTAINER);
         if(settings==null) return;
-        // Native checkbox scripts anchor the two columns 251px from opposite
-        // edges. Stretching their parent makes them overlap. Keep the whole
-        // native form centred at its designed size, including its click targets.
+
         setSize(settings,SETTINGS_WIDTH,SETTINGS_HEIGHT,WidgetSizeMode.ABSOLUTE,WidgetSizeMode.ABSOLUTE);
         setPos(settings,0,SETTINGS_TOP,WidgetPositionMode.ABSOLUTE_CENTER,WidgetPositionMode.ABSOLUTE_TOP);
         for(int i=0;i<SETTINGS_ROWS.length;i++) {
             Widget row=client.getWidget(SETTINGS_ROWS[i]);if(row==null) continue;
             int[] p=basePos(row);
-            // The first three rows start centred, then native init freezes their
-            // Y in pixels. Normalize that Y too when opening a tall bank.
+
             setPos(row,p[0],23+(i/2)*28,p[2],WidgetPositionMode.ABSOLUTE_TOP);
         }
     }
@@ -572,10 +542,6 @@ public final class BankLayoutController
 		}
 	}
 
-	/**
-	 * Lays out the bottom bar. The deposit buttons either stay in it, following the right edge of a widened
-	 * bank, or are stacked at the bottom of the strip left of the items, pushing that strip's own buttons up.
-	 */
 	private void layoutBottom(Widget container)
 	{
 		Widget bottom = client.getWidget(InterfaceID.Bankmain.BOTTOM);
@@ -602,9 +568,6 @@ public final class BankLayoutController
 		}
 		boolean left = !deposits.isEmpty();
 
-		// The deposit buttons can't leave the bar's layer, so the layer grows upwards over the strip
-		// instead and everything else in it moves down by the same amount. Kept even so that vertically
-		// centred children stay where they were.
 		int grow = left ? LEFT_STRIP_GAP + deposits.size() * BUTTON_PITCH : 0;
 		grow += grow & 1;
 		setPos(bottom, bp[0], bp[1], bp[2], bp[3]);
@@ -629,7 +592,7 @@ public final class BankLayoutController
 			}
 			if (left && child.getId() == InterfaceID.Bankmain.DEPOSIT_LINE)
 			{
-				// nothing left to divide; park it out of view
+
 				x = -1000;
 			}
 			if (p[3] == WidgetPositionMode.ABSOLUTE_TOP)
@@ -680,11 +643,6 @@ public final class BankLayoutController
 		return false;
 	}
 
-	/**
-	 * Re-wraps the item grid the build script just laid out in 8 columns to the columns that fit now.
-	 *
-	 * @return {old content end, new content end}, or null if nothing was reflowed
-	 */
 	private int[] reflowItems(Widget items)
 	{
 		Widget[] children = items.getDynamicChildren();
@@ -704,16 +662,13 @@ public final class BankLayoutController
 				continue;
 			}
 
-            // A native tab's unused trailing slot is also 36x32 when the last
-            // row contains seven items. It is a transparent RECTANGLE, not an
-            // item; counting it creates an entire blank row after rewrapping.
 			boolean cell = child.getType()==WidgetType.GRAPHIC && child.getItemId()>=0
                 && child.getOriginalWidth() == CELL_WIDTH && child.getOriginalHeight() == CELL_HEIGHT;
             boolean tabDropArea=child.getType()==WidgetType.RECTANGLE && child.getOriginalHeight()==CELL_HEIGHT
                 && child.getOpacity()==255 && child.isFilled() && child.getItemId()<0;
 			if (!cell && !tabDropArea && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH && child.getOriginalWidth() != usable)
 			{
-				// tab separator lines and labels are created once, at the vanilla width
+
 				child.setOriginalWidth(usable);
 				child.revalidate();
 			}
@@ -725,7 +680,6 @@ public final class BankLayoutController
 			}
 		}
 
-		// tag layouts are designed around the 8 column grid
 		if (cells.isEmpty())
 		{
 			return null;
@@ -750,14 +704,13 @@ public final class BankLayoutController
 			oldY[i] = cells.get(i).getOriginalY();
 		}
 
-		// {old start y, shift} of each section; in the "all items" view each tab is its own section
 		List<int[]> shifts = new ArrayList<>();
 		int oldEnd = 0;
 		int newEnd = 4;
 		int start = 0;
 		while (start < count)
 		{
-			// a section is a run of full rows, directly below each other, closed by its last row
+
 			int end = start + 1;
 			int rowStart = start;
 			while (end < count)
@@ -773,8 +726,6 @@ public final class BankLayoutController
 				end++;
 			}
 
-			// Native tab gaps can include a spare eight-column row. It is no longer
-            // needed after wrapping to a wider bank; retain room for the tab heading.
             int gap=Math.max(0,oldY[start]-oldEnd);
 			int newStart = newEnd + (start==0?gap:Math.min(24,gap));
 			shifts.add(new int[]{oldY[start], newStart - oldY[start]});
@@ -789,8 +740,7 @@ public final class BankLayoutController
 			newEnd = newStart + ((end - start + columns - 1) / columns) * ROW_HEIGHT;
             for(Map.Entry<Widget,Integer> entry:tabDropAreas.entrySet()) {
                 if(entry.getValue()!=oldY[end-1]+ROW_HEIGHT-CELL_HEIGHT) continue;
-                // Keep the native drag target on this tab's unused row tail,
-                // never over real items or on a new row of its own.
+
                 int used=(end-start)%columns,free=used==0?0:columns-used;
                 Widget area=entry.getKey();
                 area.setOriginalX(LEFT_INSET+used*pitch);
@@ -804,7 +754,7 @@ public final class BankLayoutController
 
 		for (Widget separator : separators)
 		{
-			// a separator belongs to the section it sits above
+
 			int y = separator.getOriginalY();
 			int shift = newEnd - oldEnd;
 			for (int[] section : shifts)
@@ -992,10 +942,6 @@ public final class BankLayoutController
 		});
 	}
 
-	/**
-	 * The geometry the game gave a widget. Scripts reposition some widgets on every bank build, sometimes
-	 * only on one axis, so any field that no longer holds what we last wrote is taken as the game's again.
-	 */
 	private static int[] base(Map<Integer, Track> tracks, int id, int[] current)
 	{
 		Track track = tracks.get(id);

@@ -6,7 +6,7 @@ import net.runelite.client.config.*;
 @ConfigGroup("windowmarkers")
 public interface WindowMarkersConfig extends Config
 {
-    // Interface members are public: RuneLite's generated config proxy must access this return type.
+
     enum ActivityItems
     {
         ALL("All items"), OWNED("Owned"), UNOWNED("Not owned"), NEXT_UPGRADE("Next guide upgrade");

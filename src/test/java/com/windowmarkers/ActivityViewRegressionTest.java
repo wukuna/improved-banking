@@ -29,7 +29,7 @@ public class ActivityViewRegressionTest
                 assertEquals(pair[0]+" section "+i+" inventory",a.inventory,b.inventory);
                 assertEquals(pair[0]+" section "+i+" guide positions",a.inventoryExample.keySet(),b.inventoryExample.keySet());
             }
-            // Short input also keeps literal name matches (e.g. Hydra slayer helmet).
+
             assertFalse(preset.ids.contains(5331));assertFalse(preset.ids.contains(1511));assertFalse(preset.ids.contains(2347));
         }
     }

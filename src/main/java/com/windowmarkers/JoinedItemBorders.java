@@ -5,7 +5,6 @@ import java.awt.geom.Area;
 import java.util.*;
 import java.util.List;
 
-/** Union outlines preserve holes and L-shaped groups without drawing internal seams. */
 final class JoinedItemBorders
 {
     private final Map<List<Rectangle>,Shape> shapes=new LinkedHashMap<List<Rectangle>,Shape>(16,0.75f,true) {

@@ -8,7 +8,6 @@ import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.game.ItemManager;
 
-/** Repeated bank displays reference the existing stack and its existing actions. */
 final class SetupInventoryWidgets
 {
     private static final class Copy
@@ -72,8 +71,7 @@ final class SetupInventoryWidgets
         Copy copy=copies.get(menu.getWidget());
         if(copy==null || copy.source==null || menu.getParam1()!=InterfaceID.Bankmain.ITEMS
             || menu.getType()!=MenuAction.CC_OP && menu.getType()!=MenuAction.CC_OP_LOW_PRIORITY) return;
-        // Rebind the already-existing action, before other plugins inspect it.
-        // No action is invoked, and withdrawal quantity remains the user's choice.
+
         menu.setParam0(copy.source.getIndex());
         menus.put(menu,copy);
     }
@@ -99,7 +97,7 @@ final class SetupInventoryWidgets
         {
             Widget[] children=parent.getChildren();if(children==null) continue;
             Widget[] remaining=children.clone();int length=remaining.length;
-            // Remove only our exact widgets, preserving children another plugin replaced or appended.
+
             while(length>0 && copies.containsKey(remaining[length-1])) length--;
             for(int i=0;i<remaining.length;i++) if(copies.containsKey(remaining[i])) { remaining[i].setHidden(true);remaining[i]=null; }
             parent.setChildren(Arrays.copyOf(remaining,length));

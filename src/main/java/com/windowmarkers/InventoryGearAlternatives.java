@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Owned combat switches, separate from teleport/charge requirements and guide ranks. */
 final class InventoryGearAlternatives
 {
     private static final Map<Integer,AutoCategories.Item> IDENTITIES=new HashMap<>();
@@ -24,8 +23,7 @@ final class InventoryGearAlternatives
     static boolean sameCombatItem(int expected,AutoCategories.Item held) {
         AutoCategories.Item example=IDENTITIES.get(expected),identity=IDENTITIES.get(held.id);
         if(example==null || identity==null || !identity.name.equals(held.name) || example.slot!=identity.slot) return false;
-        // Rings, weapons and ammo can represent teleports, specific specials,
-        // gathering effects or ammunition requirements rather than a gear swap.
+
         if(!Arrays.asList(0,1,2,4,5,7,9,10).contains(example.slot)) return false;
         return family(example).equals(family(held)) && ItemVariantState.canRepresentOwnedEquivalent(held,example);
     }

@@ -13,7 +13,7 @@ public class MarkerGridTest
         List<ItemAnchors.Cell> cells=Arrays.asList(first,later);
         Rectangle snapped=ItemAnchors.snap(new Rectangle(55,98,24,22),cells);
         assertEquals(later.grid,snapped);assertTrue(snapped.contains(later.icon));
-        // Scrolling does not change which row is selected.
+
         first.icon.translate(0,-60);first.grid.translate(0,-60);
         later.icon.translate(0,-60);later.grid.translate(0,-60);
         assertEquals(later.grid,ItemAnchors.snap(new Rectangle(55,38,24,22),cells));

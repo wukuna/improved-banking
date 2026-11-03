@@ -10,8 +10,8 @@ public class ActivitySetupsTest
         ActivitySetups.Setup z=setup("227925:1");
         assertTrue(z.itemIds.containsAll(Arrays.asList(3839,3841,3843,12607,12609,12611)));
         assertTrue(z.notes.contains("do not inherit completed-book combat bonuses"));
-        assertFalse(z.itemIds.contains(25818)); // No longer a listed offhand in this source table.
-        assertFalse(z.itemIds.contains(34719)); // Deferred content remains absent.
+        assertFalse(z.itemIds.contains(25818));
+        assertFalse(z.itemIds.contains(34719));
     }
 
     @Test public void ordinaryWikiLinksRestoreAlternativesWithoutIgnoringTheirStates() {
@@ -38,7 +38,7 @@ public class ActivitySetupsTest
     @Test public void valeTotemOfferingVariableContainsProductsAndRetainsCostChoice() {
         ActivitySetups.Setup s=setup("596472:3");
         assertTrue(s.itemIds.containsAll(Arrays.asList(70,72,859,861,21952,22263,1513)));
-        assertFalse(s.itemIds.contains(4734)); // Another wooden-looking weapon is not a listed offering.
+        assertFalse(s.itemIds.contains(4734));
         assertTrue(s.notes.contains("not more magic logs"));
         assertTrue(s.notes.contains("price and required quantity are not inferred"));
     }
@@ -58,16 +58,16 @@ public class ActivitySetupsTest
     @Test public void trimmedCapeAlternativesKeepPrayerBonusWithoutTransferringPerks() {
         ActivitySetups.Setup drakes=setup("267357:1");
         assertTrue(drakes.itemIds.containsAll(Arrays.asList(9751,19476,13069,13068,13280)));
-        assertFalse(drakes.itemIds.contains(9750)); // Untrimmed Strength has no prayer bonus.
-        assertFalse(drakes.itemIds.contains(9813)); // Untrimmed quest cape also has none.
+        assertFalse(drakes.itemIds.contains(9750));
+        assertFalse(drakes.itemIds.contains(9813));
         assertTrue(drakes.notes.contains("Individual teleports and skill perks are not transferred"));
     }
 
     @Test public void genericBarrowsSlotsDoNotAddUnrelatedWeaponsOrMagicArmour() {
         ActivitySetups.Setup vorkath=setup("108966:2");
         assertTrue(vorkath.itemIds.containsAll(Arrays.asList(4745,4955,4956,4749,4751)));
-        assertFalse(vorkath.itemIds.contains(4708)); // Ahrim's hood is not a tank helm.
-        assertFalse(vorkath.itemIds.contains(4718)); // Dharok's greataxe is not an armour slot.
+        assertFalse(vorkath.itemIds.contains(4708));
+        assertFalse(vorkath.itemIds.contains(4718));
         Map<String,List<AutoCategories.Item>> groups=vorkath.suggest(Arrays.asList(
             item(4955,"Torag's helm 25"),item(4956,"Torag's helm 0")));
         assertTrue(groups.entrySet().stream().anyMatch(e -> e.getKey().contains("Needs repair/charge")
@@ -103,8 +103,8 @@ public class ActivitySetupsTest
         assertFalse(sire.itemIds.contains(9706)); assertFalse(sire.itemIds.contains(2866));
         ActivitySetups.Setup sepulchre=setup("267008:2");
         assertTrue(sepulchre.itemIds.contains(9185));
-        assertFalse(sepulchre.itemIds.contains(11785)); // Explicit Armadyl exclusion.
-        assertFalse(sepulchre.itemIds.contains(19481)); // Ballista cannot grapple.
+        assertFalse(sepulchre.itemIds.contains(11785));
+        assertFalse(sepulchre.itemIds.contains(19481));
         assertTrue(sepulchre.notes.contains("Zaryte"));
     }
 
@@ -122,7 +122,7 @@ public class ActivitySetupsTest
         boolean book=false,halo=false,unimbued=false;
         for(ActivitySetups.Setup s:ActivitySetups.all()) {
             if(s.notes.contains("These are completed god books")) {
-                assertTrue(s.itemIds.contains(3840)); // Holy book
+                assertTrue(s.itemIds.contains(3840));
                 book=true;
             }
             if(s.notes.contains("Halo alternatives retain")) { assertTrue(s.itemIds.contains(12637)); halo=true; }
@@ -147,8 +147,7 @@ public class ActivitySetupsTest
         assertTrue(contains(vorkath.suggest(capes),13329));
         ActivitySetups.Setup wintertodt=ActivitySetups.forActivity("Wintertodt").stream()
             .filter(s -> s.label.equals("Solo — Equipment alternatives")).findFirst().get();
-        // Fire/max fire capes may qualify as explicit warm clothing, but must
-        // not be included solely by a combat-only alias to the normal max cape.
+
         assertTrue(wintertodt.itemIds.contains(13280));
         assertFalse(CombatEquivalence.matches(item(13329,"Fire max cape"),"max cape"));
     }
@@ -178,7 +177,7 @@ public class ActivitySetupsTest
             .filter(s -> s.id.equals("306436:8")).findFirst().get();
         assertTrue(spirit.itemIds.contains(25592));
         assertFalse(spirit.itemIds.contains(13258));
-        assertFalse(spirit.itemIds.contains(31252)); // Tortugan quest object shares the headband's name.
+        assertFalse(spirit.itemIds.contains(31252));
         for (String activity:ActivitySetups.activities(""))
         {
             List<ActivitySetups.Setup> setups=ActivitySetups.forActivity(activity);
@@ -227,7 +226,7 @@ public class ActivitySetupsTest
         assertTrue(empty.keySet().stream().noneMatch(RaidRecommendations::defaultSelected));
         ActivitySetups.Setup clone=ActivitySetups.forActivity("Moons of Peril").stream().filter(s -> s.label.startsWith("Eclipse Clone phase")).findFirst().get();
         assertTrue(clone.itemIds.containsAll(Arrays.asList(11802,11804,11806,11808,26233)));
-        assertFalse(clone.itemIds.contains(11798)); // A godsword blade is a component, not a weapon.
+        assertFalse(clone.itemIds.contains(11798));
         assertTrue(clone.notes.contains("special attacks are not interchangeable"));
         ActivitySetups.Setup shield=ActivitySetups.forActivity("Spindel").stream().filter(s -> s.label.startsWith("Ranged")).findFirst().get();
         assertTrue(shield.itemIds.contains(22284)); assertFalse(shield.itemIds.contains(22266));

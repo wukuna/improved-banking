@@ -3,7 +3,6 @@ package com.windowmarkers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/** Shared immutable categories and guide rankings. Callers supply GE-tradeable or owned identities. */
 final class ItemCatalogueIndex
 {
     static final int LIMIT=250;
@@ -85,9 +84,7 @@ final class ItemCatalogueIndex
                 for(WikiCatalogue.Entry entry:WikiCatalogue.entries(item.fact)) {
                     add(entry.group,item.id);
                     itemGroups.computeIfAbsent(item.id,k->new ArrayList<>()).add(normalize(entry.group));
-                    // Index the factual facet, not a mixed preset title. A
-                    // food query must not include tools merely because they
-                    // boost a skill and a preset also includes boost items.
+
                     add(entry.facet,item.id);
                     if(entry.facet.equals("outfit")) { add("skilling outfits",item.id); }
                     if(entry.facet.equals("combat")) add("general combat",item.id);
@@ -96,9 +93,7 @@ final class ItemCatalogueIndex
                         add(entry.group.substring(0,entry.group.indexOf(" — "))+" tools",item.id);
                 }
         }
-        // Preset subcategories are the same labels exposed in the bank legend.
-        // Index each factual group, not mixed preset titles that would turn a
-        // food query into every potion or resource in a broad preset.
+
         List<AutoCategories.Item> facts=new ArrayList<>();
         items.values().forEach(item->facts.add(item.fact));
         for(AutoCategories.Preset preset:AutoCategories.Preset.values()) {
@@ -188,7 +183,6 @@ final class ItemCatalogueIndex
     private String correctWholeWords(String terms)
     { return SearchText.correctWholeWords(vocabulary,terms); }
 
-    /** Null means leave native search (and other search plugins) entirely alone. */
     Result find(String raw,String context)
     { return find(raw,context,""); }
     Result find(String raw,String context,String inventoryContext)
@@ -200,9 +194,7 @@ final class ItemCatalogueIndex
         if(supply!=null) return SupplySearch.find(supply,items.values(),hitpoints);
         String query=normalize(ActivityMenu.query(raw));
         ActivitySetups.Setup chosen=setups.stream().filter(s->s.id.equals(context)).findFirst().orElse(null);
-        // Explicit guide selection disambiguates activities that are also item
-        // names (for example Gout tuber or a boss pet). Ordinary item searches
-        // still pass through when no matching guide has been selected.
+
         boolean selectedActivity=chosen!=null && mentionsActivity(query,chosen.activity,false);
         if(query.length()<3 || exactNames.contains(normalize(raw)) && !categories.containsKey(query) && !selectedActivity) return null;
         SearchQuery qualifiers=SearchQuery.parse(raw);
@@ -217,12 +209,10 @@ final class ItemCatalogueIndex
             else words.add(word);
         }
         String terms=String.join(" ",words);
-        // Prefer exact words/prefixes globally. A valid "food" query must not
-        // acquire Woodcutting gear merely because food is one edit from wood.
+
         boolean fuzzy=!terms.isEmpty() && !exactCategoryMatch(terms);
         if(fuzzy) {
-            // A complete-word correction outranks a loose prefix match:
-            // "minign tools" means mining, not tools for a minigame.
+
             String corrected=correctWholeWords(terms);
             if(!corrected.equals(terms) && exactCategoryMatch(corrected)) { terms=corrected; fuzzy=false; }
         }
@@ -235,12 +225,10 @@ final class ItemCatalogueIndex
             String exactActivity="";
             for(ActivitySetups.Setup setup:setups) if(normalize(setup.activity).equals(terms)) { exactActivity=terms;break; }
             for(ActivitySetups.Setup setup:setups) if(matches(setupText.get(setup.id),terms,fuzzy)) {
-                // An exact activity such as Abyss must not acquire Abyssal Sire.
-                // Parent activities still include their slash-delimited variants.
+
                 if(!exactActivity.isEmpty() && !normalize(setup.activity).equals(exactActivity) && !family(setup.activity).equals(exactActivity)) continue;
                 recognized=true;
-                // A selected guide only narrows that activity; other activities
-                // and ordinary categories remain searchable.
+
                 if(useContext && family(chosen.activity).equals(family(setup.activity)) && chosen!=setup) continue;
                 if(mentionsActivity(terms,setup.activity,fuzzy)) matched.add(setup);
                 found.addAll(setupItems.get(setup.id));
@@ -256,8 +244,7 @@ final class ItemCatalogueIndex
         }
         if(!recognized) return null;
         if(useContext) found.retainAll(setupItems.get(chosen.id));
-        // Preserve ordinary name matches alongside semantic additions. Purchase
-        // variants above are explicit, source-backed links, not family guesses.
+
         String ordinary=SearchText.normalize(raw);
         for(Item item:items.values()) if(item.search.contains(ordinary)) found.add(item.id);
         final int filterSlot=wantedSlot;
@@ -328,8 +315,7 @@ final class ItemCatalogueIndex
             if(fields==null) continue;
             for(Field field:fields) {
                 int sourceSlot=field.slot.equals("special") || field.slot.equals("2h") ? 3 : slot(field.slot);
-                // Wiki's ammo/spell row can contain ingredients or spell links.
-                // Those remain searchable, but are not ranked equipment.
+
                 if(item.slot<0 || !fitsSlot(item,sourceSlot) || wantedSlot>=0 && sourceSlot!=wantedSlot) continue;
                 boolean reduced=ItemVariantState.needsRankReview(item.fact,setup.activity,setup.label)
                     || !SetupItemRequirements.reviewReason(setup.id,item.fact).isEmpty();

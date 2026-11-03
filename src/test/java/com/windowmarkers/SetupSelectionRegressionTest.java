@@ -40,7 +40,7 @@ public class SetupSelectionRegressionTest {
             assertEquals(1,result.ranks.get(id).tier);
             assertTrue(result.loadout.equipment.get(10).contains(31088));
             assertTrue(result.loadout.equipment.get(10).contains(31091));
-            assertEquals(0,result.ranks.get(31088).tier); // usable fallback, not falsely equivalent to the upgraded magic tier
+            assertEquals(0,result.ranks.get(31088).tier);
             assertEquals(0,result.ranks.get(31091).tier);
             assertEquals(Integer.valueOf(22947),result.loadout.equipment.get(13).get(0));
         }

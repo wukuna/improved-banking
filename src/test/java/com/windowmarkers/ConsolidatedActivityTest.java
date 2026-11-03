@@ -31,7 +31,7 @@ public class ConsolidatedActivityTest
     }
     @Test public void sireCombinesBothPhasesAndKeepsInventoriesSeparate() {
         var bank=bank();var plan=SetupLoadout.build(ActivitySetups.forActivity("Abyssal Sire"),bank,bank.keySet(),"");
-        assertNotNull(plan);assertEquals(6,plan.sections().size()); // two phases, three styles; duplicate melee source collapsed
+        assertNotNull(plan);assertEquals(6,plan.sections().size());
         assertTrue(plan.sections().stream().anyMatch(p->p.sectionName.contains("Phase 1")));
         assertTrue(plan.sections().stream().anyMatch(p->p.sectionName.contains("Phase 2")));
         for(SetupLoadout part:plan.sections()) {
@@ -90,7 +90,7 @@ public class ConsolidatedActivityTest
         for(var part:shaman.sections()) assertFalse(part.equipment.getOrDefault(10,Collections.emptyList()).contains(31097));
         bank.remove(29591);
         var phase=SetupLoadout.build(Collections.singletonList(ActivitySetups.byId("74025:1")),bank,bank.keySet(),"");
-        assertFalse(phase.equipment.containsKey(3)); // no invented replacement for the scorching-bow phase method
+        assertFalse(phase.equipment.containsKey(3));
     }
     @Test public void parentActivitySearchKeepsChallengeModeAndMainPhaseContextsDistinct() {
         var result=new ItemCatalogueIndex(new ArrayList<>(bank().values()),false).find("cox","");

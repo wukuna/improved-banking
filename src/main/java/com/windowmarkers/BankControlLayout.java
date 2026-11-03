@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.util.*;
 import net.runelite.api.gameval.InterfaceID;
 
-/** Saved preferences contain named controls, never arbitrary widget IDs. */
 final class BankControlLayout
 {
     static final int DOCK_WIDTH=48, DOCK_X=42, TOP=54, PITCH=38, MIN_DOCK_WIDTH=526;
@@ -56,7 +55,7 @@ final class BankControlLayout
                     Control control=Control.valueOf(fields[0]);int position=Integer.parseInt(fields[1]);
                     if((!fields[2].equals("L") && !fields[2].equals("B")) || !seen.add(control))continue;
                     layout.entries.add(new Entry(control,Math.max(0,Math.min(1000,position)),fields[2].equals("L")));
-                } catch(IllegalArgumentException ignored) { /* Unknown or malformed preference: retain defaults. */ }
+                } catch(IllegalArgumentException ignored) {   }
             }
         for(Control control:Control.values()) if(!seen.contains(control))
             layout.entries.add(new Entry(control,control.ordinal()*1000/(Control.values().length-1),false));

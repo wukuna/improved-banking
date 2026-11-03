@@ -42,7 +42,7 @@ public class ItemVariantStateTest
             item(564,"Cosmic rune"),item(11804,"Bandos godsword"),item(26382,"Torva full helm"),
             item(35,"Excalibur"),item(1704,"Amulet of glory")))
             assertFalse(real.name,ItemVariantState.identityNeedsReview(real));
-        // An ID reused for a different identity must not silently inherit this guard.
+
         assertFalse(ItemVariantState.identityNeedsReview(item(8283,"Different future item")));
     }
 
@@ -102,7 +102,7 @@ public class ItemVariantStateTest
             Map<String,List<AutoCategories.Item>> groups=AutoCategories.suggest(preset,bank);
             Map<Integer,String> excluded=new HashMap<>();
             RaidGearFilter.filter(preset,groups,new int[]{99,99,99,99,99,99,99},excluded);
-            // Some raid tables do not recommend the lower weapon; only assert preservation where listed.
+
             if(preset!=AutoCategories.Preset.THEATRE_OF_BLOOD) { assertTrue(selected(groups,11905)); }
             assertFalse(excluded.containsKey(11905));
             assertFalse(selected(groups,12900)); assertFalse(selected(groups,22481));
@@ -319,7 +319,7 @@ public class ItemVariantStateTest
         }
         assertTrue(ItemVariantState.needsActivityReview(item(13353,"Gricoller's can")));
         assertTrue(ItemVariantState.needsActivityReview(item(13660,"Chronicle")));
-        // Teleport charges are irrelevant to the book's raid thrall-summoning role.
+
         assertTrue(selected(raid(item(25818,"Book of the dead")),25818));
         assertFalse(ItemVariantState.needsActivityReview(item(5521,"Binding necklace")));
         assertTrue(ItemVariantState.annotate("Runecraft",item(5521,"Binding necklace")).contains("shared uses"));

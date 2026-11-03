@@ -9,7 +9,6 @@ import javax.swing.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/** Offline layout check: no game client, account interaction or input automation. */
 public class BankingPanelPreviewTest
 {
     @Test public void customEditorAndItemReasonsFitResizableContent() throws Exception {

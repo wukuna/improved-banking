@@ -20,7 +20,7 @@ public class BankViewGeometryTest
         item.setOriginalX(51);item.setOriginalY(400);geometry.restore(parent);
         assertEquals(99,x.get());assertEquals(22,y.get());
         item.setOriginalY(400);geometry.restore(mock(Widget.class));assertEquals(400,y.get());
-        // A reused child with a different item must not inherit the old layout.
+
         when(item.getItemId()).thenReturn(386);geometry.restore(parent);assertEquals(400,y.get());
         when(item.getItemId()).thenReturn(385);geometry.clear();geometry.restore(parent);assertEquals(400,y.get());
     }

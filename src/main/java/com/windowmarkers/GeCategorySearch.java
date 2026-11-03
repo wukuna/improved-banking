@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Shopping categories deliberately exclude the rest of an activity's example inventory. */
 final class GeCategorySearch
 {
     private final Map<String,List<ItemCatalogueIndex.Item>> categories=new LinkedHashMap<>();
@@ -23,7 +22,7 @@ final class GeCategorySearch
                 if(!belongs) continue;
                 if(entries.stream().anyMatch(e->e.group.toLowerCase(Locale.ROOT).startsWith(skill+" — ") && e.group.endsWith("boosts"))) add(skill+" boosts",item);
                 if(entries.stream().anyMatch(e->e.group.toLowerCase(Locale.ROOT).startsWith(skill+" — ") && e.group.endsWith("materials"))) add(skill+" materials",item);
-                // The generic skill means direct skill supplies/equipment, not its guide's teleports, food or energy potions.
+
                 if(entries.stream().anyMatch(e->e.group.toLowerCase(Locale.ROOT).startsWith(skill+" — ")
                     && !e.group.endsWith("recipe inputs") && (e.facet.equals("skilling") || e.facet.equals("outfit")))) add(skill,item);
             }

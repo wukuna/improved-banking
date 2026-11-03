@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Separate account/profile-scoped templates; applying copies markers, never moves bank items. */
 final class CustomPresets
 {
     static final int LIMIT=50;

@@ -5,7 +5,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/** Search activities first, then inspect one source setup and its conditions. */
 final class ActivitySetupPicker
 {
     static ActivitySetups.Setup choose(Component parent)

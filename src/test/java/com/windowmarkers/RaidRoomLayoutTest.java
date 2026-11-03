@@ -47,7 +47,7 @@ public class RaidRoomLayoutTest
         var items=Arrays.asList(GeSearchIndexTest.item(2434,"Prayer potion(4)",-1));
         var owned=new HashMap<Integer,ItemCatalogueIndex.Item>();items.forEach(i->owned.put(i.id,i));
         var plan=SetupLoadout.build(ActivitySetups.forActivity("Basilisk Knight"),owned,owned.keySet(),"256152:10");
-        // This guide deliberately leaves several slots empty; populated prayer slots must all survive.
+
         assertNotNull(plan);
         assertEquals(15,plan.inventory.values().stream().filter(id->id==2434).count());
         assertEquals(plan.inventoryExample.size(),plan.inventoryExample.keySet().stream().distinct().count());

@@ -2,7 +2,6 @@ package com.windowmarkers;
 
 import java.util.*;
 
-/** Per-role substitutions only; never removes an item from its other raid uses. */
 final class RaidGearFilter
 {
     private static final List<String[]> RANKS=ItemTaxonomy.readRows("raid-ranks.tsv",5);
@@ -58,7 +57,7 @@ final class RaidGearFilter
         String n=ItemTaxonomy.baseName(CombatEquivalence.familyName(lower));
         if(slot.contains("weapon"))
         {
-            // Explicit substitutions, not a blanket comparison of a row containing multiple loadout roles.
+
             if(n.equals("abyssal whip")) { return CombatEquivalence.matchesAny(higher,"abyssal tentacle","blade of saeldor"); }
             if(n.equals("trident of the seas")) { return CombatEquivalence.matchesAny(higher,"trident of the swamp","sanguinesti staff"); }
             if(n.equals("warped sceptre")) { return CombatEquivalence.matchesAny(higher,"trident of the seas","trident of the swamp","sanguinesti staff"); }

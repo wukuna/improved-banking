@@ -26,7 +26,6 @@ import net.runelite.client.ui.overlay.*;
 import net.runelite.client.ui.overlay.tooltip.Tooltip;
 import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 
-/** Public GE search hook; changes result labels only, never offers or input. */
 @Singleton
 final class GeCatalogueSearch extends Overlay
 {
@@ -91,8 +90,7 @@ final class GeCatalogueSearch extends Overlay
     @Subscribe public void onGameTick(GameTick event)
     {
         if(!active || !config.geCatalogueSearch()) return;
-        // Quest.getState uses QUEST_STATUS_GET internally. It must never be called
-        // from the GE search/script callbacks while the native script is running.
+
         if(config.geCatalogueSearch() && config.geMarkLocked() && ancientRings==null && client.getGameState()==GameState.LOGGED_IN) {
             ancientRings=Quest.DESERT_TREASURE_II__THE_FALLEN_EMPIRE.getState(client)==QuestState.FINISHED;detailsDirty=true;
         }
@@ -115,7 +113,7 @@ final class GeCatalogueSearch extends Overlay
         if(!active || !config.geCatalogueSearch() || client.getGameState()!=GameState.LOGGED_IN
             || index!=null || preparing || !failure.isEmpty()) return;
         preparing=true; final long request=++generation;
-        // Resource parsing and immutable index construction stay off client.
+
         new SwingWorker<Void,Void>() {
             protected Void doInBackground() { ItemCatalogueIndex.fallbackSlot(-1,""); GeActivityFilter.prepare();GeRequirements.prepare();return null; }
             protected void done() {
@@ -136,7 +134,7 @@ final class GeCatalogueSearch extends Overlay
             if(!current(request)) return true;
             if(!config.geCatalogueSearch()) { preparing=false; return true; }
             if(client.getGameState()!=GameState.LOGGED_IN) return false;
-            // Cache definitions are not available before the login screen.
+
             int count=Math.min(65536,client.getItemCount());
             if(count<=0) return false;
             int end=Math.min(cursor[0]+256,count);
@@ -181,7 +179,7 @@ final class GeCatalogueSearch extends Overlay
         GeActivityFilter.Query options=GeActivityFilter.Query.parse(input,config.geActivityFilter());
         ItemCatalogueIndex.Result next=shopping==null || !options.text.equals(input)?null:shopping.find(options.text);
         if(next==null) next=index.find(options.text,config.geGuideContext(),"",client.getRealSkillLevel(Skill.HITPOINTS));
-        // Ownership words are GE activity qualifiers, not a general item-name rewrite.
+
         if(!options.text.equals(input) && (next==null || !next.activity)) next=index.find(input,config.geGuideContext(),"",client.getRealSkillLevel(Skill.HITPOINTS));
         if(next==null) return;
         if(shopping!=null) suggestions=shopping.suggestions(options.text,next.activity);
@@ -214,8 +212,7 @@ final class GeCatalogueSearch extends Overlay
         boolean ownership=result.activity && (config.geMarkOwned() || activityMode!=WindowMarkersConfig.ActivityItems.ALL);
         GePlayerItems.Snapshot owned=(ownership || config.geShowPrices())?playerItems.snapshot():GePlayerItems.Snapshot.unknown();
         GeRequirements requirements=config.geMarkLocked()?GeRequirements.capture(client,ancientRings):null;
-        // This is the same public result triplet used by RuneLite's GE search
-        // highlighter. Verify item identity before touching an associated label.
+
         for(int i=0;i+2<children.length;i+=3) {
             Widget label=children[i+1];
             if(label==null) continue;
@@ -298,7 +295,7 @@ final class GeCatalogueSearch extends Overlay
             clearTips();tipsParent=parent;tips=parent.createChild(-1,WidgetType.TEXT);
             tips.setFontId(494);tips.setOriginalWidth(110);tips.setOriginalHeight(17);
         }
-        // Keep the hint in the header, outside the scrolling item results.
+
         tips.setOriginalX(8);tips.setOriginalY(2);
         Widget prompt=client.getWidget(InterfaceID.Chatbox.MES_TEXT);
         tips.setTextColor(prompt==null?0:prompt.getTextColor());tips.setTextShadowed(prompt!=null && prompt.getTextShadowed());

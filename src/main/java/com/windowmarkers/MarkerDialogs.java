@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 
-/** Scroll only the form; keep confirmation controls outside its viewport. */
 final class MarkerDialogs
 {
     static Color chooseColor(Component parent,String title,Color initial)

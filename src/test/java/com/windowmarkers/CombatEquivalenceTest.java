@@ -30,11 +30,11 @@ public class CombatEquivalenceTest
         assertFalse(ItemTaxonomy.matches(item(13329,"Fire max cape"),"fire cape"));
         assertFalse(CombatEquivalence.matches(item(13329,"Fire max cape"),"max cape"));
         assertFalse(CombatEquivalence.matches(item(34633,"Imbued ancient cape"),"imbued saradomin cape"));
-        assertFalse(CombatEquivalence.matches(item(21186,"Fire max cape"),"fire cape")); // animation ID
+        assertFalse(CombatEquivalence.matches(item(21186,"Fire max cape"),"fire cape"));
         List<WikiCatalogue.Entry> roles=WikiCatalogue.entries(item(13329,"Fire max cape"));
         assertTrue(roles.stream().anyMatch(e -> e.group.equals("Runecraft — pouch protection")));
         assertFalse(roles.stream().anyMatch(e -> e.group.contains("Crafting Guild teleport")));
-        assertFalse(CombatEquivalence.matches(item(13280,"Max cape"),"ava's assembler")); // account unlock not inferred
+        assertFalse(CombatEquivalence.matches(item(13280,"Max cape"),"ava's assembler"));
     }
     @Test public void ornamentsResolveToTheirActualCombatVersion()
     {
@@ -75,7 +75,7 @@ public class CombatEquivalenceTest
         assertFalse(ItemVariantState.needsActivityReview(item(25584,"Open fish barrel")));
         assertTrue(ItemVariantState.needsActivityReview(item(33218,"Knapsack")));
         assertTrue(ItemVariantState.needsActivityReview(item(33431,"Trinket of vengeance (1)")));
-        assertTrue(ItemVariantState.needsActivityReview(item(20784,"Dragon claws"))); // LMS copy shares a real weapon's name
+        assertTrue(ItemVariantState.needsActivityReview(item(20784,"Dragon claws")));
         assertFalse(ItemVariantState.needsActivityReview(item(13652,"Dragon claws")));
     }
     @Test public void gloryStatesSeparateCombatMiningAndClueUses()

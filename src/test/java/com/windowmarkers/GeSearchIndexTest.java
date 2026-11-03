@@ -23,7 +23,7 @@ public class GeSearchIndexTest
         for(boolean ge:new boolean[]{false,true}) {
             ItemCatalogueIndex index=new ItemCatalogueIndex(items,ge);
             ItemCatalogueIndex.Result z=index.find("zalcano shield","227925:1");
-            // Current Zalcano guide promotes Elysian to its first column and books to third.
+
             assertEquals(1,z.ranks.get(12817).tier);
             assertEquals(3,z.ranks.get(3839).tier);
             ItemCatalogueIndex.Result melee=index.find("graardor weapon","41794:13");
@@ -55,7 +55,7 @@ public class GeSearchIndexTest
         List<ItemCatalogueIndex.Item> catalogue=new ArrayList<>();
         for(int n=0;n<unstrungIds.length;n++) catalogue.add(item(unstrungIds[n],names[n],-1));
         catalogue.add(item(859,"Magic longbow",3));
-        catalogue.add(item(12658,"Iban's staff (u)",3)); // Here (u) means upgraded, not unstrung.
+        catalogue.add(item(12658,"Iban's staff (u)",3));
         for(boolean ge:new boolean[]{false,true}) {
             ItemCatalogueIndex index=new ItemCatalogueIndex(catalogue,ge);
             Set<Integer> combat=ids(index.find("general combat",""));
@@ -111,7 +111,7 @@ public class GeSearchIndexTest
         ItemCatalogueIndex index=new ItemCatalogueIndex(Collections.singletonList(item(22978,"Dragon hunter lance",3)));
         assertEquals(0,index.find("cox weapon","").ranks.get(22978).tier);
         assertEquals(2,index.find("cox weapon","94147:23").ranks.get(22978).tier);
-        // Missing/untradeable higher recommendations do not promote this item.
+
         assertEquals(5,index.find("cox weapon","94147:14").ranks.get(22978).tier);
     }
     @Test public void fuzzyCategoriesAndActivitySuppliesAreDiscoverable()
