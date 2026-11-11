@@ -6,6 +6,10 @@ import net.runelite.client.config.*;
 @ConfigGroup("windowmarkers")
 public interface WindowMarkersConfig extends Config
 {
+    @ConfigItem(keyName = "hideSidePanel", name = "Hide side panel", position = -1,
+        description = "Hide the sidebar icon while keeping the plugin enabled. Turn this off here to restore the panel.")
+    default boolean hideSidePanel() { return false; }
+
 
     enum ActivityItems
     {

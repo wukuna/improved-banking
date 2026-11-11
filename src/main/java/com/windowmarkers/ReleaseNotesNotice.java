@@ -18,11 +18,12 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-02-bank-tags-presets";
+    static final String RELEASE = "2026-11-11-sidebar";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
         "Preset views now require Bank Tags to be enabled, preventing incomplete equipment and inventory rows.",
         "Turning Bank Tags off closes the temporary view safely; saved presets and positions are kept.",
+        "Hide or restore the sidebar icon from the regular plugin settings.",
     };
 
     @Inject private Client client;

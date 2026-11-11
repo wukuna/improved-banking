@@ -8,6 +8,8 @@ Find bank items by name, category or activity. Preview gear and inventory setups
 
 An example Barrows view. Equipment and inventory sections retain item quantities and distinguish missing items from owned alternatives.
 
+To hide the sidebar icon while keeping the plugin running, enable **Hide side panel** in RuneLite’s regular plugin settings. Turn it off there to restore the panel.
+
 ## What you can do
 
 - **Find items:** search categories, activities, item uses and saved groups. Optionally add those matches to the bank’s native search.

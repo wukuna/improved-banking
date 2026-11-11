@@ -18,6 +18,7 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ProfileChanged;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.events.RuneScapeProfileChanged;
 import net.runelite.client.input.MouseAdapter;
 import net.runelite.client.input.MouseManager;
@@ -108,6 +109,15 @@ public class WindowMarkersPlugin extends Plugin
     private final BackgroundOverlay backgroundOverlay = new BackgroundOverlay();
 
     @Provides WindowMarkersConfig provideConfig(ConfigManager manager) { return manager.getConfig(WindowMarkersConfig.class); }
+
+    private void updateSidePanel()
+    {
+        SwingUtilities.invokeLater(() -> {
+            if (!active || navigation == null) return;
+            if (config.hideSidePanel()) toolbar.removeNavigation(navigation);
+            else toolbar.addNavigation(navigation);
+        });
+    }
 
     @Override protected synchronized void startUp()
     {
@@ -278,7 +288,7 @@ public class WindowMarkersPlugin extends Plugin
                 Graphics2D g = icon.createGraphics();
                 g.setColor(new Color(190,155,85)); g.drawRect(2,2,19,19); g.drawRect(5,5,13,13); g.dispose();
                 navigation = NavigationButton.builder().tooltip("Improved Banking").icon(icon).panel(panel).build();
-                toolbar.addNavigation(navigation);
+                if (!config.hideSidePanel()) toolbar.addNavigation(navigation);
                 refreshRows();
             }
         });
@@ -303,7 +313,12 @@ public class WindowMarkersPlugin extends Plugin
         if (old != null) { SwingUtilities.invokeLater(() -> toolbar.removeNavigation(old)); }
     }
 
-    @Subscribe public synchronized void onProfileChanged(ProfileChanged event) { cancel(); bank = null; load(); }
+    @Subscribe public void onConfigChanged(ConfigChanged event)
+    {
+        if ("windowmarkers".equals(event.getGroup()) && "hideSidePanel".equals(event.getKey())) updateSidePanel();
+    }
+
+    @Subscribe public synchronized void onProfileChanged(ProfileChanged event) { updateSidePanel(); cancel(); bank = null; load(); }
     @Subscribe public synchronized void onRuneScapeProfileChanged(RuneScapeProfileChanged event)
     {
         cancel(); bank = null; load();
