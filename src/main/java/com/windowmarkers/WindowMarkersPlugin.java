@@ -30,7 +30,7 @@ import net.runelite.client.ui.FontManager;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.*;
 
-@PluginDescriptor(name="Improved Banking", description = "Beta bank organization with Wiki categories, editable gear views, custom groups, junk-use notes and screenshots. Optional GE search and prices. Rapid Wiki updates; feedback welcome.", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
+@PluginDescriptor(name="Improved Banking", description = "Organize your bank with searchable categories, activity setups, saved views, movable controls and screenshots, plus optional GE tools.", conflicts={"Window Markers","Flexible Bank","Bank Screenshot"})
 @net.runelite.client.plugins.PluginDependency(net.runelite.client.plugins.banktags.BankTagsPlugin.class)
 public class WindowMarkersPlugin extends Plugin
 {
