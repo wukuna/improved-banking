@@ -32,6 +32,21 @@ import com.windowmarkers.BankControlsTest.Cell;
 
 public class BankActionBarTest
 {
+    @Test public void rightClickMenusKeepRailDividersVisibleWithoutCapturingInput() {
+        Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);h.build();
+        java.awt.Graphics2D graphics=mock(java.awt.Graphics2D.class);when(graphics.create()).thenReturn(graphics);
+        when(h.c.client.isMenuOpen()).thenReturn(true);h.frame();h.bar.overlay.render(graphics);
+        verify(graphics,atLeast(3)).drawLine(anyInt(),anyInt(),anyInt(),anyInt());
+        assertFalse(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,h.center(Control.SEARCH),true)).isConsumed());
+        Rectangle area=h.f.container.bounds();
+        Point split=new Point(area.x+25,area.y+h.bar.plan.tagTop-3);
+        assertFalse(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,split,false)).isConsumed());
+        assertFalse(h.bar.mouseWheelMoved(wheel(new Point(h.f.items.bounds().x+60,h.f.items.bounds().y+20),1)).isConsumed());
+        when(h.c.client.isMenuOpen()).thenReturn(false);h.frame();
+        assertTrue(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,split,false)).isConsumed());
+        h.c.shutDown();h.flush();clearInvocations(graphics);h.bar.overlay.render(graphics);verifyNoInteractions(graphics);
+    }
+
     @Test public void splitterDragsWithoutAltAndStopsAtTheOriginalMidpoint() {
         Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);
         h.saved="v1;SEARCH:T:0;PLACEHOLDERS:T:50;";h.build();

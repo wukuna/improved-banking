@@ -34,6 +34,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     private final Map<Widget,Boolean> hiddenApplied=new IdentityHashMap<>();
     private final BankSharedTagRail sharedTags=new BankSharedTagRail(this);
     private volatile Snapshot snapshot;
+    private volatile Snapshot displaySnapshot;
     private Gesture gesture;
     private BankActionLayout draft;
     private String lastDraft;
@@ -193,7 +194,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     {
         restoreHidden();
         sharedTags.restore();
-        restoreGeometry();plan=null;planned=null;snapshot=null;
+        restoreGeometry();plan=null;planned=null;snapshot=null;displaySnapshot=null;
     }
     private void restoreGeometry()
     {
@@ -225,7 +226,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     @Override public synchronized MouseEvent mouseClicked(MouseEvent event) {if(suppressClick && event.getButton()==MouseEvent.BUTTON1){event.consume();suppressClick=false;}return event;}
     @Override public synchronized MouseEvent mouseExited(MouseEvent event) {if(captured)cancel();return event;}
     synchronized void cancel() {cancelled=true;snapshot=null;context++;}
-    synchronized void clearInput() {snapshot=null;gesture=null;draft=null;lastDraft=null;cancelled=false;context++;}
+    synchronized void clearInput() {snapshot=null;displaySnapshot=null;gesture=null;draft=null;lastDraft=null;cancelled=false;context++;}
     synchronized void resetInput() {clearInput();captured=false;suppressClick=false;}
 
     synchronized int update()
@@ -290,15 +291,18 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
 
     void capture()
     {
-        if(!available() || plan==null) {snapshot=null;return;}
+        if(!available(false) || plan==null) {snapshot=null;displaySnapshot=null;return;}
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER),items=owner.client.getWidget(InterfaceID.Bankmain.ITEMS);
         Map<String,Rectangle> bounds=new LinkedHashMap<>();buttons().forEach((key,b) -> bounds.put(key,new Rectangle(b.button.getBounds())));
-        snapshot=new Snapshot(bank,items,container.getBounds(),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),context,sharedTags.wheelArea);
+        displaySnapshot=new Snapshot(bank,items,container.getBounds(),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),context,sharedTags.wheelArea);
+        snapshot=available()?displaySnapshot:null;
     }
     private String profile() {return owner.configs==null || owner.configs.getProfile()==null?null:owner.configs.getProfile().getId()+"";}
-    private boolean available()
+    private boolean available() {return available(true);}
+    private boolean available(boolean input)
     {
-        if(!enabled() || owner.client.getGameState()!=net.runelite.api.GameState.LOGGED_IN || owner.client.isMenuOpen() || owner.client.getDraggedWidget()!=null)return false;
+        if(!enabled() || owner.client.getGameState()!=net.runelite.api.GameState.LOGGED_IN
+            || input && (owner.client.isMenuOpen() || owner.client.getDraggedWidget()!=null))return false;
         for(int id:new int[]{InterfaceID.Bankmain.UNIVERSE,InterfaceID.Bankmain.ITEMS_CONTAINER,InterfaceID.Bankmain.ITEMS})if(!visible(owner.client.getWidget(id)))return false;
         for(int id:new int[]{InterfaceID.Bankmain.INCINERATOR_CONFIRM,InterfaceID.Bankmain.BANKTAGS_POPUP_STRINGEXPORT_CONTAINER})if(visible(owner.client.getWidget(id)))return false;
         return true;
@@ -307,7 +311,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     private final class ActionOverlay extends Overlay {
         ActionOverlay() {setPosition(OverlayPosition.DYNAMIC);setLayer(OverlayLayer.MANUAL);drawAfterInterface(InterfaceID.BANKMAIN);}
         @Override public Dimension render(Graphics2D graphics) {
-            Snapshot s=snapshot;if(s==null)return null;
+            Snapshot s=displaySnapshot;if(s==null)return null;
             Graphics2D g=(Graphics2D)graphics.create();
             try {
                 Rectangle r=s.area;g.setColor(new Color(110,110,100,95));g.drawLine(r.x+r.width-51,r.y+BankActionLayout.TOP-2,r.x+r.width-51,r.y+r.height-s.bottomHeight-3);
