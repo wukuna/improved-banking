@@ -18,13 +18,12 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-12-bank-controls";
+    static final String RELEASE = "2026-11-13-clean-contours";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
-        "Customize bank view adds window dragging, drag resizing and automatically fitted item columns.",
-        "Alt-drag compact bank buttons into free positions on the side or bottom racks.",
-        "Share the left strip with Bank Tags; adjust its divider or hide the bar to keep the split fixed.",
-        "Preview worn gear and bonuses on hover; clicking still opens the native equipment screen.",
+        "New sidebar icon - a chest with a gold accent.",
+        "Changes to bank window interface - buttons can be dragged and moved, window resizing is dynamic, and the scrollbar area can be replaced with a button layout.",
+        "The dynamic presets in the preset button have been optimized according to Wiki and pull from your gear. Inaccuracies can be Discord DM\u2019d or file a Github issue.",
     };
 
     @Inject private Client client;

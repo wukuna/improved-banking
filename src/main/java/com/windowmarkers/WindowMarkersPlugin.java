@@ -286,9 +286,7 @@ public class WindowMarkersPlugin extends Plugin
                 tabs.addTab("Legend",legend); tabs.addTab("Custom",customPanel); tabs.addTab("Tools",toolsPanel);
                 tabs.addChangeListener(e -> { legendHover=null; });
                 panel.add(controls,BorderLayout.NORTH); panel.add(tabs,BorderLayout.CENTER);
-                BufferedImage icon = new BufferedImage(24,24,BufferedImage.TYPE_INT_ARGB);
-                Graphics2D g = icon.createGraphics();
-                g.setColor(new Color(190,155,85)); g.drawRect(2,2,19,19); g.drawRect(5,5,13,13); g.dispose();
+                BufferedImage icon = net.runelite.client.util.ImageUtil.loadImageResource(WindowMarkersPlugin.class, "sidebar-icon.png");
                 navigation = NavigationButton.builder().tooltip("Improved Banking").icon(icon).panel(panel).build();
                 if (!config.hideSidePanel()) toolbar.addNavigation(navigation);
                 refreshRows();
