@@ -18,12 +18,13 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-11-sidebar";
+    static final String RELEASE = "2026-11-12-bank-controls";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
-        "Preset views now require Bank Tags to be enabled, preventing incomplete equipment and inventory rows.",
-        "Turning Bank Tags off closes the temporary view safely; saved presets and positions are kept.",
-        "Hide or restore the sidebar icon from the regular plugin settings.",
+        "Customize bank view adds window dragging, drag resizing and automatically fitted item columns.",
+        "Alt-drag compact bank buttons into free positions on the side or bottom racks.",
+        "Share the left strip with Bank Tags and drag its divider downward while keeping buttons visible.",
+        "Preview worn gear and bonuses on hover; clicking still opens the native equipment screen.",
     };
 
     @Inject private Client client;

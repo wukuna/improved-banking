@@ -75,6 +75,8 @@ public class BankLayoutTest
 
     @Test public void viewportHeightChangesDoNotRepeatedlyRebuildTheBankButWidthChangesDo() throws Exception {
         BankLayoutController c=controller();Widget items=mock(Widget.class);
+        ArgumentCaptor<Runnable> startup=ArgumentCaptor.forClass(Runnable.class);
+        verify(c.clientThread).invokeLater(startup.capture());startup.getValue().run();
         when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
         when(items.getWidth()).thenReturn(478);when(items.getHeight()).thenReturn(250);
         java.lang.reflect.Field signature=BankLayoutController.class.getDeclaredField("appliedSignature");signature.setAccessible(true);signature.set(c,new int[12]);

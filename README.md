@@ -16,7 +16,7 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 - **Plan an activity:** open equipment and inventory views with guide context and owned alternatives.
 - **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place. Your stored bank order stays unchanged.
 - **Mark and label groups:** link markers to items or draw an area, then customize borders, backgrounds and labels.
-- **Adjust the bank:** change width, height, columns and tab alignment. Alt-drag controls along the bottom or into a side dock.
+- **Customize the bank:** drag to move and resize it, with item columns that fit automatically. Alt-drag compact controls into the side or bottom racks.
 - **Capture a bank view:** save the complete current tab or search results with item icons, quantities and a legend.
 - **Explore optional GE tools:** search categories and activities, with supported guide tiers, prices, owned-item and requirement information.
 
@@ -32,7 +32,13 @@ Use **Custom** to create groups and markers. **Tools** contains bank sizing, scr
 
 ## Controls and saving
 
-**Alt-drag** moves bank buttons when custom bank controls are enabled. **Tools → Reset bank buttons** restores their previous arrangement. Ctrl+Alt remains available for RuneLite’s overlay controls.
+**Alt-drag** moves bank buttons when **Customize bank view** is enabled. **Tools → Reset bank buttons** restores their default arrangement. Ctrl+Alt remains available for RuneLite’s overlay controls.
+
+Enable **Customize bank view** in the plugin’s **Bank layout** settings, then drag the bank title to move the window or its lower-right grip to resize it. Columns fit the available width automatically; item icons keep their normal size. These controls work in resizable game modes and save separately for each profile. **Tools → Customize bank view → Reset bank window position** returns the window to its native position while keeping your chosen size.
+
+Customizing the bank moves native controls into the scrollbar area; use the mouse wheel over items to scroll. Alt-drag controls to an empty spot along the right, left or bottom rack. Buttons stay where you drop them, leaving your chosen gaps; dropping onto another button cancels the move. **Share bank tag strip** places scrollable tags above a divider and bank controls below it. Short banks temporarily return controls that cannot fit to the bottom, preserving their saved rack positions. **Preview worn equipment** is a separate option that adds a gear-and-bonuses card when hovering the worn-equipment button; clicking still opens the native equipment screen.
+
+Drag the left-strip divider directly to give Bank Tags more space. Its highest position is the original halfway split. Its lower limit reserves room for every button below it, including gaps you have left between buttons. The divider position is saved with your button arrangement; a smaller bank temporarily limits it without losing the saved position.
 
 Markers and custom views are stored separately by character and RuneLite profile. Preset item positions belong to the displayed view; they do not move the real bank contents. Marker Undo/Redo is session history, while saved groups and views persist.
 

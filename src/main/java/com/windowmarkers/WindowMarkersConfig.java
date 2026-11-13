@@ -107,14 +107,26 @@ public interface WindowMarkersConfig extends Config
     @ConfigItem(section=drawing,keyName="color", name="Plain border color", description="Color for plain borders and the drawing preview.", position=2)
     default Color color() { return new Color(255, 190, 70, 220); }
 
-    @ConfigItem(section=bankLayout,keyName="bankLayoutEnabled",name="Built-in bank layout",description="Use the integrated flexible bank layout. Disable the separate Flexible Bank plugin.",position=10)
+    @ConfigItem(section=bankLayout,keyName="bankLayoutEnabled",name="Built-in bank layout",description="Use the integrated flexible bank layout. Disable the separate Flexible Bank plugin.",position=10,hidden=true)
     default boolean bankLayoutEnabled() { return true; }
-    @ConfigItem(section=bankLayout,keyName="customBankControls",name="Custom bank buttons",description="Use the arrangement saved by Alt-dragging bank buttons. Overrides the older deposit-button placement while enabled. Requires built-in bank layout.",position=22)
+    @ConfigItem(section=bankLayout,keyName="customBankControls",name="Custom bank buttons",description="Use the arrangement saved by Alt-dragging bank buttons. Overrides the older deposit-button placement while enabled. Requires built-in bank layout.",position=22,hidden=true)
     default boolean customBankControls() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankButtonDragging",name="Alt-drag bank buttons",description="Hold Alt and drag native bank buttons along the bottom row or into the left dock. Release to save. Requires built-in bank layout.",position=23)
+    @ConfigItem(section=bankLayout,keyName="bankButtonDragging",name="Alt-drag bank buttons",description="Hold Alt and drag native bank buttons along the bottom row or into the left dock. Release to save. Requires built-in bank layout.",position=23,hidden=true)
     default boolean bankButtonDragging() { return true; }
     @ConfigItem(keyName="bankControlLayout",name="Bank button arrangement",description="Saved named bank controls and docking preferences.",hidden=true)
     default String bankControlLayout() { return ""; }
+    @ConfigItem(section=bankLayout,keyName="bankWindowControls",name="Move and resize bank",description="Drag the bank title to move it, or the lower-right grip to resize. Resizable game modes only. Saves each profile's layout.",position=18,hidden=true)
+    default boolean bankWindowControls() { return false; }
+    @ConfigItem(keyName="bankWindowPosition",name="Bank window position",description="Saved bank position and reference game area.",hidden=true)
+    default String bankWindowPosition() { return ""; }
+    @ConfigItem(section=bankLayout,keyName="bankActionRail",name="Customize bank view",description="Drag the bank title or resize grip, automatically fit item columns, and Alt-drag compact buttons around the racks. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.",position=10)
+    default boolean bankActionRail() { return false; }
+    @ConfigItem(section=bankLayout,keyName="bankActionTagSpace",name="Share bank tag strip",description="Share the left strip between scrollable Bank Tags and bank controls. Drag the divider down to give tags more room; its limit keeps the buttons below visible. Drag back up to restore the half split.",position=25)
+    default boolean bankActionTagSpace() { return false; }
+    @ConfigItem(section=bankLayout,keyName="bankEquipmentPreview",name="Preview worn equipment",description="Hover the bank's worn-equipment button to preview equipped items and their base bonuses. Clicking still opens the native worn-equipment screen.",position=26)
+    default boolean bankEquipmentPreview() { return false; }
+    @ConfigItem(keyName="bankActionLayout",name="Action bar arrangement",description="Saved positions of bank action controls.",hidden=true)
+    default String bankActionLayout() { return ""; }
     enum TabAlignment { LEFT, CENTER, RIGHT }
     @ConfigItem(section=bankLayout,keyName="tabAlignment",name="Bank tab alignment",description="Align the top bank tabs within the bank window.",position=20)
     default TabAlignment tabAlignment() { return TabAlignment.CENTER; }
@@ -124,8 +136,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="customWidth",
 		name = "Custom width",
 		description = "Use the width below. When off the bank keeps the game's own width.",
-		position = 11
-	)
+		position = 11, hidden=true)
 	default boolean customWidth()
 	{
 		return false;
@@ -135,7 +146,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="width",
 		name = "Width (px)",
 		description = "Width of the bank window when Custom width is on. Limited to the game area next to the side panel.",
-		position = 12
+		position = 12, hidden=true
 	)
 	default int width()
 	{
@@ -145,8 +156,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="customHeight",
 		name = "Custom height",
 		description = "Use the height below. When off the game decides: in resizable mode the bank follows the window, up to 800.",
-		position = 13
-	)
+		position = 13, hidden=true)
 	default boolean customHeight()
 	{
 		return false;
@@ -156,7 +166,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="height",
 		name = "Height (px)",
 		description = "Height of the bank window when Custom height is on. Limited to the game area.",
-		position = 14
+		position = 14, hidden=true
 	)
 	default int height()
 	{
@@ -167,8 +177,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="columns",
 		name = "Columns",
 		description = "Items per row. 0 = as many as fit the width.",
-		position = 15
-	)
+		position = 15, hidden=true)
 	default int columns()
 	{
 		return 0;
@@ -177,8 +186,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="depositButtons",
 		name = "Deposit buttons",
 		description = "Keep the three deposit buttons in the bottom bar, or stack them on the left side below the incinerator and storage buttons.",
-		position = 16
-	)
+		position = 16, hidden=true)
 	default DepositButtons depositButtons()
 	{
 		return DepositButtons.BOTTOM;
@@ -187,8 +195,7 @@ public interface WindowMarkersConfig extends Config
 	@ConfigItem(section=bankLayout,keyName="alignDepositRight",
 		name = "Keep deposit buttons at right edge",
 		description = "When the deposit buttons are in the bottom bar, keep them at the right edge of a widened bank.",
-		position = 17
-	)
+		position = 17, hidden=true)
 	default boolean alignDepositRight()
 	{
 		return true;

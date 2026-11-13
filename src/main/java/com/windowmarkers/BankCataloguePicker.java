@@ -27,6 +27,8 @@ final class BankCataloguePicker
     private final List<Widget> background=new ArrayList<>();
     private volatile JPopupMenu popup;
     private volatile long context;
+    Widget widget() {return button;}
+    List<Widget> parts() {return new ArrayList<>(background);}
 
     void update(boolean enabled,Runnable open)
     {

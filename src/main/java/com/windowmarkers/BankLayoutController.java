@@ -102,7 +102,7 @@ public final class BankLayoutController
         InterfaceID.Bankmain.DEPOSITCONTAINERS_TOGGLE,InterfaceID.Bankmain.POPUP_TAB_FORGETPOS,
         InterfaceID.Bankmain.DEPOSITPOTION_TOGGLE,InterfaceID.Bankmain.CHUGGINGBARREL_TOGGLE};
 
-	private static final int MODAL_HEIGHT_MARGIN = 3;
+	static final int MODAL_HEIGHT_MARGIN = 3;
 	private static final int REBUILD_COOLDOWN_TICKS = 5;
 	private static final int BUTTON_PITCH = 37;
 
@@ -131,6 +131,11 @@ public final class BankLayoutController
     @Inject BankPresetPositions presetPositions;
     final BankControlWidgets controls=new BankControlWidgets(this);
     final BankControlDrag controlDrag=new BankControlDrag(this);
+    final BankWindowDrag windowDrag=new BankWindowDrag(this);
+    final BankActionBar actionBar=new BankActionBar(this);
+    final BankEquipmentPreview equipmentPreview=new BankEquipmentPreview(this);
+    BankScreenshotButton screenshotButton;
+    BankCataloguePicker bankPicker;
     @Inject net.runelite.client.input.MouseManager mouseManager;
     @Inject net.runelite.client.ui.overlay.OverlayManager overlayManager;
     @Inject ConfigManager configs;
@@ -143,18 +148,24 @@ public final class BankLayoutController
 	private final Map<Integer, Track> sizes = new HashMap<>();
 
 	private EventBus.Subscriber frameSubscriber;
+    private EventBus.Subscriber actionFrameSubscriber;
 	private volatile boolean active;
+    boolean active() {return active;}
+    private volatile long lifecycle;
+    private boolean rebuildQueued;
 	private int[] appliedSignature;
 	private int rebuildCooldown;
 	private int reflowedWidth;
 
 	private static final class Track
 	{
+		private final Widget widget;
 		private final int[] base;
 		private int[] applied;
 
-		private Track(int[] base)
+		private Track(Widget widget,int[] base)
 		{
+			this.widget=widget;
 			this.base = base;
 		}
 	}
@@ -162,25 +173,29 @@ public final class BankLayoutController
 	void startUp()
 	{
         inventoryWidgets.setClient(client);
-		active = true;controlDrag.resetInput();
-        if(mouseManager!=null)mouseManager.registerMouseListener(0,controlDrag);
-        if(overlayManager!=null)overlayManager.add(controlDrag.overlay);
+		active = true;lifecycle++;rebuildQueued=false;controlDrag.resetInput();windowDrag.resetInput();actionBar.resetInput();
+        if(mouseManager!=null) {mouseManager.registerMouseListener(0,controlDrag);mouseManager.registerMouseListener(0,windowDrag);mouseManager.registerMouseListener(0,actionBar);mouseManager.registerMouseWheelListener(0,actionBar);}
+        if(overlayManager!=null) {overlayManager.add(controlDrag.overlay);overlayManager.add(windowDrag.overlay);overlayManager.add(actionBar.overlay);overlayManager.add(equipmentPreview);}
 		eventBus.register(this);
 
 		frameSubscriber = eventBus.register(ScriptPreFired.class, this::layoutFrame, 10);
-		clientThread.invokeLater(this::rebuildBank);
+        actionFrameSubscriber=eventBus.register(BeforeRender.class,e -> actionBar.beforeFrame(),10);
+		queueRebuild();
 	}
 
 	void shutDown()
 	{
 		active = false;
-        controlDrag.resetInput();
-        if(mouseManager!=null)mouseManager.unregisterMouseListener(controlDrag);
-        if(overlayManager!=null)overlayManager.remove(controlDrag.overlay);
+        long stopped=++lifecycle;
+        controlDrag.resetInput();windowDrag.resetInput();actionBar.resetInput();
+        if(mouseManager!=null) {mouseManager.unregisterMouseListener(controlDrag);mouseManager.unregisterMouseListener(windowDrag);mouseManager.unregisterMouseListener(actionBar);mouseManager.unregisterMouseWheelListener(actionBar);}
+        if(overlayManager!=null) {overlayManager.remove(controlDrag.overlay);overlayManager.remove(windowDrag.overlay);overlayManager.remove(actionBar.overlay);overlayManager.remove(equipmentPreview);}
 		eventBus.unregister(this);
 		eventBus.unregister(frameSubscriber);
+        eventBus.unregister(actionFrameSubscriber);
 		clientThread.invokeLater(() ->
 		{
+            if(lifecycle!=stopped || active)return;
 			restore();
 			rebuildBank();
 		});
@@ -189,10 +204,10 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging").contains(event.getKey()))
+		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging","bankWindowControls","bankWindowPosition","bankActionRail","bankActionTagSpace","bankActionLayout").contains(event.getKey()))
 		{
-            controlDrag.clear();
-			clientThread.invokeLater(() -> { restoreTabs(); restore(); rebuildBank(); });
+            controlDrag.clear();windowDrag.clear();actionBar.clearInput();
+            queueLayoutReset();
 		}
 	}
 
@@ -201,7 +216,8 @@ public final class BankLayoutController
 	{
 		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
-            controlDrag.clear();controls.clear();
+            controlDrag.clear();windowDrag.clear();actionBar.clearInput();controls.clear();
+            lifecycle++;rebuildQueued=false;
             inventoryWidgets.clear();
             hiddenSeparators.clear();
             viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
@@ -211,25 +227,29 @@ public final class BankLayoutController
 	}
 
     @Subscribe public void onProfileChanged(net.runelite.client.events.ProfileChanged event)
-    { controlDrag.clear();clientThread.invokeLater(() -> { restore(); rebuildBank(); }); }
+    { controlDrag.clear();windowDrag.clear();actionBar.clearInput();queueLayoutReset(); }
 
 	private void layoutFrame(ScriptPreFired event)
 	{
 		if(event.getScriptId()==ScriptID.BANKMAIN_BUILD) {
+            restoreDividerGeometry();
+            actionBar.restoreHidden();
             viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
             inventoryWidgets.clear();
 
             restoreSeparators();
         }
-		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
+		if (active && layoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
 		{
 			applyFrame();
 		}
 	}
 
+    boolean layoutEnabled() {return config.bankLayoutEnabled() || config.bankActionRail();}
+
 	private void applyFrame()
 	{
-		if (!config.bankLayoutEnabled()) { return; }
+		if (!layoutEnabled()) { return; }
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		Widget container = client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
@@ -253,11 +273,15 @@ public final class BankLayoutController
 
 		int[] s = baseSize(items);
 		int gap=Math.max(0,Math.min(40,config.tabGap()));
-        BankControlLayout.Plan controlPlan=customControls()?controls.plan(container):null;
-        int inset=controlPlan==null?0:controlPlan.inset;
+        BankActionLayout.Plan actionPlan=actionBar.enabled()?actionBar.plan(container):null;
+        BankControlLayout.Plan controlPlan=actionPlan==null && customControls()?controls.plan(container):null;
+        int inset=actionPlan!=null?actionPlan.leftInset:controlPlan==null?0:controlPlan.inset;
+        int right=actionPlan==null?ITEMS_WIDTH_MARGIN:BankActionLayout.RAIL;
+        int edge=actionPlan==null?0:6;
+        int extraBottom=actionPlan==null?0:Math.max(0,actionPlan.bottomHeight-36);
         int[] itemPosition=basePos(items);
-        setPos(items,itemPosition[0]+inset,itemPosition[1]+gap,itemPosition[2],itemPosition[3]);
-        setSize(items, ITEMS_WIDTH_MARGIN+inset, s[3]==WidgetSizeMode.MINUS ? s[1]+gap : Math.max(1,s[1]-gap), WidgetSizeMode.MINUS, s[3]);
+        setPos(items,itemPosition[0]+inset+edge,itemPosition[1]+gap,itemPosition[2],itemPosition[3]);
+        setSize(items, right+inset+edge, s[3]==WidgetSizeMode.MINUS ? s[1]+gap+extraBottom : Math.max(1,s[1]-gap-extraBottom), WidgetSizeMode.MINUS, s[3]);
         Widget scrollbar=client.getWidget(InterfaceID.Bankmain.SCROLLBAR);
         if(scrollbar!=null)
         {
@@ -266,7 +290,8 @@ public final class BankLayoutController
             setSize(scrollbar,scrollSize[0],scrollSize[3]==WidgetSizeMode.MINUS ? scrollSize[1]+gap : Math.max(1,scrollSize[1]-gap),scrollSize[2],scrollSize[3]);
         }
 
-        if(controlPlan==null) layoutBottom(container);
+        if(actionPlan!=null)actionBar.apply(container);
+        else if(controlPlan==null) layoutBottom(container);
         else controls.apply(container,controlPlan);
 		revalidateTree(universe);
 		appliedSignature = signature(universe);
@@ -289,7 +314,7 @@ public final class BankLayoutController
 
         boolean grouped=groupedSearch();
         inventoryWidgets.clear();
-        if(!config.bankLayoutEnabled() && !grouped && !ownsPreset()) return;
+        if(!layoutEnabled() && !grouped && !ownsPreset()) return;
 		if(grouped) hideSeparators(items);
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
         if(ownsPreset() && ends!=null) {
@@ -327,28 +352,41 @@ public final class BankLayoutController
 	@Subscribe(priority=-20)
 	public void onScriptPostFired(ScriptPostFired event)
 	{
-		if (active && config.bankLayoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_SIZE_CHECK)
+		if (active && layoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_SIZE_CHECK)
 		{
 			reapplyFrame();
 		}
-        if(active && config.bankLayoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
+        if(active && layoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
 
         if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && ownsPreset())
             viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}
 
-    @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused()){controlDrag.cancel();viewGeometry.cancelDrag();}}
+    @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused()){controlDrag.cancel();windowDrag.cancel();actionBar.cancel();viewGeometry.cancelDrag();}}
     @Subscribe public void onGameStateChanged(net.runelite.api.events.GameStateChanged event) {
-        if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN){controlDrag.cancel();viewGeometry.cancelDrag();}
+        if(event.getGameState()!=net.runelite.api.GameState.LOGGED_IN){controlDrag.cancel();windowDrag.cancel();actionBar.cancel();viewGeometry.cancelDrag();}
     }
     @Subscribe(priority=-20)
     public void onBeforeRender(BeforeRender event)
     {
-        if(active && config.bankLayoutEnabled()) {
-            int update=controlDrag.update();if(update==2)restore();if(update>0)applyFrame();
-            reapplyFrame();alignTabs();controlDrag.capture();
+        if(active && layoutEnabled()) {
+            int windowUpdate=windowDrag.update();
+            if(windowUpdate==2)restore();
+            if(windowUpdate>0)applyFrame();
+            int update=actionBar.enabled()?actionBar.update():controlDrag.update();if(update==2)restore();if(update>0)applyFrame();
+            reapplyFrame();alignTabs();
+            if(actionBar.enabled()) {
+                Widget container=client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER),items=client.getWidget(InterfaceID.Bankmain.ITEMS);
+                if(container!=null && items!=null && !items.isHidden()) {
+                    if(actionBar.changed())applyFrame();
+                    else actionBar.apply(container);
+                } else actionBar.restore();
+                actionBar.capture();
+            }
+            else if(actionBar.plan!=null) {actionBar.restore();actionBar.clearInput();}
+            controlDrag.capture();windowDrag.capture();
         }
-        else controlDrag.clear();
+        else {controlDrag.clear();windowDrag.clear();actionBar.clearInput();}
         if(active && ownsPreset()) viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
     }
 
@@ -382,7 +420,7 @@ public final class BankLayoutController
 	@Subscribe
 	public void onClientTick(ClientTick event)
 	{
-		if (!active || !config.bankLayoutEnabled()) { return; }
+		if (!active || !layoutEnabled()) { return; }
 		if (rebuildCooldown > 0)
 		{
 			rebuildCooldown--;
@@ -395,7 +433,7 @@ public final class BankLayoutController
 			&& items.getWidth() != reflowedWidth)
 		{
 			rebuildCooldown = REBUILD_COOLDOWN_TICKS;
-			clientThread.invokeLater(this::rebuildBank);
+			queueRebuild();
 		}
 	}
 
@@ -418,11 +456,33 @@ public final class BankLayoutController
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		if (universe != null && (appliedSignature != null && !Arrays.equals(signature(universe), appliedSignature)
             || appliedSignature == null && settingsVisible()
-            || customControls() && !settingsVisible() && controls.changed()))
+            || !actionBar.enabled() && customControls() && !settingsVisible() && controls.changed()))
 		{
 			applyFrame();
 		}
 	}
+
+    void queueRebuild()
+    {
+        if(rebuildQueued)return;
+        rebuildQueued=true;
+        long expected=lifecycle;
+        clientThread.invokeLater(() -> {
+            if(expected!=lifecycle)return;
+            rebuildQueued=false;
+            if(active)rebuildBank();
+        });
+    }
+
+    private void queueLayoutReset()
+    {
+        long expected=++lifecycle;
+        rebuildQueued=false;
+        clientThread.invokeLater(() -> {
+            if(!active || expected!=lifecycle)return;
+            restore();rebuildBank();
+        });
+    }
 
 	private void rebuildBank()
 	{
@@ -447,11 +507,13 @@ public final class BankLayoutController
 			universe.getOriginalX(), universe.getOriginalY(), universe.getXPositionMode(), universe.getYPositionMode(),
 			universe.getOriginalWidth(), universe.getOriginalHeight(), universe.getWidthMode(), universe.getHeightMode(),
 			modal == null ? 0 : modal.getOriginalWidth(), modal == null ? 0 : modal.getOriginalHeight(),
-			area == null ? 0 : area.getWidth(), area == null ? 0 : area.getHeight(),settingsVisible()?1:0
+			area == null ? 0 : area.getWidth(), area == null ? 0 : area.getHeight(),settingsVisible()?1:0,client.isResized()?1:0,
+            area == null ? 0 : area.getBounds().x,area == null ? 0 : area.getBounds().y,
+            modal == null ? 0 : modal.getOriginalX(),modal == null ? 0 : modal.getOriginalY(),actionBar.enabled()?1:0
 		};
 	}
 
-	private Widget modal()
+	Widget modal()
 	{
 		Widget infinite = client.getWidget(InterfaceID.Bankmain.INFINITE);
 		return infinite == null ? null : infinite.getParent();
@@ -460,6 +522,8 @@ public final class BankLayoutController
 	private void applyModal(Widget modal)
 	{
 		Widget area = modal.getParent();
+		int[] p = basePos(modal);
+		setPos(modal,p[0],p[1],p[2],p[3]);
 		int[] s = baseSize(modal);
 		int width = s[0];
 		int height = s[1];
@@ -482,6 +546,7 @@ public final class BankLayoutController
 	{
 		Widget parent = client.getWidget(InterfaceID.Bankmain.INFINITE);
 		Widget modal = modal();
+        if(windowDrag.apply(universe,modal,settingsVisible()))return;
 		if (modal != null)
 		{
 			applyModal(modal);
@@ -651,7 +716,7 @@ public final class BankLayoutController
 			return null;
 		}
 
-		int usable = items.getWidth() - LEFT_INSET - RIGHT_INSET;
+		int usable = items.getWidth() - LEFT_INSET - (actionBar.enabled()?6:RIGHT_INSET);
 		List<Widget> cells = new ArrayList<>();
 		List<Widget> separators = new ArrayList<>();
         Map<Widget,Integer> tabDropAreas=new java.util.IdentityHashMap<>();
@@ -666,7 +731,12 @@ public final class BankLayoutController
                 && child.getOriginalWidth() == CELL_WIDTH && child.getOriginalHeight() == CELL_HEIGHT;
             boolean tabDropArea=child.getType()==WidgetType.RECTANGLE && child.getOriginalHeight()==CELL_HEIGHT
                 && child.getOpacity()==255 && child.isFilled() && child.getItemId()<0;
-			if (!cell && !tabDropArea && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH && child.getOriginalWidth() != usable)
+            if(sectionDivider(child)) {
+                int[] geometry=dividerGeometry.computeIfAbsent(child,w -> new int[]{w.getOriginalX(),w.getOriginalWidth(),w.getWidthMode(),w.getOriginalX(),w.getOriginalWidth(),w.getWidthMode()});
+                child.setOriginalX(LEFT_INSET);child.setOriginalWidth(Math.max(0,usable));child.setWidthMode(WidgetSizeMode.ABSOLUTE);
+                geometry[3]=LEFT_INSET;geometry[4]=Math.max(0,usable);geometry[5]=WidgetSizeMode.ABSOLUTE;child.revalidate();
+            }
+			else if (!cell && !tabDropArea && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH && child.getOriginalWidth() != usable)
 			{
 
 				child.setOriginalWidth(usable);
@@ -778,7 +848,7 @@ public final class BankLayoutController
 
 	private int columns(int usable)
 	{
-		int columns = config.columns() > 0 ? config.columns() : (usable + VANILLA_GAP) / (CELL_WIDTH + VANILLA_GAP);
+		int columns = !actionBar.enabled() && config.columns() > 0 ? config.columns() : (usable + VANILLA_GAP) / (CELL_WIDTH + VANILLA_GAP);
 		return Math.max(1, Math.min(columns, (usable + MIN_GAP) / (CELL_WIDTH + MIN_GAP)));
 	}
 
@@ -810,6 +880,24 @@ public final class BankLayoutController
     }
 
     private final java.util.Set<Widget> hiddenSeparators=java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
+    private final Map<Widget,int[]> dividerGeometry=new java.util.IdentityHashMap<>();
+
+    private static boolean sectionDivider(Widget widget) {
+        int type=widget.getType();
+        return widget.getOriginalWidth()>=SEPARATOR_MIN_WIDTH && widget.getOriginalHeight()<=2
+            && (type==WidgetType.LINE || type==WidgetType.RECTANGLE
+                || type==WidgetType.GRAPHIC && widget.getSpriteId()==BANK_TAB_SEPARATOR_SPRITE);
+    }
+
+    private void restoreDividerGeometry() {
+        dividerGeometry.forEach((widget,g) -> {
+            if(widget.getOriginalX()==g[3])widget.setOriginalX(g[0]);
+            if(widget.getOriginalWidth()==g[4])widget.setOriginalWidth(g[1]);
+            if(widget.getWidthMode()==g[5])widget.setWidthMode(g[2]);
+            widget.revalidate();
+        });
+        dividerGeometry.clear();
+    }
 
     private void hideSeparators(Widget items)
     {
@@ -836,6 +924,8 @@ public final class BankLayoutController
 
 	private void restore()
 	{
+        restoreDividerGeometry();
+        actionBar.restore();
         viewGeometry.clear(); searchHeadings.clear(); inventoryNotes.clear();
         inventoryWidgets.clear();
         restoreSeparators();
@@ -863,10 +953,10 @@ public final class BankLayoutController
 			return;
 		}
 
-		int usable = items.getWidth() - LEFT_INSET - RIGHT_INSET;
+		int usable = items.getWidth() - LEFT_INSET - (actionBar.enabled()?6:RIGHT_INSET);
 		for (Widget child : children)
 		{
-			if (child != null && child.getType()!=WidgetType.RECTANGLE && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH)
+			if (child != null && !sectionDivider(child) && child.getType()!=WidgetType.RECTANGLE && child.getOriginalWidth() >= SEPARATOR_MIN_WIDTH)
 			{
 				child.setOriginalWidth(usable);
 				child.revalidate();
@@ -884,7 +974,7 @@ public final class BankLayoutController
 			}
 
 			Widget widget = client.getWidget(entry.getKey());
-			if (widget == null || entry.getValue().applied == null)
+			if (widget == null || widget!=entry.getValue().widget || entry.getValue().applied == null)
 			{
 				continue;
 			}
@@ -930,24 +1020,25 @@ public final class BankLayoutController
 
 	private int[] basePos(Widget widget)
 	{
-		return base(positions, widget.getId(), new int[]{
+		return base(positions, widget, new int[]{
 			widget.getOriginalX(), widget.getOriginalY(), widget.getXPositionMode(), widget.getYPositionMode()
 		});
 	}
 
-	private int[] baseSize(Widget widget)
+	int[] baseSize(Widget widget)
 	{
-		return base(sizes, widget.getId(), new int[]{
+		return base(sizes, widget, new int[]{
 			widget.getOriginalWidth(), widget.getOriginalHeight(), widget.getWidthMode(), widget.getHeightMode()
 		});
 	}
 
-	private static int[] base(Map<Integer, Track> tracks, int id, int[] current)
+	private static int[] base(Map<Integer, Track> tracks, Widget widget, int[] current)
 	{
-		Track track = tracks.get(id);
-		if (track == null)
+		int id=widget.getId();
+        Track track = tracks.get(id);
+		if (track == null || track.widget!=widget)
 		{
-			track = new Track(current);
+			track = new Track(widget,current);
 			tracks.put(id, track);
 		}
 		else

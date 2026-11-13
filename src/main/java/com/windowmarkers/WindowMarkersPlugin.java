@@ -134,6 +134,7 @@ public class WindowMarkersPlugin extends Plugin
                 }
                 configs.setConfiguration("windowmarkers","bankLayoutImported",true);
             }
+            bankLayout.screenshotButton=screenshotButton;bankLayout.bankPicker=bankPicker;
             bankLayout.startUp();
         }
         load();
@@ -173,12 +174,13 @@ public class WindowMarkersPlugin extends Plugin
                 JButton undo=new JButton("Undo"), redo=new JButton("Redo");
                 undo.addActionListener(e -> restoreHistory(false)); redo.addActionListener(e -> restoreHistory(true));
                 historyActions.add(undo); historyActions.add(redo); controls.add(historyActions);
-                JButton layoutControls=new JButton("Bank size and tabs");
+                JButton layoutControls=new JButton("Customize bank view");
                 layoutControls.addActionListener(e -> editBankLayout()); toolsPanel.add(new JLabel("Bank tools")); toolsPanel.add(layoutControls);
                 toolsPanel.add(new JLabel("<html>Alt-drag bank buttons to arrange them.</html>"));
                 JButton resetButtons=new JButton("Reset bank buttons");
                 resetButtons.addActionListener(e -> {
                     configs.setConfiguration("windowmarkers","bankControlLayout","");
+                    configs.unsetConfiguration("windowmarkers","bankActionLayout");
                     configs.setConfiguration("windowmarkers","customBankControls",false);
                     setStatus("Bank button arrangement reset.");
                 });toolsPanel.add(resetButtons);
@@ -444,31 +446,25 @@ public class WindowMarkersPlugin extends Plugin
     {
         String profile=configs.getProfile().getId()+"";
         JPanel form=new MarkerForm();
-        JCheckBox enabled=new JCheckBox("Use built-in bank layout",config.bankLayoutEnabled());
-        JCheckBox customWidth=new JCheckBox("Custom width",config.customWidth()),customHeight=new JCheckBox("Custom height",config.customHeight());
-        JSpinner width=new JSpinner(new SpinnerNumberModel(Math.max(488,Math.min(4000,config.width())),488,4000,24));
-        JSpinner height=new JSpinner(new SpinnerNumberModel(Math.max(200,Math.min(4000,config.height())),200,4000,24));
-        JSpinner columns=new JSpinner(new SpinnerNumberModel(Math.max(0,Math.min(60,config.columns())),0,60,1));
+        JCheckBox actionRail=new JCheckBox("Customize bank view",config.bankActionRail());
+        JCheckBox resetPosition=new JCheckBox("Reset bank window position");
+        JCheckBox tagSpace=new JCheckBox("Share Bank Tags strip: tags above, controls below",config.bankActionTagSpace());
+        JCheckBox equipmentPreview=new JCheckBox("Worn equipment hover preview",config.bankEquipmentPreview());
         JSpinner gap=new JSpinner(new SpinnerNumberModel(Math.max(0,Math.min(40,config.tabGap())),0,40,2));
         JComboBox<WindowMarkersConfig.TabAlignment> alignment=new JComboBox<>(WindowMarkersConfig.TabAlignment.values());alignment.setSelectedItem(config.tabAlignment());
-        JComboBox<DepositButtons> deposits=new JComboBox<>(DepositButtons.values()); deposits.setSelectedItem(config.depositButtons());
-        form.add(enabled); form.add(customWidth); form.add(width); form.add(customHeight); form.add(height);
-        form.add(new JLabel("Item columns (0 = fit available width)")); form.add(columns);
+        form.add(actionRail);form.add(resetPosition);form.add(tagSpace);form.add(equipmentPreview);
+        form.add(new JLabel("<html>Drag the bank title to move it and the lower-right grip to resize.<br>Columns fit automatically. Alt-drag buttons into empty rack positions.</html>"));
         form.add(new JLabel("Top tab alignment")); form.add(alignment);
         form.add(new JLabel("Space below tabs (pixels)")); form.add(gap);
-        form.add(new JLabel("Deposit buttons")); form.add(deposits);
         form.add(new JLabel("<html>Bank Tag layouts retain their designed item grid.<br>Saved marker layouts remain per account and profile.</html>"));
-        if(!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),form,"Bank size and tabs",480,620)) { return; }
+        if(!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),form,"Customize bank view",480,460)) { return; }
         if(!active || !profile.equals(configs.getProfile().getId()+"")) { setStatus("Profile changed. Reopen bank settings."); return; }
-        configs.setConfiguration("windowmarkers","bankLayoutEnabled",enabled.isSelected());
-        configs.setConfiguration("windowmarkers","customWidth",customWidth.isSelected());
-        configs.setConfiguration("windowmarkers","width",width.getValue());
-        configs.setConfiguration("windowmarkers","customHeight",customHeight.isSelected());
-        configs.setConfiguration("windowmarkers","height",height.getValue());
-        configs.setConfiguration("windowmarkers","columns",columns.getValue());
+        configs.setConfiguration("windowmarkers","bankActionRail",actionRail.isSelected());
+        configs.setConfiguration("windowmarkers","bankActionTagSpace",tagSpace.isSelected());
+        configs.setConfiguration("windowmarkers","bankEquipmentPreview",equipmentPreview.isSelected());
+        if(resetPosition.isSelected())configs.unsetConfiguration("windowmarkers","bankWindowPosition");
         configs.setConfiguration("windowmarkers","tabGap",gap.getValue());
         configs.setConfiguration("windowmarkers","tabAlignment",alignment.getSelectedItem());
-        configs.setConfiguration("windowmarkers","depositButtons",deposits.getSelectedItem());
         setStatus("Bank layout settings saved.");
     }
 

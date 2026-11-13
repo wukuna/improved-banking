@@ -13,6 +13,7 @@ final class BankScreenshotButton
 {
     @Inject Client client;
     private Widget button, parent;
+    Widget widget() {return button;}
 
     void update(boolean enabled,Runnable capture)
     {

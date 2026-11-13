@@ -45,8 +45,8 @@ public class ReleaseNotesNoticeTest
         verify(chat,times(1)).queue(messages.capture());
         String message=messages.getValue().getRuneLiteFormattedMessage();
         assertEquals(1,message.split("Improved Banking",-1).length-1);
-        assertEquals(3,message.split("<br>\\* ",-1).length-1);
-        assertTrue(message.contains("Preset views now require Bank Tags"));
+        assertEquals(4,message.split("<br>\\* ",-1).length-1);
+        assertTrue(message.contains("drag its divider downward"));
         assertFalse(message.contains("Recent updates"));
         assertEquals(ReleaseNotesNotice.RELEASE,seen);
         notice.onGameStateChanged(loggedIn()); flush();

@@ -88,7 +88,7 @@ final class BankControlDrag extends MouseAdapter
         Widget button=owner.client.getWidget(current.control.button);
         if(cancel || bank!=current.start.bank || bank==null || bank.isHidden() || container==null || button==null || button.isHidden()
             || !container.getBounds().equals(current.start.container) || blocked()
-            || !owner.config.bankLayoutEnabled() || !owner.config.bankButtonDragging()) {
+            || !owner.config.bankLayoutEnabled() || !owner.config.bankButtonDragging() || owner.actionBar.enabled()) {
             boolean changed=draft!=null;clear();return changed?2:0;
         }
         boolean moved=current.pressed.distanceSq(current.point)>=16;
@@ -130,7 +130,7 @@ final class BankControlDrag extends MouseAdapter
     {
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
         Widget items=owner.client.getWidget(InterfaceID.Bankmain.ITEMS),bottom=owner.client.getWidget(InterfaceID.Bankmain.BOTTOM);
-        if(!owner.config.bankLayoutEnabled() || !owner.config.bankButtonDragging() || bank==null || bank.isHidden() || container==null
+        if(owner.actionBar.enabled() || !owner.config.bankLayoutEnabled() || !owner.config.bankButtonDragging() || bank==null || bank.isHidden() || container==null
             || items==null || items.isHidden() || bottom==null || bottom.isHidden() || blocked() || owner.client.getDraggedWidget()!=null) {
             snapshot=null;return;
         }
