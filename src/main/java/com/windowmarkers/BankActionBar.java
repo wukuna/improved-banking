@@ -28,6 +28,7 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 final class BankActionBar extends MouseAdapter implements MouseWheelListener
 {
     private static final String SPLITTER="split";
+    private static final Color RAIL_BORDER=new Color(110,110,100,95);
     private final BankLayoutController owner;
     private final Map<Widget,Geometry> geometry=new IdentityHashMap<>();
     private final Map<Widget,Boolean> hidden=new IdentityHashMap<>();
@@ -58,11 +59,12 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     }
     private static final class Snapshot {
         final Widget bank,items;final Rectangle area,bankBounds,itemBounds,tagBounds;final Map<String,Rectangle> buttons,placements;
-        final String layout,profile;final boolean tags;final int bottomHeight,tagTop,tagMaxOffset;final long context;
-        Snapshot(Widget bank,Widget items,Rectangle area,Map<String,Rectangle> buttons,BankActionLayout.Plan plan,String layout,String profile,boolean tags,long context,Rectangle tagBounds) {
+        final String layout,profile;final boolean tags,adjustableDivider;final int bottomHeight,tagTop,tagMaxOffset;final long context;
+        Snapshot(Widget bank,Widget items,Rectangle area,Map<String,Rectangle> buttons,BankActionLayout.Plan plan,String layout,String profile,boolean tags,boolean adjustableDivider,long context,Rectangle tagBounds) {
             this.bank=bank;this.items=items;this.area=new Rectangle(area);this.buttons=buttons;this.layout=layout;this.profile=profile;
             this.tags=tags;this.bottomHeight=plan.bottomHeight;tagTop=plan.tagTop;tagMaxOffset=plan.tagMaxOffset;this.context=context;bankBounds=new Rectangle(bank.getBounds());itemBounds=new Rectangle(items.getBounds());
             this.tagBounds=tagBounds==null?null:new Rectangle(tagBounds);
+            this.adjustableDivider=adjustableDivider;
             this.placements=new LinkedHashMap<>();plan.bounds.forEach((key,r) -> this.placements.put(key,new Rectangle(r)));
         }
         Rectangle splitter() {return new Rectangle(area.x+1,area.y+tagTop-5,48,5);}
@@ -210,7 +212,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     {
         suppressClick=false;Snapshot s=snapshot;
         if(event.isConsumed() || s==null || event.isControlDown() || event.isMetaDown() || event.getButton()!=MouseEvent.BUTTON1)return event;
-        if(s.tags && s.splitter().contains(event.getPoint())) {
+        if(s.tags && s.adjustableDivider && s.splitter().contains(event.getPoint())) {
             gesture=new Gesture(s,SPLITTER,event.getPoint(),event.getPoint(),false);captured=true;cancelled=false;event.consume();return event;
         }
         if(!event.isAltDown())return event;
@@ -235,7 +237,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
         if(cancelled || !available() || bank!=g.start.bank || container==null || !container.getBounds().equals(g.start.area)
             || !Objects.equals(profile(),g.start.profile) || context!=g.start.context
-            || (g.key.equals(SPLITTER)?!tagSpace():!buttons().containsKey(g.key))) {
+            || (g.key.equals(SPLITTER)?!tagSpace() || !owner.config.bankTagDividerResizable():!buttons().containsKey(g.key))) {
             boolean changed=draft!=null;clearInput();return changed?2:0;
         }
         if(draft==null && g.pressed.distanceSq(g.point)<16) {if(g.released)clearInput();return 0;}
@@ -294,7 +296,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         if(!available(false) || plan==null) {snapshot=null;displaySnapshot=null;return;}
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER),items=owner.client.getWidget(InterfaceID.Bankmain.ITEMS);
         Map<String,Rectangle> bounds=new LinkedHashMap<>();buttons().forEach((key,b) -> bounds.put(key,new Rectangle(b.button.getBounds())));
-        displaySnapshot=new Snapshot(bank,items,container.getBounds(),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),context,sharedTags.wheelArea);
+        displaySnapshot=new Snapshot(bank,items,container.getBounds(),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),owner.config.bankTagDividerResizable(),context,sharedTags.wheelArea);
         snapshot=available()?displaySnapshot:null;
     }
     private String profile() {return owner.configs==null || owner.configs.getProfile()==null?null:owner.configs.getProfile().getId()+"";}
@@ -314,14 +316,16 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
             Snapshot s=displaySnapshot;if(s==null)return null;
             Graphics2D g=(Graphics2D)graphics.create();
             try {
-                Rectangle r=s.area;g.setColor(new Color(110,110,100,95));g.drawLine(r.x+r.width-51,r.y+BankActionLayout.TOP-2,r.x+r.width-51,r.y+r.height-s.bottomHeight-3);
+                Rectangle r=s.area;g.setColor(RAIL_BORDER);g.drawLine(r.x+r.width-51,r.y+BankActionLayout.TOP-2,r.x+r.width-51,r.y+r.height-s.bottomHeight-3);
                 if(s.tags) {
-                    Rectangle divider=s.splitter();net.runelite.api.Point mouse=owner.client.getMouseCanvasPosition();
-                    boolean hover=mouse!=null && divider.contains(mouse.getX(),mouse.getY());
-                    g.setColor(hover?new Color(105,190,220):new Color(151,149,122));
-                    g.drawLine(divider.x,divider.y,divider.x+divider.width-1,divider.y);
-                    for(int i=0;i<3;i++)g.fillRect(divider.x+18+i*5,divider.y+2,2,2);
-                    g.setColor(new Color(151,149,122));g.drawLine(r.x+50,r.y+41,r.x+50,r.y+r.height-s.bottomHeight-3);
+                    if(s.adjustableDivider) {
+                        Rectangle divider=s.splitter();net.runelite.api.Point mouse=owner.client.getMouseCanvasPosition();
+                        boolean hover=mouse!=null && divider.contains(mouse.getX(),mouse.getY());
+                        g.setColor(hover?new Color(105,190,220):RAIL_BORDER);
+                        g.drawLine(divider.x,divider.y,divider.x+divider.width-1,divider.y);
+                        for(int i=0;i<3;i++)g.fillRect(divider.x+18+i*5,divider.y+2,2,2);
+                    }
+                    g.setColor(RAIL_BORDER);g.drawLine(r.x+50,r.y+41,r.x+50,r.y+r.height-s.bottomHeight-3);
                 }
                 if(owner.client.isKeyPressed(KeyCode.KC_ALT) && !owner.client.isKeyPressed(KeyCode.KC_CONTROL)) {
                     g.setColor(new Color(105,190,220,150));

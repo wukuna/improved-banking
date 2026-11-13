@@ -204,7 +204,7 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging","bankWindowControls","bankWindowPosition","bankActionRail","bankActionTagSpace","bankActionLayout").contains(event.getKey()))
+		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging","bankWindowControls","bankWindowPosition","bankActionRail","bankActionTagSpace","bankTagDividerResizable","bankActionLayout").contains(event.getKey()))
 		{
             controlDrag.clear();windowDrag.clear();actionBar.clearInput();
             queueLayoutReset();

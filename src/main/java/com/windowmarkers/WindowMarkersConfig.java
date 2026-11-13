@@ -121,9 +121,11 @@ public interface WindowMarkersConfig extends Config
     default String bankWindowPosition() { return ""; }
     @ConfigItem(section=bankLayout,keyName="bankActionRail",name="Customize bank view",description="Drag the bank title or resize grip, automatically fit item columns, and Alt-drag compact buttons around the racks. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.",position=10)
     default boolean bankActionRail() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankActionTagSpace",name="Share bank tag strip",description="Share the left strip between scrollable Bank Tags and bank controls. Drag the divider down to give tags more room; its limit keeps the buttons below visible. Drag back up to restore the half split.",position=25)
+    @ConfigItem(section=bankLayout,keyName="bankActionTagSpace",name="Share bank tag strip",description="Share the left strip between scrollable Bank Tags and bank controls. Use Adjustable Bank Tags divider to change the split or keep it fixed.",position=25)
     default boolean bankActionTagSpace() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankEquipmentPreview",name="Preview worn equipment",description="Hover the bank's worn-equipment button to preview equipped items and their base bonuses. Clicking still opens the native worn-equipment screen.",position=26)
+    @ConfigItem(section=bankLayout,keyName="bankTagDividerResizable",name="Adjustable Bank Tags divider",description="Show a draggable divider in the shared Bank Tags strip. Turn off to remove the divider bar and keep the saved split. Smaller banks still reserve room for the buttons below.",position=26)
+    default boolean bankTagDividerResizable() { return true; }
+    @ConfigItem(section=bankLayout,keyName="bankEquipmentPreview",name="Preview worn equipment",description="Hover the bank's worn-equipment button to preview equipped items and their base bonuses. Clicking still opens the native worn-equipment screen.",position=27)
     default boolean bankEquipmentPreview() { return false; }
     @ConfigItem(keyName="bankActionLayout",name="Action bar arrangement",description="Saved positions of bank action controls.",hidden=true)
     default String bankActionLayout() { return ""; }

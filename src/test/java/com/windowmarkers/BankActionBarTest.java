@@ -32,6 +32,42 @@ import com.windowmarkers.BankControlsTest.Cell;
 
 public class BankActionBarTest
 {
+    @Test public void disablingTheDividerHidesItsBarAndRetainsTheSavedSplit() throws Exception {
+        Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);
+        h.saved="v2;split:80;SEARCH:T:0;PLACEHOLDERS:T:50;";h.build();
+        int split=h.bar.plan.tagTop;String saved=h.saved;
+        Map<String,Rectangle> positions=new LinkedHashMap<>(h.bar.plan.bounds);
+        when(h.c.config.bankTagDividerResizable()).thenReturn(false);h.frame();
+        Rectangle area=h.f.container.bounds();Point grip=new Point(area.x+25,area.y+split-3);
+        List<Object> mocks=new ArrayList<>();mocks.add(h.c.config);mocks.add(h.c.client);
+        h.f.cells.values().forEach(cell->mocks.add(cell.widget));clearInvocations(mocks.toArray());
+        SwingUtilities.invokeAndWait(()->assertFalse(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,grip,false)).isConsumed()));
+        verifyNoInteractions(mocks.toArray());
+        java.awt.Graphics2D graphics=mock(java.awt.Graphics2D.class);when(graphics.create()).thenReturn(graphics);
+        h.bar.overlay.render(graphics);
+        verify(graphics,times(2)).drawLine(anyInt(),anyInt(),anyInt(),anyInt());
+        verify(graphics,never()).fillRect(anyInt(),anyInt(),anyInt(),anyInt());
+        assertEquals(split,h.bar.plan.tagTop);assertEquals(positions,h.bar.plan.bounds);assertEquals(saved,h.saved);
+        Point button=h.center(Control.PLACEHOLDERS),end=new Point(button.x,button.y+35);
+        h.press(button);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
+        assertEquals(80,BankActionLayout.read(h.saved).tagOffset);
+        assertEquals(positions.get("PLACEHOLDERS").y+35,h.bar.plan.bounds.get("PLACEHOLDERS").y);
+        when(h.c.config.bankTagDividerResizable()).thenReturn(true);h.frame();
+        assertTrue(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,grip,false)).isConsumed());
+    }
+
+    @Test public void turningOffDividerDuringADragCancelsWithoutSavingItsDraft() {
+        Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);h.build();
+        int split=h.bar.plan.tagTop;Rectangle area=h.f.container.bounds();
+        Point start=new Point(area.x+25,area.y+split-3),end=new Point(start.x,start.y+75);
+        h.press(start);h.drag(end);h.frame();assertTrue(h.bar.plan.tagTop>split);
+        when(h.c.config.bankTagDividerResizable()).thenReturn(false);
+        ConfigChanged change=new ConfigChanged();change.setGroup("windowmarkers");change.setKey("bankTagDividerResizable");
+        h.c.onConfigChanged(change);h.flush();h.release(end);h.frame();h.flush();
+        assertEquals("",h.saved);assertEquals(split,h.bar.plan.tagTop);
+        assertFalse(h.bar.mousePressed(mouse(MouseEvent.MOUSE_PRESSED,start,false)).isConsumed());
+    }
+
     @Test public void rightClickMenusKeepRailDividersVisibleWithoutCapturingInput() {
         Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);h.build();
         java.awt.Graphics2D graphics=mock(java.awt.Graphics2D.class);when(graphics.create()).thenReturn(graphics);
@@ -324,7 +360,7 @@ public class BankActionBarTest
         for(String name:new String[]{"customWidth","width","customHeight","height","columns","bankWindowControls","customBankControls","bankButtonDragging"})
             assertTrue(WindowMarkersConfig.class.getMethod(name).getAnnotation(net.runelite.client.config.ConfigItem.class).hidden());
         assertEquals("Customize bank view",WindowMarkersConfig.class.getMethod("bankActionRail").getAnnotation(net.runelite.client.config.ConfigItem.class).name());
-        for(String name:new String[]{"bankActionRail","bankActionTagSpace","bankEquipmentPreview"})
+        for(String name:new String[]{"bankActionRail","bankActionTagSpace","bankTagDividerResizable","bankEquipmentPreview"})
             assertFalse(WindowMarkersConfig.class.getMethod(name).getAnnotation(net.runelite.client.config.ConfigItem.class).hidden());
     }
 
@@ -372,6 +408,7 @@ public class BankActionBarTest
         Harness() {
             for(Cell cell:f.cells.values())prepare(cell);
             when(c.config.bankActionRail()).thenReturn(true);when(c.config.bankButtonDragging()).thenReturn(true);
+            when(c.config.bankTagDividerResizable()).thenReturn(true);
             when(c.config.bankActionLayout()).thenAnswer(call -> saved);when(c.client.getGameState()).thenReturn(GameState.LOGGED_IN);
             c.configs=mock(ConfigManager.class,RETURNS_DEEP_STUBS);when(c.configs.getProfile().getId()).thenReturn(10L);
             doAnswer(call -> {pending.add(call.getArgument(0));return null;}).when(c.clientThread).invokeLater(any(Runnable.class));

@@ -449,18 +449,23 @@ public class WindowMarkersPlugin extends Plugin
         JCheckBox actionRail=new JCheckBox("Customize bank view",config.bankActionRail());
         JCheckBox resetPosition=new JCheckBox("Reset bank window position");
         JCheckBox tagSpace=new JCheckBox("Share Bank Tags strip: tags above, controls below",config.bankActionTagSpace());
+        JCheckBox tagDivider=new JCheckBox("Adjustable Bank Tags divider",config.bankTagDividerResizable());
+        tagDivider.setToolTipText("Turn off to remove the divider bar and keep the saved split.");
+        tagDivider.setEnabled(tagSpace.isSelected());
+        tagSpace.addActionListener(e->tagDivider.setEnabled(tagSpace.isSelected()));
         JCheckBox equipmentPreview=new JCheckBox("Worn equipment hover preview",config.bankEquipmentPreview());
         JSpinner gap=new JSpinner(new SpinnerNumberModel(Math.max(0,Math.min(40,config.tabGap())),0,40,2));
         JComboBox<WindowMarkersConfig.TabAlignment> alignment=new JComboBox<>(WindowMarkersConfig.TabAlignment.values());alignment.setSelectedItem(config.tabAlignment());
-        form.add(actionRail);form.add(resetPosition);form.add(tagSpace);form.add(equipmentPreview);
+        form.add(actionRail);form.add(resetPosition);form.add(tagSpace);form.add(tagDivider);form.add(equipmentPreview);
         form.add(new JLabel("<html>Drag the bank title to move it and the lower-right grip to resize.<br>Columns fit automatically. Alt-drag buttons into empty rack positions.</html>"));
         form.add(new JLabel("Top tab alignment")); form.add(alignment);
         form.add(new JLabel("Space below tabs (pixels)")); form.add(gap);
         form.add(new JLabel("<html>Bank Tag layouts retain their designed item grid.<br>Saved marker layouts remain per account and profile.</html>"));
-        if(!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),form,"Customize bank view",480,460)) { return; }
+        if(!MarkerDialogs.confirm(navigation==null ? null : navigation.getPanel(),form,"Customize bank view",480,490)) { return; }
         if(!active || !profile.equals(configs.getProfile().getId()+"")) { setStatus("Profile changed. Reopen bank settings."); return; }
         configs.setConfiguration("windowmarkers","bankActionRail",actionRail.isSelected());
         configs.setConfiguration("windowmarkers","bankActionTagSpace",tagSpace.isSelected());
+        configs.setConfiguration("windowmarkers","bankTagDividerResizable",tagDivider.isSelected());
         configs.setConfiguration("windowmarkers","bankEquipmentPreview",equipmentPreview.isSelected());
         if(resetPosition.isSelected())configs.unsetConfiguration("windowmarkers","bankWindowPosition");
         configs.setConfiguration("windowmarkers","tabGap",gap.getValue());

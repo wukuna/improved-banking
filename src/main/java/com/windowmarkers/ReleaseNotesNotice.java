@@ -23,7 +23,7 @@ final class ReleaseNotesNotice
     private static final String[] UPDATES = {
         "Customize bank view adds window dragging, drag resizing and automatically fitted item columns.",
         "Alt-drag compact bank buttons into free positions on the side or bottom racks.",
-        "Share the left strip with Bank Tags and drag its divider downward while keeping buttons visible.",
+        "Share the left strip with Bank Tags; adjust its divider or hide the bar to keep the split fixed.",
         "Preview worn gear and bonuses on hover; clicking still opens the native equipment screen.",
     };
 
