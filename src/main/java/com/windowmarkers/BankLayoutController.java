@@ -63,6 +63,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.banktags.BankTagsPlugin;
 import net.runelite.client.plugins.banktags.BankTagsService;
 
+@javax.inject.Singleton
 public final class BankLayoutController
 {
 
@@ -132,6 +133,7 @@ public final class BankLayoutController
     final BankControlWidgets controls=new BankControlWidgets(this);
     final BankControlDrag controlDrag=new BankControlDrag(this);
     final BankWindowDrag windowDrag=new BankWindowDrag(this);
+    @Inject private BankingAnchorAdapter anchorAdapter;
     final BankActionBar actionBar=new BankActionBar(this);
     final BankEquipmentPreview equipmentPreview=new BankEquipmentPreview(this);
     BankScreenshotButton screenshotButton;
@@ -174,6 +176,7 @@ public final class BankLayoutController
 	void startUp()
 	{
         inventoryWidgets.setClient(client);
+        if(anchorAdapter!=null)anchorAdapter.start();
 		active = true;lifecycle++;rebuildQueued=false;controlDrag.resetInput();windowDrag.resetInput();actionBar.resetInput();
         if(mouseManager!=null) {mouseManager.registerMouseListener(0,controlDrag);mouseManager.registerMouseListener(0,windowDrag);mouseManager.registerMouseListener(0,actionBar);mouseManager.registerMouseWheelListener(0,actionBar);}
         if(overlayManager!=null) {overlayManager.add(controlDrag.overlay);overlayManager.add(windowDrag.overlay);overlayManager.add(actionBar.overlay);overlayManager.add(equipmentPreview);}
@@ -187,6 +190,7 @@ public final class BankLayoutController
 
 	void shutDown()
 	{
+        if(anchorAdapter!=null)anchorAdapter.stop();
 		active = false;
         long stopped=++lifecycle;
         controlDrag.resetInput();windowDrag.resetInput();actionBar.resetInput();
@@ -248,6 +252,11 @@ public final class BankLayoutController
 		}
 	}
 
+    void releaseAnchorFrame() {restore();}
+    void applyAnchorFrame() {
+        if(!active || !layoutEnabled())return;
+        applyFrame();alignTabs();actionBar.capture();controlDrag.capture();windowDrag.capture();
+    }
     boolean layoutEnabled() {return config.bankLayoutEnabled() || config.bankActionRail();}
 
 	private void applyFrame()

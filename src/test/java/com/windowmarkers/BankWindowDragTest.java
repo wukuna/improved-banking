@@ -31,6 +31,44 @@ import com.windowmarkers.BankControlsTest.Cell;
 
 public class BankWindowDragTest
 {
+    @Test public void injectedAdapterUsesTheSameLiveControllerAcrossAnchorMoves()throws Exception
+    {
+        var injector=com.google.inject.Guice.createInjector(binder->{
+            for(Class type:List.of(Client.class,ClientThread.class,WindowMarkersConfig.class,net.runelite.client.game.ItemManager.class,
+                net.runelite.client.input.MouseManager.class,net.runelite.client.ui.overlay.OverlayManager.class,
+                ConfigManager.class,net.runelite.client.plugins.banktags.BankTagsService.class))binder.bind(type).toProvider(()->mock(type));
+            binder.bind(EventBus.class).toInstance(new EventBus());
+            binder.bind(NativeBankSearch.class).toProvider(NativeBankSearch::new);
+            binder.bind(BankSearchView.class).toProvider(BankSearchView::new);
+            binder.bind(BankPresetPositions.class).toProvider(BankPresetPositions::new);
+        });
+        BankingAnchorAdapter adapter=injector.getInstance(BankingAnchorAdapter.class);
+        BankLayoutController live=injector.getInstance(BankLayoutController.class);
+        Fixture f=new Fixture(live);
+        assertSame(live,injector.getProvider(BankLayoutController.class).get());
+        Rectangle initial=f.bank.bounds();assertTrue(adapter.claim());
+        for(Point point:List.of(new Point(initial.x+60,initial.y+30),new Point(initial.x+95,initial.y+55))) {
+            adapter.move(point);adapter.commit();f.render();assertEquals(point,f.bank.bounds().getLocation());assertEquals(initial.getSize(),f.bank.bounds().getSize());
+        }
+        assertTrue(f.settings.isEmpty());adapter.release(false);adapter.commit();live.shutDown();f.flush();
+    }
+    @Test public void anchorMovementPreservesSizeSlotsAndNativeClicksWithoutSavingDuringFrames() {
+        Fixture f=new Fixture(),nativeReference=new Fixture();Rectangle original=f.bank.bounds();
+        Point point=new Point(original.x+80,original.y+65);f.controller.windowDrag.anchorMove(point);f.controller.applyAnchorFrame();
+        assertEquals(point,f.bank.bounds().getLocation());assertEquals(original.getSize(),f.bank.bounds().getSize());
+        assertFalse(f.press(f.titlePoint()).isConsumed());
+        for(int i=0;i<20;i++){f.nativeSizeCheck();f.render();nativeReference.nativeSizeCheck();nativeReference.render();assertEquals(point,f.bank.bounds().getLocation());assertEquals(original.getSize(),f.bank.bounds().getSize());}
+        assertTrue(f.settings.isEmpty());
+        f.controller.windowDrag.anchorRelease(false);f.controller.applyAnchorFrame();f.render();assertNotEquals(point,f.bank.bounds().getLocation());
+        f.nativeSizeCheck();f.render();assertEquals(nativeReference.bank.bounds(),f.bank.bounds());assertTrue(f.settings.isEmpty());
+    }
+
+    @Test public void explicitAnchorDetachSavesOnlyTheNewBankPosition() {
+        Fixture f=new Fixture();Rectangle original=f.bank.bounds();Point point=new Point(original.x+40,original.y+30);
+        f.controller.windowDrag.anchorMove(point);f.controller.applyAnchorFrame();f.controller.windowDrag.anchorRelease(true);f.controller.applyAnchorFrame();
+        assertEquals(point,f.bank.bounds().getLocation());assertTrue(f.settings.containsKey("bankWindowPosition"));assertFalse(f.settings.containsKey("customWidth"));assertFalse(f.settings.containsKey("customHeight"));
+    }
+
     @Test public void movingUsesOnlyTheTitleAndSavesOnRelease() {
         Fixture f=new Fixture();Rectangle initial=f.bank.bounds();
         Point title=f.titlePoint();assertTrue(f.press(title).isConsumed());
@@ -183,14 +221,16 @@ public class BankWindowDragTest
 
     private static final class Fixture
     {
-        final BankLayoutController controller=new BankLayoutController();
+        final BankLayoutController controller;
         final EventBus bus=new EventBus();
         final Map<Integer,Cell> cells=new HashMap<>();
         final Map<String,Object> settings=new HashMap<>();
         final List<Runnable> pending=new ArrayList<>();
         final Cell area,modal,infinite,bank,items,title,frame;
 
-        Fixture() {
+        Fixture() {this(new BankLayoutController());}
+        Fixture(BankLayoutController controller) {
+            this.controller=controller;
             controller.client=mock(Client.class);controller.clientThread=mock(ClientThread.class);controller.eventBus=bus;
             controller.configs=mock(ConfigManager.class,RETURNS_DEEP_STUBS);when(controller.configs.getProfile().getId()).thenReturn(10L);
             controller.config=mock(WindowMarkersConfig.class);

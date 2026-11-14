@@ -25,6 +25,29 @@ final class BankWindowDrag extends MouseAdapter
     private volatile Snapshot snapshot;
     private Gesture gesture;
     private Rectangle draft;
+    private volatile Point anchorPoint;
+    Rectangle anchorBounds() {
+        Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE);
+        return bank==null?new Rectangle():new Rectangle(bank.getBounds());
+    }
+    boolean anchorAvailable() {
+        Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE);
+        return owner.layoutEnabled() && owner.config.bankActionRail() && owner.client.isResized()
+            && owner.client.getGameState()==GameState.LOGGED_IN && bank!=null && !bank.isHidden();
+    }
+    Rectangle anchorLimits() {Widget modal=owner.modal();return modal==null || modal.getParent()==null?null:new Rectangle(modal.getParent().getBounds());}
+    void anchorMove(Point point) { anchorPoint=new Point(point); }
+    void anchorRelease(boolean keep) {
+        if(keep && anchorPoint!=null) {
+            Widget modal=owner.modal();Widget area=modal==null?null:modal.getParent();
+            if(area!=null) {
+                Rectangle bounds=anchorBounds(),available=area.getBounds();bounds.translate(-available.x,-available.y);
+                owner.configs.setConfiguration("windowmarkers","bankWindowPosition",new BankWindowPlacement(bounds,available.width,available.height).write());
+            }
+        }
+        boolean restore=anchorPoint!=null && !keep;anchorPoint=null;
+        if(restore)owner.releaseAnchorFrame();
+    }
     private boolean captured,suppressClick,cancelled;
     final Overlay overlay=new GripOverlay();
 
@@ -67,7 +90,7 @@ final class BankWindowDrag extends MouseAdapter
         Point point=event.getPoint();
         for(Rectangle excluded:current.excluded)if(excluded.contains(point))return event;
         boolean resize=current.grip.contains(point);
-        if(!resize && !current.title.contains(point))return event;
+        if(!resize && (anchorPoint!=null || !current.title.contains(point)))return event;
         gesture=new Gesture(current,point,point,resize,false);
         cancelled=false;captured=true;event.consume();return event;
     }
@@ -140,14 +163,17 @@ final class BankWindowDrag extends MouseAdapter
     {
         if(!owner.config.bankActionRail() || !owner.client.isResized() || modal==null || modal.getParent()==null)return false;
         BankWindowPlacement saved=BankWindowPlacement.read(owner.config.bankWindowPosition());
-        if(draft==null && saved==null)return false;
+        if(draft==null && saved==null && anchorPoint==null)return false;
         Rectangle area=modal.getParent().getBounds();
         if(area.width<BankWindowPlacement.MIN_WIDTH || area.height<BankWindowPlacement.MIN_HEIGHT)return false;
         int[] base=owner.baseSize(bank);
         if(base[2]!=WidgetSizeMode.ABSOLUTE || base[3]!=WidgetSizeMode.ABSOLUTE)return false;
         int width=owner.config.customWidth()?owner.config.width():saved==null?base[0]:saved.bounds.width;
         int height=owner.config.customHeight()?owner.config.height():saved==null?base[1]:saved.bounds.height;
-        Rectangle target=draft==null?saved.fit(area.width,area.height,width,height):new Rectangle(draft);
+        Rectangle target=draft!=null?new Rectangle(draft):saved!=null?saved.fit(area.width,area.height,width,height)
+            :new Rectangle(0,0,BankWindowPlacement.limitSize(width,BankWindowPlacement.MIN_WIDTH,area.width),BankWindowPlacement.limitSize(height,BankWindowPlacement.MIN_HEIGHT,area.height));
+        Point anchored=anchorPoint;
+        if(anchored!=null) {target.x=Math.max(0,Math.min(area.width-target.width,anchored.x-area.x));target.y=Math.max(0,Math.min(area.height-target.height,anchored.y-area.y));}
         if(settings) {target.height=Math.min(area.height,Math.max(330,target.height));target.y=Math.min(target.y,area.height-target.height);}
         owner.setPos(modal,target.x,target.y,WidgetPositionMode.ABSOLUTE_LEFT,WidgetPositionMode.ABSOLUTE_TOP);
         owner.setSize(modal,target.width,Math.min(area.height-target.y,target.height+BankLayoutController.MODAL_HEIGHT_MARGIN),WidgetSizeMode.ABSOLUTE,WidgetSizeMode.ABSOLUTE);
