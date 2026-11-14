@@ -115,6 +115,9 @@ public class BankControlsTest
                     case "getWidth":return bounds().width;
                     case "getHeight":return bounds().height;
                     case "getBounds":return bounds();
+                    case "getParent":return parent==null?null:parent.widget;
+                    case "getRelativeX":return bounds().x-(parent==null?0:parent.bounds().x)+ (parent==null?0:parent.widget.getScrollX());
+                    case "getRelativeY":return bounds().y-(parent==null?0:parent.bounds().y)+ (parent==null?0:parent.widget.getScrollY());
                     case "getChildren":case "getDynamicChildren":return children.toArray(new Widget[0]);
                     case "getStaticChildren":return new Widget[0];
                     case "setChildren":children.clear();children.addAll(Arrays.asList((Widget[])args[0]));return null;

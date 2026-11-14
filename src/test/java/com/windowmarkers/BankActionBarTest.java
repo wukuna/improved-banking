@@ -398,6 +398,17 @@ public class BankActionBarTest
         assertEquals(initial.bounds.get("PLACEHOLDERS"),before.get("PLACEHOLDERS"));
     }
 
+    @Test public void cachedDrawCoordinatesCannotMoveButtonsBackDuringRebuilds() {
+        Harness h=new Harness();h.build();
+        Map<Control,Rectangle> initial=new LinkedHashMap<>();
+        for(Control control:Control.values())initial.put(control,h.f.cells.get(control.button).bounds());
+        for(Cell cell:h.f.cells.values())when(cell.widget.getBounds()).thenReturn(new Rectangle(10,20,57,34));
+        for(int frame=0;frame<8;frame++) {
+            h.build();
+            for(Control control:Control.values())assertEquals(control.name(),initial.get(control),h.f.cells.get(control.button).bounds());
+        }
+    }
+
     private static int[] geometry(Widget w) {return new int[]{w.getOriginalX(),w.getOriginalY(),w.getOriginalWidth(),w.getOriginalHeight(),w.getXPositionMode(),w.getYPositionMode(),w.getWidthMode(),w.getHeightMode()};}
     private static MouseEvent mouse(int id,Point p,boolean alt) {return new MouseEvent(new Canvas(),id,0,alt?MouseEvent.ALT_DOWN_MASK:0,p.x,p.y,1,false,MouseEvent.BUTTON1);}
     private static MouseWheelEvent wheel(Point p,int amount) {return new MouseWheelEvent(new Canvas(),MouseEvent.MOUSE_WHEEL,0,0,p.x,p.y,0,false,MouseWheelEvent.WHEEL_UNIT_SCROLL,3,amount);}

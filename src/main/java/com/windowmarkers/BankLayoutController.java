@@ -149,6 +149,7 @@ public final class BankLayoutController
 
 	private EventBus.Subscriber frameSubscriber;
     private EventBus.Subscriber actionFrameSubscriber;
+    private EventBus.Subscriber tabFrameSubscriber;
 	private volatile boolean active;
     boolean active() {return active;}
     private volatile long lifecycle;
@@ -180,6 +181,7 @@ public final class BankLayoutController
 
 		frameSubscriber = eventBus.register(ScriptPreFired.class, this::layoutFrame, 10);
         actionFrameSubscriber=eventBus.register(BeforeRender.class,e -> actionBar.beforeFrame(),10);
+        tabFrameSubscriber=eventBus.register(ScriptPostFired.class,this::prepareTabPositions,1);
 		queueRebuild();
 	}
 
@@ -193,6 +195,7 @@ public final class BankLayoutController
 		eventBus.unregister(this);
 		eventBus.unregister(frameSubscriber);
         eventBus.unregister(actionFrameSubscriber);
+        eventBus.unregister(tabFrameSubscriber);
 		clientThread.invokeLater(() ->
 		{
             if(lifecycle!=stopped || active)return;
@@ -356,11 +359,27 @@ public final class BankLayoutController
 		{
 			reapplyFrame();
 		}
-        if(active && layoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) alignTabs();
+        if(active && layoutEnabled() && event.getScriptId()==ScriptID.BANKMAIN_BUILD) {applyFrame();alignTabs();}
 
         if(active && event.getScriptId()==ScriptID.BANKMAIN_BUILD && ownsPreset())
             viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
 	}
+
+    private void prepareTabPositions(ScriptPostFired event)
+    {
+        if(active && layoutEnabled()) {
+            switch(event.getScriptId()) {
+                case ScriptID.BANKMAIN_BUILD:
+                case ScriptID.BANKMAIN_INIT:
+                case ScriptID.BANKMAIN_FINISHBUILDING:
+                case ScriptID.BANKMAIN_SEARCH_REFRESH:
+                case ScriptID.BANKMAIN_SEARCH_TOGGLE:
+                case ScriptID.BANKMAIN_SIZE_CHECK:
+                    applyFrame();alignTabs();break;
+            }
+        }
+
+    }
 
     @Subscribe public void onFocusChanged(net.runelite.api.events.FocusChanged event) {if(!event.isFocused()){controlDrag.cancel();windowDrag.cancel();actionBar.cancel();viewGeometry.cancelDrag();}}
     @Subscribe public void onGameStateChanged(net.runelite.api.events.GameStateChanged event) {
@@ -1099,7 +1118,7 @@ public final class BankLayoutController
         for(Widget tab:children)
         {
             int[] track=tabPositions.get(tab); int x=track[0]+offset;
-            if(tab.getOriginalX()!=x) { tab.setOriginalX(x); tab.revalidate(); }
+            if(tab.getOriginalX()!=x || tab.getRelativeX()!=x) { tab.setOriginalX(x); tab.revalidate(); }
             track[1]=x;
         }
     }

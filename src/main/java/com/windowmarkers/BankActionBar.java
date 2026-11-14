@@ -62,7 +62,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         final String layout,profile;final boolean tags,adjustableDivider;final int bottomHeight,tagTop,tagMaxOffset;final long context;
         Snapshot(Widget bank,Widget items,Rectangle area,Map<String,Rectangle> buttons,BankActionLayout.Plan plan,String layout,String profile,boolean tags,boolean adjustableDivider,long context,Rectangle tagBounds) {
             this.bank=bank;this.items=items;this.area=new Rectangle(area);this.buttons=buttons;this.layout=layout;this.profile=profile;
-            this.tags=tags;this.bottomHeight=plan.bottomHeight;tagTop=plan.tagTop;tagMaxOffset=plan.tagMaxOffset;this.context=context;bankBounds=new Rectangle(bank.getBounds());itemBounds=new Rectangle(items.getBounds());
+            this.tags=tags;this.bottomHeight=plan.bottomHeight;tagTop=plan.tagTop;tagMaxOffset=plan.tagMaxOffset;this.context=context;bankBounds=new Rectangle(BankWidgetGeometry.bounds(bank));itemBounds=new Rectangle(BankWidgetGeometry.bounds(items));
             this.tagBounds=tagBounds==null?null:new Rectangle(tagBounds);
             this.adjustableDivider=adjustableDivider;
             this.placements=new LinkedHashMap<>();plan.bounds.forEach((key,r) -> this.placements.put(key,new Rectangle(r)));
@@ -142,19 +142,19 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
             if(storage!=null)edit(storage,0,0,0,0,WidgetPositionMode.ABSOLUTE_LEFT,WidgetPositionMode.ABSOLUTE_TOP,WidgetSizeMode.MINUS,WidgetSizeMode.MINUS);
             hide(owner.client.getWidget(InterfaceID.Bankmain.STORAGE_POPUP_TAB_FRAME));
         }
-        Rectangle area=container.getBounds();
+        Rectangle area=BankWidgetGeometry.bounds(container);
         Button equipment=buttons.get("EQUIPMENT");
         if(equipment!=null && !plan.bounds.containsKey("EQUIPMENT")) {
-            Rectangle bounds=equipment.button.getBounds();
+            Rectangle bounds=BankWidgetGeometry.bounds(equipment.button);
             move(equipment.button,area.x+area.width-BankActionLayout.RAIL/2-bounds.width/2,
                 area.y+Math.max(0,(BankActionLayout.TOP-bounds.height)/2));
         }
         for(Map.Entry<String,Rectangle> entry:plan.bounds.entrySet()) {
             Button button=buttons.get(entry.getKey());if(button==null)continue;
             Rectangle target=new Rectangle(entry.getValue());target.translate(area.x,area.y);
-            Rectangle original=button.button.getBounds();
+            Rectangle original=BankWidgetGeometry.bounds(button.button);
             List<Rectangle> partBounds=new ArrayList<>();
-            for(Widget part:button.parts)partBounds.add(part==null?null:new Rectangle(part.getBounds()));
+            for(Widget part:button.parts)partBounds.add(part==null?null:new Rectangle(BankWidgetGeometry.bounds(part)));
             if(entry.getKey().equals("SEARCH"))edit(button.button,button.button.getOriginalX(),button.button.getOriginalY(),36,button.button.getOriginalHeight(),
                 button.button.getXPositionMode(),button.button.getYPositionMode(),WidgetSizeMode.ABSOLUTE,button.button.getHeightMode());
             move(button.button,target.x,target.y);
@@ -175,7 +175,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     void move(Widget widget,int x,int y)
     {
         Widget parent=widget.getParent();if(parent==null)return;
-        Rectangle bounds=parent.getBounds();
+        Rectangle bounds=BankWidgetGeometry.bounds(parent);
         edit(widget,x-bounds.x+parent.getScrollX(),y-bounds.y+parent.getScrollY(),widget.getOriginalWidth(),widget.getOriginalHeight(),
             WidgetPositionMode.ABSOLUTE_LEFT,WidgetPositionMode.ABSOLUTE_TOP,widget.getWidthMode(),widget.getHeightMode());
     }
@@ -235,7 +235,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     {
         Gesture g=gesture;if(g==null)return 0;
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
-        if(cancelled || !available() || bank!=g.start.bank || container==null || !container.getBounds().equals(g.start.area)
+        if(cancelled || !available() || bank!=g.start.bank || container==null || !BankWidgetGeometry.bounds(container).equals(g.start.area)
             || !Objects.equals(profile(),g.start.profile) || context!=g.start.context
             || (g.key.equals(SPLITTER)?!tagSpace() || !owner.config.bankTagDividerResizable():!buttons().containsKey(g.key))) {
             boolean changed=draft!=null;clearInput();return changed?2:0;
@@ -295,8 +295,8 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     {
         if(!available(false) || plan==null) {snapshot=null;displaySnapshot=null;return;}
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),container=owner.client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER),items=owner.client.getWidget(InterfaceID.Bankmain.ITEMS);
-        Map<String,Rectangle> bounds=new LinkedHashMap<>();buttons().forEach((key,b) -> bounds.put(key,new Rectangle(b.button.getBounds())));
-        displaySnapshot=new Snapshot(bank,items,container.getBounds(),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),owner.config.bankTagDividerResizable(),context,sharedTags.wheelArea);
+        Map<String,Rectangle> bounds=new LinkedHashMap<>();buttons().forEach((key,b) -> bounds.put(key,new Rectangle(BankWidgetGeometry.bounds(b.button))));
+        displaySnapshot=new Snapshot(bank,items,BankWidgetGeometry.bounds(container),bounds,plan,draft==null?owner.config.bankActionLayout():draft.write(),profile(),tagSpace(),owner.config.bankTagDividerResizable(),context,sharedTags.wheelArea);
         snapshot=available()?displaySnapshot:null;
     }
     private String profile() {return owner.configs==null || owner.configs.getProfile()==null?null:owner.configs.getProfile().getId()+"";}

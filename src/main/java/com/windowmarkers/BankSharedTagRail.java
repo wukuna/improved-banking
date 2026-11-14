@@ -40,7 +40,7 @@ final class BankSharedTagRail
         int top=41,tabTop=top+up.getHeight()+1;
         capacity=Math.max(0,(divider-down.getHeight()-tabTop)/41);
         count=tabs.size();offset=Math.max(0,Math.min(offset,Math.max(0,count-Math.max(1,capacity))));
-        Rectangle area=container.getBounds();
+        Rectangle area=BankWidgetGeometry.bounds(container);
         wheelArea=new Rectangle(area.x,area.y+top,50,Math.max(0,divider-top));
         owner.move(up,area.x+1,area.y+top);owner.move(down,area.x+1,area.y+divider-down.getHeight());
         replace(up,-1);replace(down,1);
