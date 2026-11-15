@@ -60,6 +60,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     }
     private static final class Snapshot {
         final Widget bank,items;final Rectangle area,bankBounds,itemBounds,tagBounds;final Map<String,Rectangle> buttons,placements;
+        final Map<String,Character> docks;
         final String layout,profile;final boolean tags,adjustableDivider;final int bottomHeight,tagTop,tagMaxOffset;final long context;
         Snapshot(Widget bank,Widget items,Rectangle area,Map<String,Rectangle> buttons,BankActionLayout.Plan plan,String layout,String profile,boolean tags,boolean adjustableDivider,long context,Rectangle tagBounds) {
             this.bank=bank;this.items=items;this.area=new Rectangle(area);this.buttons=buttons;this.layout=layout;this.profile=profile;
@@ -67,6 +68,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
             this.tagBounds=tagBounds==null?null:new Rectangle(tagBounds);
             this.adjustableDivider=adjustableDivider;
             this.placements=new LinkedHashMap<>();plan.bounds.forEach((key,r) -> this.placements.put(key,new Rectangle(r)));
+            this.docks=new LinkedHashMap<>(plan.docks);
         }
         Rectangle splitter() {return new Rectangle(area.x+1,area.y+tagTop-5,48,5);}
     }
@@ -251,19 +253,14 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         }
         char dock=y<0 && g.start.bankBounds.contains(g.point)?'N':y>=area.height-g.start.bottomHeight-6?'B':x>=area.width-54?'R':x<52 && g.start.tags && y>=g.start.tagTop?'T':x>=52 && x<100?'L':0;
         if(!g.start.bankBounds.contains(g.point) || dock==0) {if(g.released){clearInput();return 2;}return 0;}
-        next.pinVisible(area.width,area.height,g.start.bottomHeight,g.start.placements,g.start.tags,g.start.tagTop);
         Rectangle target=new Rectangle(g.start.buttons.get(g.key));
-        target.translate(g.point.x-g.pressed.x-area.x,g.point.y-g.pressed.y-area.y);
+        Rectangle rail=BankActionLayout.rail(dock,area.width,area.height,g.start.bottomHeight,g.start.tagTop);
         if(dock!='N') {
-            Rectangle rail=BankActionLayout.rail(dock,area.width,area.height,g.start.bottomHeight,g.start.tagTop);
             boolean valid=target.width<=rail.width && target.height<=rail.height && (dock!='L' || area.width>=536);
-            target.x=Math.max(rail.x,Math.min(rail.x+rail.width-target.width,target.x));
-            target.y=Math.max(rail.y,Math.min(rail.y+rail.height-target.height,target.y));
-            for(Map.Entry<String,Rectangle> entry:g.start.placements.entrySet())
-                if(!entry.getKey().equals(g.key) && target.intersects(entry.getValue()))valid=false;
             if(!valid) {if(g.released){clearInput();return 2;}return 0;}
         }
-        next.pin(g.key,dock,target,area.width,area.height,g.start.bottomHeight,g.start.tagTop);
+        Point position=new Point(target.x-area.x+g.point.x-g.pressed.x,target.y-area.y+g.point.y-g.pressed.y);
+        next.insert(g.key,dock,position,rail,g.start.placements,g.start.docks);
         return preview(next,g.released);
     }
 

@@ -102,7 +102,7 @@ public class BankActionBarTest
         assertEquals(initial,h.bar.plan.tagTop);assertEquals(0,BankActionLayout.read(h.saved).tagOffset);
     }
 
-    @Test public void splitterLowerLimitReservesEveryButtonAndPinnedGap() {
+    @Test public void splitterLowerLimitReservesEveryButtonOnItsTrack() {
         BankActionLayout layout=BankActionLayout.read("v2;split:4000;SEARCH:T:0;PLACEHOLDERS:T:50;");
         Map<String,Dimension> sizes=new LinkedHashMap<>();sizes.put("SEARCH",new Dimension(36,36));
         BankActionLayout.Plan one=layout.plan(718,650,sizes,true);
@@ -110,12 +110,8 @@ public class BankActionBarTest
         BankActionLayout.Plan two=layout.plan(718,650,sizes,true);
         assertEquals(one.tagTop-38,two.tagTop);
         assertEquals(650-two.bottomHeight-4,two.bounds.get("PLACEHOLDERS").y+36);
-        layout.entries.get("PLACEHOLDERS").x=5;layout.entries.get("PLACEHOLDERS").y=160;
-        BankActionLayout.Plan gap=layout.plan(718,650,sizes,true);
-        assertTrue(gap.tagTop<two.tagTop);
-        assertEquals(gap.tagTop+160,gap.bounds.get("PLACEHOLDERS").y);
-        assertEquals(2,gap.bounds.size());
-        for(Rectangle r:gap.bounds.values())assertTrue(BankActionLayout.rail('T',718,650,gap.bottomHeight,gap.tagTop).contains(r));
+        assertEquals(two.tagTop+38,two.bounds.get("PLACEHOLDERS").y);
+        for(Rectangle r:two.bounds.values())assertTrue(BankActionLayout.rail('T',718,650,two.bottomHeight,two.tagTop).contains(r));
         assertEquals(4000,BankActionLayout.read(layout.write()).tagOffset);
     }
 
@@ -150,12 +146,11 @@ public class BankActionBarTest
     @Test public void buttonsRemainDraggableBelowAnAdjustedSplitter() {
         Harness h=new Harness();when(h.c.config.bankActionTagSpace()).thenReturn(true);
         h.saved="v2;split:80;SEARCH:T:0;PLACEHOLDERS:T:50;";h.build();
-        Rectangle before=h.f.cells.get(Control.PLACEHOLDERS.button).bounds();
-        Point start=h.center(Control.PLACEHOLDERS),end=new Point(start.x,start.y+65);
+        Point start=h.center(Control.PLACEHOLDERS),end=h.center(Control.SEARCH);
         h.press(start);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
         assertEquals(80,BankActionLayout.read(h.saved).tagOffset);
-        assertEquals(before.y+65,h.f.cells.get(Control.PLACEHOLDERS.button).bounds().y);
-        for(int i=0;i<5;i++)h.build();assertEquals(before.y+65,h.f.cells.get(Control.PLACEHOLDERS.button).bounds().y);
+        assertEquals(h.bar.plan.tagTop,h.bar.plan.bounds.get("PLACEHOLDERS").y);
+        for(int i=0;i<5;i++)h.build();assertEquals(h.bar.plan.tagTop,h.bar.plan.bounds.get("PLACEHOLDERS").y);
     }
 
     @Test public void loweredSplitterExpandsTagViewportAndRestoresNativeArrows() {
@@ -197,41 +192,51 @@ public class BankActionBarTest
         Point end=new Point(area.x+20,area.y+divider+12);
         h.press(start);h.drag(end);h.frame();
         Rectangle button=h.f.cells.get(Control.SEARCH.button).bounds();
-        assertEquals(area.x+2,button.x);assertTrue(button.y>=area.y+divider);assertTrue(h.saved.isEmpty());
+        assertEquals(area.x+25,button.x+button.width/2);assertTrue(button.y>=area.y+divider);assertTrue(h.saved.isEmpty());
         h.release(end);h.frame();h.flush();
         assertEquals('T',BankActionLayout.read(h.saved).entries.get("SEARCH").dock);
         assertTrue(h.click(end).isConsumed());assertFalse(h.click(end).isConsumed());
     }
 
-    @Test public void draggingWithinTheRailKeepsTheChosenGapAndEveryOtherButtonStill() {
-        Harness h=new Harness();h.build();Map<String,Rectangle> before=new LinkedHashMap<>(h.bar.plan.bounds);
-        Point start=h.center(Control.SWAP),end=new Point(start.x,start.y+400);
+    @Test public void draggingWithinTheRailSlidesAlongItsAxisAndPreservesGaps() {
+        Harness h=new Harness();h.build();Rectangle first=new Rectangle(h.bar.plan.bounds.get("SWAP"));
+        Point start=h.center(Control.SWAP),end=new Point(start.x+5,start.y+400);
         h.press(start);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
-        Rectangle expected=new Rectangle(before.get("SWAP"));expected.translate(0,400);
-        assertEquals(expected,h.bar.plan.bounds.get("SWAP"));
-        before.forEach((key,r) -> {if(!key.equals("SWAP"))assertEquals(key,r,h.bar.plan.bounds.get(key));});
-        assertTrue(h.saved.startsWith("v2;"));
-        for(int i=0;i<10;i++)h.build();assertEquals(expected,h.bar.plan.bounds.get("SWAP"));
-        before.forEach((key,r) -> {if(!key.equals("SWAP"))assertEquals(key,r,h.bar.plan.bounds.get(key));});
+        assertEquals(first,h.bar.plan.bounds.get("NOTE"));
+        Rectangle previous=h.bar.plan.bounds.get("WORN"),last=h.bar.plan.bounds.get("SWAP");
+        assertEquals(first.y+400,last.y);assertTrue(last.y>previous.y+previous.height+2);assertEquals(first.x,last.x);
+        assertTrue(h.saved.startsWith("v3;"));
+        for(int i=0;i<10;i++)h.build();assertEquals(last,h.bar.plan.bounds.get("SWAP"));
     }
 
-    @Test public void droppingOntoAnOccupiedButtonDoesNotRearrangeTheRack() {
-        Harness h=new Harness();h.build();Map<String,Rectangle> before=new LinkedHashMap<>(h.bar.plan.bounds);
-        Point start=h.center(Control.SWAP),end=h.center(Control.CONTAINERS);
+    @Test public void droppingOntoAnOccupiedButtonInsertsWithoutOverlap() {
+        Harness h=new Harness();h.build();
+        Point start=h.center(Control.WORN),end=h.center(Control.SWAP);
         h.press(start);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
-        assertEquals(before,h.bar.plan.bounds);assertEquals("",h.saved);
+        assertEquals(BankActionLayout.TOP,h.bar.plan.bounds.get("WORN").y);
+        assertEquals(BankActionLayout.TOP+38,h.bar.plan.bounds.get("SWAP").y);
+        h.bar.plan.bounds.forEach((key,r)->h.bar.plan.bounds.forEach((other,b)->{if(!key.equals(other))assertFalse(r.intersects(b));}));
+        assertFalse(h.saved.isEmpty());
     }
 
-    @Test public void bottomPlacementKeepsTheGrabOffsetAndLeavesGaps() {
+    @Test public void bottomPlacementKeepsGrabOffsetAlongTheAxisAndCentersAcrossTheStrip() {
         Harness h=new Harness();h.build();Point start=h.center(Control.SEARCH);start.x-=10;
-        Rectangle before=h.f.cells.get(Control.SEARCH.button).bounds(),area=h.f.container.bounds();
-        Point end=new Point(area.x+450,area.y+area.height-18);
+        Rectangle area=h.f.container.bounds();Point end=new Point(area.x+450,area.y+area.height-10);
         h.press(start);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
-        Rectangle after=h.f.cells.get(Control.SEARCH.button).bounds();
-        assertEquals(end.x-(start.x-before.x),after.x);assertEquals('B',BankActionLayout.read(h.saved).entries.get("SEARCH").dock);
-        Rectangle quantity=h.f.cells.get(Control.ONE.button).bounds();
+        Rectangle after=h.f.cells.get(Control.SEARCH.button).bounds(),previous=h.f.cells.get(Control.ALL.button).bounds();
+        assertEquals(end.x-8,after.x);assertEquals(previous.y,after.y);
+        assertEquals('B',BankActionLayout.read(h.saved).entries.get("SEARCH").dock);
         for(int i=0;i<5;i++)h.build();assertEquals(after,h.f.cells.get(Control.SEARCH.button).bounds());
-        assertEquals(quantity,h.f.cells.get(Control.ONE.button).bounds());
+    }
+
+    @Test public void bottomSlidingIgnoresCrossAxisMouseMovement() {
+        Harness h=new Harness();h.build();Point start=h.center(Control.ALL);
+        Rectangle original=new Rectangle(h.bar.plan.bounds.get("ALL"));
+        Point end=new Point(start.x+130,start.y-10);
+        h.press(start);h.drag(end);h.frame();h.release(end);h.frame();h.flush();
+        Rectangle result=h.bar.plan.bounds.get("ALL");assertEquals(original.x+130,result.x);assertEquals(original.y,result.y);
+        assertTrue(result.x>h.bar.plan.bounds.get("TEN").x);
+        for(int i=0;i<5;i++)h.build();assertEquals(result,h.bar.plan.bounds.get("ALL"));
     }
 
     @Test public void headerButtonsCanMoveAndReturnToTheirNativePosition() {
@@ -414,12 +419,9 @@ public class BankActionBarTest
         }
     }
 
-    @Test public void savedRailPositionsReturnAfterTemporarySpaceConstraints() {
+    @Test public void savedRailOrderReturnsAfterTemporarySpaceConstraints() {
         Map<String,Dimension> sizes=new LinkedHashMap<>();for(Control c:Control.values())sizes.put(c.name(),new Dimension(c.width,36));
-        BankActionLayout layout=BankActionLayout.read("v1;SEARCH:T:0;PLACEHOLDERS:T:50;");
-        BankActionLayout.Plan initial=layout.plan(718,650,sizes,true);
-        layout.pinVisible(718,650,initial.bottomHeight,initial.bounds,true);
-        layout.pin("SEARCH",'T',new Rectangle(2,470,46,36),718,650,initial.bottomHeight);
+        BankActionLayout layout=BankActionLayout.read("v2;SEARCH:T:0:2:200;PLACEHOLDERS:T:50:5:38;");
         String saved=layout.write();Map<String,Rectangle> before=layout.plan(718,650,sizes,true).bounds;
         for(boolean tags:new boolean[]{false,true}) {
             BankActionLayout.Plan small=layout.plan(478,240,sizes,tags);
@@ -430,7 +432,7 @@ public class BankActionBarTest
             });
         }
         assertEquals(saved,layout.write());assertEquals(before,BankActionLayout.read(saved).plan(718,650,sizes,true).bounds);
-        assertEquals(initial.bounds.get("PLACEHOLDERS"),before.get("PLACEHOLDERS"));
+        assertTrue(before.get("PLACEHOLDERS").y<before.get("SEARCH").y);
     }
 
     @Test public void cachedDrawCoordinatesCannotMoveButtonsBackDuringRebuilds() {

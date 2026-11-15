@@ -119,7 +119,7 @@ public interface WindowMarkersConfig extends Config
     default boolean bankWindowControls() { return false; }
     @ConfigItem(keyName="bankWindowPosition",name="Bank window position",description="Saved bank position and reference game area.",hidden=true)
     default String bankWindowPosition() { return ""; }
-    @ConfigItem(section=bankLayout,keyName="bankActionRail",name="Customize bank view",description="Drag the bank title or resize grip, automatically fit item columns, and Alt-drag compact buttons around the racks. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.",position=10)
+    @ConfigItem(section=bankLayout,keyName="bankActionRail",name="Customize bank view",description="Drag the bank title or resize grip, automatically fit item columns, and Alt-drag buttons along the side and bottom strips. Buttons stay centered across each strip, close gaps on resize and flow to nearby strips when space runs out. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.",position=10)
     default boolean bankActionRail() { return false; }
     @ConfigItem(section=bankLayout,keyName="bankActionTagSpace",name="Share bank tag strip",description="Share the left strip between scrollable Bank Tags and bank controls. Use Adjustable Bank Tags divider to change the split or keep it fixed.",position=25)
     default boolean bankActionTagSpace() { return false; }
