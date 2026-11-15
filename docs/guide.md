@@ -1,5 +1,7 @@
 # Improved Banking
 
+For the current controls, restart behavior and optional Interface Layout anchor support, start with the [README](../README.md).
+
 ![Improved Banking](../icon.png)
 
 Find bank items by name, category or activity, preview gear and inventory setups, and save custom views with named, colored groups. Move bank controls, adjust the bank size and capture full-tab screenshots. Optional Grand Exchange tools add category searches and guide information.
@@ -188,13 +190,13 @@ Use **Legend → Saved views → Guide choices → Choose bank / GE guide** to n
 
 ### Bank layout
 
-**Tools → Bank size and tabs** controls bank width, height, columns, tab alignment, spacing below the tabs and deposit-button placement. Item icons retain their native size. Bank Tags custom layouts retain their designed grid. Linked markers follow reflow; area markers keep their saved coordinates.
+Enable **Bank layout → Customize bank view**, also available through **Tools → Customize bank view**. Drag the bank title to move the window or its lower-right grip to resize it. Item columns fit the available width automatically; item icons keep their native size. Use the mouse wheel to scroll items. Position, size and the scrolled item-list position survive bank rebuilds, including deposits and withdrawals.
 
-Enable **Move and resize bank** to drag the bank by its title or resize it with the lower-right grip. Release the mouse to save. This works in resizable game modes; item icons and native button actions remain unchanged. Width is at least 488 pixels and height is at least 200 pixels, limited by the available game area. The number of item columns follows the existing **Columns** setting; use 0 to fit as many as possible.
+Position and size belong to the RuneLite profile. A smaller game area fits the window on screen without replacing the saved layout. Disable the separate Flexible Bank plugin when using this feature, so only one plugin owns the bank geometry.
 
-Position and size belong to the RuneLite profile. Changing to a smaller game window fits the bank on screen without replacing its saved position. Returning to the original window size restores that placement. Switching profiles, closing the bank or losing focus cancels an unfinished drag. **Tools → Bank size and tabs → Reset bank window position** clears only the saved position; the custom width and height settings remain available.
+Hold Alt and drag a button to an edge strip. Buttons slide vertically on side strips and horizontally on bottom strips, staying centered across that strip. Saved gaps close as the bank shrinks; once space runs out, buttons flow to the nearest available strip in order. Expanding the bank restores their preferred spacing. Header controls can join the strips or return to the title area. Normal clicks keep native actions, tooltips and artwork.
 
-**Right action bar** replaces the bank’s scrollbar with native action buttons. Mouse-wheel scrolling over the items remains available. Hold Alt and drag a button to a highlighted edge to move or reorder it. Header controls, including worn equipment, settings, the camera, View presets and Close, can also be moved; drag them back to the title area to restore their native placement. Bank action arrangements are saved separately from the older custom-button layout. Turning the action bar off restores that older layout.
+The customized window can also join Interface Layout's built-in anchors when that update is available. Anchor movement preserves the bank's dimensions. To move it independently again, detach it from the anchor.
 
 **Share bank tag strip** divides the left strip vertically, with scrollable Bank Tags in the upper half and draggable bank controls in the lower half. With **Adjustable Bank Tags divider** enabled, drag the divider down to give tags more room; its lower limit keeps all buttons visible. Turn it off to remove the divider bar and keep the saved split. The option is in **Bank layout** settings and **Tools → Customize bank view**. Use the wheel over the tag list or its arrows to scroll tags. Bank Tags settings and saved tags are retained. If the bank is too short to share the strip, it keeps the normal tag list and returns those bank controls to the bottom. Narrow banks showing a Bank Tags item layout retain their original layout until there is enough width for the action bar.
 

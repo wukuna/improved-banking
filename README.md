@@ -24,11 +24,15 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 
 1. Install **Improved Banking** from RuneLite’s Plugin Hub.
 2. Enable the built-in **Bank Tags** plugin before using preset views. **Bank Tag Layouts** is optional.
-3. Open your bank and the square-frame Improved Banking sidebar icon.
+3. Open your bank and the chest Improved Banking sidebar icon.
 4. In **Legend**, search an activity or category and choose **Show in bank**. **Add to Legend** saves its group; **Clear bank filter** returns to ordinary bank contents.
 5. Use **Legend → Saved views → Save as custom view** to make an editable copy. Commit editor changes with **Save changes**.
 
 Use **Custom** to create groups and markers. **Tools** contains bank sizing, screenshots and marker layouts. The camera button beside the bank’s X also saves a bank capture.
+
+## Move the bank with an anchor
+
+With **Customize bank view** enabled, the bank can join Interface Layout's built-in **Anchors** feature when available. Enable **Edit anchors** in Interface Layout and attach the bank using the configured RuneLite drag hotkey. It follows the anchor while open and retains the assignment when closed. Drag it outside the anchors to return to independent placement. Moving the bank and scrolling its item list are separate controls.
 
 ## Controls and saving
 
@@ -36,7 +40,7 @@ Use **Custom** to create groups and markers. **Tools** contains bank sizing, scr
 
 Enable **Customize bank view** in the plugin’s **Bank layout** settings, then drag the bank title to move the window or its lower-right grip to resize it. Columns fit the available width automatically; item icons keep their normal size. These controls work in resizable game modes and save separately for each profile. **Tools → Customize bank view → Reset bank window position** returns the window to its native position while keeping your chosen size.
 
-Customizing the bank moves native controls into the scrollbar area; use the mouse wheel over items to scroll. Alt-drag controls to an empty spot along the right, left or bottom rack. Buttons stay where you drop them, leaving your chosen gaps; dropping onto another button cancels the move. **Share bank tag strip** places scrollable tags above a divider and bank controls below it. Short banks temporarily return controls that cannot fit to the bottom, preserving their saved rack positions. **Preview worn equipment** is a separate option that adds a gear-and-bonuses card when hovering the worn-equipment button; clicking still opens the native equipment screen.
+Customizing the bank moves native controls into the scrollbar area; use the mouse wheel over items to scroll. Alt-drag controls along the right, left or bottom strip. Vertical strips allow up/down sliding; horizontal strips allow left/right sliding. Buttons stay centered on that axis and retain your chosen gaps when space permits. Overlapping drops resolve in order. **Share bank tag strip** places scrollable tags above a divider and bank controls below it. Shrinking the bank moves buttons along their strip, then fits overflow into the nearest available strip in order. Expanding restores preferred strip positions; the temporary fit does not overwrite them. **Preview worn equipment** is a separate option that adds a gear-and-bonuses card when hovering the worn-equipment button; clicking still opens the native equipment screen.
 
 Drag the left-strip divider directly to give Bank Tags more space. Its highest position is the original halfway split. Its lower limit reserves room for every button below it, including gaps you have left between buttons. The divider position is saved with your button arrangement; a smaller bank temporarily limits it without losing the saved position. Turn off **Adjustable Bank Tags divider** to remove its bar and drag handle while retaining the saved split. The remaining side borders match the right rack.
 

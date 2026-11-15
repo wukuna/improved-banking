@@ -45,7 +45,7 @@ public class ReleaseNotesNoticeTest
         verify(chat,times(1)).queue(messages.capture());
         String message=messages.getValue().getRuneLiteFormattedMessage();
         assertEquals(1,message.split("Improved Banking",-1).length-1);
-        assertEquals(3,message.split("<br>\\* ",-1).length-1);
+        assertEquals(6,message.split("<br>\\* ",-1).length-1);
         assertTrue(message.contains("New sidebar icon - a chest with a gold accent."));
         assertFalse(message.contains("Recent updates"));
         assertEquals(ReleaseNotesNotice.RELEASE,seen);

@@ -22,8 +22,11 @@ final class ReleaseNotesNotice
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
         "New sidebar icon - a chest with a gold accent.",
-        "Changes to bank window interface - buttons can be dragged and moved, window resizing is dynamic, and the scrollbar area can be replaced with a button layout.",
-        "The dynamic presets in the preset button have been optimized according to Wiki and pull from your gear. Inaccuracies can be Discord DM\u2019d or file a Github issue.",
+        "Customize bank view lets you move and drag-resize the bank, with columns that fit automatically.",
+        "Alt-drag buttons to slide along side or bottom strips; smaller banks fit overflow into nearby strips and restore preferred positions when expanded.",
+        "Bank movement, resizing and scrolling remain stable through deposits and withdrawals.",
+        "The customized bank can join Interface Layout anchors when that feature is available.",
+        "The dynamic presets in the preset button have been optimized according to Wiki and pull from your gear. Inaccuracies can be Discord DM\u2019d or file a Github issue."
     };
 
     @Inject private Client client;
