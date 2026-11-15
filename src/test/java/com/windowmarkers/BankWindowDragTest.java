@@ -83,6 +83,37 @@ public class BankWindowDragTest
         f.controller.onWidgetClosed(new WidgetClosed(InterfaceID.BANKMAIN,0,true));
         f.build();f.render();assertEquals(initial.x+80,f.bank.bounds().x);
     }
+    @Test public void independentWindowPositionSurvivesRepeatedInventoryRebuildsAfterDetaching() {
+        for(boolean anchoredFirst:new boolean[]{false,true}) {
+            Fixture f=new Fixture();
+            if(anchoredFirst) {
+                Rectangle initial=f.bank.bounds();f.controller.windowDrag.anchorMove(new Point(initial.x+30,initial.y+40));f.controller.applyAnchorFrame();
+                f.controller.windowDrag.anchorRelease(true);f.controller.applyAnchorFrame();f.flush();f.render();
+            }
+            Point title=f.titlePoint();assertTrue(f.press(title).isConsumed());f.drag(new Point(title.x+80,title.y+50));f.render();
+            f.release(new Point(title.x+80,title.y+50));f.render();f.flush();Rectangle expected=f.bank.bounds();
+            Map<String,Object> saved=new HashMap<>(f.settings);
+            for(int i=0;i<12;i++) {
+                f.bus.post(new ScriptPreFired(ScriptID.BANKMAIN_BUILD));
+                f.modal.widget.setPos(0,0,1,1);f.modal.widget.setSize(512,500,0,0);
+                f.nativeSizeCheck();f.build();f.bus.post(new net.runelite.api.events.ScriptPostFired(ScriptID.BANKMAIN_BUILD));f.render();f.flush();
+                assertEquals(expected,f.bank.bounds());assertEquals(saved,f.settings);
+            }
+        }
+    }
+    @Test public void movingResizingAndInventoryRebuildsDoNotUsePreviousFrameCoordinates() {
+        Fixture f=new Fixture();Map<Integer,Point> drawn=new HashMap<>();
+        Runnable draw=()->f.cells.forEach((id,cell)->drawn.put(id,cell.bounds().getLocation()));draw.run();
+        f.cells.forEach((id,cell)->when(cell.widget.getBounds()).thenAnswer(call->{Rectangle bounds=cell.bounds();bounds.setLocation(drawn.get(id));return bounds;}));
+        Rectangle original=f.bank.bounds();Point title=f.titlePoint();f.press(title);f.drag(new Point(title.x+80,title.y+50));f.render();
+        Rectangle moved=new Rectangle(original);moved.translate(80,50);assertEquals(moved,f.bank.bounds());draw.run();
+        f.release(new Point(title.x+80,title.y+50));f.render();f.flush();draw.run();
+        for(int i=0;i<6;i++){f.nativeSizeCheck();f.build();f.render();assertEquals(moved,f.bank.bounds());draw.run();}
+        Point corner=f.corner();assertTrue(f.press(corner).isConsumed());f.drag(new Point(corner.x+40,corner.y+30));f.render();
+        Rectangle resized=new Rectangle(moved);resized.width+=40;resized.height+=30;assertEquals(resized,f.bank.bounds());draw.run();
+        f.release(new Point(corner.x+40,corner.y+30));f.render();f.flush();assertEquals(resized,f.bank.bounds());
+        assertEquals(resized,f.controller.windowDrag.anchorBounds());
+    }
 
     @Test public void cornerResizeReflowsNativeItemsAndPreservesTheirActionsAndDimensions() {
         Fixture f=new Fixture();Cell item=f.add(InterfaceID.Bankmain.ITEMS+100,f.items,51,0,36,32,0,0,0,0);

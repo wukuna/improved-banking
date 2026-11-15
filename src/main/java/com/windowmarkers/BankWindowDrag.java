@@ -28,20 +28,20 @@ final class BankWindowDrag extends MouseAdapter
     private volatile Point anchorPoint;
     Rectangle anchorBounds() {
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE);
-        return bank==null?new Rectangle():new Rectangle(bank.getBounds());
+        return BankWidgetGeometry.bounds(bank);
     }
     boolean anchorAvailable() {
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE);
         return owner.layoutEnabled() && owner.config.bankActionRail() && owner.client.isResized()
             && owner.client.getGameState()==GameState.LOGGED_IN && bank!=null && !bank.isHidden();
     }
-    Rectangle anchorLimits() {Widget modal=owner.modal();return modal==null || modal.getParent()==null?null:new Rectangle(modal.getParent().getBounds());}
+    Rectangle anchorLimits() {Widget modal=owner.modal();return modal==null || modal.getParent()==null?null:BankWidgetGeometry.bounds(modal.getParent());}
     void anchorMove(Point point) { anchorPoint=new Point(point); }
     void anchorRelease(boolean keep) {
         if(keep && anchorPoint!=null) {
             Widget modal=owner.modal();Widget area=modal==null?null:modal.getParent();
             if(area!=null) {
-                Rectangle bounds=anchorBounds(),available=area.getBounds();bounds.translate(-available.x,-available.y);
+                Rectangle bounds=anchorBounds(),available=BankWidgetGeometry.bounds(area);bounds.translate(-available.x,-available.y);
                 owner.configs.setConfiguration("windowmarkers","bankWindowPosition",new BankWindowPlacement(bounds,available.width,available.height).write());
             }
         }
@@ -129,7 +129,7 @@ final class BankWindowDrag extends MouseAdapter
         Widget bank=owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE),modal=owner.modal();
         Widget area=modal==null?null:modal.getParent();
         if(cancelled || !available(bank) || modal!=current.start.modal || bank!=current.start.bank || area==null
-            || !current.start.area.equals(area.getBounds()) || !Objects.equals(current.start.profile,profile())) {
+            || !current.start.area.equals(BankWidgetGeometry.bounds(area)) || !Objects.equals(current.start.profile,profile())) {
             boolean changed=draft!=null;clear();return changed?2:0;
         }
         int dx=current.point.x-current.pressed.x,dy=current.point.y-current.pressed.y;
@@ -164,7 +164,7 @@ final class BankWindowDrag extends MouseAdapter
         if(!owner.config.bankActionRail() || !owner.client.isResized() || modal==null || modal.getParent()==null)return false;
         BankWindowPlacement saved=BankWindowPlacement.read(owner.config.bankWindowPosition());
         if(draft==null && saved==null && anchorPoint==null)return false;
-        Rectangle area=modal.getParent().getBounds();
+        Rectangle area=BankWidgetGeometry.bounds(modal.getParent());
         if(area.width<BankWindowPlacement.MIN_WIDTH || area.height<BankWindowPlacement.MIN_HEIGHT)return false;
         int[] base=owner.baseSize(bank);
         if(base[2]!=WidgetSizeMode.ABSOLUTE || base[3]!=WidgetSizeMode.ABSOLUTE)return false;
@@ -180,7 +180,7 @@ final class BankWindowDrag extends MouseAdapter
         modal.revalidateScroll();
         Widget parent=owner.client.getWidget(InterfaceID.Bankmain.INFINITE);
         if(parent==null)return false;
-        Rectangle parentBounds=parent.getBounds();
+        Rectangle parentBounds=BankWidgetGeometry.bounds(parent);
         owner.setSize(bank,target.width,target.height,WidgetSizeMode.ABSOLUTE,WidgetSizeMode.ABSOLUTE);
         owner.setPos(bank,area.x+target.x-parentBounds.x,area.y+target.y-parentBounds.y,
             WidgetPositionMode.ABSOLUTE_LEFT,WidgetPositionMode.ABSOLUTE_TOP);
@@ -193,15 +193,15 @@ final class BankWindowDrag extends MouseAdapter
         Widget area=modal==null?null:modal.getParent();
         if(!available(bank) || area==null || area.getWidth()<BankWindowPlacement.MIN_WIDTH
             || area.getHeight()<BankWindowPlacement.MIN_HEIGHT) {snapshot=null;return;}
-        Rectangle bounds=bank.getBounds(),space=area.getBounds();
+        Rectangle bounds=BankWidgetGeometry.bounds(bank),space=BankWidgetGeometry.bounds(area);
         if(!space.contains(bounds)) {snapshot=null;return;}
         Widget title=owner.client.getWidget(InterfaceID.Bankmain.TITLE);
-        Rectangle titleBounds=title==null || title.isHidden()?new Rectangle():bounds.intersection(title.getBounds());
+        Rectangle titleBounds=title==null || title.isHidden()?new Rectangle():bounds.intersection(BankWidgetGeometry.bounds(title));
         List<Rectangle> excluded=new ArrayList<>();
         collectButtons(owner.client.getWidget(InterfaceID.Bankmain.FRAME),excluded,0);
         for(BankControlLayout.Control control:BankControlLayout.Control.values()) {
             Widget button=owner.client.getWidget(control.button);
-            if(button!=null && !button.isHidden())excluded.add(new Rectangle(button.getBounds()));
+            if(button!=null && !button.isHidden())excluded.add(BankWidgetGeometry.bounds(button));
         }
         snapshot=new Snapshot(bank,modal,space,bounds,titleBounds,excluded,profile());
     }
@@ -224,7 +224,7 @@ final class BankWindowDrag extends MouseAdapter
     private static void collectButtons(Widget widget,List<Rectangle> excluded,int depth)
     {
         if(widget==null || widget.isHidden() || depth>4)return;
-        if(widget.getActions()!=null || widget.getOnOpListener()!=null)excluded.add(new Rectangle(widget.getBounds()));
+        if(widget.getActions()!=null || widget.getOnOpListener()!=null)excluded.add(BankWidgetGeometry.bounds(widget));
         Widget[][] children={widget.getStaticChildren(),widget.getDynamicChildren()};
         for(Widget[] group:children)if(group!=null)for(Widget child:group)collectButtons(child,excluded,depth+1);
     }

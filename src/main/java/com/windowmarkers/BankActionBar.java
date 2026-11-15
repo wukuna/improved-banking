@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import net.runelite.api.KeyCode;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.VarClientID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetPositionMode;
 import net.runelite.api.widgets.WidgetSizeMode;
@@ -286,7 +287,9 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
                 || owner.client.getWidget(InterfaceID.Bankmain.ITEMS)!=s.items || owner.client.getWidget(InterfaceID.Bankmain.UNIVERSE)!=s.bank)return;
             if(tags) {sharedTags.scroll(event.getWheelRotation());return;}
             int max=Math.max(0,s.items.getScrollHeight()-s.items.getHeight());
-            s.items.setScrollY((int)Math.max(0,Math.min(max,(long)s.items.getScrollY()+delta)));
+            int position=(int)Math.max(0,Math.min(max,(long)s.items.getScrollY()+delta));
+            s.items.setScrollY(position);
+            owner.client.setVarcIntValue(VarClientID.BANK_SCROLLPOS,position);
         });
         return event;
     }

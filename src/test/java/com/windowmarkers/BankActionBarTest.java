@@ -14,8 +14,10 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.SwingUtilities;
 import net.runelite.api.GameState;
+import net.runelite.api.ScriptID;
 import net.runelite.api.events.BeforeRender;
 import net.runelite.api.events.FocusChanged;
+import net.runelite.api.events.ScriptPreFired;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.JavaScriptCallback;
 import net.runelite.api.widgets.Widget;
@@ -247,13 +249,44 @@ public class BankActionBarTest
         h.c.shutDown();h.flush();assertEquals(original,equipment.bounds());
     }
 
+    @Test public void wheelPositionSurvivesRepeatedNativeInventoryRebuilds() {
+        Harness h=new Harness();h.f.items.widget.setScrollHeight(1800);h.build();
+        Rectangle items=h.f.items.bounds();Point inside=new Point(items.x+130,items.y+100);
+        for(int rotation:new int[]{5,2,-1,4,-2}) {
+            int expected=h.f.items.widget.getScrollY()+rotation*36;
+            assertTrue(h.bar.mouseWheelMoved(wheel(inside,rotation)).isConsumed());h.flush();
+            assertEquals(expected,h.f.items.widget.getScrollY());
+            for(int i=0;i<3;i++) {h.nativeInventoryRebuild();assertEquals(expected,h.f.items.widget.getScrollY());}
+        }
+    }
+
+    @Test public void scrollLimitsAndNativeTabResetStayInSync() {
+        Harness h=new Harness();h.f.items.widget.setScrollHeight(1800);h.build();
+        Rectangle items=h.f.items.bounds();Point inside=new Point(items.x+130,items.y+100);
+        int maximum=1800-h.f.items.widget.getHeight();
+        h.bar.mouseWheelMoved(wheel(inside,10000));h.flush();h.nativeInventoryRebuild();
+        assertEquals(maximum,h.f.items.widget.getScrollY());
+        assertEquals(maximum,h.c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS));
+        h.bar.mouseWheelMoved(wheel(inside,-10000));h.flush();h.nativeInventoryRebuild();
+        assertEquals(0,h.f.items.widget.getScrollY());
+        h.bar.mouseWheelMoved(wheel(inside,6));h.flush();
+        h.c.client.setVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS,0);
+        h.nativeInventoryRebuild();h.frame();
+        assertEquals(0,h.f.items.widget.getScrollY());
+        h.bar.mouseWheelMoved(wheel(inside,1));h.flush();h.nativeInventoryRebuild();
+        assertEquals(36,h.f.items.widget.getScrollY());
+    }
+
     @Test public void wheelScrollingRunsOnClientThreadAndStopsAfterProfileChange() throws Exception {
         Harness h=new Harness();h.f.items.widget.setScrollHeight(1800);h.build();
         Rectangle items=h.f.items.bounds();Point inside=new Point(items.x+130,items.y+100);
         clearInvocations(h.c.client,h.f.items.widget);
         SwingUtilities.invokeAndWait(() -> assertTrue(h.bar.mouseWheelMoved(wheel(inside,2)).isConsumed()));
         verifyNoInteractions(h.c.client,h.f.items.widget);h.flush();assertEquals(72,h.f.items.widget.getScrollY());
+        assertEquals(72,h.c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS));
+        clearInvocations(h.c.client);
         h.bar.mouseWheelMoved(wheel(inside,5));h.c.onProfileChanged(new ProfileChanged());h.flush();assertEquals(72,h.f.items.widget.getScrollY());
+        verify(h.c.client,never()).setVarcIntValue(anyInt(),anyInt());
         assertFalse(h.bar.mouseWheelMoved(wheel(new Point(-10,-10),1)).isConsumed());
     }
 
@@ -308,8 +341,10 @@ public class BankActionBarTest
         h.build();Rectangle area=h.f.container.bounds();int divider=BankActionLayout.tagTop(area.height,h.bar.plan.bottomHeight)-5;
         for(Cell tag:tags)if(!tag.widget.isSelfHidden())assertTrue(tag.bounds().y+tag.bounds().height<=area.y+divider-down.bounds().height);
         assertFalse(tags.get(0).widget.isSelfHidden());assertTrue(tags.get(19).widget.isSelfHidden());
+        h.c.client.setVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS,123);
         assertTrue(h.bar.mouseWheelMoved(wheel(new Point(area.x+10,area.y+100),50)).isConsumed());h.flush();h.frame();
         assertFalse(tags.get(19).widget.isSelfHidden());assertTrue(tags.get(0).widget.isSelfHidden());assertEquals(0,h.f.items.widget.getScrollY());
+        assertEquals(123,h.c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS));
         for(int i=0;i<10;i++) {h.bar.apply(h.f.container.widget);h.frame();}
         h.c.shutDown();h.flush();assertArrayEquals(nativeUp,up.widget.getOnOpListener());assertArrayEquals(nativeDown,down.widget.getOnOpListener());
         for(int i=0;i<20;i++) {assertEquals(i>=14,tags.get(i).widget.isSelfHidden());assertArrayEquals(positions.get(i),tags.get(i).geometry);}
@@ -415,8 +450,10 @@ public class BankActionBarTest
 
     private static final class Harness {
         final BankControlLayoutTest.Fixture f=new BankControlLayoutTest.Fixture();final BankLayoutController c=f.controller;final BankActionBar bar=c.actionBar;
-        final List<Runnable> pending=new ArrayList<>();String saved="";int id=10000;
+        final List<Runnable> pending=new ArrayList<>();final Map<Integer,Integer> varcs=new java.util.HashMap<>();String saved="";int id=10000;
         Harness() {
+            when(c.client.getVarcIntValue(anyInt())).thenAnswer(call -> varcs.getOrDefault(call.getArgument(0),0));
+            doAnswer(call -> {varcs.put(call.getArgument(0),call.getArgument(1));return null;}).when(c.client).setVarcIntValue(anyInt(),anyInt());
             for(Cell cell:f.cells.values())prepare(cell);
             when(c.config.bankActionRail()).thenReturn(true);when(c.config.bankButtonDragging()).thenReturn(true);
             when(c.config.bankTagDividerResizable()).thenReturn(true);
@@ -434,6 +471,12 @@ public class BankActionBarTest
         Cell extra(int id,Cell parent,int x,int y,int w,int height) {Cell cell=f.add(id,parent,x,y,w,height,0,0,0,0);prepare(cell);return cell;}
         Cell tag(int y,int height) {Cell cell=extra(id++,f.container,1,y,39,height);f.container.children.add(cell.widget);return cell;}
         void build() {f.build();frame();}
+        void nativeInventoryRebuild() {
+            f.bus.post(new ScriptPreFired(ScriptID.BANKMAIN_BUILD));f.build();
+            int maximum=Math.max(0,f.items.widget.getScrollHeight()-f.items.widget.getHeight());
+            f.items.widget.setScrollY(Math.max(0,Math.min(maximum,c.client.getVarcIntValue(net.runelite.api.gameval.VarClientID.BANK_SCROLLPOS))));
+            f.bus.post(new net.runelite.api.events.ScriptPostFired(ScriptID.BANKMAIN_BUILD));frame();
+        }
         void frame() {f.bus.post(new BeforeRender());}
         void flush() {int tries=0;while(!pending.isEmpty() && tries++<20) {List<Runnable> batch=new ArrayList<>(pending);pending.clear();batch.forEach(Runnable::run);}assertTrue(pending.isEmpty());frame();}
         Point center(Control control) {Rectangle r=f.cells.get(control.button).bounds();return new Point(r.x+r.width/2,r.y+r.height/2);}
