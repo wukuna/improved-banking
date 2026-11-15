@@ -1,5 +1,7 @@
 # Improved Banking
 
+For the current controls, restart behavior and optional Interface Layout anchor support, start with the [README](../README.md).
+
 ![Improved Banking](../icon.png)
 
 Find bank items by name, category or activity, preview gear and inventory setups, and save custom views with named, colored groups. Move bank controls, adjust the bank size and capture full-tab screenshots. Optional Grand Exchange tools add category searches and guide information.
@@ -188,7 +190,17 @@ Use **Legend → Saved views → Guide choices → Choose bank / GE guide** to n
 
 ### Bank layout
 
-**Tools → Bank size and tabs** controls bank width, height, columns, tab alignment, spacing below the tabs and deposit-button placement. Item icons retain their native size. Bank Tags custom layouts retain their designed grid. Linked markers follow reflow; area markers keep their saved coordinates.
+Enable **Bank layout → Customize bank view**, also available through **Tools → Customize bank view**. Drag the bank title to move the window or its lower-right grip to resize it. Item columns fit the available width automatically; item icons keep their native size. Use the mouse wheel to scroll items. Position, size and the scrolled item-list position survive bank rebuilds, including deposits and withdrawals.
+
+Position and size belong to the RuneLite profile. A smaller game area fits the window on screen without replacing the saved layout. Disable the separate Flexible Bank plugin when using this feature, so only one plugin owns the bank geometry.
+
+Hold Alt and drag a button to an edge strip. Buttons slide vertically on side strips and horizontally on bottom strips, staying centered across that strip. Saved gaps close as the bank shrinks; once space runs out, buttons flow to the nearest available strip in order. Expanding the bank restores their preferred spacing. Header controls can join the strips or return to the title area. Normal clicks keep native actions, tooltips and artwork.
+
+The customized window can also join Interface Layout's built-in anchors when that update is available. Anchor movement preserves the bank's dimensions. To move it independently again, detach it from the anchor.
+
+**Share bank tag strip** divides the left strip vertically, with scrollable Bank Tags in the upper half and draggable bank controls in the lower half. With **Adjustable Bank Tags divider** enabled, drag the divider down to give tags more room; its lower limit keeps all buttons visible. Turn it off to remove the divider bar and keep the saved split. The option is in **Bank layout** settings and **Tools → Customize bank view**. Use the wheel over the tag list or its arrows to scroll tags. Bank Tags settings and saved tags are retained. If the bank is too short to share the strip, it keeps the normal tag list and returns those bank controls to the bottom. Narrow banks showing a Bank Tags item layout retain their original layout until there is enough width for the action bar.
+
+**Preview worn equipment** displays your equipped item icons, base equipment bonuses and gear weight when you hover the bank’s worn-equipment button. It does not replace the button’s click action. Open the native equipment screen for set effects and other game-calculated bonuses; unavailable item stats are shown as question marks.
 
 **Hold Alt and drag a bank button** to move it along the bottom row, change its order, or place it in the left dock beside Bank Tags. Guides appear while Alt is held. Release to save the arrangement automatically; releasing outside the bank, losing focus, closing the bank or changing profiles cancels an unfinished move. An Alt-click without a drag does not activate or rearrange the button. Normal clicks keep their usual behavior. Ctrl+Alt stays available for RuneLite's overlay controls.
 
