@@ -176,6 +176,24 @@ public class BankWindowDragTest
         for(int i=1;i<pending.size();i++)pending.get(i).run();assertTrue(f.settings.isEmpty());
     }
 
+    @Test public void openBankAppliesNewProfileWithoutWaitingForANativeInventoryRebuild() {
+        for(boolean strips:new boolean[]{true,false}) {
+            Fixture f=new Fixture();doNothing().when(f.controller.client).runScript(any(Object[].class));
+            when(f.controller.config.bankActionRail()).thenReturn(strips);
+            long profile=20L;
+            for(Rectangle placement:new Rectangle[]{new Rectangle(80,60,620,500),new Rectangle(260,100,540,450)}) {
+                f.settings.put("bankWindowPosition",new BankWindowPlacement(placement,1000,800).write());
+                f.settings.put("customWidth",true);f.settings.put("customHeight",true);
+                f.settings.put("width",placement.width);f.settings.put("height",placement.height);
+                Map<String,Object> saved=new HashMap<>(f.settings);
+                when(f.controller.configs.getProfile().getId()).thenReturn(profile++);
+                f.bus.post(new ProfileChanged());f.flush();f.render();
+                Rectangle expected=new Rectangle(placement);expected.translate(f.area.bounds().x,f.area.bounds().y);
+                assertEquals(expected,f.bank.bounds());assertEquals(saved,f.settings);
+            }
+        }
+    }
+
     @Test public void resizingTheClientDoesNotOverwriteTheSavedPosition() {
         Fixture f=new Fixture();Point title=f.titlePoint();f.press(title);f.release(new Point(title.x+180,title.y+160));f.render();f.flush();
         Rectangle large=f.bank.bounds();String saved=(String)f.settings.get("bankWindowPosition");

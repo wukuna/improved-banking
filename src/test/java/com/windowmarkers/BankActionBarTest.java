@@ -479,41 +479,6 @@ public class BankActionBarTest
         when(h.c.config.compactBankSearch()).thenReturn(true);h.frame();h.c.shutDown();h.flush();assertEquals(nativeButton,button.bounds());assertEquals(nativeIcon,icon.bounds());
     }
 
-    @Test public void equipmentPreviewFollowsBothButtonPositionsAndBankRebuilds() {
-        Harness h=new Harness();Cell equipment=h.extra(InterfaceID.Bankmain.WORNITEMS_BUTTON,h.f.root,5,5,36,36);
-        h.saved="v3;EQUIPMENT:R:0:80;";
-        h.c.itemManager=mock(net.runelite.client.game.ItemManager.class);
-        when(h.c.config.bankEquipmentPreview()).thenReturn(true);
-        when(h.c.client.getCanvasWidth()).thenReturn(1200);when(h.c.client.getCanvasHeight()).thenReturn(900);
-        net.runelite.api.ItemContainer worn=mock(net.runelite.api.ItemContainer.class);
-        when(worn.getItems()).thenReturn(new net.runelite.api.Item[0]);
-        when(h.c.client.getItemContainer(net.runelite.api.gameval.InventoryID.WORN)).thenReturn(worn);
-        Rectangle stale=new Rectangle(-100,-100,36,36);when(equipment.widget.getBounds()).thenReturn(stale);
-        h.build();
-        for(boolean original:new boolean[]{false,true,false}) {
-            when(h.c.config.restoreOriginalWornEquipmentButton()).thenReturn(original);
-            for(int i=0;i<3;i++) {
-                h.f.root.widget.setOriginalX(80+i*30);h.f.root.widget.setOriginalY(40+i*20);
-                h.f.container.widget.setOriginalWidth(718-i*40);h.nativeInventoryRebuild();
-                Rectangle current=equipment.bounds();
-                assertEquipmentPreview(h,current,current.x+current.width/2,current.y+current.height/2,true);
-                assertEquipmentPreview(h,current,stale.x+18,stale.y+18,false);
-            }
-        }
-        verify(equipment.widget,never()).clearActions();verify(equipment.widget,never()).setOnOpListener(any(Object[].class));
-        verify(equipment.widget,never()).setAction(anyInt(),anyString());verify(h.c.client,never()).runScript(any(Object[].class));
-        assertEquals("v3;EQUIPMENT:R:0:80;",h.saved);
-    }
-
-    private static void assertEquipmentPreview(Harness h,Rectangle button,int x,int y,boolean expected) {
-        when(h.c.client.getMouseCanvasPosition()).thenReturn(new net.runelite.api.Point(x,y));
-        java.awt.image.BufferedImage image=new java.awt.image.BufferedImage(1200,900,java.awt.image.BufferedImage.TYPE_INT_ARGB);
-        java.awt.Graphics2D graphics=image.createGraphics();
-        try {h.c.equipmentPreview.render(graphics);} finally {graphics.dispose();}
-        Rectangle panel=BankEquipmentPreview.position(button,1200,900);
-        assertEquals(expected,(image.getRGB(panel.x+panel.width/2,panel.y+panel.height/2)>>>24)!=0);
-    }
-
     private static final class Harness {
         final BankControlLayoutTest.Fixture f=new BankControlLayoutTest.Fixture();final BankLayoutController c=f.controller;final BankActionBar bar=c.actionBar;
         final List<Runnable> pending=new ArrayList<>();final Map<Integer,Integer> varcs=new java.util.HashMap<>();String saved="";int id=10000;

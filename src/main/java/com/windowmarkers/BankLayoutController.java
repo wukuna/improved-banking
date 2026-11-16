@@ -509,6 +509,7 @@ public final class BankLayoutController
         clientThread.invokeLater(() -> {
             if(!active || expected!=lifecycle)return;
             restore();rebuildBank();
+            if(active && expected==lifecycle)applyFrame();
         });
     }
 
