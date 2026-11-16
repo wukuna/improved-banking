@@ -18,13 +18,13 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-15-bank-layout-options";
+    static final String RELEASE = "2026-11-16-bank-preset-positions";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
-        "Turning off Customize bank view now keeps your saved bank position and size.",
-        "Adjust Column spacing to fit more items while keeping native item icons and click areas.",
-        "Compact search button also works in the regular bank and Inventory Setups bank view.",
-        "Restore original worn equipment button is optional; turn it off to resume your saved strip position."
+        "Move preset items into spare space; shrinking the bank fits them below the preset until expanded.",
+        "Right-click a moved item to Return to preset position.",
+        "Fixed compact search borders and improved potion-storage layout compatibility.",
+        "Fixed empty worn-equipment previews and applying saved bank placement when switching profiles."
     };
 
     @Inject private Client client;

@@ -128,6 +128,7 @@ public final class BankLayoutController
     @Inject net.runelite.client.game.ItemManager itemManager;
     private final SetupInventoryWidgets inventoryWidgets=new SetupInventoryWidgets();
     private final BankViewGeometry viewGeometry=new BankViewGeometry();
+    private final BankPotionLayout potionLayout=new BankPotionLayout();
     @Inject BankPresetPositions presetPositions;
     final BankControlWidgets controls=new BankControlWidgets(this);
     final BankControlDrag controlDrag=new BankControlDrag(this);
@@ -189,6 +190,7 @@ public final class BankLayoutController
 
 	void shutDown()
 	{
+        potionLayout.clear();
         if(anchorAdapter!=null)anchorAdapter.stop();
 		active = false;
         long stopped=++lifecycle;
@@ -222,6 +224,7 @@ public final class BankLayoutController
 	{
 		if (event.getGroupId() == InterfaceID.BANKMAIN)
 		{
+            potionLayout.clear();
             controlDrag.clear();windowDrag.clear();actionBar.clearInput();controls.clear();
             lifecycle++;rebuildQueued=false;
             inventoryWidgets.clear();
@@ -233,7 +236,7 @@ public final class BankLayoutController
 	}
 
     @Subscribe public void onProfileChanged(net.runelite.client.events.ProfileChanged event)
-    { controlDrag.clear();windowDrag.clear();actionBar.clearInput();queueLayoutReset(); }
+    { potionLayout.clear();controlDrag.clear();windowDrag.clear();actionBar.clearInput();queueLayoutReset(); }
 
 	private void layoutFrame(ScriptPreFired event)
 	{
@@ -245,7 +248,8 @@ public final class BankLayoutController
 
             restoreSeparators();
         }
-		if (active && layoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING)
+		if (active && layoutEnabled() && (event.getScriptId() == ScriptID.BANKMAIN_FINISHBUILDING
+            || event.getScriptId() == ScriptID.POTIONSTORE_BUILD))
 		{
 			applyFrame();
 		}
@@ -264,7 +268,7 @@ public final class BankLayoutController
 		Widget universe = client.getWidget(InterfaceID.Bankmain.UNIVERSE);
 		Widget container = client.getWidget(InterfaceID.Bankmain.ITEMS_CONTAINER);
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
-		if (universe == null || universe.isHidden() || container == null || items == null || items.isHidden() && !settingsVisible())
+		if (universe == null || universe.isHidden() || container == null || items == null || items.isHidden() && !settingsVisible() && !potionsVisible())
 		{
 			return;
 		}
@@ -330,11 +334,11 @@ public final class BankLayoutController
 		int[] ends = grouped ? layoutSearch(items) : reflowItems(items);
         if(ownsPreset() && ends!=null) {
             String identity=presetIdentity(),account=configs==null?null:configs.getRSProfileKey();
-            String key=presetPositions==null?null:presetPositions.key(identity,items.getWidth());
-            BankPresetPositions.Layout saved=presetPositions==null?new BankPresetPositions.Layout():presetPositions.read(account,key);
+            String key=presetPositions==null?null:presetPositions.key(identity);
+            BankPresetPositions.Layout saved=presetPositions==null?new BankPresetPositions.Layout():presetPositions.read(account,identity,items.getWidth());
             ends[1]=viewGeometry.capture(items,saved,() -> {
                 if(presetPositions!=null && java.util.Objects.equals(identity,presetIdentity())
-                    && java.util.Objects.equals(key,presetPositions.key(presetIdentity(),items.getWidth())))
+                    && java.util.Objects.equals(key,presetPositions.key(presetIdentity())))
                     presetPositions.save(account,key,saved);
             },inventoryNotes,ends[1]);
             inventoryWidgets.allowPresetDragging();
@@ -363,6 +367,8 @@ public final class BankLayoutController
 	@Subscribe(priority=-20)
 	public void onScriptPostFired(ScriptPostFired event)
 	{
+        if(active && layoutEnabled() && event.getScriptId()==ScriptID.POTIONSTORE_BUILD)
+            potionLayout.apply(client.getWidget(InterfaceID.Bankmain.POTIONSTORE_ITEMS));
 		if (active && layoutEnabled() && event.getScriptId() == ScriptID.BANKMAIN_SIZE_CHECK)
 		{
 			reapplyFrame();
@@ -377,6 +383,8 @@ public final class BankLayoutController
     {
         if(active && layoutEnabled()) {
             switch(event.getScriptId()) {
+                case ScriptID.POTIONSTORE_BUILD:
+                    potionLayout.capture(client.getWidget(InterfaceID.Bankmain.POTIONSTORE_ITEMS));break;
                 case ScriptID.BANKMAIN_BUILD:
                 case ScriptID.BANKMAIN_INIT:
                 case ScriptID.BANKMAIN_FINISHBUILDING:
@@ -412,6 +420,7 @@ public final class BankLayoutController
             }
             else if(actionBar.plan!=null) {actionBar.restore();actionBar.clearInput();}
             controlDrag.capture();windowDrag.capture();
+            potionLayout.apply(client.getWidget(InterfaceID.Bankmain.POTIONSTORE_ITEMS));
         }
         else {controlDrag.clear();windowDrag.clear();actionBar.clearInput();}
         if(active)actionBar.applyCompactSearch();
@@ -441,7 +450,7 @@ public final class BankLayoutController
     {
         if(!active || !ownsPreset() || presetPositions==null || configs==null) return;
         Widget items=client.getWidget(InterfaceID.Bankmain.ITEMS);if(items==null || items.isHidden())return;
-        presetPositions.save(configs.getRSProfileKey(),presetPositions.key(presetIdentity(),items.getWidth()),new BankPresetPositions.Layout());
+        presetPositions.save(configs.getRSProfileKey(),presetPositions.key(presetIdentity()),new BankPresetPositions.Layout());
         viewGeometry.clear();rebuildBank();
     }
 
@@ -515,6 +524,10 @@ public final class BankLayoutController
 
 	private void rebuildBank()
 	{
+        if(potionsVisible()) {
+            client.runScript(ScriptID.POTIONSTORE_BUILD);
+            return;
+        }
 		Widget items = client.getWidget(InterfaceID.Bankmain.ITEMS);
 		if (items == null || items.isHidden())
 		{
@@ -607,6 +620,11 @@ public final class BankLayoutController
 			setPos(universe, p[0], p[1], p[2], p[3]);
 		}
 	}
+
+    private boolean potionsVisible() {
+        Widget potions=client.getWidget(InterfaceID.Bankmain.POTIONSTORE_CONTAINER);
+        return potions!=null && !potions.isHidden();
+    }
 
     private boolean settingsVisible() {
         Widget settings=client.getWidget(InterfaceID.Bankmain.MENU_CONTAINER);
@@ -901,7 +919,15 @@ public final class BankLayoutController
     private final java.util.List<SetupItemLayout.InventoryNote> inventoryNotes=new java.util.ArrayList<>();
     java.util.List<SetupItemLayout.InventoryNote> inventoryNotes() { return groupedSearch()?viewGeometry.visibleNotes(inventoryNotes):java.util.Collections.emptyList(); }
     boolean inventoryPreview(Widget widget) { return inventoryWidgets.preview(widget); }
-    @Subscribe(priority=20) public void onMenuEntryAdded(net.runelite.api.events.MenuEntryAdded event) { inventoryWidgets.menuAdded(event.getMenuEntry()); }
+    @Subscribe(priority=20) public void onMenuEntryAdded(net.runelite.api.events.MenuEntryAdded event) {
+        if(active && ownsPreset()) {
+            Widget items=client.getWidget(InterfaceID.Bankmain.ITEMS);
+            String identity=presetIdentity();long expected=lifecycle;
+            viewGeometry.menuAdded(client,event.getMenuEntry(),() -> active && expected==lifecycle && ownsPreset()
+                && java.util.Objects.equals(identity,presetIdentity()) && client.getWidget(InterfaceID.Bankmain.ITEMS)==items);
+        }
+        inventoryWidgets.menuAdded(event.getMenuEntry());
+    }
     @Subscribe(priority=20) public void onMenuOptionClicked(net.runelite.api.events.MenuOptionClicked event) { inventoryWidgets.clicked(event,client); }
     java.util.List<SetupItemLayout.Heading> searchHeadings() { return groupedSearch()?searchHeadings.stream()
         .filter(h -> !h.emptySlot || !viewGeometry.occupied(h.x,h.y)).collect(java.util.stream.Collectors.toList()):java.util.Collections.emptyList(); }

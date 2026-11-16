@@ -14,7 +14,7 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 
 - **Find items:** search categories, activities, item uses and saved groups. Optionally add those matches to the bank’s native search.
 - **Plan an activity:** open equipment and inventory views with guide context and owned alternatives.
-- **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place. Your stored bank order stays unchanged.
+- **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place, including spare space on the right. Right-click a moved item to return it to its preset position. Your stored bank order stays unchanged.
 - **Mark and label groups:** link markers to items or draw an area, then customize borders, backgrounds and labels.
 - **Customize the bank:** drag to move and resize it, adjust column spacing, and Alt-drag compact controls into the side or bottom racks. Optional switches use compact search in the regular bank or restore the original worn-equipment button position.
 - **Capture a bank view:** save the complete current tab or search results with item icons, quantities and a legend.
@@ -44,7 +44,7 @@ Customizing the bank moves native controls into the scrollbar area; use the mous
 
 Drag the left-strip divider directly to give Bank Tags more space. Its highest position is the original halfway split. Its lower limit reserves room for every button below it, including gaps you have left between buttons. The divider position is saved with your button arrangement; a smaller bank temporarily limits it without losing the saved position. Turn off **Adjustable Bank Tags divider** to remove its bar and drag handle while retaining the saved split. The remaining side borders match the right rack.
 
-Markers and custom views are stored separately by character and RuneLite profile. Preset item positions belong to the displayed view; they do not move the real bank contents. Marker Undo/Redo is session history, while saved groups and views persist.
+Markers and custom views are stored separately by character and RuneLite profile. Preset item positions belong to the displayed view; they do not move the real bank contents. Items that no longer fit after shrinking the bank move below the preset and return to their preferred positions when expanded. **Return to preset position** restores one moved item to its generated slot, swapping an occupying item into the vacated position. Marker Undo/Redo is session history, while saved groups and views persist.
 
 Bank screenshots are saved locally under RuneLite’s `screenshots/<character>/bank-markers` folder. They are not automatically uploaded.
 

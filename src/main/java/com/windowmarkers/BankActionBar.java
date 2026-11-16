@@ -203,7 +203,13 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
     {
         Geometry g=geometry.computeIfAbsent(w,Geometry::new);int[] current=Geometry.read(w);
         for(int i=0;i<current.length;i++)if(g.applied==null || current[i]!=g.applied[i])g.original[i]=current[i];
-        w.setPos(x,y,xm,ym);w.setSize(width,height,wm,hm);w.revalidate();g.applied=Geometry.read(w);
+        w.setPos(x,y,xm,ym);w.setSize(width,height,wm,hm);revalidate(w);g.applied=Geometry.read(w);
+    }
+    private static void revalidate(Widget widget) {
+        widget.revalidate();
+        if(widget.getId()!=InterfaceID.Bankmain.SEARCH)return;
+        Widget[] children=widget.getDynamicChildren();
+        if(children!=null)for(Widget child:children)if(child!=null)child.revalidate();
     }
     private void hide(Widget w) {visibility(w,true);}
     void visibility(Widget w,boolean value) {
@@ -223,7 +229,7 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         geometry.forEach((w,g) -> {
             int[] current=Geometry.read(w),r=g.original.clone();
             for(int i=0;i<r.length;i++)if(g.applied==null || current[i]!=g.applied[i])r[i]=current[i];
-            w.setPos(r[0],r[1],r[4],r[5]);w.setSize(r[2],r[3],r[6],r[7]);w.revalidate();
+            w.setPos(r[0],r[1],r[4],r[5]);w.setSize(r[2],r[3],r[6],r[7]);revalidate(w);
         });
         geometry.clear();
     }

@@ -19,6 +19,22 @@ final class BankPresetPositions
         Map<String, int[]> cells = new LinkedHashMap<>();
     }
 
+    String key(String view)
+    {
+        if (configs == null || configs.getProfile() == null || view == null) return null;
+        return "presetPositions_" + configs.getProfile().getId() + "_v2_"
+            + UUID.nameUUIDFromBytes(view.getBytes(StandardCharsets.UTF_8));
+    }
+
+    Layout read(String account, String view, int width)
+    {
+        String shared = key(view);
+        if (account != null && shared != null
+            && configs.getConfiguration("windowmarkers", account, shared) != null)
+            return read(account, shared);
+        return read(account, key(view, width));
+    }
+
     String key(String view, int width)
     {
         if (configs == null || configs.getProfile() == null || view == null) return null;

@@ -46,7 +46,7 @@ public class ReleaseNotesNoticeTest
         String message=messages.getValue().getRuneLiteFormattedMessage();
         assertEquals(1,message.split("Improved Banking",-1).length-1);
         assertEquals(4,message.split("<br>\\* ",-1).length-1);
-        assertTrue(message.contains("Turning off Customize bank view now keeps your saved bank position and size."));
+        assertTrue(message.contains("Right-click a moved item to Return to preset position."));
         assertFalse(message.contains("Recent updates"));
         assertEquals(ReleaseNotesNotice.RELEASE,seen);
         notice.onGameStateChanged(loggedIn()); flush();
