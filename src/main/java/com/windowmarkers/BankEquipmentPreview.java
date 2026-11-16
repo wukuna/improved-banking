@@ -38,10 +38,11 @@ final class BankEquipmentPreview extends Overlay
         Widget items=owner.client.getWidget(InterfaceID.Bankmain.ITEMS);
         if(bank==null || bank.isHidden() || button==null || button.isHidden() || items==null || items.isHidden())return null;
         net.runelite.api.Point mouse=owner.client.getMouseCanvasPosition();
-        if(mouse==null || !button.getBounds().contains(mouse.getX(),mouse.getY()))return null;
+        Rectangle buttonBounds=BankWidgetGeometry.bounds(button);
+        if(mouse==null || !buttonBounds.contains(mouse.getX(),mouse.getY()))return null;
         ItemContainer equipment=owner.client.getItemContainer(InventoryID.WORN);
         if(equipment==null)return null;
-        Rectangle panel=position(button.getBounds(),owner.client.getCanvasWidth(),owner.client.getCanvasHeight());
+        Rectangle panel=position(buttonBounds,owner.client.getCanvasWidth(),owner.client.getCanvasHeight());
         if(panel==null)return null;
         Item[] worn=equipment.getItems();double[] stats=new double[15];boolean complete=true;
         for(Item item:worn)if(item!=null && item.getId()>=0 && item.getQuantity()>0) {

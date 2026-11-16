@@ -21,7 +21,7 @@ public class BankEquipmentPreviewTest
     @Test public void previewUsesTheViewEquipmentButtonAndNeverReplacesItsActions() {
         BankControlLayoutTest.Fixture f=new BankControlLayoutTest.Fixture();BankLayoutController c=f.controller;
         c.itemManager=mock(ItemManager.class);when(c.config.bankEquipmentPreview()).thenReturn(true);
-        Widget view=mock(Widget.class);when(view.getBounds()).thenReturn(new Rectangle(10,10,30,30));when(c.client.getWidget(InterfaceID.Bankmain.WORNITEMS_BUTTON)).thenReturn(view);
+        Widget view=f.add(InterfaceID.Bankmain.WORNITEMS_BUTTON,f.root,10,10,30,30,0,0,0,0).widget;
         when(c.client.getCanvasWidth()).thenReturn(800);when(c.client.getCanvasHeight()).thenReturn(600);
         ItemContainer worn=mock(ItemContainer.class);when(worn.getItems()).thenReturn(new Item[]{new Item(4151,1)});when(c.client.getItemContainer(InventoryID.WORN)).thenReturn(worn);
         when(c.itemManager.getItemStats(4151)).thenReturn(new ItemStats(true,1.5,0,ItemEquipmentStats.builder().str(82).aslash(82).build()));
