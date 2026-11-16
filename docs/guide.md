@@ -194,6 +194,12 @@ Enable **Bank layout → Customize bank view**, also available through **Tools �
 
 Position and size belong to the RuneLite profile. A smaller game area fits the window on screen without replacing the saved layout. Disable the separate Flexible Bank plugin when using this feature, so only one plugin owns the bank geometry.
 
+Turning **Customize bank view** off restores regular controls while retaining the saved window position and size. Disabling Improved Banking's bank layout restores native window geometry.
+
+**Column spacing (px)** sets a minimum gap of 4–24 pixels, with 12 as the default. Smaller gaps can fit more items per row; spare width is distributed between columns. Item artwork and withdrawal click areas keep their native dimensions. Saved Bank Tags and equipment layouts retain their spacing. Compact reflow is skipped when another plugin provides nonstandard item-widget dimensions.
+
+**Compact search button** uses the small search button in the regular bank, including the Inventory Setups bank view. Customized strips already use this size. **Restore original worn equipment button** keeps Show worn items in its native position; turn it off to resume the saved strip placement. Both options start off and are available in **Bank layout** settings and **Tools → Customize bank view**.
+
 Hold Alt and drag a button to an edge strip. Buttons slide vertically on side strips and horizontally on bottom strips, staying centered across that strip. Saved gaps close as the bank shrinks; once space runs out, buttons flow to the nearest available strip in order. Expanding the bank restores their preferred spacing. Header controls can join the strips or return to the title area. Normal clicks keep native actions, tooltips and artwork.
 
 The customized window can also join Interface Layout's built-in anchors when that update is available. Anchor movement preserves the bank's dimensions. To move it independently again, detach it from the anchor.

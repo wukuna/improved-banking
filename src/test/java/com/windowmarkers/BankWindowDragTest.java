@@ -215,6 +215,21 @@ public class BankWindowDragTest
         assertEquals(850,f.bank.bounds().height);
     }
 
+    @Test public void switchingButtonStripsOffPreservesSavedWindowGeometry() {
+        Fixture f=new Fixture();Point title=f.titlePoint();
+        f.press(title);f.release(new Point(title.x+75,title.y+55));f.render();f.flush();
+        Point corner=f.corner();f.press(corner);f.release(new Point(corner.x+80,corner.y+45));f.render();f.flush();
+        Rectangle expected=f.bank.bounds();Map<String,Object> settings=new HashMap<>(f.settings);
+        for(boolean enabled:new boolean[]{false,true,false}) {
+            when(f.controller.config.bankActionRail()).thenReturn(enabled);
+            ConfigChanged changed=new ConfigChanged();changed.setGroup("windowmarkers");changed.setKey("bankActionRail");f.bus.post(changed);f.flush();
+            for(int i=0;i<8;i++) {f.nativeSizeCheck();f.build();f.render();assertEquals(expected,f.bank.bounds());}
+            assertEquals(settings,f.settings);
+            if(!enabled)assertFalse(f.press(f.titlePoint()).isConsumed());
+        }
+        f.controller.shutDown();f.flush();assertNotEquals(expected,f.bank.bounds());
+    }
+
     @Test public void fixedModeAndDisableRestoreTheNativeModalAndWindow() {
         Fixture f=new Fixture();int[] nativeModal=f.modal.geometry.clone(),nativeBank=f.bank.geometry.clone();
         Point title=f.titlePoint();f.press(title);f.release(new Point(title.x+80,title.y+65));f.render();f.flush();

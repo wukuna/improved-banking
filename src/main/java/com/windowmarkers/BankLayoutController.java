@@ -90,7 +90,6 @@ public final class BankLayoutController
 	private static final int ROW_HEIGHT = 36;
 	private static final int VANILLA_COLUMNS = 8;
 	private static final int VANILLA_GAP = 12;
-	private static final int MIN_GAP = 2;
 	private static final int SEPARATOR_MIN_WIDTH = 300;
 
     private static final int BANK_TAB_SEPARATOR_SPRITE = 897;
@@ -211,7 +210,7 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging","bankWindowControls","bankWindowPosition","bankActionRail","bankActionTagSpace","bankTagDividerResizable","bankActionLayout").contains(event.getKey()))
+		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled","customWidth","width","customHeight","height","columns","depositButtons","alignDepositRight","tabAlignment","tabGap","setupSearchLayout","customBankControls","bankControlLayout","bankButtonDragging","bankWindowControls","bankWindowPosition","bankActionRail","bankActionTagSpace","bankTagDividerResizable","bankActionLayout","compactBankSearch","restoreOriginalWornEquipmentButton","bankColumnSpacing").contains(event.getKey()))
 		{
             controlDrag.clear();windowDrag.clear();actionBar.clearInput();
             queueLayoutReset();
@@ -415,6 +414,7 @@ public final class BankLayoutController
             controlDrag.capture();windowDrag.capture();
         }
         else {controlDrag.clear();windowDrag.clear();actionBar.clearInput();}
+        if(active)actionBar.applyCompactSearch();
         if(active && ownsPreset()) viewGeometry.restore(client.getWidget(InterfaceID.Bankmain.ITEMS));
     }
 
@@ -744,6 +744,11 @@ public final class BankLayoutController
 			return null;
 		}
 
+        for(Widget child:children) {
+            if(child!=null && !child.isSelfHidden() && child.getType()==WidgetType.GRAPHIC && child.getItemId()>=0
+                && (child.getOriginalWidth()!=CELL_WIDTH || child.getOriginalHeight()!=CELL_HEIGHT
+                    || child.getWidth()>CELL_WIDTH || child.getHeight()>CELL_HEIGHT))return null;
+        }
 		int usable = items.getWidth() - LEFT_INSET - (actionBar.enabled()?6:RIGHT_INSET);
 		List<Widget> cells = new ArrayList<>();
 		List<Widget> separators = new ArrayList<>();
@@ -876,8 +881,10 @@ public final class BankLayoutController
 
 	private int columns(int usable)
 	{
-		int columns = !actionBar.enabled() && config.columns() > 0 ? config.columns() : (usable + VANILLA_GAP) / (CELL_WIDTH + VANILLA_GAP);
-		return Math.max(1, Math.min(columns, (usable + MIN_GAP) / (CELL_WIDTH + MIN_GAP)));
+        int requested=config.bankColumnSpacing();
+        int gap=requested<4?VANILLA_GAP:Math.min(24,requested);
+        int columns = !actionBar.enabled() && config.columns() > 0 ? config.columns() : (usable + gap) / (CELL_WIDTH + gap);
+        return Math.max(1, Math.min(columns, (usable + gap) / (CELL_WIDTH + gap)));
 	}
 
     private boolean groupedSearch()

@@ -18,15 +18,13 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-13-clean-contours";
+    static final String RELEASE = "2026-11-15-bank-layout-options";
     static final String SEEN_KEY = "releaseNotesShown";
     private static final String[] UPDATES = {
-        "New sidebar icon - a chest with a gold accent.",
-        "Customize bank view lets you move and drag-resize the bank, with columns that fit automatically.",
-        "Alt-drag buttons to slide along side or bottom strips; smaller banks fit overflow into nearby strips and restore preferred positions when expanded.",
-        "Bank movement, resizing and scrolling remain stable through deposits and withdrawals.",
-        "The customized bank can join Interface Layout anchors when that feature is available.",
-        "The dynamic presets in the preset button have been optimized according to Wiki and pull from your gear. Inaccuracies can be Discord DM\u2019d or file a Github issue."
+        "Turning off Customize bank view now keeps your saved bank position and size.",
+        "Adjust Column spacing to fit more items while keeping native item icons and click areas.",
+        "Compact search button also works in the regular bank and Inventory Setups bank view.",
+        "Restore original worn equipment button is optional; turn it off to resume your saved strip position."
     };
 
     @Inject private Client client;

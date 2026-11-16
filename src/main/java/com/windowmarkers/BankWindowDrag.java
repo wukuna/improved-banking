@@ -161,7 +161,7 @@ final class BankWindowDrag extends MouseAdapter
 
     synchronized boolean apply(Widget bank,Widget modal,boolean settings)
     {
-        if(!owner.config.bankActionRail() || !owner.client.isResized() || modal==null || modal.getParent()==null)return false;
+        if(!owner.layoutEnabled() || !owner.client.isResized() || modal==null || modal.getParent()==null)return false;
         BankWindowPlacement saved=BankWindowPlacement.read(owner.config.bankWindowPosition());
         if(draft==null && saved==null && anchorPoint==null)return false;
         Rectangle area=BankWidgetGeometry.bounds(modal.getParent());

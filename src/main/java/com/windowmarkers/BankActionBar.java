@@ -97,7 +97,10 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
         int[] ids={InterfaceID.Bankmain.WORNITEMS_BUTTON,InterfaceID.Bankmain.MENU_BUTTON,InterfaceID.Bankmain.BANK_TUT,
             InterfaceID.Bankmain.INCINERATOR_TARGET,InterfaceID.Bankmain.POPUP_BUTTON_OUT,InterfaceID.Bankmain.GIM_STORAGE,InterfaceID.Bankmain.POTIONSTORE_BUTTON};
         String[] names={"EQUIPMENT","SETTINGS","HELP","INCINERATOR","POPUP","GROUP_STORAGE","POTION_STORE"};
-        for(int i=0;i<ids.length;i++)add(result,names[i],owner.client.getWidget(ids[i]));
+        for(int i=0;i<ids.length;i++) {
+            if(ids[i]==InterfaceID.Bankmain.WORNITEMS_BUTTON && owner.config.restoreOriginalWornEquipmentButton())continue;
+            add(result,names[i],owner.client.getWidget(ids[i]));
+        }
         Widget frame=owner.client.getWidget(InterfaceID.Bankmain.FRAME);
         if(frame!=null && frame.getChildren()!=null)for(Widget child:frame.getChildren())
             if(child!=null && child.getActions()!=null && Arrays.asList(child.getActions()).contains("Close"))add(result,"CLOSE",child);
@@ -173,6 +176,20 @@ final class BankActionBar extends MouseAdapter implements MouseWheelListener
             }
         }
         if(tagSpace())sharedTags.apply(container,plan.tagTop);
+    }
+
+    void applyCompactSearch()
+    {
+        if(!owner.config.compactBankSearch() || enabled())return;
+        Widget button=owner.client.getWidget(InterfaceID.Bankmain.SEARCH);
+        Widget icon=owner.client.getWidget(InterfaceID.Bankmain.SEARCH_GRAPHIC);
+        if(!visible(button) || !visible(icon) || button.getWidthMode()!=WidgetSizeMode.ABSOLUTE
+            || button.getWidth()<36 || icon.getWidth()>36)return;
+        Rectangle iconBounds=BankWidgetGeometry.bounds(icon);
+        edit(button,button.getOriginalX(),button.getOriginalY(),36,button.getOriginalHeight(),
+            button.getXPositionMode(),button.getYPositionMode(),WidgetSizeMode.ABSOLUTE,button.getHeightMode());
+        Rectangle bounds=BankWidgetGeometry.bounds(button);
+        move(icon,bounds.x+(36-iconBounds.width+1)/2,iconBounds.y);
     }
 
     void move(Widget widget,int x,int y)

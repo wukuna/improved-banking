@@ -450,6 +450,35 @@ public class BankActionBarTest
     private static MouseEvent mouse(int id,Point p,boolean alt) {return new MouseEvent(new Canvas(),id,0,alt?MouseEvent.ALT_DOWN_MASK:0,p.x,p.y,1,false,MouseEvent.BUTTON1);}
     private static MouseWheelEvent wheel(Point p,int amount) {return new MouseWheelEvent(new Canvas(),MouseEvent.MOUSE_WHEEL,0,0,p.x,p.y,0,false,MouseWheelEvent.WHEEL_UNIT_SCROLL,3,amount);}
 
+    @Test public void nativeEquipmentOptionOverridesPlacementWithoutErasingIt() {
+        Harness h=new Harness();Cell equipment=h.extra(InterfaceID.Bankmain.WORNITEMS_BUTTON,h.f.root,5,5,36,36);
+        Rectangle nativeBounds=equipment.bounds();h.saved="v3;EQUIPMENT:R:0:80;";h.build();
+        Rectangle custom=equipment.bounds();assertNotEquals(nativeBounds,custom);
+        when(h.c.config.restoreOriginalWornEquipmentButton()).thenReturn(true);h.frame();
+        assertEquals(nativeBounds,equipment.bounds());assertFalse(h.bar.buttons().containsKey("EQUIPMENT"));
+        assertEquals("v3;EQUIPMENT:R:0:80;",h.saved);
+        when(h.c.config.restoreOriginalWornEquipmentButton()).thenReturn(false);h.frame();assertEquals(custom,equipment.bounds());
+        verify(equipment.widget,never()).clearActions();verify(equipment.widget,never()).setOnOpListener(any(Object[].class));
+    }
+
+    @Test public void compactSearchWorksWithoutCustomLayoutAndRestoresOriginalGeometry() {
+        Harness h=new Harness();when(h.c.config.bankActionRail()).thenReturn(false);
+        when(h.c.config.bankLayoutEnabled()).thenReturn(false);when(h.c.config.customBankControls()).thenReturn(false);
+        Cell button=h.f.cells.get(Control.SEARCH.button),icon=h.f.cells.get(Control.SEARCH.graphic);
+        Rectangle nativeButton=button.bounds(),nativeIcon=icon.bounds();h.frame();assertEquals(nativeButton,button.bounds());
+        when(h.c.config.compactBankSearch()).thenReturn(true);
+        h.c.bankTagsService=mock(net.runelite.client.plugins.banktags.BankTagsService.class);
+        when(h.c.bankTagsService.getActiveLayout()).thenReturn(new net.runelite.client.plugins.banktags.tabs.Layout("Inventory Setups"));
+        for(int i=0;i<10;i++) {
+            h.frame();assertEquals(36,button.bounds().width);assertEquals(nativeButton.getLocation(),button.bounds().getLocation());
+            assertTrue(button.bounds().contains(icon.bounds()));assertEquals(nativeIcon.height,icon.bounds().height);
+        }
+        verify(button.widget,never()).clearActions();verify(button.widget,never()).setOnOpListener(any(Object[].class));
+        verify(h.c.client,never()).runScript(any(Object[].class));
+        when(h.c.config.compactBankSearch()).thenReturn(false);h.frame();assertEquals(nativeButton,button.bounds());assertEquals(nativeIcon,icon.bounds());
+        when(h.c.config.compactBankSearch()).thenReturn(true);h.frame();h.c.shutDown();h.flush();assertEquals(nativeButton,button.bounds());assertEquals(nativeIcon,icon.bounds());
+    }
+
     private static final class Harness {
         final BankControlLayoutTest.Fixture f=new BankControlLayoutTest.Fixture();final BankLayoutController c=f.controller;final BankActionBar bar=c.actionBar;
         final List<Runnable> pending=new ArrayList<>();final Map<Integer,Integer> varcs=new java.util.HashMap<>();String saved="";int id=10000;

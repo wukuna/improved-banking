@@ -129,6 +129,13 @@ public interface WindowMarkersConfig extends Config
     default boolean bankEquipmentPreview() { return false; }
     @ConfigItem(keyName="bankActionLayout",name="Action bar arrangement",description="Saved positions of bank action controls.",hidden=true)
     default String bankActionLayout() { return ""; }
+    @ConfigItem(section=bankLayout,keyName="compactBankSearch",name="Compact search button",description="Use a small search button in the regular bank and Inventory Setups bank view. Customized button strips already use the small button.",position=28)
+    default boolean compactBankSearch() { return false; }
+    @ConfigItem(section=bankLayout,keyName="restoreOriginalWornEquipmentButton",name="Restore original worn equipment button",description="Keep Show worn items in its native position instead of the customized button strip. Turn off to resume its saved strip position.",position=29)
+    default boolean restoreOriginalWornEquipmentButton() { return false; }
+    @Range(min=4,max=24)
+    @ConfigItem(section=bankLayout,keyName="bankColumnSpacing",name="Column spacing (px)",description="Minimum gap between ordinary bank item columns. Lower values fit more items without resizing their icons or click areas. Default: 12. Saved Bank Tags, equipment layouts and nonstandard item widgets keep their spacing.",position=30)
+    default int bankColumnSpacing() { return 12; }
     enum TabAlignment { LEFT, CENTER, RIGHT }
     @ConfigItem(section=bankLayout,keyName="tabAlignment",name="Bank tab alignment",description="Align the top bank tabs within the bank window.",position=20)
     default TabAlignment tabAlignment() { return TabAlignment.CENTER; }

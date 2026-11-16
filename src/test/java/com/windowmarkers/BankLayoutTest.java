@@ -228,6 +228,44 @@ public class BankLayoutTest
         }
         c.onWidgetClosed(new WidgetClosed(InterfaceID.BANKMAIN,0,true));assertEquals(51,a.getOriginalX());assertEquals(91,b.getOriginalX());
     }
+    @Test public void compactColumnSpacingKeepsNativeArtworkAndWithdrawalAreasSeparate() {
+        for(int width:new int[]{478,550,698,900})for(int gap:new int[]{4,8,12,24}) {
+            BankLayoutController c=controller();Widget items=mock(Widget.class);Widget[] cells=new Widget[32];
+            for(int i=0;i<cells.length;i++)cells[i]=cell(51+(i%8)*48,(i/8)*36);
+            when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);
+            when(items.getWidth()).thenReturn(width);when(items.getDynamicChildren()).thenReturn(cells);
+            when(c.config.bankColumnSpacing()).thenReturn(gap);
+            int[] stack=new int[9];stack[0]=144;when(c.client.getIntStack()).thenReturn(stack);when(c.client.getIntStackSize()).thenReturn(9);
+            c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+            int expectedColumns=(width-51-35+gap)/(36+gap);
+            assertEquals(4,cells[expectedColumns-1].getOriginalY());assertEquals(40,cells[expectedColumns].getOriginalY());
+            for(int i=0;i<cells.length;i++) {
+                Widget item=cells[i];java.awt.Rectangle box=new java.awt.Rectangle(item.getOriginalX(),item.getOriginalY(),36,32);
+                assertTrue(box.x>=51);assertTrue(box.x+box.width<=width-35);
+                for(int j=i+1;j<cells.length;j++) {
+                    java.awt.Rectangle other=new java.awt.Rectangle(cells[j].getOriginalX(),cells[j].getOriginalY(),36,32);
+                    assertFalse(box.intersects(other));
+                    if(box.y==other.y)assertTrue(Math.abs(box.x-other.x)>=36+gap);
+                }
+                verify(item,never()).setOriginalWidth(anyInt());verify(item,never()).setOriginalHeight(anyInt());
+                verify(item,never()).clearActions();verify(item,never()).setOnOpListener(any(Object[].class));
+                verify(item,never()).setClickMask(anyInt());
+            }
+        }
+    }
+
+    @Test public void nonstandardItemWidgetsPreventCompactReflow() {
+        for(boolean renderedOnly:new boolean[]{false,true}) {
+            BankLayoutController c=controller();Widget items=mock(Widget.class),normal=cell(51,0),large=cell(99,0);
+            when(c.client.getWidget(InterfaceID.Bankmain.ITEMS)).thenReturn(items);when(items.getWidth()).thenReturn(698);
+            when(items.getDynamicChildren()).thenReturn(new Widget[]{normal,large});when(c.config.bankColumnSpacing()).thenReturn(4);
+            when(large.getWidth()).thenReturn(52);if(!renderedOnly)when(large.getOriginalWidth()).thenReturn(52);
+            c.onScriptPreFired(new ScriptPreFired(ScriptID.BANKMAIN_FINISHBUILDING));
+            verify(normal,never()).setOriginalX(anyInt());verify(normal,never()).setOriginalY(anyInt());
+            verify(large,never()).setOriginalX(anyInt());verify(large,never()).setOriginalWidth(anyInt());
+        }
+    }
+
     @Test public void reflowPreservesIconSizeAndIncludesTopPaddingInScrollHeight()
     {
         BankLayoutController c=controller();Widget items=mock(Widget.class);Widget[] cells=new Widget[10];
