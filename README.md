@@ -17,6 +17,7 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 - **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place, including spare space on the right. Right-click a moved item to return it to its preset position. Your stored bank order stays unchanged.
 - **Mark and label groups:** link markers to items or draw an area, then customize borders, backgrounds and labels.
 - **Customize the bank:** drag to move and resize it, adjust column spacing, and Alt-drag compact controls into the side or bottom racks. Optional switches use compact search in the regular bank or restore the original worn-equipment button position.
+- **Organize stored potions:** reorder potion-storage rows, use stored potions in presets, and choose which potion types appear in normal bank tabs and searches. Arrange added potions among bank items; a chest beside the favorite heart marks those added to the bank window.
 - **Capture a bank view:** save the complete current tab or search results with item icons, quantities and a legend.
 - **Explore optional GE tools:** search categories and activities, with supported guide tiers, prices, owned-item and requirement information.
 
@@ -51,6 +52,8 @@ Bank screenshots are saved locally under RuneLite’s `screenshots/<character>/b
 ## Compatibility
 
 Bank Tags is required for preset views. Bank Tag Layouts can remain enabled; its layouts and Improved Banking’s view positions are separate.
+
+Use **Tools → Stored potions** in the sidebar to choose bank tabs and search visibility per potion. You can also right-click a potion in storage and select **Add potion to bank window**. Potion Storage retains control of normal bank entries while enabled; Potion Storage Customizer retains control of storage-row ordering. Disable the corresponding plugin to use Improved Banking's version of that feature.
 
 **Flexible Bank** and **Bank Screenshot** are declared conflicts because their features overlap the integrated bank layout and capture controls. Existing settings are retained. Inventory Setups remains a separate personal-setup workflow.
 

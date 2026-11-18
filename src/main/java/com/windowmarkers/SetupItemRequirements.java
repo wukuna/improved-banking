@@ -4,16 +4,16 @@ import java.util.*;
 
 final class SetupItemRequirements
 {
-    private static final Map<String,Map<Integer,String[]>> REQUIREMENTS=new HashMap<>();
-    static
-    {
-        for (String[] row:ItemTaxonomy.readRows("setup-item-requirements.tsv",5))
-            REQUIREMENTS.computeIfAbsent(row[0],key->new HashMap<>()).put(Integer.parseInt(row[1]),row);
-    }
+	private static final Map<String, Map<Integer, String[]>> REQUIREMENTS = new HashMap<>();
+	static
+	{
+		for (String[] row : ItemTaxonomy.readRows("setup-item-requirements.tsv", 5))
+			REQUIREMENTS.computeIfAbsent(row[0], key -> new HashMap<>()).put(Integer.parseInt(row[1]), row);
+	}
 
-    static String reviewReason(String setupId,AutoCategories.Item item)
-    {
-        String[] row=REQUIREMENTS.getOrDefault(setupId,Collections.emptyMap()).get(item.id);
-        return row!=null && row[2].equalsIgnoreCase(item.name) ? row[3] : "";
-    }
+	static String reviewReason(String setupId, AutoCategories.Item item)
+	{
+		String[] row = REQUIREMENTS.getOrDefault(setupId, Collections.emptyMap()).get(item.id);
+		return row != null && row[2].equalsIgnoreCase(item.name) ? row[3] : "";
+	}
 }

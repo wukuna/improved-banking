@@ -6,151 +6,222 @@ import java.util.Map;
 
 final class ItemVariantState
 {
-    private enum State { AVAILABLE, REPAIR, CHARGE, EMPTY, REDUCED, CHECK, PREPARE, CONTENTS, RESTRICTED }
-    private static final Map<Integer,ItemVariantState> STATES=new HashMap<>();
-    private static final Map<Integer,String> UNVERIFIED_IDENTITIES=new HashMap<>();
-    private static final Map<Integer,String> UNAVAILABLE_IDENTITIES=new HashMap<>();
-    static
-    {
-        for (String[] row:ItemTaxonomy.readRows("identity-review-required.tsv",2))
-        { UNVERIFIED_IDENTITIES.put(Integer.parseInt(row[0]),row[1]); }
-        for (String[] row:ItemTaxonomy.readRows("item-availability.tsv",4))
-        {
-            int id=Integer.parseInt(row[0]);
-            if (UNAVAILABLE_IDENTITIES.put(id,row[1].toLowerCase(Locale.ROOT))!=null)
-            { throw new IllegalStateException("Duplicate availability ID: "+id); }
-        }
-        for (String[] row : ItemTaxonomy.readRows("item-variant-states.tsv",5))
-        {
-            int id=Integer.parseInt(row[0]);
-            if (!row[3].equals("true") && !row[3].equals("false"))
-            { throw new IllegalStateException("Invalid variant review policy"); }
-            if (STATES.put(id,new ItemVariantState(row[1],State.valueOf(row[2]),Boolean.parseBoolean(row[3]),row[4]))!=null)
-            { throw new IllegalStateException("Duplicate variant ID: "+id); }
-        }
-    }
-    private final String family;
-    private final State state;
-    private final boolean activityReview;
-    private final String note;
+	private enum State
+	{
+		AVAILABLE, REPAIR, CHARGE, EMPTY, REDUCED, CHECK, PREPARE, CONTENTS, RESTRICTED
+	}
 
-    private ItemVariantState(String family,State state,boolean activityReview,String note)
-    { this.family=family; this.state=state; this.activityReview=activityReview; this.note=note; }
+	private static final Map<Integer, ItemVariantState> STATES = new HashMap<>();
+	private static final Map<Integer, String> UNVERIFIED_IDENTITIES = new HashMap<>();
+	private static final Map<Integer, String> UNAVAILABLE_IDENTITIES = new HashMap<>();
+	static
+	{
+		for (String[] row : ItemTaxonomy.readRows("identity-review-required.tsv", 2))
+		{
+			UNVERIFIED_IDENTITIES.put(Integer.parseInt(row[0]), row[1]);
+		}
+		for (String[] row : ItemTaxonomy.readRows("item-availability.tsv", 4))
+		{
+			int id = Integer.parseInt(row[0]);
+			if (UNAVAILABLE_IDENTITIES.put(id, row[1].toLowerCase(Locale.ROOT)) != null)
+			{
+				throw new IllegalStateException("Duplicate availability ID: " + id);
+			}
+		}
+		for (String[] row : ItemTaxonomy.readRows("item-variant-states.tsv", 5))
+		{
+			int id = Integer.parseInt(row[0]);
+			if (!row[3].equals("true") && !row[3].equals("false"))
+			{
+				throw new IllegalStateException("Invalid variant review policy");
+			}
+			if (STATES.put(id,
+					new ItemVariantState(row[1], State.valueOf(row[2]), Boolean.parseBoolean(row[3]), row[4])) != null)
+			{
+				throw new IllegalStateException("Duplicate variant ID: " + id);
+			}
+		}
+	}
+	private final String family;
+	private final State state;
+	private final boolean activityReview;
+	private final String note;
 
-    static String familyName(AutoCategories.Item item)
-    {
-        ItemVariantState known=STATES.get(item.id);
-        return known==null ? item.name : known.family;
-    }
+	private ItemVariantState(String family, State state, boolean activityReview, String note)
+	{
+		this.family = family;
+		this.state = state;
+		this.activityReview = activityReview;
+		this.note = note;
+	}
 
-    static boolean needsActivityReview(AutoCategories.Item item)
-    {
-        if (identityNeedsReview(item)) { return true; }
-        if (WikiCatalogue.hasFacet(item,"restricted")) { return true; }
-        ItemVariantState known=STATES.get(item.id);
-        return known==null ? ItemTaxonomy.needsRepair(item.name) || ItemTaxonomy.needsCharge(item.name) : known.activityReview;
-    }
+	static String familyName(AutoCategories.Item item)
+	{
+		ItemVariantState known = STATES.get(item.id);
+		return known == null ? item.name : known.family;
+	}
 
-    static boolean needsActivityReview(AutoCategories.Item item,String role)
-    {
+	static boolean needsActivityReview(AutoCategories.Item item)
+	{
+		if (identityNeedsReview(item))
+		{
+			return true;
+		}
+		if (WikiCatalogue.hasFacet(item, "restricted"))
+		{
+			return true;
+		}
+		ItemVariantState known = STATES.get(item.id);
+		return known == null ? ItemTaxonomy.needsRepair(item.name) || ItemTaxonomy.needsCharge(item.name)
+				: known.activityReview;
+	}
 
-        if (item.id==30305 && role.startsWith("Special attacks")) { return false; }
-        return needsActivityReview(item);
-    }
+	static boolean needsActivityReview(AutoCategories.Item item, String role)
+	{
 
-    static boolean needsInventoryReview(AutoCategories.Item item,ActivitySetups.Setup setup)
-    {
+		if (item.id == 30305 && role.startsWith("Special attacks"))
+		{
+			return false;
+		}
+		return needsActivityReview(item);
+	}
 
-        if(setup.itemIds.contains(item.id) && inventoryOwnershipOnly(item)
-            && !identityNeedsReview(item) && !WikiCatalogue.hasFacet(item,"restricted")) return false;
+	static boolean needsInventoryReview(AutoCategories.Item item, ActivitySetups.Setup setup)
+	{
 
-        if(!identityNeedsReview(item) && (setup.itemIds.contains(item.id) || InventoryPotionDoses.listed(setup.itemIds,item))
-            && (item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item,"restricted")
-                || WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use"))
-                    && WikiCatalogue.entries(item).stream().filter(e->e.facet.equals("restricted"))
-                        .allMatch(e->e.group.equals("Self-damaging items — deliberate use")))
-            && !STATES.containsKey(item.id)) return false;
-        return needsActivityReview(item);
-    }
+		if (setup.itemIds.contains(item.id) && inventoryOwnershipOnly(item) && !identityNeedsReview(item)
+				&& !WikiCatalogue.hasFacet(item, "restricted"))
+			return false;
 
-    static boolean inventoryOwnershipOnly(AutoCategories.Item item)
-    {
-        ItemVariantState state=STATES.get(item.id);
-        return state!=null && state.family.equals(item.name)
-            && (item.id==25781 || item.id==13116 || item.id==19634 || item.id==21389)
-            && (state.state==State.CHECK || state.state==State.CONTENTS);
-    }
+		if (!identityNeedsReview(item)
+				&& (setup.itemIds.contains(item.id) || InventoryPotionDoses.listed(setup.itemIds, item))
+				&& (item.name.startsWith("blighted ") && WikiCatalogue.hasFacet(item, "restricted") || WikiCatalogue
+						.entries(item).stream().anyMatch(e -> e.group.equals("Self-damaging items — deliberate use"))
+						&& WikiCatalogue.entries(item).stream().filter(e -> e.facet.equals("restricted"))
+								.allMatch(e -> e.group.equals("Self-damaging items — deliberate use")))
+				&& !STATES.containsKey(item.id))
+			return false;
+		return needsActivityReview(item);
+	}
 
-    static String inventoryUseNote(AutoCategories.Item item)
-    {
-        if(inventoryOwnershipOnly(item))
-            return "Owned guide item; its ID does not establish remaining charges, stored contents or toggle state. Check before use.";
-        if(WikiCatalogue.entries(item).stream().anyMatch(e->e.group.equals("Self-damaging items — deliberate use")))
-            return "Deliberate self-damaging supply listed by this guide. Check remaining Hitpoints and use requirements.";
-        if(item.name.startsWith("blighted "))
-            return "Restricted-use blighted supply listed by this activity's inventory guide.";
-        return "";
-    }
+	static boolean inventoryOwnershipOnly(AutoCategories.Item item)
+	{
+		ItemVariantState state = STATES.get(item.id);
+		return state != null && state.family.equals(item.name)
+				&& (item.id == 25781 || item.id == 13116 || item.id == 19634 || item.id == 21389)
+				&& (state.state == State.CHECK || state.state == State.CONTENTS);
+	}
 
-    static boolean canRepresentOwnedEquivalent(AutoCategories.Item held,AutoCategories.Item candidate)
-    {
-        if(needsActivityReview(held)) return false;
-        ItemVariantState owned=STATES.get(held.id),wanted=STATES.get(candidate.id);
+	static String inventoryUseNote(AutoCategories.Item item)
+	{
+		if (inventoryOwnershipOnly(item))
+			return "Owned guide item; its ID does not establish remaining charges, stored contents or toggle state. Check before use.";
+		if (WikiCatalogue.entries(item).stream().anyMatch(e -> e.group.equals("Self-damaging items — deliberate use")))
+			return "Deliberate self-damaging supply listed by this guide. Check remaining Hitpoints and use requirements.";
+		if (item.name.startsWith("blighted "))
+			return "Restricted-use blighted supply listed by this activity's inventory guide.";
+		return "";
+	}
 
-        if(wanted!=null && wanted.family.startsWith("trident of the ")
-            && candidate.name.contains("(e)") && !held.name.contains("(e)")) return false;
+	static boolean canRepresentOwnedEquivalent(AutoCategories.Item held, AutoCategories.Item candidate)
+	{
+		if (needsActivityReview(held))
+			return false;
+		ItemVariantState owned = STATES.get(held.id), wanted = STATES.get(candidate.id);
 
-        return owned==null || owned.state!=State.REDUCED
-            || wanted!=null && wanted.state==State.REDUCED;
-    }
+		if (wanted != null && wanted.family.startsWith("trident of the ") && candidate.name.contains("(e)")
+				&& !held.name.contains("(e)"))
+			return false;
 
-    static boolean needsRankReview(AutoCategories.Item item,String activity,String setup)
-    {
-        ItemVariantState known=STATES.get(item.id);
-        if(known==null || known.state!=State.REDUCED) return false;
+		return owned == null || owned.state != State.REDUCED || wanted != null && wanted.state == State.REDUCED;
+	}
 
-        if(known.note.startsWith("dragon")) {
-            if(known.family.equals("infernal axe") && activity.equals("Wintertodt")) return false;
-            if(known.family.endsWith("pickaxe") && activity.startsWith("Chambers of Xeric")
-                && setup.startsWith("Guardians")) return false;
-            return true;
-        }
+	static boolean needsRankReview(AutoCategories.Item item, String activity, String setup)
+	{
+		ItemVariantState known = STATES.get(item.id);
+		if (known == null || known.state != State.REDUCED)
+			return false;
 
-        if(known.family.startsWith("celestial ")) return !activity.equals("Tempoross");
-        if(known.family.startsWith("ring of suffering")) return activity.equals("Zulrah") || activity.equals("Kalphite Queen");
-        if(known.family.startsWith("amulet of glory")) return activity.equals("Mining");
-        return known.family.equals("horn of plenty");
-    }
+		if (known.note.startsWith("dragon"))
+		{
+			if (known.family.equals("infernal axe") && activity.equals("Wintertodt"))
+				return false;
+			if (known.family.endsWith("pickaxe") && activity.startsWith("Chambers of Xeric")
+					&& setup.startsWith("Guardians"))
+				return false;
+			return true;
+		}
 
-    static String reviewGroup(AutoCategories.Item item)
-    {
-        if (item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id))) { return "Unavailable item identity — review"; }
-        if (identityNeedsReview(item)) { return "Unverified item identity — review"; }
-        if (WikiCatalogue.hasFacet(item,"restricted")) { return "Activity restrictions — review"; }
-        ItemVariantState known=STATES.get(item.id);
-        if (known!=null && known.state==State.CHECK)
-        { return known.note.contains("charge") ? "Check charges — review" : "Check item use — review"; }
-        if (known!=null && known.state==State.REDUCED) { return "Reduced function — review"; }
-        if (known!=null && known.state==State.PREPARE) { return "Preparation needed — review"; }
-        if (known!=null && known.state==State.CONTENTS) { return "Check contents — review"; }
-        if (known!=null && known.state==State.EMPTY) { return "Empty — review"; }
-        if (known!=null && known.state==State.RESTRICTED) { return "Activity restrictions — review"; }
-        return "Needs repair/charge — review";
-    }
+		if (known.family.startsWith("celestial "))
+			return !activity.equals("Tempoross");
+		if (known.family.startsWith("ring of suffering"))
+			return activity.equals("Zulrah") || activity.equals("Kalphite Queen");
+		if (known.family.startsWith("amulet of glory"))
+			return activity.equals("Mining");
+		return known.family.equals("horn of plenty");
+	}
 
-    static String annotate(String group,AutoCategories.Item item)
-    {
-        if (group==null) { return null; }
-        ItemVariantState known=STATES.get(item.id);
+	static String reviewGroup(AutoCategories.Item item)
+	{
+		if (item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id)))
+		{
+			return "Unavailable item identity — review";
+		}
+		if (identityNeedsReview(item))
+		{
+			return "Unverified item identity — review";
+		}
+		if (WikiCatalogue.hasFacet(item, "restricted"))
+		{
+			return "Activity restrictions — review";
+		}
+		ItemVariantState known = STATES.get(item.id);
+		if (known != null && known.state == State.CHECK)
+		{
+			return known.note.contains("charge") ? "Check charges — review" : "Check item use — review";
+		}
+		if (known != null && known.state == State.REDUCED)
+		{
+			return "Reduced function — review";
+		}
+		if (known != null && known.state == State.PREPARE)
+		{
+			return "Preparation needed — review";
+		}
+		if (known != null && known.state == State.CONTENTS)
+		{
+			return "Check contents — review";
+		}
+		if (known != null && known.state == State.EMPTY)
+		{
+			return "Empty — review";
+		}
+		if (known != null && known.state == State.RESTRICTED)
+		{
+			return "Activity restrictions — review";
+		}
+		return "Needs repair/charge — review";
+	}
 
-        if (known!=null && !known.note.isEmpty()) { return group+" ("+known.note+")"; }
-        return group;
-    }
+	static String annotate(String group, AutoCategories.Item item)
+	{
+		if (group == null)
+		{
+			return null;
+		}
+		ItemVariantState known = STATES.get(item.id);
 
-    static boolean identityNeedsReview(AutoCategories.Item item)
-    {
+		if (known != null && !known.note.isEmpty())
+		{
+			return group + " (" + known.note + ")";
+		}
+		return group;
+	}
 
-        return item.name.equals(UNVERIFIED_IDENTITIES.get(item.id))
-            || item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id));
-    }
+	static boolean identityNeedsReview(AutoCategories.Item item)
+	{
+
+		return item.name.equals(UNVERIFIED_IDENTITIES.get(item.id))
+				|| item.name.equals(UNAVAILABLE_IDENTITIES.get(item.id));
+	}
 }

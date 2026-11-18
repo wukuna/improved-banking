@@ -18,61 +18,86 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-    static final String RELEASE = "2026-11-16-bank-preset-positions";
-    static final String SEEN_KEY = "releaseNotesShown";
-    private static final String[] UPDATES = {
-        "Move preset items into spare space; shrinking the bank fits them below the preset until expanded.",
-        "Right-click a moved item to Return to preset position.",
-        "Fixed compact search borders and improved potion-storage layout compatibility.",
-        "Fixed empty worn-equipment previews and applying saved bank placement when switching profiles."
-    };
+	static final String RELEASE = "2026-11-17-potion-storage";
+	static final String SEEN_KEY = "releaseNotesShown";
+	private static final String[] UPDATES = {
+			"Rearrange potion-storage rows and use stored potions in preset views.",
+			"Right-click stored potions to add them to bank tabs and searches; drag added potions into place.",
+			"A chest beside the favorite heart marks potions added to the bank window.",
+			"Fixed potion-storage resizing and background overlap while keeping window movement and equipment previews." };
 
-    @Inject private Client client;
-    @Inject private ClientThread clientThread;
-    @Inject private ConfigManager configManager;
-    @Inject private ChatMessageManager chat;
-    @Inject private net.runelite.client.eventbus.EventBus eventBus;
-    private volatile boolean running;
-    private volatile int generation;
+	@Inject
+	private Client client;
+	@Inject
+	private ClientThread clientThread;
+	@Inject
+	private ConfigManager configManager;
+	@Inject
+	private ChatMessageManager chat;
+	@Inject
+	private net.runelite.client.eventbus.EventBus eventBus;
+	private volatile boolean running;
+	private volatile int generation;
 
-    public synchronized void start() { if (running) return; running = true; generation++; eventBus.register(this); schedule(); }
-    public synchronized void stop() { if (!running) return; running = false; generation++; eventBus.unregister(this); }
+	public synchronized void start()
+	{
+		if (running)
+			return;
+		running = true;
+		generation++;
+		eventBus.register(this);
+		schedule();
+	}
 
-    private void schedule()
-    {
-        final int scheduledGeneration = generation;
-        clientThread.invokeLater(() -> {
-            if (running && generation == scheduledGeneration) showIfNeeded();
-        });
-    }
+	public synchronized void stop()
+	{
+		if (!running)
+			return;
+		running = false;
+		generation++;
+		eventBus.unregister(this);
+	}
 
-    private void showIfNeeded()
-    {
-        if (client.getGameState() != GameState.LOGGED_IN
-            || RELEASE.equals(configManager.getConfiguration("windowmarkers", SEEN_KEY)))
-            return;
-        send("Updates:<br>* " + String.join("<br>* ", UPDATES));
-        configManager.setConfiguration("windowmarkers", SEEN_KEY, RELEASE);
-    }
+	private void schedule()
+	{
+		final int scheduledGeneration = generation;
+		clientThread.invokeLater(() ->
+		{
+			if (running && generation == scheduledGeneration)
+				showIfNeeded();
+		});
+	}
 
-    private void send(String text)
-    {
-        String message = new ChatMessageBuilder().append(ChatColorType.NORMAL).append("[")
-            .append(ChatColorType.HIGHLIGHT).append("Improved Banking")
-            .append(ChatColorType.NORMAL).append("] ").build() + text;
-        chat.queue(QueuedMessage.builder().type(ChatMessageType.CONSOLE)
-            .runeLiteFormattedMessage(message).build());
-    }
+	private void showIfNeeded()
+	{
+		if (client.getGameState() != GameState.LOGGED_IN
+				|| RELEASE.equals(configManager.getConfiguration("windowmarkers", SEEN_KEY)))
+			return;
+		send("Updates:<br>* " + String.join("<br>* ", UPDATES));
+		configManager.setConfiguration("windowmarkers", SEEN_KEY, RELEASE);
+	}
 
-    @Subscribe public void onGameStateChanged(GameStateChanged event)
-    {
-        if (running && event.getGameState() == GameState.LOGGED_IN) schedule();
-    }
+	private void send(String text)
+	{
+		String message = new ChatMessageBuilder().append(ChatColorType.NORMAL).append("[")
+				.append(ChatColorType.HIGHLIGHT).append("Improved Banking").append(ChatColorType.NORMAL).append("] ")
+				.build() + text;
+		chat.queue(QueuedMessage.builder().type(ChatMessageType.CONSOLE).runeLiteFormattedMessage(message).build());
+	}
 
-    @Subscribe public void onProfileChanged(ProfileChanged event)
-    {
+	@Subscribe
+	public void onGameStateChanged(GameStateChanged event)
+	{
+		if (running && event.getGameState() == GameState.LOGGED_IN)
+			schedule();
+	}
 
-        generation++;
-        if (running) schedule();
-    }
+	@Subscribe
+	public void onProfileChanged(ProfileChanged event)
+	{
+
+		generation++;
+		if (running)
+			schedule();
+	}
 }

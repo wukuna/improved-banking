@@ -6,205 +6,406 @@ import net.runelite.client.config.*;
 @ConfigGroup("windowmarkers")
 public interface WindowMarkersConfig extends Config
 {
-    @ConfigItem(keyName = "hideSidePanel", name = "Hide side panel", position = -1,
-        description = "Hide the sidebar icon while keeping the plugin enabled. Turn this off here to restore the panel.")
-    default boolean hideSidePanel() { return false; }
+	@ConfigItem(keyName = "hideSidePanel", name = "Hide side panel", position = -1, description = "Hide the sidebar icon while keeping the plugin enabled. Turn this off here to restore the panel.")
+	default boolean hideSidePanel()
+	{
+		return false;
+	}
 
+	enum ActivityItems
+	{
+		ALL("All items"), OWNED("Owned"), UNOWNED("Not owned"), NEXT_UPGRADE("Next guide upgrade");
 
-    enum ActivityItems
-    {
-        ALL("All items"), OWNED("Owned"), UNOWNED("Not owned"), NEXT_UPGRADE("Next guide upgrade");
-        private final String label;
-        ActivityItems(String label) { this.label=label; }
-        @Override public String toString() { return label; }
-    }
-    @ConfigSection(name="Labels and highlighting",description="Marker visibility, labels and highlighting",position=0)
-    String appearance="appearance";
-    @ConfigSection(name="Drawing defaults",description="Defaults for new markers",position=1,closedByDefault=true)
-    String drawing="drawing";
-    @ConfigSection(name="Bank layout",description="Bank size, tabs and deposit controls",position=2,closedByDefault=true)
-    String bankLayout="bankLayout";
-    @ConfigSection(name="Screenshots",description="Local bank image captures",position=3,closedByDefault=true)
-    String screenshots="screenshots";
-    @ConfigSection(name="Grand Exchange search",description="Optional category and Wiki setup searches in the GE",position=4,closedByDefault=true)
-    String ge="ge";
-    @ConfigItem(section=ge,keyName="geCatalogueSearch",name="Enable Grand Exchange search",description="Search activities, equipment slots and categories, e.g. toa head, vorkath ranged or mining tools. Only GE-tradeable items appear. The catalogue takes a moment to load when enabled.",position=0)
-    default boolean geCatalogueSearch() { return false; }
-    @ConfigItem(section=ge,keyName="geActivityFilter",name="Activity items",description="All, Owned, Not owned or Next guide upgrade. Applies only to activity queries. Open your bank once this login; inventory and equipped items are included. You can also append owned, unowned or next upgrade to an activity search.",position=1)
-    default WindowMarkersConfig.ActivityItems geActivityFilter() { return WindowMarkersConfig.ActivityItems.ALL; }
-    @ConfigItem(section=ge,keyName="geHideWorseOwned",name="Hide worse than owned",description="Hide verified lower guide choices when usable owned equipment covers every matching role. Preserves conditional, set, specialist and unranked alternatives. Requires a bank snapshot this login.",position=2)
-    default boolean geHideWorseOwned() { return false; }
-    @ConfigItem(section=ge,keyName="geMarkOwned",name="Mark owned activity items",description="Add [O] to owned activity items. Hover to see the owned item or usable equivalent from bank, inventory or equipment. Broken/empty equipment does not prove usable ownership.",position=3)
-    default boolean geMarkOwned() { return false; }
-    @ConfigItem(section=ge,keyName="geShowPrices",name="Show guide prices",description="Show a compact cached RuneLite price below the name; hover for the full amount in gp. Respects RuneLite's Wiki-price setting. A guide price is not a guaranteed offer price.",position=6)
-    default boolean geShowPrices() { return false; }
-    @ConfigItem(section=ge,keyName="gePriceAffordability",name="Colour prices by funds",description="With prices enabled: green means observed inventory/bank coins and platinum cover one item at guide price; red means insufficient observed funds; neutral means balance or price is unknown. Excludes uncollected offers and item resale value.",position=7)
-    default boolean gePriceAffordability() { return true; }
-    @ConfigItem(section=ge,keyName="geMarkLocked",name="Mark unmet requirements",description="Add [!] for verified unmet skill or quest requirements. Hover for details. Coverage is partial; no tag does not prove every requirement is met. Items remain searchable and purchasable.",position=8)
-    default boolean geMarkLocked() { return false; }
-    @ConfigItem(section=ge,keyName="geSearchTips",name="Show search tips",description="Show Search tips at the top left of the GE chatbox for broad searches. Hover for more specific queries. Bank search is unchanged.",position=9)
-    default boolean geSearchTips() { return true; }
-    @ConfigSection(name="Gear guide tiers",description="Shared bank and GE colours and ordinal tags",position=5,closedByDefault=true)
-    String tiers="tiers";
-    @ConfigItem(section=tiers,keyName="geTierColours",name="Show Wiki gear tiers",description="Shared bank and GE colours mark the first three guide columns. GE badges use [1]/[2]/[3]; bank corners use 1st/2nd/3rd. Conflicting ranks and items needing preparation stay neutral. Hover for context; these are not universal BIS ratings.",position=0)
-    default boolean geTierColours() { return true; }
-    @ConfigItem(section=tiers,keyName="geFirstColour",name="1st — setup BIS",description="Shared bank and GE colour for Wiki column 1 in the matching setup and role. Requirements and set bonuses still apply.",position=1)
-    default Color geFirstColour() { return new Color(138,43,226); }
-    @ConfigItem(section=tiers,keyName="geSecondColour",name="2nd choice",description="Shared bank and GE colour for Wiki column 2. Unavailable higher choices do not promote this tier.",position=2)
-    default Color geSecondColour() { return new Color(0,102,170); }
-    @ConfigItem(section=tiers,keyName="geThirdColour",name="3rd choice",description="Shared bank and GE colour for Wiki column 3 in the matching setup.",position=3)
-    default Color geThirdColour() { return new Color(0,119,68); }
-    @ConfigItem(section=ge,keyName="geGuideContext",name="GE guide context",description="Specific guide chosen through Legend / Saved views. Empty uses all matching guide setups.",hidden=true,position=5)
-    default String geGuideContext() { return ""; }
-    @ConfigItem(keyName="bankInventoryContext",name="Bank inventory example",description="Inventory example chosen in Legend / Saved views.",hidden=true)
-    default String bankInventoryContext() { return ""; }
-    @ConfigItem(keyName="screenshotButton",name="Button beside bank close",description="Show a screenshot button next to the bank close button. Saves the full current tab locally.",section=screenshots,position=0)
-    default boolean screenshotButton() { return true; }
+		private final String label;
 
-    enum BankLabels { MINI, FULL, OFF }
-    @ConfigItem(section=appearance,keyName="bankLabels",name="Bank labels",description="Mini labels show short group names once where they fit. Full uses saved label appearance. Off leaves the sidebar legend and optional hover tooltips.",position=5)
-    default BankLabels bankLabels() { return BankLabels.MINI; }
-    @ConfigItem(section=appearance,keyName="quietFills",name="Subtle marker backgrounds",description="Reduce background intensity without changing saved marker colors.",position=6)
-    default boolean quietFills() { return true; }
-    @ConfigItem(section=appearance,keyName="hoverHighlight",name="Highlight on hover",description="Highlight groups when hovering bank items or legend entries. Turn off to highlight only by clicking a legend entry. Hover tooltips have a separate setting.",position=7)
-    default boolean hoverHighlight() { return true; }
-    @ConfigItem(section=appearance,keyName="improvedBankSearch",name="Enable Improved Banking search",description="Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.",position=8)
-    default boolean improvedBankSearch() { return false; }
-    @ConfigItem(section=appearance,keyName="setupSearchLayout",name="Equipment and inventory search layout",description="Show an eight-column equipment and inventory view for activity searches, with alternatives and supplies below. Ordinary searches and existing Bank Tag layouts keep their order.",position=9)
-    default boolean setupSearchLayout() { return true; }
-    @ConfigItem(section=appearance,keyName="bankCatalogueButton",name="View presets button",description="Show the View presets button beside the bank screenshot button.",position=10)
-    default boolean bankCatalogueButton() { return true; }
-    @ConfigItem(section=appearance,keyName="bankTooltips",name="Show category and setup tooltips",description="Show group names, category explanations, gear tiers and inventory notes when hovering bank items. Turning this off keeps colours, labels, highlights and native item actions.",position=11)
-    default boolean bankTooltips() { return true; }
-    @ConfigItem(section=appearance,keyName="hidePresetItemOutlines",name="Hide item outlines in presets",description="Hide item outlines and marker backgrounds in presets and activity search layouts. Keep the 1st/2nd/3rd rank labels and setup headings.",position=12)
-    default boolean hidePresetItemOutlines() { return false; }
-    @ConfigItem(section=appearance,keyName="hidePresetItemLabels",name="Hide preset rank labels",description="Hide the small 1st/2nd/3rd labels. Other preset display options are separate.",position=15)
-    default boolean hidePresetItemLabels() { return false; }
-    @ConfigItem(section=appearance,keyName="hidePresetNameTags",name="Hide preset name tags",description="Hide floating group-name tags inside preset views. The bank title still names the active preset.",position=13)
-    default boolean hidePresetNameTags() { return true; }
-    @ConfigItem(section=appearance,keyName="hidePresetSectionHeadings",name="Hide preset section headings",description="Hide phase, Equipment, Recommended inventory and Suggested runes headings. Empty equipment slot hints and item tooltips remain.",position=14)
-    default boolean hidePresetSectionHeadings() { return false; }
-    @ConfigItem(section=drawing,keyName="snapToGrid",name="Snap areas to grid",description="Snap drawn, moved, and resized item-area markers to bank item cells.",position=3)
-    default boolean snapToGrid() { return false; }
+		ActivityItems(String label)
+		{
+			this.label = label;
+		}
 
-    @ConfigItem(section=drawing,keyName="linkNewMarkers",name="Link new markers to items",description="New markers follow the enclosed item identities between bank tabs. Linked regions always use grid bounds.",position=4)
-    default boolean linkNewMarkers() { return false; }
-    enum BorderStyle
-    {
-        ACTIVE_THEME("Active theme"), VANILLA("Vanilla OSRS"), PLAIN("Plain");
-        private final String label;
-        BorderStyle(String label) { this.label = label; }
-        @Override public String toString() { return label; }
-    }
+		@Override
+		public String toString()
+		{
+			return label;
+		}
+	}
 
-    @ConfigItem(section=drawing,keyName="style", name="Border style", description="Active theme uses loaded equipment-frame sprite overrides, falling back to vanilla.", position=0)
-    default BorderStyle style() { return BorderStyle.ACTIVE_THEME; }
+	@ConfigSection(name = "Labels and highlighting", description = "Marker visibility, labels and highlighting", position = 0)
+	String appearance = "appearance";
+	@ConfigSection(name = "Drawing defaults", description = "Defaults for new markers", position = 1, closedByDefault = true)
+	String drawing = "drawing";
+	@ConfigSection(name = "Bank layout", description = "Bank size, tabs and deposit controls", position = 2, closedByDefault = true)
+	String bankLayout = "bankLayout";
+	@ConfigSection(name = "Screenshots", description = "Local bank image captures", position = 3, closedByDefault = true)
+	String screenshots = "screenshots";
+	@ConfigSection(name = "Potion storage", description = "Stored potions and their display", position = 5, closedByDefault = true)
+	String potionStorage = "potionStorage";
 
-    @ConfigItem(section=appearance,keyName="visible", name="Show markers", description="Show saved markers while the bank is open.", position=1)
-    default boolean visible() { return true; }
+	@ConfigItem(section = potionStorage, keyName = "moveStoredPotions", name = "Rearrange stored potions", description = "Drag potion rows within their section. Uses the bank's swap/insert mode. Potion Storage Customizer retains control while enabled. Choose bank tabs and searches per potion under Stored potions in the side panel.", position = 0)
+	default boolean moveStoredPotions()
+	{
+		return true;
+	}
 
-    @Alpha
-    @ConfigItem(section=drawing,keyName="color", name="Plain border color", description="Color for plain borders and the drawing preview.", position=2)
-    default Color color() { return new Color(255, 190, 70, 220); }
+	@ConfigSection(name = "Grand Exchange search", description = "Optional category and Wiki setup searches in the GE", position = 4, closedByDefault = true)
+	String ge = "ge";
 
-    @ConfigItem(section=bankLayout,keyName="bankLayoutEnabled",name="Built-in bank layout",description="Use the integrated flexible bank layout. Disable the separate Flexible Bank plugin.",position=10,hidden=true)
-    default boolean bankLayoutEnabled() { return true; }
-    @ConfigItem(section=bankLayout,keyName="customBankControls",name="Custom bank buttons",description="Use the arrangement saved by Alt-dragging bank buttons. Overrides the older deposit-button placement while enabled. Requires built-in bank layout.",position=22,hidden=true)
-    default boolean customBankControls() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankButtonDragging",name="Alt-drag bank buttons",description="Hold Alt and drag native bank buttons along the bottom row or into the left dock. Release to save. Requires built-in bank layout.",position=23,hidden=true)
-    default boolean bankButtonDragging() { return true; }
-    @ConfigItem(keyName="bankControlLayout",name="Bank button arrangement",description="Saved named bank controls and docking preferences.",hidden=true)
-    default String bankControlLayout() { return ""; }
-    @ConfigItem(section=bankLayout,keyName="bankWindowControls",name="Move and resize bank",description="Drag the bank title to move it, or the lower-right grip to resize. Resizable game modes only. Saves each profile's layout.",position=18,hidden=true)
-    default boolean bankWindowControls() { return false; }
-    @ConfigItem(keyName="bankWindowPosition",name="Bank window position",description="Saved bank position and reference game area.",hidden=true)
-    default String bankWindowPosition() { return ""; }
-    @ConfigItem(section=bankLayout,keyName="bankActionRail",name="Customize bank view",description="Drag the bank title or resize grip, automatically fit item columns, and Alt-drag buttons along the side and bottom strips. Buttons stay centered across each strip, close gaps on resize and flow to nearby strips when space runs out. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.",position=10)
-    default boolean bankActionRail() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankActionTagSpace",name="Share bank tag strip",description="Share the left strip between scrollable Bank Tags and bank controls. Use Adjustable Bank Tags divider to change the split or keep it fixed.",position=25)
-    default boolean bankActionTagSpace() { return false; }
-    @ConfigItem(section=bankLayout,keyName="bankTagDividerResizable",name="Adjustable Bank Tags divider",description="Show a draggable divider in the shared Bank Tags strip. Turn off to remove the divider bar and keep the saved split. Smaller banks still reserve room for the buttons below.",position=26)
-    default boolean bankTagDividerResizable() { return true; }
-    @ConfigItem(section=bankLayout,keyName="bankEquipmentPreview",name="Preview worn equipment",description="Hover the bank's worn-equipment button to preview equipped items and their base bonuses. Clicking still opens the native worn-equipment screen.",position=27)
-    default boolean bankEquipmentPreview() { return false; }
-    @ConfigItem(keyName="bankActionLayout",name="Action bar arrangement",description="Saved positions of bank action controls.",hidden=true)
-    default String bankActionLayout() { return ""; }
-    @ConfigItem(section=bankLayout,keyName="compactBankSearch",name="Compact search button",description="Use a small search button in the regular bank and Inventory Setups bank view. Customized button strips already use the small button.",position=28)
-    default boolean compactBankSearch() { return false; }
-    @ConfigItem(section=bankLayout,keyName="restoreOriginalWornEquipmentButton",name="Restore original worn equipment button",description="Keep Show worn items in its native position instead of the customized button strip. Turn off to resume its saved strip position.",position=29)
-    default boolean restoreOriginalWornEquipmentButton() { return false; }
-    @Range(min=4,max=24)
-    @ConfigItem(section=bankLayout,keyName="bankColumnSpacing",name="Column spacing (px)",description="Minimum gap between ordinary bank item columns. Lower values fit more items without resizing their icons or click areas. Default: 12. Saved Bank Tags, equipment layouts and nonstandard item widgets keep their spacing.",position=30)
-    default int bankColumnSpacing() { return 12; }
-    enum TabAlignment { LEFT, CENTER, RIGHT }
-    @ConfigItem(section=bankLayout,keyName="tabAlignment",name="Bank tab alignment",description="Align the top bank tabs within the bank window.",position=20)
-    default TabAlignment tabAlignment() { return TabAlignment.CENTER; }
-    @Range(min=0,max=40)
-    @ConfigItem(section=bankLayout,keyName="tabGap",name="Space below tabs",description="Reserve space between the bank tabs and item viewport.",position=21)
-    default int tabGap() { return 12; }
-	@ConfigItem(section=bankLayout,keyName="customWidth",
-		name = "Custom width",
-		description = "Use the width below. When off the bank keeps the game's own width.",
-		position = 11, hidden=true)
+	@ConfigItem(section = ge, keyName = "geCatalogueSearch", name = "Enable Grand Exchange search", description = "Search activities, equipment slots and categories, e.g. toa head, vorkath ranged or mining tools. Only GE-tradeable items appear. The catalogue takes a moment to load when enabled.", position = 0)
+	default boolean geCatalogueSearch()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = ge, keyName = "geActivityFilter", name = "Activity items", description = "All, Owned, Not owned or Next guide upgrade. Applies only to activity queries. Open your bank once this login; inventory and equipped items are included. You can also append owned, unowned or next upgrade to an activity search.", position = 1)
+	default WindowMarkersConfig.ActivityItems geActivityFilter()
+	{
+		return WindowMarkersConfig.ActivityItems.ALL;
+	}
+
+	@ConfigItem(section = ge, keyName = "geHideWorseOwned", name = "Hide worse than owned", description = "Hide verified lower guide choices when usable owned equipment covers every matching role. Preserves conditional, set, specialist and unranked alternatives. Requires a bank snapshot this login.", position = 2)
+	default boolean geHideWorseOwned()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = ge, keyName = "geMarkOwned", name = "Mark owned activity items", description = "Add [O] to owned activity items. Hover to see the owned item or usable equivalent from bank, inventory or equipment. Broken/empty equipment does not prove usable ownership.", position = 3)
+	default boolean geMarkOwned()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = ge, keyName = "geShowPrices", name = "Show guide prices", description = "Show a compact cached RuneLite price below the name; hover for the full amount in gp. Respects RuneLite's Wiki-price setting. A guide price is not a guaranteed offer price.", position = 6)
+	default boolean geShowPrices()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = ge, keyName = "gePriceAffordability", name = "Colour prices by funds", description = "With prices enabled: green means observed inventory/bank coins and platinum cover one item at guide price; red means insufficient observed funds; neutral means balance or price is unknown. Excludes uncollected offers and item resale value.", position = 7)
+	default boolean gePriceAffordability()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = ge, keyName = "geMarkLocked", name = "Mark unmet requirements", description = "Add [!] for verified unmet skill or quest requirements. Hover for details. Coverage is partial; no tag does not prove every requirement is met. Items remain searchable and purchasable.", position = 8)
+	default boolean geMarkLocked()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = ge, keyName = "geSearchTips", name = "Show search tips", description = "Show Search tips at the top left of the GE chatbox for broad searches. Hover for more specific queries. Bank search is unchanged.", position = 9)
+	default boolean geSearchTips()
+	{
+		return true;
+	}
+
+	@ConfigSection(name = "Gear guide tiers", description = "Shared bank and GE colours and ordinal tags", position = 5, closedByDefault = true)
+	String tiers = "tiers";
+
+	@ConfigItem(section = tiers, keyName = "geTierColours", name = "Show Wiki gear tiers", description = "Shared bank and GE colours mark the first three guide columns. GE badges use [1]/[2]/[3]; bank corners use 1st/2nd/3rd. Conflicting ranks and items needing preparation stay neutral. Hover for context; these are not universal BIS ratings.", position = 0)
+	default boolean geTierColours()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = tiers, keyName = "geFirstColour", name = "1st — setup BIS", description = "Shared bank and GE colour for Wiki column 1 in the matching setup and role. Requirements and set bonuses still apply.", position = 1)
+	default Color geFirstColour()
+	{
+		return new Color(138, 43, 226);
+	}
+
+	@ConfigItem(section = tiers, keyName = "geSecondColour", name = "2nd choice", description = "Shared bank and GE colour for Wiki column 2. Unavailable higher choices do not promote this tier.", position = 2)
+	default Color geSecondColour()
+	{
+		return new Color(0, 102, 170);
+	}
+
+	@ConfigItem(section = tiers, keyName = "geThirdColour", name = "3rd choice", description = "Shared bank and GE colour for Wiki column 3 in the matching setup.", position = 3)
+	default Color geThirdColour()
+	{
+		return new Color(0, 119, 68);
+	}
+
+	@ConfigItem(section = ge, keyName = "geGuideContext", name = "GE guide context", description = "Specific guide chosen through Legend / Saved views. Empty uses all matching guide setups.", hidden = true, position = 5)
+	default String geGuideContext()
+	{
+		return "";
+	}
+
+	@ConfigItem(keyName = "bankInventoryContext", name = "Bank inventory example", description = "Inventory example chosen in Legend / Saved views.", hidden = true)
+	default String bankInventoryContext()
+	{
+		return "";
+	}
+
+	@ConfigItem(keyName = "screenshotButton", name = "Button beside bank close", description = "Show a screenshot button next to the bank close button. Saves the full current tab locally.", section = screenshots, position = 0)
+	default boolean screenshotButton()
+	{
+		return true;
+	}
+
+	enum BankLabels
+	{
+		MINI, FULL, OFF
+	}
+
+	@ConfigItem(section = appearance, keyName = "bankLabels", name = "Bank labels", description = "Mini labels show short group names once where they fit. Full uses saved label appearance. Off leaves the sidebar legend and optional hover tooltips.", position = 5)
+	default BankLabels bankLabels()
+	{
+		return BankLabels.MINI;
+	}
+
+	@ConfigItem(section = appearance, keyName = "quietFills", name = "Subtle marker backgrounds", description = "Reduce background intensity without changing saved marker colors.", position = 6)
+	default boolean quietFills()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "hoverHighlight", name = "Highlight on hover", description = "Highlight groups when hovering bank items or legend entries. Turn off to highlight only by clicking a legend entry. Hover tooltips have a separate setting.", position = 7)
+	default boolean hoverHighlight()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "improvedBankSearch", name = "Enable Improved Banking search", description = "Add category, preset and group matches to plain-text bank searches and highlight matching items. Also available in the bank search prompt.", position = 8)
+	default boolean improvedBankSearch()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = appearance, keyName = "setupSearchLayout", name = "Equipment and inventory search layout", description = "Show an eight-column equipment and inventory view for activity searches, with alternatives and supplies below. Ordinary searches and existing Bank Tag layouts keep their order.", position = 9)
+	default boolean setupSearchLayout()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "bankCatalogueButton", name = "View presets button", description = "Show the View presets button beside the bank screenshot button.", position = 10)
+	default boolean bankCatalogueButton()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "bankTooltips", name = "Show category and setup tooltips", description = "Show group names, category explanations, gear tiers and inventory notes when hovering bank items. Turning this off keeps colours, labels, highlights and native item actions.", position = 11)
+	default boolean bankTooltips()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "hidePresetItemOutlines", name = "Hide item outlines in presets", description = "Hide item outlines and marker backgrounds in presets and activity search layouts. Keep the 1st/2nd/3rd rank labels and setup headings.", position = 12)
+	default boolean hidePresetItemOutlines()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = appearance, keyName = "hidePresetItemLabels", name = "Hide preset rank labels", description = "Hide the small 1st/2nd/3rd labels. Other preset display options are separate.", position = 15)
+	default boolean hidePresetItemLabels()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = appearance, keyName = "hidePresetNameTags", name = "Hide preset name tags", description = "Hide floating group-name tags inside preset views. The bank title still names the active preset.", position = 13)
+	default boolean hidePresetNameTags()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = appearance, keyName = "hidePresetSectionHeadings", name = "Hide preset section headings", description = "Hide phase, Equipment, Recommended inventory and Suggested runes headings. Empty equipment slot hints and item tooltips remain.", position = 14)
+	default boolean hidePresetSectionHeadings()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = drawing, keyName = "snapToGrid", name = "Snap areas to grid", description = "Snap drawn, moved, and resized item-area markers to bank item cells.", position = 3)
+	default boolean snapToGrid()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = drawing, keyName = "linkNewMarkers", name = "Link new markers to items", description = "New markers follow the enclosed item identities between bank tabs. Linked regions always use grid bounds.", position = 4)
+	default boolean linkNewMarkers()
+	{
+		return false;
+	}
+
+	enum BorderStyle
+	{
+		ACTIVE_THEME("Active theme"), VANILLA("Vanilla OSRS"), PLAIN("Plain");
+
+		private final String label;
+
+		BorderStyle(String label)
+		{
+			this.label = label;
+		}
+
+		@Override
+		public String toString()
+		{
+			return label;
+		}
+	}
+
+	@ConfigItem(section = drawing, keyName = "style", name = "Border style", description = "Active theme uses loaded equipment-frame sprite overrides, falling back to vanilla.", position = 0)
+	default BorderStyle style()
+	{
+		return BorderStyle.ACTIVE_THEME;
+	}
+
+	@ConfigItem(section = appearance, keyName = "visible", name = "Show markers", description = "Show saved markers while the bank is open.", position = 1)
+	default boolean visible()
+	{
+		return true;
+	}
+
+	@Alpha
+	@ConfigItem(section = drawing, keyName = "color", name = "Plain border color", description = "Color for plain borders and the drawing preview.", position = 2)
+	default Color color()
+	{
+		return new Color(255, 190, 70, 220);
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankLayoutEnabled", name = "Built-in bank layout", description = "Use the integrated flexible bank layout. Disable the separate Flexible Bank plugin.", position = 10, hidden = true)
+	default boolean bankLayoutEnabled()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "customBankControls", name = "Custom bank buttons", description = "Use the arrangement saved by Alt-dragging bank buttons. Overrides the older deposit-button placement while enabled. Requires built-in bank layout.", position = 22, hidden = true)
+	default boolean customBankControls()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankButtonDragging", name = "Alt-drag bank buttons", description = "Hold Alt and drag native bank buttons along the bottom row or into the left dock. Release to save. Requires built-in bank layout.", position = 23, hidden = true)
+	default boolean bankButtonDragging()
+	{
+		return true;
+	}
+
+	@ConfigItem(keyName = "bankControlLayout", name = "Bank button arrangement", description = "Saved named bank controls and docking preferences.", hidden = true)
+	default String bankControlLayout()
+	{
+		return "";
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankWindowControls", name = "Move and resize bank", description = "Drag the bank title to move it, or the lower-right grip to resize. Resizable game modes only. Saves each profile's layout.", position = 18, hidden = true)
+	default boolean bankWindowControls()
+	{
+		return false;
+	}
+
+	@ConfigItem(keyName = "bankWindowPosition", name = "Bank window position", description = "Saved bank position and reference game area.", hidden = true)
+	default String bankWindowPosition()
+	{
+		return "";
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankActionRail", name = "Customize bank view", description = "Drag the bank title or resize grip, automatically fit item columns, and Alt-drag buttons along the side and bottom strips. Buttons stay centered across each strip, close gaps on resize and flow to nearby strips when space runs out. Scroll items with the mouse wheel. Disable the separate Flexible Bank plugin.", position = 10)
+	default boolean bankActionRail()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankActionTagSpace", name = "Share bank tag strip", description = "Share the left strip between scrollable Bank Tags and bank controls. Use Adjustable Bank Tags divider to change the split or keep it fixed.", position = 25)
+	default boolean bankActionTagSpace()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankTagDividerResizable", name = "Adjustable Bank Tags divider", description = "Show a draggable divider in the shared Bank Tags strip. Turn off to remove the divider bar and keep the saved split. Smaller banks still reserve room for the buttons below.", position = 26)
+	default boolean bankTagDividerResizable()
+	{
+		return true;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "bankEquipmentPreview", name = "Preview worn equipment", description = "Hover the bank's worn-equipment button to preview equipped items and their base bonuses. Clicking still opens the native worn-equipment screen.", position = 27)
+	default boolean bankEquipmentPreview()
+	{
+		return false;
+	}
+
+	@ConfigItem(keyName = "bankActionLayout", name = "Action bar arrangement", description = "Saved positions of bank action controls.", hidden = true)
+	default String bankActionLayout()
+	{
+		return "";
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "compactBankSearch", name = "Compact search button", description = "Use a small search button in the regular bank and Inventory Setups bank view. Customized button strips already use the small button.", position = 28)
+	default boolean compactBankSearch()
+	{
+		return false;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "restoreOriginalWornEquipmentButton", name = "Restore original worn equipment button", description = "Keep Show worn items in its native position instead of the customized button strip. Turn off to resume its saved strip position.", position = 29)
+	default boolean restoreOriginalWornEquipmentButton()
+	{
+		return false;
+	}
+
+	@Range(min = 4, max = 24)
+	@ConfigItem(section = bankLayout, keyName = "bankColumnSpacing", name = "Column spacing (px)", description = "Minimum gap between ordinary bank item columns. Lower values fit more items without resizing their icons or click areas. Default: 12. Saved Bank Tags, equipment layouts and nonstandard item widgets keep their spacing.", position = 30)
+	default int bankColumnSpacing()
+	{
+		return 12;
+	}
+
+	enum TabAlignment
+	{
+		LEFT, CENTER, RIGHT
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "tabAlignment", name = "Bank tab alignment", description = "Align the top bank tabs within the bank window.", position = 20)
+	default TabAlignment tabAlignment()
+	{
+		return TabAlignment.CENTER;
+	}
+
+	@Range(min = 0, max = 40)
+	@ConfigItem(section = bankLayout, keyName = "tabGap", name = "Space below tabs", description = "Reserve space between the bank tabs and item viewport.", position = 21)
+	default int tabGap()
+	{
+		return 12;
+	}
+
+	@ConfigItem(section = bankLayout, keyName = "customWidth", name = "Custom width", description = "Use the width below. When off the bank keeps the game's own width.", position = 11, hidden = true)
 	default boolean customWidth()
 	{
 		return false;
 	}
 
 	@Range(min = 488, max = 4000)
-	@ConfigItem(section=bankLayout,keyName="width",
-		name = "Width (px)",
-		description = "Width of the bank window when Custom width is on. Limited to the game area next to the side panel.",
-		position = 12, hidden=true
-	)
+	@ConfigItem(section = bankLayout, keyName = "width", name = "Width (px)", description = "Width of the bank window when Custom width is on. Limited to the game area next to the side panel.", position = 12, hidden = true)
 	default int width()
 	{
 		return 488;
 	}
 
-	@ConfigItem(section=bankLayout,keyName="customHeight",
-		name = "Custom height",
-		description = "Use the height below. When off the game decides: in resizable mode the bank follows the window, up to 800.",
-		position = 13, hidden=true)
+	@ConfigItem(section = bankLayout, keyName = "customHeight", name = "Custom height", description = "Use the height below. When off the game decides: in resizable mode the bank follows the window, up to 800.", position = 13, hidden = true)
 	default boolean customHeight()
 	{
 		return false;
 	}
 
 	@Range(min = 200, max = 4000)
-	@ConfigItem(section=bankLayout,keyName="height",
-		name = "Height (px)",
-		description = "Height of the bank window when Custom height is on. Limited to the game area.",
-		position = 14, hidden=true
-	)
+	@ConfigItem(section = bankLayout, keyName = "height", name = "Height (px)", description = "Height of the bank window when Custom height is on. Limited to the game area.", position = 14, hidden = true)
 	default int height()
 	{
 		return 330;
 	}
 
 	@Range(max = 60)
-	@ConfigItem(section=bankLayout,keyName="columns",
-		name = "Columns",
-		description = "Items per row. 0 = as many as fit the width.",
-		position = 15, hidden=true)
+	@ConfigItem(section = bankLayout, keyName = "columns", name = "Columns", description = "Items per row. 0 = as many as fit the width.", position = 15, hidden = true)
 	default int columns()
 	{
 		return 0;
 	}
 
-	@ConfigItem(section=bankLayout,keyName="depositButtons",
-		name = "Deposit buttons",
-		description = "Keep the three deposit buttons in the bottom bar, or stack them on the left side below the incinerator and storage buttons.",
-		position = 16, hidden=true)
+	@ConfigItem(section = bankLayout, keyName = "depositButtons", name = "Deposit buttons", description = "Keep the three deposit buttons in the bottom bar, or stack them on the left side below the incinerator and storage buttons.", position = 16, hidden = true)
 	default DepositButtons depositButtons()
 	{
 		return DepositButtons.BOTTOM;
 	}
 
-	@ConfigItem(section=bankLayout,keyName="alignDepositRight",
-		name = "Keep deposit buttons at right edge",
-		description = "When the deposit buttons are in the bottom bar, keep them at the right edge of a widened bank.",
-		position = 17, hidden=true)
+	@ConfigItem(section = bankLayout, keyName = "alignDepositRight", name = "Keep deposit buttons at right edge", description = "When the deposit buttons are in the bottom bar, keep them at the right edge of a widened bank.", position = 17, hidden = true)
 	default boolean alignDepositRight()
 	{
 		return true;

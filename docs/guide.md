@@ -202,7 +202,21 @@ Turning **Customize bank view** off restores regular controls while retaining th
 
 **Compact search button** uses the small search button in the regular bank, including the Inventory Setups bank view. Its native frame resizes with the button so resource-pack borders are not clipped. Customized strips already use this size. **Restore original worn equipment button** keeps Show worn items in its native position; turn it off to resume the saved strip placement. Both options start off and are available in **Bank layout** settings and **Tools → Customize bank view**.
 
-Potion storage keeps its two-column layout when the bank is resized. Compatibility handling aligns native potion icons, text and favourites with Potion Storage Customizer layouts and recognised Potion Storage Bars widgets. Those plugins retain their ordering, bar styles and native actions. If another potion-storage plugin draws additional controls, include its name when reporting a layout problem.
+Potion storage keeps its two-column layout when the bank is resized. Rows and the background beside incomplete rows resize together, and the bank items underneath stay hidden along the right edge. Title dragging, corner resizing and the worn-equipment hover preview also work in potion storage.
+
+### Stored potions
+
+Enable **Potion storage → Rearrange stored potions** to drag potion rows within their Favorites, Potions or Unfinished Potions section. Ordering follows the bank's swap/insert mode and is saved for the current character and profile. Favorite hearts keep their normal action.
+
+Stored potions can supply matching items in Improved Banking's preset views. For normal bank tabs and searches, open **Tools → Stored potions** in the sidebar and choose a **Bank tab** and **Searches** setting for each potion type. Choices apply across its doses; numbered bank tabs must already exist. Open the bank to load the available stock.
+
+Right-click a potion in storage and choose **Add potion to bank window** to show it in the untabbed bank area and searches. A small chest beside its favorite heart marks an assigned bank tab. **Remove potion from bank window** removes that shortcut and its search inclusion without changing the stored doses. The sidebar allows bank-tab and search visibility to be controlled separately.
+
+Drag an added potion among ordinary bank items to position it. Neighboring items shift through adjacent slots rather than falling to the bottom of the bank. These mixed potion/item positions are a displayed layout; they do not reorder the server's bank contents or change deposit behavior. Ordinary item-to-item drags keep native behavior. Withdrawing a stored potion retains the selected native withdrawal action and quantity.
+
+**Potion Storage** retains ownership of normal-bank potion entries and searches while active, avoiding duplicate entries. **Potion Storage Customizer** retains ownership of storage-row ordering while active. Disable the corresponding plugin to use Improved Banking's implementation. Resizing also aligns recognized Potion Storage Bars widgets with their potion rows; those bars keep their own styles and actions.
+
+### Bank controls
 
 Hold Alt and drag a button to an edge strip. Buttons slide vertically on side strips and horizontally on bottom strips, staying centered across that strip. Saved gaps close as the bank shrinks; once space runs out, buttons flow to the nearest available strip in order. Expanding the bank restores their preferred spacing. Header controls can join the strips or return to the title area. Normal clicks keep native actions, tooltips and artwork.
 

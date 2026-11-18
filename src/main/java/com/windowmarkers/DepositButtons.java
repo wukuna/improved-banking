@@ -31,8 +31,7 @@ package com.windowmarkers;
 
 public enum DepositButtons
 {
-	BOTTOM("Bottom bar"),
-	LEFT("Left side");
+	BOTTOM("Bottom bar"), LEFT("Left side");
 
 	private final String label;
 
