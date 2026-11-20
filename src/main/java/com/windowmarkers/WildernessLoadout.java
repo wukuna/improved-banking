@@ -6,7 +6,7 @@ final class WildernessLoadout
 {
 	private static final Set<String> ACTIVITIES = new HashSet<>(Arrays.asList("Callisto", "Artio", "Venenatis",
 			"Spindel", "Vet'ion", "Calvar'ion", "Scorpia", "Chaos Fanatic", "Chaos Elemental", "Revenants", "Krystilia",
-			"King Black Dragon", "Green dragon", "Chaos Temple (church)", "Abyss", "Chest (Rogues' Castle)"));
+			"King Black Dragon", "Green dragon", "Crazy archaeologist", "Lava dragon", "Chaos Temple (church)", "Abyss", "Chest (Rogues' Castle)"));
 	private static final Map<Integer, String[]> BUDGET = new HashMap<>();
 	private static final Set<Integer> EQUIPMENT = new HashSet<>();
 	static

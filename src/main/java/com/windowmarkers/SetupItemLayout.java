@@ -64,7 +64,7 @@ final class SetupItemLayout
 			return apply(container, manager, columns, pitch, padding);
 		Widget[] children = container.getDynamicChildren();
 		if (children == null)
-			return null;
+			children = new Widget[0];
 		List<Widget> cells = new ArrayList<>();
 		Map<Integer, Widget> byId = new HashMap<>();
 		int oldEnd = 0;
@@ -76,7 +76,7 @@ final class SetupItemLayout
 				byId.putIfAbsent(manager.canonicalize(cell.getItemId()), cell);
 				oldEnd = Math.max(oldEnd, cell.getOriginalY() + 36);
 			}
-		if (cells.isEmpty() && !plan.hasBudgetExamples())
+		if (cells.isEmpty() && !plan.hasExamples())
 			return null;
 		List<Widget> runes = new ArrayList<>();
 		for (Widget cell : cells)
@@ -153,13 +153,13 @@ final class SetupItemLayout
 		Map<Integer, Widget> chosen = new HashMap<>();
 		for (var entry : plan.equipment.entrySet())
 			for (int id : entry.getValue())
-				if (byId.containsKey(id))
+				if (byId.containsKey(id) && !plan.heldEquipment.contains(entry.getKey()))
 				{
 					chosen.put(entry.getKey(), byId.get(id));
 					break;
 				}
 
-		if (plan.equipmentExample.containsKey(13))
+		if (plan.wildernessBudget && plan.equipmentExample.containsKey(13))
 		{
 			chosen.remove(13);
 			Widget ammo = byId.get(plan.equipmentExample.get(13));
@@ -169,7 +169,9 @@ final class SetupItemLayout
 
 		boolean fullVoid = true;
 		for (int slot : new int[] { 0, 4, 7, 9 })
-			if (!isVoid(chosen.get(slot), manager))
+			if (!isVoid(chosen.get(slot), manager)
+					&& !(plan.heldEquipment.contains(slot) && manager.getItemComposition(plan.equipmentExample.get(slot))
+							.getName().toLowerCase(Locale.ROOT).contains("void")))
 				fullVoid = false;
 		if (!fullVoid)
 			for (int slot : new int[] { 0, 4, 7, 9 })
@@ -235,7 +237,8 @@ final class SetupItemLayout
 				{
 					place(copies.add(container, null, example, manager), x, y);
 					notes.add(new InventoryNote(
-							"Budget gear suggestion: no matching usable item selected from your bank. Check equip requirements; this is not owned stock or a new guide rank.",
+							!plan.wildernessBudget || plan.heldEquipment.contains(position[0]) ? plan.equipmentNotes.get(example)
+									: "Budget gear suggestion: no matching usable item selected from your bank. Check equip requirements; this is not owned stock or a new guide rank.",
 							x, y));
 				}
 				else
@@ -273,7 +276,7 @@ final class SetupItemLayout
 			if (!showInventory)
 				break;
 			Integer id = plan.inventory.get(entry.getKey());
-			if (id == null || !byId.containsKey(id))
+			if (!plan.stockKnown && (id == null || !byId.containsKey(id)))
 			{
 				for (int alternative : InventoryPotionDoses.alternatives(entry.getValue().ids))
 				{
@@ -284,17 +287,18 @@ final class SetupItemLayout
 					}
 				}
 			}
-			Widget source = id == null ? null : byId.get(id), cell = source;
+			Widget source = id == null || plan.unavailableInventory.contains(entry.getKey()) ? null : byId.get(id), cell = source;
 			if (source == null || !placed.add(source))
 			{
 				if (copies == null)
 					continue;
-				cell = copies.add(container, source, entry.getValue().ids.get(0), manager);
+				cell = copies.add(container, source, id == null ? entry.getValue().ids.get(0) : id, manager);
 			}
 			int position = entry.getKey(), x = inventoryX + (position % inventoryColumns) * pitch;
 			int y = inventoryY + (position / inventoryColumns) * 36;
 			place(cell, x, y);
 			inventoryEnd = Math.max(inventoryEnd, y + 36);
+			String stockNote = plan.inventoryNotes.getOrDefault(entry.getKey(), "");
 			String note = entry.getValue().note;
 			if (id != null && !entry.getValue().ids.contains(id))
 				note = InventoryPotionDoses.known(id) ? InventoryPotionDoses.note(id)
@@ -322,6 +326,8 @@ final class SetupItemLayout
 						note += (note.isEmpty() ? "" : " ") + use;
 				}
 			}
+			if (!stockNote.isEmpty())
+				note = stockNote + (note.isEmpty() ? "" : " " + note);
 			if (!note.isEmpty())
 				notes.add(new InventoryNote(note, x, y));
 		}

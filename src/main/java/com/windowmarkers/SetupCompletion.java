@@ -11,6 +11,11 @@ final class SetupCompletion
 	static String style(String label)
 	{
 		String text = label.toLowerCase(Locale.ROOT);
+		int styles = (text.contains("magic") || text.contains("mage") ? 1 : 0)
+				+ (text.contains("ranged") || text.contains("range ") || text.equals("range") ? 1 : 0)
+				+ (text.contains("melee") || text.contains("flinching") ? 1 : 0);
+		if (styles > 1)
+			return "";
 		if (text.contains("magic") || text.contains("mage"))
 			return "magic";
 		if (text.contains("ranged") || text.contains("range ") || text.equals("range"))

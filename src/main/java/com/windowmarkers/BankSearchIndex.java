@@ -28,13 +28,19 @@ final class BankSearchIndex
 	BankSearchIndex(List<AutoCategories.Item> owned, List<Marker> markers, CustomPresets presets, int hitpoints,
 			Set<Integer> tradeable, BankCleanup.Progress progress)
 	{
+		this(owned, markers, presets, hitpoints, tradeable, progress, SetupPlayerState.unknown());
+	}
+
+	BankSearchIndex(List<AutoCategories.Item> owned, List<Marker> markers, CustomPresets presets, int hitpoints,
+			Set<Integer> tradeable, BankCleanup.Progress progress, SetupPlayerState playerState)
+	{
 		this.hitpoints = Math.max(1, Math.min(99, hitpoints));
 		cleanup = new BankCleanup(owned, tradeable, progress);
 		List<ItemCatalogueIndex.Item> facts = new ArrayList<>();
 		for (AutoCategories.Item item : owned)
 			facts.add(new ItemCatalogueIndex.Item(item, item.name,
 					item.slot == -2 ? ItemCatalogueIndex.fallbackSlot(item.id, item.name) : item.slot));
-		catalogue = new ItemCatalogueIndex(facts, false);
+		catalogue = new ItemCatalogueIndex(facts, false, playerState);
 		Set<Integer> ids = new HashSet<>();
 		for (AutoCategories.Item item : owned)
 		{

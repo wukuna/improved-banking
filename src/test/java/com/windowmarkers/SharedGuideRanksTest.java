@@ -121,7 +121,7 @@ public class SharedGuideRanksTest
 		assertEquals("2nd", TierPresentation.ordinal(2));
 		assertEquals("3rd", TierPresentation.ordinal(3));
 		assertEquals("", TierPresentation.ordinal(0));
-		assertEquals("", TierPresentation.ordinal(4));
+		assertEquals("4th", TierPresentation.ordinal(4));
 		assertEquals(new Color(138, 43, 226), TierPresentation.colour(config, 1));
 		assertEquals(new Color(0, 102, 170), TierPresentation.colour(config, 2));
 		assertEquals(new Color(0, 119, 68), TierPresentation.colour(config, 3));

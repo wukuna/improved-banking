@@ -40,6 +40,8 @@ final class GeRequirements
 
 	String locked(ItemCatalogueIndex.Item item)
 	{
+		if (allMaxed && !Boolean.FALSE.equals(ancientRings))
+			return "";
 		List<String> missing = new ArrayList<>();
 		if (CombatEquivalence.requiresMaxedSkills(item.fact) && !allMaxed)
 			missing.add("99 in every skill");

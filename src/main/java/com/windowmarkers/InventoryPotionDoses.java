@@ -44,6 +44,11 @@ final class InventoryPotionDoses
 		return DOSES.containsKey(id);
 	}
 
+	static int doses(int id)
+	{
+		return DOSES.containsKey(id) ? Integer.parseInt(DOSES.get(id)[3]) : 0;
+	}
+
 	static String note(int id)
 	{
 		return "Owned " + DOSES.get(id)[3]

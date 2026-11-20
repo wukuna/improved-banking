@@ -76,7 +76,7 @@ public class WildernessLoadoutTest
 		for (var part : result.loadout.sections())
 			assertTrue(part.equipment.isEmpty());
 		assertTrue(result.loadout.notEnoughGear());
-		assertTrue(result.loadout.hasBudgetExamples());
+		assertTrue(result.loadout.hasExamples());
 		var ranged = result.loadout.sections().get(0);
 		assertEquals(Integer.valueOf(2503), ranged.equipmentExample.get(4));
 		assertEquals(Integer.valueOf(2497), ranged.equipmentExample.get(7));
@@ -84,7 +84,7 @@ public class WildernessLoadoutTest
 		assertEquals(Integer.valueOf(892), ranged.equipmentExample.get(13));
 		assertEquals(Integer.valueOf(7460), result.loadout.sections().get(1).equipmentExample.get(9));
 		assertTrue(result.loadout.itemIds().isEmpty());
-		assertFalse(result.loadout.retainItems(Collections.emptySet()).hasBudgetExamples());
+		assertFalse(result.loadout.retainItems(Collections.emptySet()).hasExamples());
 	}
 
 	@Test

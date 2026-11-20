@@ -68,6 +68,12 @@ Mini-labels show short category names once per group. Custom groups retain the n
 
 ### Search, item lookup and custom presets
 
+Activity views keep each guide method separate, including Kraken DPS and AFK/sustain setups. Equipment ranks follow the source guide's columns; suitable owned alternatives are shown without inventing a guide rank. Fallbacks account for the activity, including required protective shields and defensive setups.
+
+When you do not own a listed equipment choice, the view shows a faded recommendation with any recorded conditions or unmet requirements. These previews have no withdrawal action. Carried and equipped items are also identified separately from banked copies. Two-handed weapons leave the offhand slot empty, and incompatible ammunition is omitted.
+
+Repeated inventory examples use available bank and potion-storage quantities. Excess examples are faded rather than making a single potion appear available in several slots. Tooltips include recorded dose, stock and preparation information. Recommendations are guide examples, not a readiness guarantee; conditions that the plugin cannot verify remain in the guide notes.
+
 Drag items inside a preset to swap two displayed cells or move an item into an empty space. Each repeated inventory item moves independently. Positions are saved for the current preset, bank width, character and RuneLite profile; your real bank order and other Bank Tag Layouts tabs stay unchanged. **Saved views → Reset preset item positions** restores the generated arrangement. After adding items in the custom-view editor, press **Add selected items**, then **Save changes**; the new items can be dragged in the open preset too.
 
 **Appearance** has independent switches for preset name tags, section headings, rank labels and item outlines/backgrounds. Floating name tags start hidden; section headings and 1st/2nd/3rd labels start visible. The bank title always identifies the selected preset. These switches also apply to activity searches and preserve saved group labels and colours.

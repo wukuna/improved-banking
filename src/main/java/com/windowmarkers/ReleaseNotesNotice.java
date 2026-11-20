@@ -18,13 +18,12 @@ import net.runelite.client.events.ProfileChanged;
 @Singleton
 final class ReleaseNotesNotice
 {
-	static final String RELEASE = "2026-11-17-potion-storage";
+	static final String RELEASE = "2026-11-19-presets";
 	static final String SEEN_KEY = "releaseNotesShown";
 	private static final String[] UPDATES = {
-			"Rearrange potion-storage rows and use stored potions in preset views.",
-			"Right-click stored potions to add them to bank tabs and searches; drag added potions into place.",
-			"A chest beside the favorite heart marks potions added to the bank window.",
-			"Fixed potion-storage resizing and background overlap while keeping window movement and equipment previews." };
+			"Updated Wiki setups with activity-specific owned alternatives and separate combat methods.",
+			"Missing equipment now appears as a faded recommendation instead of leaving an unexplained gap.",
+			"Presets distinguish banked, carried and equipped items, with potion quantities and requirement notes." };
 
 	@Inject
 	private Client client;

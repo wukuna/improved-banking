@@ -649,7 +649,7 @@
 538484:2	inventory	Inventory	Inventory
 538484:3	rune pouch	Inventory	Inventory
 553273:1	inventory	Inventory	Inventory
-55446:1	recommended equipment	Equipment	Magic (DPS)
+55446:1	recommended equipment	Equipment	Magic
 55446:2	inventory	Inventory	Magic (DPS)
 55446:3	rune pouch	Inventory	Magic (DPS)
 569290:1	inventory	Equipment	Entry level
@@ -851,6 +851,13 @@
 306436:12	rune pouch	Specific methods / Inventory	Solo cooking (mix of XP and permits)
 306436:7	inventory	Specific methods / Inventory & Equipment	Solo cooking 5 rounds (mix of XP and permits)
 306436:8	recommended equipment	Specific methods / Inventory & Equipment	Solo Cooking (5 Rounds)
-306436:9	recommended equipment	Specific methods / Equipment	Solo No Cooking
-306436:10	inventory	Specific methods / Inventory	Solo no cooking (max XP)
+306436:9	recommended equipment	Specific methods / Equipment	Solo Cooking (5 Rounds)
+306436:10	inventory	Specific methods / Inventory	Solo No Cooking
 306436:11	rune pouch	Specific methods / Inventory	Solo no cooking (max XP)
+55446:4	recommended equipment	AFK / Sustain	Magic (AFK / Sustain)
+55446:5	inventory	AFK / Sustain	Magic (AFK / Sustain)
+55446:6	rune pouch	AFK / Sustain	Magic (AFK / Sustain)
+41977:24	equipment	Equipment / Two-handed	Two-handed
+41977:25	inventory	Equipment / Two-handed	Two-handed
+41977:26	rune pouch	Equipment / Two-handed	Two-handed
+516379:18	recommended equipment	Equipment / Shield down magic	Shield down

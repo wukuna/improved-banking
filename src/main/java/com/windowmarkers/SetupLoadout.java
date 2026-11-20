@@ -104,6 +104,10 @@ final class SetupLoadout
 	final Map<Integer, Integer> inventory;
 	final Map<Integer, Field> inventoryExample;
 	final Map<Integer, String> equipmentNotes = new HashMap<>();
+	final Map<Integer, String> inventoryNotes = new HashMap<>();
+	final Set<Integer> unavailableInventory = new HashSet<>();
+	final Set<Integer> heldEquipment = new HashSet<>();
+	boolean stockKnown;
 	String equipmentNote = "";
 	String sectionName = "";
 	boolean wildernessBudget;
@@ -128,9 +132,9 @@ final class SetupLoadout
 		return false;
 	}
 
-	boolean hasBudgetExamples()
+	boolean hasExamples()
 	{
-		return wildernessBudget && sections().stream().anyMatch(s -> !s.equipmentExample.isEmpty());
+		return sections().stream().anyMatch(s -> !s.equipmentExample.isEmpty() || !s.inventoryExample.isEmpty());
 	}
 
 	private List<SetupLoadout> sections = Collections.emptyList();
@@ -205,6 +209,15 @@ final class SetupLoadout
 				result.equipmentNotes.put(id, note);
 		});
 		result.equipmentNote = equipmentNote;
+		result.inventoryNotes.putAll(inventoryNotes);
+		result.unavailableInventory.addAll(unavailableInventory);
+		result.stockKnown = stockKnown;
+		for (int slot : heldEquipment)
+			if (gear.containsKey(slot))
+			{
+				result.heldEquipment.add(slot);
+				result.equipmentExample.put(slot, equipmentExample.get(slot));
+			}
 		result.sectionName = sectionName;
 		result.wildernessBudget = wildernessBudget;
 		result.equipmentSource = equipmentSource;
@@ -230,7 +243,7 @@ final class SetupLoadout
 				&& SetupItemRequirements.reviewReason(setup.id, item.fact).isEmpty();
 	}
 
-	private static boolean equipmentReady(ActivitySetups.Setup setup, ItemCatalogueIndex.Item item)
+	static boolean equipmentReady(ActivitySetups.Setup setup, ItemCatalogueIndex.Item item)
 	{
 		return ready(item) && SetupItemRequirements.reviewReason(setup.id, item.fact).isEmpty()
 				&& !ItemVariantState.needsRankReview(item.fact, setup.activity, setup.label);
@@ -239,8 +252,18 @@ final class SetupLoadout
 	static SetupLoadout build(List<ActivitySetups.Setup> matched, Map<Integer, ItemCatalogueIndex.Item> owned,
 			Set<Integer> visible, String inventoryContext)
 	{
+		return build(matched, owned, visible, inventoryContext, SetupPlayerState.unknown());
+	}
+
+	static SetupLoadout build(List<ActivitySetups.Setup> matched, Map<Integer, ItemCatalogueIndex.Item> owned,
+			Set<Integer> visible, String inventoryContext, SetupPlayerState state)
+	{
 		if (!WildernessLoadout.applies(matched))
-			return buildSections(matched, owned, visible, inventoryContext);
+		{
+			SetupLoadout plan = buildSections(matched, owned, visible, inventoryContext, state);
+			SetupEquipmentExamples.fill(plan, owned, state);
+			return plan;
+		}
 		Map<Integer, ItemCatalogueIndex.Item> budget = new LinkedHashMap<>();
 		owned.forEach((id, item) ->
 		{
@@ -257,24 +280,24 @@ final class SetupLoadout
 					inventoryContext = setup.id;
 					break;
 				}
-		SetupLoadout plan = buildSections(WildernessLoadout.defaults(matched), budget, shown, inventoryContext);
+		SetupLoadout plan = buildSections(WildernessLoadout.defaults(matched), budget, shown, inventoryContext, state);
 		if (plan != null)
 			WildernessLoadout.finish(plan);
 		return plan;
 	}
 
 	private static SetupLoadout buildSections(List<ActivitySetups.Setup> matched,
-			Map<Integer, ItemCatalogueIndex.Item> owned, Set<Integer> visible, String inventoryContext)
+			Map<Integer, ItemCatalogueIndex.Item> owned, Set<Integer> visible, String inventoryContext, SetupPlayerState state)
 	{
 
 		if (matched.size() < 2)
-			return buildOne(matched, owned, visible, inventoryContext);
+			return buildOne(matched, owned, visible, inventoryContext, state);
 		Set<String> activities = new HashSet<>();
 		matched.forEach(s -> activities.add(s.activity));
 		Set<String> families = new HashSet<>();
 		activities.forEach(a -> families.add(ActivityMenu.canonical(a).split("/", 2)[0]));
 		if (families.size() != 1)
-			return buildOne(matched, owned, visible, inventoryContext);
+			return buildOne(matched, owned, visible, inventoryContext, state);
 		String activityName = families.iterator().next();
 		Map<String, List<ActivitySetups.Setup>> groups = new LinkedHashMap<>();
 		boolean recommended = matched.stream().anyMatch(s -> TABLES.containsKey(s.id)
@@ -299,11 +322,11 @@ final class SetupLoadout
 			groups.computeIfAbsent(name, k -> new ArrayList<>()).add(setup);
 		}
 		if (groups.size() < 2)
-			return buildOne(matched, owned, visible, inventoryContext);
+			return buildOne(matched, owned, visible, inventoryContext, state);
 		List<SetupLoadout> parts = new ArrayList<>();
 		groups.forEach((name, setups) ->
 		{
-			SetupLoadout part = buildOne(setups, owned, visible, inventoryContext);
+			SetupLoadout part = buildOne(setups, owned, visible, inventoryContext, state);
 			if (part != null)
 			{
 				part.sectionName = name;
@@ -311,7 +334,7 @@ final class SetupLoadout
 			}
 		});
 		if (parts.isEmpty())
-			return buildOne(matched, owned, visible, inventoryContext);
+			return buildOne(matched, owned, visible, inventoryContext, state);
 		SetupLoadout first = parts.get(0);
 		SetupLoadout result = new SetupLoadout(activityName, first.equipmentName, first.inventoryName, first.equipment,
 				first.inventory, first.inventoryExample);
@@ -337,7 +360,7 @@ final class SetupLoadout
 	}
 
 	private static SetupLoadout buildOne(List<ActivitySetups.Setup> matched,
-			Map<Integer, ItemCatalogueIndex.Item> owned, Set<Integer> visible, String inventoryContext)
+			Map<Integer, ItemCatalogueIndex.Item> owned, Set<Integer> visible, String inventoryContext, SetupPlayerState state)
 	{
 		ActivitySetups.Setup gear = null;
 		int best = -1;
@@ -346,19 +369,11 @@ final class SetupLoadout
 			Table table = TABLES.get(setup.id);
 			if (table == null || !table.kind.contains("equipment"))
 				continue;
-			Set<Integer> slots = new HashSet<>(), available = new HashSet<>();
-			for (Field field : table.fields)
-				if (field.slot() >= 0)
-				{
-					slots.add(field.slot());
-					if (field.ids.stream().anyMatch(id -> visible.contains(id) && equipmentReady(setup, owned.get(id))
-							&& owned.get(id).slot == field.slot()))
-						available.add(field.slot());
-				}
-
 			if (!layoutTable(table))
 				continue;
-			int score = available.size() * 100 + (table.kind.equals("recommended equipment") ? 20 : 0) + slots.size();
+			Map<Integer, List<Integer>> available = chooseEquipment(equipmentFields(table), setup, owned, visible,
+					owned.values(), new HashMap<>(), state);
+			int score = available.size() * 100 + (table.kind.equals("recommended equipment") ? 20 : 0) + slotCount(table);
 			if (score > best)
 			{
 				gear = setup;
@@ -377,16 +392,13 @@ final class SetupLoadout
 			return null;
 		Table table = TABLES.get(anchor.id);
 		Map<Integer, List<Integer>> equipment = new LinkedHashMap<>();
-		List<Field> fields = gear == null ? new ArrayList<>() : new ArrayList<>(table.fields);
-		fields.sort(Comparator.comparingInt(Field::order));
-
-		fields.sort(Comparator.comparingInt((Field f) -> f.slot() == 3 ? 0 : 1).thenComparingInt(Field::order));
+		List<Field> fields = gear == null ? Collections.emptyList() : equipmentFields(table);
 		Map<Integer, String> equipmentNotes = new HashMap<>();
 		Collection<ItemCatalogueIndex.Item> requirements = owned.values();
 		for (int pass = 0; pass < 4; pass++)
 		{
 			Map<Integer, List<Integer>> selected = chooseEquipment(fields, gear, owned, visible, requirements,
-					equipmentNotes);
+					equipmentNotes, state);
 			if (gear != null)
 				completeEquipment(selected, gear, table, owned, requirements, equipmentNotes);
 			if (selected.equals(equipment))
@@ -420,8 +432,10 @@ final class SetupLoadout
 				}
 			boolean paired = gear != null && setup.id.equals(INVENTORY_PAIRS.get(gear.id));
 			boolean sameStyle = gear != null && !table.style.isEmpty() && candidate.style.equalsIgnoreCase(table.style);
-			boolean sameContext = sameStyle && !table.context.isEmpty()
-					&& candidate.context.equalsIgnoreCase(table.context);
+			boolean sameContext = gear != null && SetupActivityRules.sameMethod(table, candidate);
+			if (gear != null && !paired && !sameContext && !setup.id.equals(inventoryContext)
+					&& !SetupActivityRules.inventoryCompatible(anchor.activity, table, candidate))
+				continue;
 
 			int preference = setup.id.equals(inventoryContext) ? 5
 					: paired ? 4 : sameContext ? 3 : sameStyle ? 2 : matched.contains(setup) ? 1 : 0;
@@ -457,8 +471,16 @@ final class SetupLoadout
 				inventoryExample);
 		result.equipmentSource = gear == null ? "" : gear.id;
 		result.equipmentNotes.putAll(equipmentNotes);
-		result.equipmentNote = gear == null ? "" : SWITCH_NOTES.getOrDefault(gear.id, "");
+		result.equipmentNote = (gear == null ? "" : SWITCH_NOTES.getOrDefault(gear.id, "") + " ")
+				+ SetupActivityRules.note(anchor.activity);
 		return result;
+	}
+
+	private static List<Field> equipmentFields(Table table)
+	{
+		List<Field> fields = new ArrayList<>(table.fields);
+		fields.sort(Comparator.comparingInt((Field f) -> f.slot() == 3 ? 0 : 1).thenComparingInt(Field::order));
+		return fields;
 	}
 
 	private static List<Integer> inventoryAlternatives(ActivitySetups.Setup inventory, Field wanted,
@@ -502,72 +524,14 @@ final class SetupLoadout
 			Map<Integer, ItemCatalogueIndex.Item> owned, Collection<ItemCatalogueIndex.Item> requirements,
 			Map<Integer, String> notes)
 	{
-		String style = SetupCompletion.style(table.style);
-		if (style.isEmpty() && equipment.containsKey(3))
-		{
-			ItemCatalogueIndex.Item weapon = owned.get(equipment.get(3).get(0));
-			String role = ItemTaxonomy.weaponRole(ItemVariantState.familyName(weapon.fact));
-			style = role == null ? "" : SetupCompletion.style(role);
-		}
-		if (style.isEmpty())
-			return;
-		Set<Integer> protectedSlots = SetupCompletion.protectedSlots(gear.activity);
-
-		if (table.fields.stream().anyMatch(f -> f.slot() == 3))
-		{
-			protectedSlots = new HashSet<>(protectedSlots);
-			protectedSlots.add(3);
-		}
-		List<ActivitySetups.Setup> donors = new ArrayList<>();
-		for (ActivitySetups.Setup candidate : ActivitySetups.forActivity(gear.activity))
-		{
-			Table source = TABLES.get(candidate.id);
-			if (source != null && source.kind.equals("recommended equipment")
-					&& SetupCompletion.style(source.style).equals(style))
-				donors.add(candidate);
-		}
-		String fallback = style.equals("magic") ? "364045:3" : style.equals("ranged") ? "364045:2" : "364045:1";
-		ActivitySetups.Setup general = ActivitySetups.byId(fallback);
-		if (general != null)
-			donors.add(general);
-		for (ActivitySetups.Setup donor : donors)
-		{
-			List<Field> fields = new ArrayList<>(TABLES.get(donor.id).fields);
-			fields.sort(Comparator.comparingInt((Field f) -> f.slot() == 3 ? 0 : 1).thenComparingInt(Field::order));
-			Set<Integer> missing = new HashSet<>(Arrays.asList(0, 1, 2, 3, 4, 5, 7, 9, 10, 12, 13));
-			missing.removeAll(equipment.keySet());
-			missing.removeAll(protectedSlots);
-			if (!donor.activity.equals(gear.activity))
-				missing.remove(3);
-			ItemCatalogueIndex.Item weapon = equipment.containsKey(3) ? owned.get(equipment.get(3).get(0)) : null;
-			for (Field field : fields)
-				if (missing.contains(field.slot()))
-					for (int id : field.ids)
-					{
-						ItemCatalogueIndex.Item item = owned.get(id);
-						String note = field.itemNotes.getOrDefault(id, field.note);
-						if (!equipmentReady(donor, item) || item.slot != field.slot()
-								|| !SetupEquipmentChoice.allowed(item, note, weapon, requirements))
-							continue;
-						List<Integer> options = equipment.computeIfAbsent(field.slot(), k -> new ArrayList<>());
-						if (!options.contains(id))
-						{
-							options.add(id);
-							notes.put(id,
-									"Owned " + style
-											+ " alternative for a missing guide slot; not a new boss-specific ranking. "
-											+ note);
-						}
-						if (field.slot() == 3 && weapon == null)
-							weapon = item;
-					}
-		}
-		SetupCompletion.fill(equipment, owned, style, notes, protectedSlots);
+		SetupFallbacks.fill(equipment, gear, table, owned, requirements, notes);
+		if (gear.activity.equals("Abyssal Sire"))
+			SetupCompletion.fill(equipment, owned, SetupCompletion.style(table.style), notes, Collections.emptySet());
 	}
 
 	private static Map<Integer, List<Integer>> chooseEquipment(List<Field> fields, ActivitySetups.Setup gear,
 			Map<Integer, ItemCatalogueIndex.Item> owned, Set<Integer> visible,
-			Collection<ItemCatalogueIndex.Item> requirements, Map<Integer, String> equipmentNotes)
+			Collection<ItemCatalogueIndex.Item> requirements, Map<Integer, String> equipmentNotes, SetupPlayerState state)
 	{
 		Map<Integer, List<Integer>> equipment = new LinkedHashMap<>();
 		equipmentNotes.clear();
@@ -583,7 +547,7 @@ final class SetupLoadout
 				if (!visible.contains(id) || !equipmentReady(gear, item) || item.slot != slot)
 					continue;
 				String note = field.itemNotes.getOrDefault(id, field.note);
-				if (!SetupEquipmentChoice.allowed(item, note, weapon, requirements))
+				if (!SetupEquipmentChoice.allowed(item, note, weapon, requirements, state.onTask(gear.activity)))
 					continue;
 				List<Integer> options = equipment.computeIfAbsent(slot, k -> new ArrayList<>());
 				if (!options.contains(id))

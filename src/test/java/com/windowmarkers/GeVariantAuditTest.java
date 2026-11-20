@@ -103,8 +103,8 @@ public class GeVariantAuditTest
 		assertEquals(0, index.find("sulliuscep weapon", "104707:1").ranks.get(21015).tier);
 		ItemCatalogueIndex.Result ammo = index.find("fight cave ammo", "28467:1");
 		assertTrue(ids(ammo).containsAll(Arrays.asList(11230, 25849)));
-		assertEquals(1, ammo.ranks.get(11230).tier);
-		assertEquals(2, ammo.ranks.get(25849).tier);
+		assertEquals(2, ammo.ranks.get(11230).tier);
+		assertEquals(3, ammo.ranks.get(25849).tier);
 		assertTrue(ammo.ranks.get(11230).explanation.contains("blowpipe"));
 	}
 

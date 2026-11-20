@@ -13,7 +13,7 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 ## What you can do
 
 - **Find items:** search categories, activities, item uses and saved groups. Optionally add those matches to the bank’s native search.
-- **Plan an activity:** open equipment and inventory views with guide context and owned alternatives.
+- **Plan an activity:** open equipment and inventory views with guide context, activity-specific owned alternatives and faded recommendations for missing gear. Carried and equipped items can appear as previews; banked copies retain their normal withdrawal actions.
 - **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place, including spare space on the right. Right-click a moved item to return it to its preset position. Your stored bank order stays unchanged.
 - **Mark and label groups:** link markers to items or draw an area, then customize borders, backgrounds and labels.
 - **Customize the bank:** drag to move and resize it, adjust column spacing, and Alt-drag compact controls into the side or bottom racks. Optional switches use compact search in the regular bank or restore the original worn-equipment button position.

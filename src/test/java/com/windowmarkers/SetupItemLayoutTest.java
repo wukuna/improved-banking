@@ -12,6 +12,43 @@ import static org.mockito.Mockito.*;
 public class SetupItemLayoutTest
 {
 	@Test
+	public void missingEquipmentUsesNonInteractivePreviewsAndLeavesTwoHandedOffhandEmpty()
+	{
+		for (String id : List.of("224363:1", "569290:3", "569290:6", "256152:8"))
+			for (int columns : new int[] { 3, 6, 8 })
+			{
+				var plan = SetupLoadout.build(List.of(ActivitySetups.byId(id)), Map.of(), Set.of(), "");
+				when(manager.getItemStats(22325)).thenReturn(new ItemStats(true, 0, 0,
+						ItemEquipmentStats.builder().slot(3).isTwoHanded(true).build()));
+				Widget container = mock(Widget.class);
+				List<Widget> made = new ArrayList<>();
+				when(container.createChild(anyInt(), anyInt())).thenAnswer(i ->
+				{
+					Widget widget = mutableCell();
+					made.add(widget);
+					return widget;
+				});
+				var copies = new SetupInventoryWidgets();
+				var headings = new ArrayList<SetupItemLayout.Heading>();
+				var notes = new ArrayList<SetupItemLayout.InventoryNote>();
+				assertNotNull(SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Map.of(), headings,
+						copies, notes));
+				assertTrue(made.stream().anyMatch(w -> w.getOriginalX() == 51 + 48 && w.getOriginalY() == 22));
+				if (id.equals("569290:6"))
+					assertTrue(headings.stream().anyMatch(h -> h.emptySlot && h.text.equals("2H")));
+				assertTrue(notes.stream().anyMatch(n -> n.text.startsWith("Wiki equipment suggestion")));
+				for (Widget widget : made)
+				{
+					assertTrue(copies.preview(widget));
+					verify(widget).setOpacity(150);
+					verify(widget).setClickMask(0);
+					verify(widget, never()).setAction(anyInt(), anyString());
+				}
+				assertNoOverlap(made, headings);
+			}
+	}
+
+	@Test
 	public void emptyBudgetEquipmentRendersMutedNonInteractiveSuggestionsAndTwoHandedSlot()
 	{
 		for (int columns : new int[] { 3, 6, 8 })
@@ -178,9 +215,9 @@ public class SetupItemLayoutTest
 			assertEquals(plan.sections().size(), headings.stream().filter(h -> h.text.equals("Equipment")).count());
 			assertEquals(1, headings.stream().filter(h -> h.text.equals("Recommended inventory")).count());
 			assertTrue(headings.stream().anyMatch(h -> h.text.equals("Shared inventory above")));
-			assertTrue(headings.stream().anyMatch(h -> h.emptySlot && h.text.equals("Head")));
+			assertFalse(headings.stream().anyMatch(h -> h.emptySlot && h.text.equals("Head")));
 			assertFalse(headings.stream().anyMatch(h -> h.emptySlot && h.text.equals("Feet")));
-			assertTrue(notes.stream().anyMatch(n -> n.text.startsWith("No suitable ready owned item")));
+			assertTrue(notes.stream().anyMatch(n -> n.text.startsWith("Wiki equipment suggestion")));
 		}
 	}
 
@@ -266,11 +303,12 @@ public class SetupItemLayoutTest
 			var notes = new ArrayList<SetupItemLayout.InventoryNote>();
 			int[] ends = SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Collections.emptyMap(),
 					new ArrayList<>(), copies, notes);
-			assertEquals(27, made.size());
+			assertEquals(27 + plan.equipmentExample.size(), made.size());
 			assertEquals(2, made.stream().filter(w -> w.getItemId() == 6685).count());
 			Set<String> positions = new HashSet<>();
 			made.add(brew);
 			int originX = 51 + (columns >= 8 ? 4 * 48 : 0), originY = columns >= 8 ? 22 : 220;
+			made.removeIf(widget -> widget.getOriginalX() < originX || widget.getOriginalY() < originY);
 			for (Widget widget : made)
 			{
 				assertTrue(widget.getOriginalX() >= originX && widget.getOriginalX() < originX + 4 * 48);

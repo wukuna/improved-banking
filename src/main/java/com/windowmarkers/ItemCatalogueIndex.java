@@ -120,6 +120,12 @@ final class ItemCatalogueIndex
 		return row != null && row[2].equalsIgnoreCase(name) ? Integer.parseInt(row[1]) : -1;
 	}
 
+	static Item guideItem(int id)
+	{
+		String[] row = SLOTS.get(id);
+		return row == null ? null : new Item(id, row[2], Integer.parseInt(row[1]), new String[] { "Wear" });
+	}
+
 	private final Map<Integer, Item> items = new HashMap<>();
 	private final Map<String, Set<Integer>> categories = new LinkedHashMap<>();
 	private final Map<AutoCategories.Preset, Set<Integer>> presets = new EnumMap<>(AutoCategories.Preset.class);
@@ -131,6 +137,7 @@ final class ItemCatalogueIndex
 	private final Set<String> exactNames = new HashSet<>();
 	private final Set<String> vocabulary = new HashSet<>();
 	private final boolean ge;
+	private final SetupPlayerState playerState;
 
 	ItemCatalogueIndex(List<Item> catalogue)
 	{
@@ -139,6 +146,12 @@ final class ItemCatalogueIndex
 
 	ItemCatalogueIndex(List<Item> catalogue, boolean ge)
 	{
+		this(catalogue, ge, SetupPlayerState.unknown());
+	}
+
+	ItemCatalogueIndex(List<Item> catalogue, boolean ge, SetupPlayerState playerState)
+	{
+		this.playerState = playerState;
 		this.ge = ge;
 		Map<Integer, List<String>> itemGroups = new HashMap<>();
 		for (Item item : catalogue)
@@ -486,7 +499,11 @@ final class ItemCatalogueIndex
 		Map<Integer, Rank> ranks = new HashMap<>();
 		if (!ge || result.size() <= LIMIT || !matched.isEmpty() || !qualifiers.tiers.isEmpty())
 			for (Item item : result)
-				ranks.put(item.id, rank(item, matched, wantedSlot));
+			{
+				String locked = playerState.locked(item);
+				ranks.put(item.id, locked.isEmpty() ? rank(item, matched, wantedSlot)
+						: new Rank(0, "Not currently equipable: " + locked));
+			}
 		if (!qualifiers.tiers.isEmpty())
 		{
 			result.removeIf(item -> !qualifiers.accepts(ranks.get(item.id)));
@@ -494,10 +511,11 @@ final class ItemCatalogueIndex
 			ranks.keySet().retainAll(retained);
 		}
 		SetupLoadout loadout = !ge && wantedSlot < 0 && qualifiers.tiers.isEmpty()
-				? SetupLoadout.build(matched, items, found, inventoryContext)
+				? SetupLoadout.build(matched, playerState.usable(items), playerState.visible(found), inventoryContext, playerState)
 				: null;
 		if (loadout != null)
 		{
+			playerState.annotate(loadout);
 			if (loadout.wildernessBudget)
 			{
 				result.removeIf(item -> !WildernessLoadout.allowed(item));

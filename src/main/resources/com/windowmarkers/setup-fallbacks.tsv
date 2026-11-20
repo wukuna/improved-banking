@@ -1,0 +1,185 @@
+magic	0	Ancestral hat
+magic	0	Virtus mask
+ranged	0	Zamorak coif
+ranged	0	Saradomin coif
+ranged	0	Guthix coif
+ranged	0	Bandos coif
+ranged	0	Armadyl coif
+ranged	0	Ancient coif
+magic	0	Blue moon helm
+magic	0	Ahrim's hood
+magic	0	Dagon'hai hat
+magic	0	Infinity hat
+magic	0	Bloodbark helm
+magic	0	Mystic hat
+magic	0	Xerician hat
+magic	0	Wizard hat
+magic	4	Blue moon chestplate
+magic	4	Ahrim's robetop
+magic	4	Dagon'hai robe top
+magic	4	Infinity top
+magic	4	Bloodbark body
+magic	4	Mystic robe top
+magic	4	Xerician top
+magic	4	Wizard robe
+magic	7	Blue moon tassets
+magic	7	Ahrim's robeskirt
+magic	7	Dagon'hai robe bottom
+magic	7	Infinity bottoms
+magic	7	Bloodbark legs
+magic	7	Mystic robe bottom
+magic	7	Xerician robe
+magic	7	Zamorak monk bottom
+magic	9	Tormented bracelet
+magic	9	Barrows gloves
+magic	9	Infinity gloves
+magic	9	Mystic gloves
+magic	10	Eternal boots
+magic	10	Infinity boots
+magic	10	Mystic boots
+magic	5	Mage's book
+magic	5	Book of darkness
+magic	5	Unholy book
+magic	1	Guthix cape
+magic	1	Saradomin cape
+magic	1	Zamorak cape
+magic	2	Occult necklace
+magic	2	Amulet of fury
+magic	2	Amulet of glory
+magic	2	Amulet of magic
+magic	12	Seers ring (i)
+magic	12	Seers ring
+magic	12	Ring of shadows
+magic	12	Lunar ring
+melee	0	Helm of neitiznot
+melee	0	Berserker helm
+melee	0	Warrior helm
+melee	0	Rune full helm
+melee	0	Adamant full helm
+melee	4	Fighter torso
+melee	4	Blood moon chestplate
+melee	4	Obsidian platebody
+melee	4	Rune platebody
+melee	4	Adamant platebody
+melee	7	Blood moon tassets
+melee	7	Obsidian platelegs
+melee	7	Rune platelegs
+melee	7	Rune plateskirt
+melee	7	Adamant platelegs
+melee	7	Adamant plateskirt
+melee	9	Barrows gloves
+melee	9	Dragon gloves
+melee	9	Rune gloves
+melee	9	Adamant gloves
+melee	9	Combat bracelet
+melee	10	Dragon boots
+melee	10	Rune boots
+melee	10	Climbing boots
+melee	10	Adamant boots
+melee	5	Dragon defender
+melee	5	Rune defender
+melee	5	Adamant defender
+melee	5	Mithril defender
+melee	1	Fire cape
+melee	1	Obsidian cape
+melee	1	Mythical cape
+melee	2	Amulet of fury
+melee	2	Amulet of glory
+melee	2	Amulet of strength
+melee	2	Amulet of power
+melee	12	Berserker ring (i)
+melee	12	Berserker ring
+melee	12	Brimstone ring
+melee	12	Ring of shadows
+ranged	0	Archer helm
+ranged	0	Coif
+ranged	4	Ancient d'hide body
+ranged	4	Armadyl d'hide body
+ranged	4	Bandos d'hide body
+ranged	4	Guthix d'hide body
+ranged	4	Saradomin d'hide body
+ranged	4	Zamorak d'hide body
+ranged	4	Black d'hide body
+ranged	4	Red d'hide body
+ranged	4	Blue d'hide body
+ranged	4	Green d'hide body
+ranged	7	Ancient chaps
+ranged	7	Armadyl chaps
+ranged	7	Bandos chaps
+ranged	7	Guthix chaps
+ranged	7	Saradomin chaps
+ranged	7	Zamorak chaps
+ranged	7	Black d'hide chaps
+ranged	7	Red d'hide chaps
+ranged	7	Blue d'hide chaps
+ranged	7	Green d'hide chaps
+ranged	9	Barrows gloves
+ranged	9	Black d'hide vambraces
+ranged	9	Red d'hide vambraces
+ranged	9	Blue d'hide vambraces
+ranged	9	Green d'hide vambraces
+ranged	10	Ancient d'hide boots
+ranged	10	Armadyl d'hide boots
+ranged	10	Bandos d'hide boots
+ranged	10	Guthix d'hide boots
+ranged	10	Saradomin d'hide boots
+ranged	10	Zamorak d'hide boots
+ranged	10	Snakeskin boots
+ranged	5	Odium ward
+ranged	5	Book of law
+ranged	5	Unholy book
+ranged	5	Black d'hide shield
+ranged	5	Red d'hide shield
+ranged	5	Blue d'hide shield
+ranged	5	Green d'hide shield
+ranged	1	Ava's assembler
+ranged	1	Ava's accumulator
+ranged	1	Ava's attractor
+ranged	2	Necklace of anguish
+ranged	2	Amulet of fury
+ranged	2	Amulet of glory
+ranged	2	Amulet of power
+ranged	12	Archers ring (i)
+ranged	12	Archers ring
+ranged	12	Brimstone ring
+ranged	12	Ring of shadows
+melee defence	0	Torag's helm
+melee defence	0	Verac's helm
+melee defence	0	Dharok's helm
+melee defence	0	Guthan's helm
+melee defence	0	Helm of neitiznot
+melee defence	0	Rune full helm
+melee defence	4	Torag's platebody
+melee defence	4	Dharok's platebody
+melee defence	4	Guthan's platebody
+melee defence	4	Rune platebody
+melee defence	7	Torag's platelegs
+melee defence	7	Dharok's platelegs
+melee defence	7	Verac's plateskirt
+melee defence	7	Guthan's chainskirt
+melee defence	7	Rune platelegs
+melee defence	7	Rune plateskirt
+melee defence	9	Barrows gloves
+melee defence	9	Dragon gloves
+melee defence	9	Rune gloves
+melee defence	9	Adamant gloves
+melee defence	9	Combat bracelet
+melee defence	10	Dragon boots
+melee defence	10	Rune boots
+melee defence	10	Climbing boots
+melee defence	10	Adamant boots
+melee defence	5	Dragon defender
+melee defence	5	Rune defender
+melee defence	5	Adamant defender
+melee defence	5	Mithril defender
+melee defence	1	Fire cape
+melee defence	1	Obsidian cape
+melee defence	1	Mythical cape
+melee defence	2	Amulet of fury
+melee defence	2	Amulet of glory
+melee defence	2	Amulet of strength
+melee defence	2	Amulet of power
+melee defence	12	Berserker ring (i)
+melee defence	12	Berserker ring
+melee defence	12	Brimstone ring
+melee defence	12	Ring of shadows

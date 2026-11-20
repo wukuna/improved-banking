@@ -76,6 +76,14 @@ final class ItemVariantState
 				: known.activityReview;
 	}
 
+	static boolean canPreviewEquipment(AutoCategories.Item item)
+	{
+		if (identityNeedsReview(item) || WikiCatalogue.hasFacet(item, "restricted"))
+			return false;
+		ItemVariantState known = STATES.get(item.id);
+		return known != null && known.state == State.CHECK || !needsActivityReview(item);
+	}
+
 	static boolean needsActivityReview(AutoCategories.Item item, String role)
 	{
 

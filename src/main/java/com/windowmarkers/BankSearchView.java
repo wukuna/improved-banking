@@ -93,7 +93,7 @@ final class BankSearchView
 			if (group.linked())
 				for (int id : group.linkedItemIds)
 					ids.add(id);
-		if (ids.isEmpty() && (loadout == null || !loadout.hasBudgetExamples()))
+		if (ids.isEmpty() && (loadout == null || !loadout.hasExamples()))
 		{
 			this.groups = Collections.emptyList();
 			return false;

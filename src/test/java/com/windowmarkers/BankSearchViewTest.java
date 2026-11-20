@@ -10,6 +10,21 @@ import static org.mockito.Mockito.*;
 
 public class BankSearchViewTest
 {
+	@Test
+	public void emptyBankCanOpenEquipmentRecommendationsWithoutAddingOwnedItems()
+	{
+		BankSearchView view = availableView();
+		view.tags = mock(TagManager.class);
+		view.bankTags = mock(BankTagsService.class);
+		view.items = mock(ItemManager.class);
+		SetupLoadout plan = SetupLoadout.build(List.of(ActivitySetups.byId("224363:1")), Map.of(), Set.of(), "");
+		Marker group = new Marker(0, 0, 48, 36);
+		group.linkedItemIds = new int[0];
+		assertTrue(view.show("Sarachnis", List.of(group), true, plan, Map.of()));
+		verify(view.bankTags).openBankTag(anyString(), anyInt());
+		assertTrue(plan.itemIds().isEmpty());
+	}
+
 	static BankSearchView availableView()
 	{
 		BankSearchView view = new BankSearchView();

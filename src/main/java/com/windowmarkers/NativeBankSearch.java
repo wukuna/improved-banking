@@ -208,7 +208,7 @@ final class NativeBankSearch
 							highlight.linkedItemIds = matches.stream().mapToInt(Integer::intValue).toArray();
 						}
 						if (!matches.equals(previous) || slots != previousSlots || (queryChanged
-								&& (!matches.isEmpty() || loadout != null && loadout.hasBudgetExamples())))
+								&& (!matches.isEmpty() || loadout != null && loadout.hasExamples())))
 							bankSearch.layoutBank();
 					});
 				}
@@ -294,7 +294,7 @@ final class NativeBankSearch
 	boolean groupBySlot()
 	{
 		return searching() && config.improvedBankSearch() && currentContext() && slots
-				&& (!matches.isEmpty() || loadout != null && loadout.hasBudgetExamples())
+				&& (!matches.isEmpty() || loadout != null && loadout.hasExamples())
 				&& Objects.equals(query, client.getVarcStrValue(VarClientID.MESLAYERINPUT));
 	}
 

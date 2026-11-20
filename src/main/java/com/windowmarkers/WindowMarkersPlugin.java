@@ -813,7 +813,10 @@ public class WindowMarkersPlugin extends Plugin
 	@Subscribe
 	public synchronized void onItemContainerChanged(net.runelite.api.events.ItemContainerChanged event)
 	{
-		if (event.getContainerId() == net.runelite.api.gameval.InventoryID.BANK)
+		if (event.getContainerId() == net.runelite.api.gameval.InventoryID.BANK
+				|| client.getWidget(net.runelite.api.gameval.InterfaceID.Bankmain.UNIVERSE) != null
+						&& (event.getContainerId() == net.runelite.api.gameval.InventoryID.INV
+								|| event.getContainerId() == net.runelite.api.gameval.InventoryID.WORN))
 			reloadCatalogue();
 	}
 
@@ -839,6 +842,8 @@ public class WindowMarkersPlugin extends Plugin
 			}
 			final int baseHitpoints = client.getRealSkillLevel(net.runelite.api.Skill.HITPOINTS);
 			final BankCleanup.Progress progress = BankCleanup.Progress.capture(client);
+			final SetupPlayerState playerState = SetupPlayerState.capture(client, itemManager,
+					potionStock == null ? java.util.Collections.emptyList() : potionStock.potions(), this::itemFact);
 			final java.util.Set<Integer> tradeable = new java.util.HashSet<>();
 			for (AutoCategories.Item item : owned)
 				if (itemManager.getItemComposition(item.id).isGeTradeable())
@@ -849,7 +854,7 @@ public class WindowMarkersPlugin extends Plugin
 
 				protected List<BankCatalogue.Choice> doInBackground()
 				{
-					searchIndex = new BankSearchIndex(owned, saved, templates, baseHitpoints, tradeable, progress);
+					searchIndex = new BankSearchIndex(owned, saved, templates, baseHitpoints, tradeable, progress, playerState);
 					return BankCatalogue.choices(owned, saved, templates);
 				}
 
@@ -1719,7 +1724,7 @@ public class WindowMarkersPlugin extends Plugin
 										|| !requireBankTags() || !unchanged.getAsBoolean())
 									return;
 								if (match.ids.isEmpty()
-										&& (match.loadout == null || !match.loadout.hasBudgetExamples()))
+										&& (match.loadout == null || !match.loadout.hasExamples()))
 								{
 									nativeSearch.closeSearch();
 									searchView.clear();

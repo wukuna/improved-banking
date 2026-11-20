@@ -11,6 +11,12 @@ final class SetupEquipmentChoice
 	static boolean allowed(ItemCatalogueIndex.Item item, String note, ItemCatalogueIndex.Item weapon,
 			Collection<ItemCatalogueIndex.Item> owned)
 	{
+		return allowed(item, note, weapon, owned, false);
+	}
+
+	static boolean allowed(ItemCatalogueIndex.Item item, String note, ItemCatalogueIndex.Item weapon,
+			Collection<ItemCatalogueIndex.Item> owned, boolean onTask)
+	{
 		String text = note.toLowerCase(Locale.ROOT), name = ItemVariantState.familyName(item.fact);
 		String main = weapon == null ? "" : ItemVariantState.familyName(weapon.fact);
 		if (item.slot == 13)
@@ -35,9 +41,13 @@ final class SetupEquipmentChoice
 			return true;
 		if (text.startsWith("only for phase "))
 			return true;
-		if (text.contains("slayer task") || text.contains("slayer assignment") || text.contains("task only")
-				|| text.startsWith("only on ") || text.contains("after completing") || text.contains("elite kourend")
-				|| text.contains("diary"))
+		if (text.contains("after completing") || text.contains("elite kourend") || text.contains("diary"))
+			return false;
+		boolean taskRequired = text.contains("slayer task") || text.contains("slayer assignment")
+				|| text.contains("task only") || text.contains("assigned as a slayer") || text.contains("on task");
+		if (taskRequired && !onTask)
+			return false;
+		if (text.startsWith("only on ") && !taskRequired)
 			return false;
 		if (text.contains("blood moon") && (text.contains("full") || text.contains("set")))
 		{
@@ -66,7 +76,7 @@ final class SetupEquipmentChoice
 			return main.equals("bow of faerdhinen") && (!text.contains("full crystal")
 					|| owns(owned, "crystal helm") && owns(owned, "crystal body") && owns(owned, "crystal legs"));
 
-		return !(text.startsWith("if ") || text.startsWith("when ") || text.startsWith("only ")
+		return taskRequired || !(text.startsWith("if ") || text.startsWith("when ") || text.startsWith("only ")
 				|| text.startsWith("with ") || text.startsWith("without ") || text.startsWith("requires ")
 				|| text.startsWith("best used with ") || text.startsWith("use only "));
 	}

@@ -22,7 +22,7 @@ public class RaidRoomLayoutTest
 				if (item.id != 27695)
 				{
 					assertTrue("Missing " + item.id, result.items.stream().anyMatch(i -> i.id == item.id));
-					assertEquals(2, result.ranks.get(item.id).tier);
+					assertEquals(1, result.ranks.get(item.id).tier);
 					assertEquals("Guardians — pickaxes",
 							RaidRecommendations.layoutGroup("Chambers of Xeric", item.fact));
 				}
@@ -47,7 +47,7 @@ public class RaidRoomLayoutTest
 				.contains("Verzik"));
 		assertEquals("",
 				RaidRecommendations.layoutGroup("Mining", GeSearchIndexTest.item(11920, "Dragon pickaxe", 3).fact));
-		assertTrue(RaidRecommendations
+		assertFalse(RaidRecommendations
 				.layoutGroups("Chambers of Xeric/Challenge Mode", GeSearchIndexTest.item(21003, "Elder maul", 3).fact)
 				.contains("Guardians — defence-drain specials"));
 		Set<String> raids = new HashSet<>();
