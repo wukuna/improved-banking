@@ -23,7 +23,9 @@ final class ReleaseNotesNotice
 	private static final String[] UPDATES = {
 			"Updated Wiki setups with activity-specific owned alternatives and separate combat methods.",
 			"Missing equipment now appears as a faded recommendation instead of leaving an unexplained gap.",
-			"Presets distinguish banked, carried and equipped items, with potion quantities and requirement notes." };
+			"Presets distinguish banked, carried and equipped items, with potion quantities and requirement notes.",
+			"Hide setups or alternative rows with x; restore them from Hidden sections at the top of the view.",
+			"Repeated banked inventory items now retain their normal withdrawal actions from every copy." };
 
 	@Inject
 	private Client client;

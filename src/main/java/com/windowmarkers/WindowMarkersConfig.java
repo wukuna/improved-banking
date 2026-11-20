@@ -137,6 +137,12 @@ public interface WindowMarkersConfig extends Config
 		return "";
 	}
 
+	@ConfigItem(keyName = "hiddenWikiSetups", name = "Hidden sections", description = "Hidden activity setups and suggestion rows. Restore them with Hidden sections in the preset view.", hidden = true)
+	default String hiddenWikiSetups()
+	{
+		return "";
+	}
+
 	@ConfigItem(keyName = "screenshotButton", name = "Button beside bank close", description = "Show a screenshot button next to the bank close button. Saves the full current tab locally.", section = screenshots, position = 0)
 	default boolean screenshotButton()
 	{

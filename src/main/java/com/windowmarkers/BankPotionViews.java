@@ -70,6 +70,7 @@ final class BankPotionViews
 	private final BankPotionPlacement placement = new BankPotionPlacement();
 	private final Map<MenuEntry, Click> clicks = new java.util.WeakHashMap<>();
 	private Widget parent;
+	private java.util.function.Function<Widget, Widget> menuSource = java.util.function.Function.identity();
 	private Runnable changed;
 	private volatile long generation;
 	private volatile boolean active;
@@ -440,6 +441,11 @@ final class BankPotionViews
 				.anyMatch(p -> p.enumId == original.enumId && p.itemId == original.itemId && p.quantity > 0);
 	}
 
+	void setMenuSource(java.util.function.Function<Widget, Widget> source)
+	{
+		menuSource = source;
+	}
+
 	@Subscribe(priority = 10)
 	public void onMenuEntryAdded(MenuEntryAdded event)
 	{
@@ -448,7 +454,7 @@ final class BankPotionViews
 		clicks.remove(menu);
 		if (parent == null || menu.getParam1() != InterfaceID.Bankmain.ITEMS)
 			return;
-		Widget source = parent.getChild(menu.getParam0());
+		Widget source = menuSource.apply(parent.getChild(menu.getParam0()));
 		BankPotionStock.Potion potion = drawn.get(source);
 		if (potion != null)
 			clicks.put(menu, new Click(parent, source, potion, context()));

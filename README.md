@@ -13,7 +13,8 @@ To hide the sidebar icon while keeping the plugin running, enable **Hide side pa
 ## What you can do
 
 - **Find items:** search categories, activities, item uses and saved groups. Optionally add those matches to the bank’s native search.
-- **Plan an activity:** open equipment and inventory views with guide context, activity-specific owned alternatives and faded recommendations for missing gear. Carried and equipped items can appear as previews; banked copies retain their normal withdrawal actions.
+- **Plan an activity:** open equipment and inventory views with guide context, activity-specific owned alternatives and faded recommendations for missing gear. Withdraw from any repeated banked item in an inventory example; missing, carried and equipped previews remain non-clickable.
+- **Choose visible sections:** use × after a setup or alternatives heading to hide that section. Remaining sections move up. Restore selected sections or all of them with **Hidden sections** at the top of the view; choices are remembered per RuneLite profile.
 - **Save a personal view:** copy a preset, edit its items and groups, and drag its displayed items into place, including spare space on the right. Right-click a moved item to return it to its preset position. Your stored bank order stays unchanged.
 - **Mark and label groups:** link markers to items or draw an area, then customize borders, backgrounds and labels.
 - **Customize the bank:** drag to move and resize it, adjust column spacing, and Alt-drag compact controls into the side or bottom racks. Optional switches use compact search in the regular bank or restore the original worn-equipment button position.

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.inject.Inject;
 import javax.swing.*;
@@ -1759,6 +1760,18 @@ public class WindowMarkersPlugin extends Plugin
 		});
 	}
 
+	void restoreHiddenWikiSetups()
+	{
+		HiddenWikiSetups hidden = bankLayout.hiddenWikiSetups;
+		long expected = lifecycle;
+		if (hidden.read().isEmpty())
+		{
+			setStatus("No sections are hidden in this profile.");
+			return;
+		}
+		hidden.showRestoreDialog(sidebar, hidden.read(), () -> active && expected == lifecycle);
+	}
+
 	void clearBankView()
 	{
 		final String owner, layout;
@@ -3123,7 +3136,7 @@ public class WindowMarkersPlugin extends Plugin
 				try
 				{
 					headings.clip(itemArea);
-					headings.setFont(new Font("Arial", Font.PLAIN, 11));
+					headings.setFont(SetupItemLayout.Heading.FONT);
 					headings.setColor(new Color(230, 205, 145));
 					Font headingFont = headings.getFont(), slotFont = headingFont.deriveFont(9f);
 					Color headingColor = headings.getColor(), slotColor = new Color(155, 155, 155, 130);
@@ -3144,8 +3157,7 @@ public class WindowMarkersPlugin extends Plugin
 						{
 							headings.setColor(headingColor);
 							headings.setFont(headingFont);
-							headings.drawString(MarkerPresentation.fit(heading.text, headings.getFontMetrics(),
-									Math.min(380, itemArea.width - heading.x - 6)), x, y);
+							headings.drawString(heading.displayText(itemArea.width), x, y);
 						}
 					}
 					net.runelite.api.Point mouse = client.getMouseCanvasPosition();

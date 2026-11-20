@@ -12,6 +12,116 @@ import static org.mockito.Mockito.*;
 public class SetupItemLayoutTest
 {
 	@Test
+	public void singleSetupHideControlKeepsExistingHeadingAndItemPositions()
+	{
+		var plan = SetupLoadout.build(List.of(ActivitySetups.byId("224363:1")), Map.of(), Set.of(), "");
+		Widget container = mock(Widget.class);
+		when(container.createChild(anyInt(), anyInt())).thenAnswer(i -> mutableCell());
+		var headings = new ArrayList<SetupItemLayout.Heading>();
+		int[] before = SetupItemLayout.apply(container, manager, 8, 48, 4, plan, Map.of(), headings,
+				new SetupInventoryWidgets(), new ArrayList<>());
+		List<String> positions = new ArrayList<>();
+		for (var heading : headings)
+			positions.add(heading.text + ":" + heading.x + ":" + heading.y);
+		int[] after = SetupItemLayout.apply(container, manager, 8, 48, 4, plan, Map.of(), headings,
+				new SetupInventoryWidgets(), new ArrayList<>(), Set.of());
+		assertArrayEquals(before, after);
+		for (int i = 0; i < headings.size(); i++)
+			assertEquals(positions.get(i), headings.get(i).text + ":" + headings.get(i).x + ":" + headings.get(i).y);
+		assertEquals("224363:1", headings.get(0).setupId);
+	}
+
+	@Test
+	public void hidingASetupReflowsLaterSectionsAndMovesTheSharedInventoryToTheFirstVisibleSection()
+	{
+		var plan = SetupLoadout.build(ActivitySetups.forActivity("Sarachnis"), Map.of(), Set.of(), "");
+		assertTrue(plan.sectionCount() > 1);
+		for (int columns : new int[] { 3, 8 })
+		{
+			Widget container = mock(Widget.class);
+			when(container.createChild(anyInt(), anyInt())).thenAnswer(i -> mutableCell());
+			var copies = new SetupInventoryWidgets();
+			var headings = new ArrayList<SetupItemLayout.Heading>();
+			var notes = new ArrayList<SetupItemLayout.InventoryNote>();
+			int[] all = SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Map.of(), headings,
+					copies, notes, Set.of());
+			List<String> ids = new ArrayList<>();
+			for (var heading : headings)
+				if (!heading.setupId.isEmpty())
+					ids.add(heading.setupId);
+			assertEquals(plan.sectionCount(), ids.size());
+			int oldSecondY = headings.stream().filter(h -> h.setupId.equals(ids.get(1))).findFirst().get().y;
+			int[] less = SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Map.of(), headings,
+					new SetupInventoryWidgets(), notes, Set.of(ids.get(0)));
+			assertFalse(headings.stream().anyMatch(h -> h.setupId.equals(ids.get(0))));
+			assertEquals(38, headings.stream().filter(h -> h.setupId.equals(ids.get(1))).findFirst().get().y);
+			assertTrue(oldSecondY > 16);
+			assertTrue(less[1] < all[1]);
+			assertTrue(headings.stream().anyMatch(h -> h.text.contains("Recommended inventory")));
+			SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Map.of(), headings,
+					new SetupInventoryWidgets(), notes, new HashSet<>(ids));
+			assertTrue(headings.stream().noneMatch(h -> !h.setupId.isEmpty()));
+			assertTrue(headings.isEmpty());
+			int[] restored = SetupItemLayout.apply(container, manager, columns, 48, 4, plan, Map.of(), headings,
+					new SetupInventoryWidgets(), notes, Set.of());
+			assertArrayEquals(all, restored);
+		}
+	}
+
+	@Test
+	public void hiddenAlternativeRowsCompactAndRestoreWithoutHidingRecommendedGear()
+	{
+		var plan = SetupLoadout.build(List.of(ActivitySetups.byId("224363:1")), Map.of(), Set.of(), "");
+		int recommended = plan.equipmentExample.get(0);
+		plan = SetupLoadout.build(List.of(ActivitySetups.byId("224363:1")),
+				Map.of(recommended, GeSearchIndexTest.item(recommended, "Recommended helm", 0)), Set.of(recommended), "");
+		Widget gear = cell(recommended, "Recommended helm", 0, "Wear", 51, 0);
+		Widget head = cell(1000001, "Spare helm", 0, "Wear", 99, 0);
+		Widget cape = cell(1000002, "Spare cape", 1, "Wear", 147, 0);
+		Widget container = mock(Widget.class);
+		when(container.getDynamicChildren()).thenReturn(new Widget[] { gear, head, cape });
+		when(container.createChild(anyInt(), anyInt())).thenAnswer(i -> mutableCell());
+		when(container.getChild(1)).thenReturn(head);
+		when(head.getIndex()).thenReturn(1);
+		var copies = new SetupInventoryWidgets();
+		var headings = new ArrayList<SetupItemLayout.Heading>();
+		int[] original = SetupItemLayout.apply(container, manager, 8, 48, 4, plan, Map.of(), headings,
+				copies, new ArrayList<>(), Set.of());
+		String id = headings.stream().filter(h -> h.text.equals("Head alternatives")).findFirst().get().setupId;
+		assertFalse(id.isEmpty());
+		int oldCape = cape.getOriginalY();
+		copies.clear();
+		int[] hidden = SetupItemLayout.apply(container, manager, 8, 48, 4, plan, Map.of(), headings,
+				copies, new ArrayList<>(), Set.of(id));
+		assertFalse(headings.stream().anyMatch(h -> h.text.equals("Head alternatives")));
+		assertTrue(headings.stream().anyMatch(h -> h.text.equals("Cape alternatives") && !h.setupId.isEmpty()));
+		assertTrue(cape.getOriginalY() < oldCape);
+		assertTrue(hidden[1] < original[1]);
+		verify(head).setHidden(true);
+		verify(gear, never()).setHidden(true);
+		verify(cape, never()).setHidden(true);
+		copies.clear();
+		verify(head).setHidden(false);
+		int[] restored = SetupItemLayout.apply(container, manager, 8, 48, 4, plan, Map.of(), headings,
+				copies, new ArrayList<>(), Set.of());
+		assertEquals(original[1], restored[1]);
+		assertEquals(oldCape, cape.getOriginalY());
+	}
+
+	@Test
+	public void headingControlsFollowTheVisibleTextAndFitInsideNarrowBanks()
+	{
+		for (int width : new int[] { 240, 478, 800 })
+			for (String title : List.of("Melee", "Head alternatives", "A very long equipment recommendation heading that needs truncating"))
+			{
+				var heading = new SetupItemLayout.Heading(title, 51, 16, false, "224363:1");
+				assertTrue(heading.buttonX(width) > heading.x);
+				assertTrue(heading.buttonX(width) + 16 <= width - 6);
+				assertFalse(heading.displayText(width).isEmpty());
+			}
+	}
+
+	@Test
 	public void missingEquipmentUsesNonInteractivePreviewsAndLeavesTwoHandedOffhandEmpty()
 	{
 		for (String id : List.of("224363:1", "569290:3", "569290:6", "256152:8"))

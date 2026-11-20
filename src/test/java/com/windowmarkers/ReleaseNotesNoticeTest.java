@@ -58,7 +58,7 @@ public class ReleaseNotesNoticeTest
 		verify(chat, times(1)).queue(messages.capture());
 		String message = messages.getValue().getRuneLiteFormattedMessage();
 		assertEquals(1, message.split("Improved Banking", -1).length - 1);
-		assertEquals(3, message.split("<br>\\* ", -1).length - 1);
+		assertEquals(5, message.split("<br>\\* ", -1).length - 1);
 		assertTrue(message.contains("Missing equipment now appears as a faded recommendation"));
 		assertFalse(message.contains("Recent updates"));
 		assertEquals(ReleaseNotesNotice.RELEASE, seen);

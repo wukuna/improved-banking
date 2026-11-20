@@ -10,9 +10,12 @@ final class SetupItemLayout
 
 	static final class Heading
 	{
+		static final java.awt.Font FONT = new java.awt.Font("Arial", java.awt.Font.PLAIN, 11);
+		private static final java.awt.FontMetrics METRICS = new java.awt.Canvas().getFontMetrics(FONT);
 		final String text;
 		final int x, y;
 		final boolean emptySlot;
+		final String setupId;
 
 		Heading(String text, int x, int y)
 		{
@@ -21,10 +24,27 @@ final class SetupItemLayout
 
 		Heading(String text, int x, int y, boolean emptySlot)
 		{
+			this(text, x, y, emptySlot, "");
+		}
+
+		Heading(String text, int x, int y, boolean emptySlot, String setupId)
+		{
 			this.text = text;
 			this.x = x;
 			this.y = y;
 			this.emptySlot = emptySlot;
+			this.setupId = setupId;
+		}
+
+		String displayText(int width)
+		{
+			return MarkerPresentation.fit(text, METRICS,
+					Math.min(380, width - x - 6) - (setupId.isEmpty() ? 0 : 22));
+		}
+
+		int buttonX(int width)
+		{
+			return x + METRICS.stringWidth(displayText(width)) + 6;
 		}
 	}
 
@@ -58,6 +78,13 @@ final class SetupItemLayout
 			Map<Integer, ItemCatalogueIndex.Rank> ranks, List<Heading> headings, SetupInventoryWidgets copies,
 			List<InventoryNote> notes)
 	{
+		return apply(container, manager, columns, pitch, padding, plan, ranks, headings, copies, notes, null);
+	}
+
+	static int[] apply(Widget container, ItemManager manager, int columns, int pitch, int padding, SetupLoadout plan,
+			Map<Integer, ItemCatalogueIndex.Rank> ranks, List<Heading> headings, SetupInventoryWidgets copies,
+			List<InventoryNote> notes, Set<String> hiddenSetups)
+	{
 		headings.clear();
 		notes.clear();
 		if (plan == null)
@@ -85,18 +112,29 @@ final class SetupItemLayout
 		runes.sort(Comparator.comparingInt(Widget::getItemId));
 		Set<Widget> placed = Collections.newSetFromMap(new IdentityHashMap<>());
 		Set<Map<Integer, SetupLoadout.Field>> shownInventories = new HashSet<>();
-		int y = padding;
+		int y = padding + (HiddenWikiSetups.forPlan(hiddenSetups, plan).isEmpty() ? 0 : 22);
 		for (SetupLoadout section : plan.sections())
 		{
-			if (plan.sectionCount() > 1 || section.notEnoughGear())
+			if (hiddenSetups != null && hiddenSetups.contains(section.equipmentSource))
+				continue;
+			boolean hideable = hiddenSetups != null && !section.equipmentSource.isEmpty();
+			boolean hasTitle = plan.sectionCount() > 1 || section.notEnoughGear();
+			if (hasTitle)
 			{
 				String title = section.sectionName.isEmpty() ? section.activity : section.sectionName;
 				headings.add(
-						new Heading(title + (section.notEnoughGear() ? " - not enough gear in bank" : ""), 51, y + 12));
+						new Heading(title + (section.notEnoughGear() ? " - not enough gear in bank" : ""), 51, y + 12,
+								false, hideable ? section.equipmentSource : ""));
 				y += 18;
 			}
+			int firstHeading = headings.size();
 			y = placeSection(container, manager, columns, pitch, y, section, byId, placed, headings, copies, notes,
 					shownInventories.add(section.inventoryExample), runes);
+			if (hideable && !hasTitle)
+			{
+				Heading heading = headings.get(firstHeading);
+				headings.set(firstHeading, new Heading(heading.text, heading.x, heading.y, false, section.equipmentSource));
+			}
 			runes = Collections.emptyList();
 		}
 		Map<String, List<Widget>> extras = new TreeMap<>();
@@ -118,6 +156,9 @@ final class SetupItemLayout
 			}
 		for (var entry : extras.entrySet())
 		{
+			String id = HiddenWikiSetups.rowId(plan.activity, entry.getKey());
+			if (hiddenSetups != null && hiddenSetups.contains(id))
+				continue;
 			List<Widget> group = entry.getValue();
 			group.sort(Comparator.comparingInt((Widget cell) ->
 			{
@@ -125,7 +166,7 @@ final class SetupItemLayout
 				return rank == null || rank.tier <= 0 ? Integer.MAX_VALUE : rank.tier;
 			}).thenComparingInt(Widget::getItemId));
 			String heading = entry.getKey().substring(3);
-			headings.add(new Heading(heading, 51, y + 12));
+			headings.add(new Heading(heading, 51, y + 12, false, hiddenSetups == null ? "" : id));
 			y += 18;
 			String roomNote = RaidRecommendations.roomNote(plan.activity, heading);
 			for (int i = 0; i < group.size(); i++)
@@ -143,6 +184,10 @@ final class SetupItemLayout
 			}
 			y += ((group.size() + columns - 1) / columns) * 36 + 8;
 		}
+		if (hiddenSetups != null && copies != null)
+			for (Widget cell : cells)
+				if (!placed.contains(cell))
+					copies.hide(container, cell);
 		return new int[] { oldEnd, y };
 	}
 

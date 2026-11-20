@@ -23,6 +23,38 @@ import static org.mockito.Mockito.*;
 public class BankPotionViewsTest
 {
 	@Test
+	public void repeatedStoragePotionRemapsAtClickTimeBeforeTheStorageWithdrawalHandler()
+	{
+		Fixture f = new Fixture();
+		f.preset();
+		f.views.append();
+		Widget potion = f.items.children.get(1);
+		when(potion.getIndex()).thenReturn(1);
+		SetupInventoryWidgets copies = new SetupInventoryWidgets();
+		copies.setClient(f.views.client);
+		copies.setVirtualSource(f.views::validSource);
+		f.views.setMenuSource(copies::source);
+		Widget copy = copies.add(f.items.widget, potion, 104, mock(net.runelite.client.game.ItemManager.class));
+		when(copy.getIndex()).thenReturn(2);
+		MenuEntry menu = f.menu(copy, copy.getIndex());
+		java.util.concurrent.atomic.AtomicInteger slot = new java.util.concurrent.atomic.AtomicInteger(copy.getIndex());
+		when(menu.getParam0()).thenAnswer(call -> slot.get());
+		doAnswer(call -> { slot.set(call.getArgument(0)); return menu; }).when(menu).setParam0(anyInt());
+		copies.menuAdded(menu);
+		f.views.onMenuEntryAdded(new MenuEntryAdded(menu));
+		verify(menu, never()).setParam0(anyInt());
+		MenuOptionClicked click = new MenuOptionClicked(menu);
+		copies.clicked(click, f.views.client);
+		assertFalse(click.isConsumed());
+		assertEquals(potion.getIndex(), menu.getParam0());
+		f.views.onMenuOptionClicked(click);
+		assertFalse(click.isConsumed());
+		verify(menu).setParam1(InterfaceID.Bankmain.POTIONSTORE_ITEMS);
+		assertEquals(15, menu.getParam0());
+		verify(menu, never()).setIdentifier(anyInt());
+	}
+
+	@Test
 	public void storedBankEntriesHaveNativeDragThresholdsAndSavedPositions()
 	{
 		Fixture f = new Fixture();

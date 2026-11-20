@@ -133,6 +133,8 @@ public final class BankLayoutController
 	private final BankPotionLayout potionLayout = new BankPotionLayout();
 	@Inject
 	BankPresetPositions presetPositions;
+	@Inject
+	HiddenWikiSetups hiddenWikiSetups;
 	final BankControlWidgets controls = new BankControlWidgets(this);
 	final BankControlDrag controlDrag = new BankControlDrag(this);
 	final BankWindowDrag windowDrag = new BankWindowDrag(this);
@@ -194,7 +196,10 @@ public final class BankLayoutController
 	{
 		inventoryWidgets.setClient(client);
 		if (potionViews != null)
+		{
 			inventoryWidgets.setVirtualSource(potionViews::validSource);
+			potionViews.setMenuSource(inventoryWidgets::source);
+		}
 		if (anchorAdapter != null)
 			anchorAdapter.start();
 		active = true;
@@ -267,6 +272,12 @@ public final class BankLayoutController
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
+		if ("windowmarkers".equals(event.getGroup()) && HiddenWikiSetups.KEY.equals(event.getKey()))
+			clientThread.invokeLater(() ->
+			{
+				viewGeometry.cancelDrag();
+				queueRebuild();
+			});
 		if ("windowmarkers".equals(event.getGroup()) && Arrays.asList("bankLayoutEnabled", "customWidth", "width",
 				"customHeight", "height", "columns", "depositButtons", "alignDepositRight", "tabAlignment", "tabGap",
 				"setupSearchLayout", "customBankControls", "bankControlLayout", "bankButtonDragging",
@@ -626,8 +637,15 @@ public final class BankLayoutController
 
 	private String presetIdentity()
 	{
-		return searchView != null && searchView.isActive() ? searchView.layoutIdentity() + ":" + searchView.bySlot()
+		String identity = searchView != null && searchView.isActive() ? searchView.layoutIdentity() + ":" + searchView.bySlot()
 				: nativeSearch == null ? null : nativeSearch.layoutIdentity() + ":true";
+		return hiddenWikiSetups == null ? identity : hiddenWikiSetups.layoutIdentity(identity, currentLoadout());
+	}
+
+	private SetupLoadout currentLoadout()
+	{
+		return searchView != null && searchView.isActive() ? searchView.loadout()
+				: nativeSearch == null ? null : nativeSearch.loadout();
 	}
 
 	void resetPresetPositions()
@@ -1237,9 +1255,33 @@ public final class BankLayoutController
 		int count = Math.max(3, Math.min(8, (usable + VANILLA_GAP) / (CELL_WIDTH + VANILLA_GAP)));
 		int pitch = CELL_WIDTH + VANILLA_GAP;
 		boolean view = searchView != null && searchView.isActive();
-		return SetupItemLayout.apply(items, itemManager, count, pitch, 4,
-				view ? searchView.loadout() : nativeSearch.loadout(), view ? searchView.ranks() : nativeSearch.ranks(),
-				searchHeadings, inventoryWidgets, inventoryNotes);
+		String identity = presetIdentity();
+		boolean hideable = hiddenWikiSetups != null && identity != null && identity.startsWith("activity:");
+		int[] ends = SetupItemLayout.apply(items, itemManager, count, pitch, 4,
+				currentLoadout(), view ? searchView.ranks() : nativeSearch.ranks(),
+				searchHeadings, inventoryWidgets, inventoryNotes, hideable ? hiddenWikiSetups.read() : null);
+		if (hideable)
+		{
+			long profile = hiddenWikiSetups.profile(), expected = lifecycle;
+			java.util.function.BooleanSupplier valid = () -> active && expected == lifecycle && groupedSearch()
+					&& java.util.Objects.equals(identity, presetIdentity())
+					&& client.getWidget(InterfaceID.Bankmain.ITEMS) == items;
+			for (SetupItemLayout.Heading heading : searchHeadings)
+				if (!heading.setupId.isEmpty() && !config.hidePresetSectionHeadings())
+					inventoryWidgets.addHideButton(items, heading, () ->
+					{
+						if (valid.getAsBoolean())
+							hiddenWikiSetups.hide(heading.setupId, profile);
+					});
+			java.util.Set<String> hidden = HiddenWikiSetups.forPlan(hiddenWikiSetups.read(), currentLoadout());
+			if (!hidden.isEmpty())
+				inventoryWidgets.addRestoreButton(items, hidden.size(), () ->
+				{
+					if (valid.getAsBoolean())
+						hiddenWikiSetups.showRestoreDialog(client.getCanvas(), hidden, valid);
+				});
+		}
+		return ends;
 	}
 
 	private final java.util.Set<Widget> hiddenSeparators = java.util.Collections

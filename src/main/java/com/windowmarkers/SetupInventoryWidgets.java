@@ -25,6 +25,7 @@ final class SetupInventoryWidgets
 	}
 
 	private final Map<Widget, Copy> copies = new IdentityHashMap<>();
+	private final Map<Widget, Copy> hidden = new IdentityHashMap<>();
 	private final Map<MenuEntry, Copy> menus = new WeakHashMap<>();
 	private Client client;
 	private java.util.function.Predicate<Widget> virtualSource = widget -> false;
@@ -83,6 +84,58 @@ final class SetupInventoryWidgets
 		return copy != null && copy.source == null;
 	}
 
+	Widget source(Widget widget)
+	{
+		Copy copy = copies.get(widget);
+		return copy == null ? widget : copy.source;
+	}
+
+	void addHideButton(Widget parent, SetupItemLayout.Heading heading, Runnable hide)
+	{
+		addButton(parent, heading.buttonX(parent.getWidth()), heading.y - 12, 16,
+				"\u00d7", heading.text, "Hide this section", hide);
+	}
+
+	void addRestoreButton(Widget parent, int count, Runnable restore)
+	{
+		addButton(parent, 51, 4, 150, "Hidden sections (" + count + ")", "", "Restore hidden sections", restore);
+	}
+
+	void hide(Widget parent, Widget widget)
+	{
+		if (!widget.isSelfHidden())
+		{
+			hidden.putIfAbsent(widget, new Copy(widget, null, parent, widget.getItemId()));
+			widget.setHidden(true);
+		}
+	}
+
+	private void addButton(Widget parent, int x, int y, int width, String text, String name, String action, Runnable click)
+	{
+		Widget widget = parent.createChild(-1, WidgetType.TEXT);
+		widget.setItemId(-1);
+		widget.setOriginalX(x);
+		widget.setOriginalY(y);
+		widget.setOriginalWidth(width);
+		widget.setOriginalHeight(16);
+		widget.setFontId(495);
+		widget.setText(text);
+		widget.setTextColor(0xD9B98C);
+		widget.setXTextAlignment(1);
+		widget.setYTextAlignment(1);
+		widget.setName(name);
+		widget.setAction(0, action);
+		widget.setClickMask(0);
+		widget.setHasListener(true);
+		widget.setOnOpListener((JavaScriptCallback) event ->
+		{
+			if (copies.containsKey(widget) && !parent.isHidden())
+				click.run();
+		});
+		copies.put(widget, new Copy(widget, null, parent, -1));
+		widget.revalidate();
+	}
+
 	void allowPresetDragging()
 	{
 		for (Copy copy : copies.values())
@@ -104,27 +157,35 @@ final class SetupInventoryWidgets
 				|| menu.getType() != MenuAction.CC_OP && menu.getType() != MenuAction.CC_OP_LOW_PRIORITY)
 			return;
 
-		menu.setParam0(copy.source.getIndex());
 		menus.put(menu, copy);
 	}
 
 	void clicked(MenuOptionClicked event, Client client)
 	{
 		Copy copy = menus.get(event.getMenuEntry());
-		if (copy == null)
+		if (event.isConsumed() || copy == null)
 			return;
 		ItemContainer bank = client.getItemContainer(InventoryID.BANK);
 		int index = copy.source.getIndex();
 		Item item = bank == null ? null : bank.getItem(index);
-		if (client.getWidget(InterfaceID.Bankmain.ITEMS) != copy.parent || copy.parent.getChild(index) != copy.source
+		if (copies.get(copy.widget) != copy || copy.parent.isHidden() || copy.widget.isSelfHidden()
+				|| client.getWidget(InterfaceID.Bankmain.ITEMS) != copy.parent || copy.parent.getChild(index) != copy.source
 				|| copy.source.isSelfHidden() || copy.source.getItemId() != copy.itemId
 				|| !virtualSource.test(copy.source)
 						&& (item == null || item.getId() != copy.itemId || item.getQuantity() <= 0))
+		{
 			event.consume();
+			return;
+		}
+		event.getMenuEntry().setParam0(index);
 	}
 
 	void clear()
 	{
+		for (Copy copy : hidden.values())
+			if (copy.parent.getChild(copy.widget.getIndex()) == copy.widget && copy.widget.getItemId() == copy.itemId)
+				copy.widget.setHidden(false);
+		hidden.clear();
 		Set<Widget> parents = Collections.newSetFromMap(new IdentityHashMap<>());
 		for (Copy copy : copies.values())
 			parents.add(copy.parent);

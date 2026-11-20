@@ -94,6 +94,7 @@ final class BankSidebar extends PluginPanel
 		saveViewButton = addButton(savedViews, "Save as custom view…", actions::saveCurrentBankView);
 		addButton(savedViews, "Reset preset item positions",
 				() -> actions.clientThread.invokeLater(() -> actions.bankLayout.resetPresetPositions()));
+		addButton(savedViews, "Hidden sections…", actions::restoreHiddenWikiSetups);
 		addViewButton.setEnabled(false);
 		clearViewButton.setEnabled(false);
 		saveViewButton.setEnabled(false);
